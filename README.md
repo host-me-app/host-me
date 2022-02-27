@@ -22,6 +22,6 @@ Developers :
 - 
 - 
 - 
-- 
+- Rieupouilh Louise
 - Maglione Jules 
 

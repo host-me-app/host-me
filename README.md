@@ -21,7 +21,7 @@ Developers :
 - Nadal Paul
 - 
 - 
-- 
+- Williams Scott
 - Rieupouilh Louise
 - Maglione Jules 
 

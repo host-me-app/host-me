@@ -20,7 +20,7 @@ Another optional feature is the visit of the apartment in 3D or virtual reality 
 Developers :
 - Nadal Paul
 - 
-- 
+- Nathan Chettrit
 - Williams Scott
 - Rieupouilh Louise
 - Maglione Jules 

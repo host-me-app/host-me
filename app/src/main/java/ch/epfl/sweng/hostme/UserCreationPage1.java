@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class UserCreationPage1 extends AppCompatActivity {
 
     public final static String GENDER = "Gender";
@@ -20,6 +22,8 @@ public class UserCreationPage1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ask_gender);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
+
 
         Button genderButt = findViewById(R.id.nextButtonGender);
         RadioGroup radioGroup = findViewById(R.id.radioGrp);

@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class UserCreationPage3 extends AppCompatActivity {
     public final static String LAST_NAME = "lastName";
 
@@ -15,6 +17,8 @@ public class UserCreationPage3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ask_lastname);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
+
 
         EditText lastName = findViewById(R.id.lastName);
 

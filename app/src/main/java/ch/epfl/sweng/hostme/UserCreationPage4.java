@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class UserCreationPage4 extends AppCompatActivity {
 
     public static final String MAIL = "Mail";
@@ -16,6 +18,8 @@ public class UserCreationPage4 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ask_mail);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
+
 
         EditText mail = findViewById(R.id.mail);
 

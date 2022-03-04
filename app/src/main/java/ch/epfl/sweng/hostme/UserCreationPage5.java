@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserCreationPage5 extends AppCompatActivity {
     public final static Map<String, String> DATA = new HashMap<>();
@@ -18,6 +19,8 @@ public class UserCreationPage5 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ask_pwd);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
+
 
         Button terminateButt = findViewById(R.id.terminateButton);
         terminateButt.setOnClickListener(view -> welcome());

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class UserCreationPage2 extends AppCompatActivity {
     public final static String FIRST_NAME = "firstName";
 
@@ -16,6 +18,8 @@ public class UserCreationPage2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ask_firstname);
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
+
 
         EditText userName = findViewById(R.id.firstName);
         Button nameButt = findViewById(R.id.nextButtonFirstName);

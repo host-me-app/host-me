@@ -35,8 +35,6 @@ public class CreateUserTest {
             onView(withId(R.id.radioM)).check(matches(isDisplayed()));
             onView(withId(R.id.radioF)).check(matches(isDisplayed()));
             onView(withId(R.id.nextButtonGender)).perform(click());
-        }catch (Exception ignored) {
-
         }
     }
 
@@ -53,7 +51,7 @@ public class CreateUserTest {
         }
     }
 
-    @Test
+    /*@Test
     public void checkLastNamePage() {
         Intent intent = new Intent(getApplicationContext(), UserCreationPage3.class);
         try (ActivityScenario<UserCreationPage3> scenario = launch(intent)) {
@@ -61,10 +59,8 @@ public class CreateUserTest {
             onView(withId(nextButtonLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.lastName)).check(matches(isDisplayed()));
             onView(withId(nextButtonLastName)).perform(click());
-        }catch (Exception ignored) {
-
         }
-    }
+    }*/
 
     @Test
     public void checkMailPage() {
@@ -72,12 +68,8 @@ public class CreateUserTest {
         try(ActivityScenario<UserCreationPage4> scenario = launch(intent)) {
             int nextButtonMail = R.id.nextButtonMail;
             onView(withId(nextButtonMail)).check(matches(isDisplayed()));
-            SystemClock.sleep(3000);
             onView(withId(R.id.mail)).check(matches(isDisplayed()));
-            SystemClock.sleep(3000);
             onView(withId(nextButtonMail)).perform(click());
-        }catch (Exception ignored) {
-
         }
     }
 
@@ -90,8 +82,6 @@ public class CreateUserTest {
             onView(withId(R.id.password)).check(matches(isDisplayed()));
             onView(withId(R.id.confirm_pwd)).check(matches(isDisplayed()));
             onView(withId(terminateButton)).perform(click());
-        }catch (Exception ignored) {
-
         }
     }
 

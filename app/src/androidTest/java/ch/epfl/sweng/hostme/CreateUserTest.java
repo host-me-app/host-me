@@ -23,9 +23,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/*
+
 @RunWith(AndroidJUnit4.class)
 public class CreateUserTest {
+
+    @Rule
+    public ActivityScenarioRule<UserCreationPage1> rule =
+            new ActivityScenarioRule<>(UserCreationPage1.class);
 
     @Test
     public void checkGenderPage() {
@@ -72,4 +76,4 @@ public class CreateUserTest {
         }
     }
 
-}*/
+}

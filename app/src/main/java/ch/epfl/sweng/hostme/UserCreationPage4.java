@@ -20,7 +20,6 @@ public class UserCreationPage4 extends AppCompatActivity {
         setContentView(R.layout.ask_mail);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-
         EditText mail = findViewById(R.id.mail);
 
         Button nextMailButt = findViewById(R.id.nextButtonMail);

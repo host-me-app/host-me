@@ -20,7 +20,6 @@ public class UserCreationPage2 extends AppCompatActivity {
         setContentView(R.layout.ask_firstname);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-
         EditText userName = findViewById(R.id.firstName);
         Button nameButt = findViewById(R.id.nextButtonFirstName);
         nameButt.setOnClickListener(view -> {

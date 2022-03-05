@@ -19,7 +19,6 @@ public class UserCreationPage3 extends AppCompatActivity {
         setContentView(R.layout.ask_lastname);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-
         EditText lastName = findViewById(R.id.lastName);
 
         Button nameButt = findViewById(R.id.nextButtonLastName);

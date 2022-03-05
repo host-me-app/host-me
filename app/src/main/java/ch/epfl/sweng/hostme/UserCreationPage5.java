@@ -21,7 +21,6 @@ public class UserCreationPage5 extends AppCompatActivity {
         setContentView(R.layout.ask_pwd);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-
         Button terminateButt = findViewById(R.id.terminateButton);
         terminateButt.setOnClickListener(view -> welcome());
     }
@@ -29,7 +28,6 @@ public class UserCreationPage5 extends AppCompatActivity {
     private void welcome() {
         Intent intent = new Intent(UserCreationPage5.this, WelcomePage.class);
         startActivity(intent);
-
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 }

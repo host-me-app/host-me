@@ -43,14 +43,14 @@ public class MainActivityTest {
         onView(withId(R.id.userName)).check(matches(withText(username)));
         onView(withId(R.id.pwd)).check(matches(withText(pwd)));
 
-        onView(withId(R.id.logInButton)).perform(click(), closeSoftKeyboard());
+        onView(withId(R.id.logInButton)).perform(click());
 
     }
 
     @Test
     public void checkSignUpButton() {
         onView(withId(R.id.signUpButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.signUpButton)).perform(click(), closeSoftKeyboard());
+        onView(withId(R.id.signUpButton)).perform(click());
     }
 
     @Test

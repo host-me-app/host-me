@@ -9,34 +9,29 @@ import java.util.concurrent.TimeoutException;
 
 public class EmailValidatorTest {
 
+    EmailValidator validator = new EmailValidator();
+
     @Test
     public void checkPatternIsCorrect() throws ExecutionException, InterruptedException, TimeoutException {
-        EmailValidator email = new EmailValidator("test@gmail.com");
-        assertEquals(email.checkValidity(), true);
+        String email = "test@gmail.com";
+        assertEquals(validator.isValid(email), true);
     }
 
     @Test
     public void checkPatternIsIncorrect() throws ExecutionException, InterruptedException, TimeoutException {
-        EmailValidator email = new EmailValidator("test@gmail.com.");
-        assertEquals(email.checkValidity(), false);
-        EmailValidator email2 = new EmailValidator(".test@gmail.com");
-        assertEquals(email2.checkValidity(), false);
-        EmailValidator email3 = new EmailValidator("testgmail.com");
-        assertEquals(email3.checkValidity(), false);
-        EmailValidator email4 = new EmailValidator("çtêst@gmail.com");
-        assertEquals(email4.checkValidity(), false);
+        String email = "test@gmail.com.";
+        assertEquals(validator.isValid(email), false);
+        String email2 = ".test@gmail.com";
+        assertEquals(validator.isValid(email2), false);
+        String email3 = "testgmail.com";
+        assertEquals(validator.isValid(email3), false);
+        String email4 = "çtêst@gmail.com";
+        assertEquals(validator.isValid(email4), false);
     }
 
     @Test
     public void checkUniquenessIsIncorrect() throws ExecutionException, InterruptedException, TimeoutException {
-        EmailValidator email = new EmailValidator("host.me.app2022@gmail.com");
-        assertEquals(email.checkValidity(), false);
-    }
-
-    @Test
-    public void getEmailIsSame() {
-        String emailString = "test@gmail.com";
-        EmailValidator email = new EmailValidator("test@gmail.com");
-        assertEquals(email.getEmail(), emailString);
+        String email = "host.me.app2022@gmail.com";
+        assertEquals(validator.isValid(email), false);
     }
 }

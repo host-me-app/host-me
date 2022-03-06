@@ -1,13 +1,13 @@
 check_android_task:
   name: Run Android tests
   env:
-    API_LEVEL: 30
+    API_LEVEL: "30"
     TARGET: google_apis
     ARCH: x86
     CC_TEST_REPORTER_ID: ENCRYPTED[!445507ba263591f96756192e1bc763ca5eeb4fad812182f3fdb8955ab88b276592b81dd49e0fcec207e4200b61121227!]
   container:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
-    kvm: true
+    kvm: "true"
     cpu: 8
     memory: 10G
   create_device_script:

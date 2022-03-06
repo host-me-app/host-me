@@ -31,7 +31,7 @@ public class EmailValidator {
     private static List<String> getEmailFromDataBase() throws ExecutionException, InterruptedException, TimeoutException {
         List<String> emails = new ArrayList<>();
         Task<QuerySnapshot> task = DB.collection("users").get();
-        Tasks.await(task, 1000, TimeUnit.MILLISECONDS);
+        Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
         for (QueryDocumentSnapshot document : task.getResult()) {
             emails.add(document.getString("email"));
         }

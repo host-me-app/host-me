@@ -17,22 +17,14 @@ import java.util.regex.Pattern;
 
 public class EmailValidator {
 
-    final private String email;
     private static final FirebaseFirestore DB = FirebaseFirestore.getInstance();
-    private static final String REGEX_PATTERN = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    private static final String EMAIL_PATTERN = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]"
+            + "{2,})$";
+    private static final Pattern PATTERN = Pattern.compile(EMAIL_PATTERN);
 
-    public EmailValidator(String email) {
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    private Boolean checkPattern() {
-        return Pattern.compile(REGEX_PATTERN)
-                .matcher(this.getEmail())
+    private static Boolean checkPattern(String email) {
+        return PATTERN.matcher(email)
                 .matches();
     }
 
@@ -47,11 +39,11 @@ public class EmailValidator {
         return emails;
     }
 
-    private Boolean checkUniqueness() throws ExecutionException, InterruptedException, TimeoutException {
-        return !getEmailFromDataBase().contains(this.getEmail());
+    private static Boolean checkUniqueness(String email) throws ExecutionException, InterruptedException, TimeoutException {
+        return !getEmailFromDataBase().contains(email);
     }
 
-    public Boolean checkValidity() throws ExecutionException, InterruptedException, TimeoutException {
-        return this.checkPattern() && this.checkUniqueness();
+    public static Boolean isValid(String email) throws ExecutionException, InterruptedException, TimeoutException {
+        return checkPattern(email) && checkUniqueness(email);
     }
 }

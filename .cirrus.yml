@@ -34,10 +34,7 @@ check_android_task:
     export JACOCO_SOURCE_PATH=app/src/main/java/
     ./cc-test-reporter format-coverage ./app/build/reports/coverage/androidTest/debug/report.xml --input-type jacoco
     ./cc-test-reporter upload-coverage
-  exclude_patterns:
-    - "**/test/"
-    - "**/androidTest/"
-    - "**test"
+
   lint_script:
     ./gradlew lintDebug
   always:
@@ -45,3 +42,8 @@ check_android_task:
       path: ./app/build/reports/lint-results-debug.xml
       type: text/xml
       format: android-lint
+    # Expose test results to ease debugging tests failling on cirrus
+    andoid-connected-checks-results_artifacts:
+      path: ./app/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/**.xml
+      format: junit
+      type: text/xml

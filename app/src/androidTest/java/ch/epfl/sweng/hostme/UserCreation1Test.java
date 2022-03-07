@@ -36,7 +36,8 @@ public class UserCreation1Test {
 
     @Test
     public void checkGenderPage() {
-        onView(withId(R.id.nextButtonGender)).perform(click());
+        onView(withId(R.id.nextButtonGender)).check(matches(isDisplayed()));
+        //onView(withId(R.id.nextButtonGender)).perform(click());
     }
 
 

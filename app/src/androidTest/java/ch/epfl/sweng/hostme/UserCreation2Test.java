@@ -37,7 +37,8 @@ public class UserCreation2Test {
     @Test
     public void checkFirstNamePage() {
         int nextButtonFirstName = R.id.nextButtonFirstName;
-        onView(withId(nextButtonFirstName)).perform(click());
+        onView(withId(nextButtonFirstName)).check(matches(isDisplayed()));
+       // onView(withId(nextButtonFirstName)).perform(click());
     }
 
 

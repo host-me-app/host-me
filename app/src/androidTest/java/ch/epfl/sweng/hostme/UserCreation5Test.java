@@ -38,7 +38,7 @@ public class UserCreation5Test {
     public void checkPwdPage() {
         int terminateButton = R.id.terminateButton;
         onView(withId(terminateButton)).check(matches(isDisplayed()));
-        onView(withId(terminateButton)).perform(click());
+       // onView(withId(terminateButton)).perform(click());
     }
 
 

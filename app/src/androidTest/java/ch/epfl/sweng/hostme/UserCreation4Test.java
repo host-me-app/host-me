@@ -37,7 +37,8 @@ public class UserCreation4Test {
     @Test
     public void checkMailPage() {
         int nextButtonMail = R.id.nextButtonMail;
-        onView(withId(nextButtonMail)).perform(click());
+        onView(withId(nextButtonMail)).check(matches(isDisplayed()));
+        //onView(withId(nextButtonMail)).perform(click());
     }
 
 

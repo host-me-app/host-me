@@ -37,7 +37,8 @@ public class UserCreation3Test {
     @Test
     public void checkLastNamePage() {
         int nextButtonLastName = R.id.nextButtonLastName;
-        onView(withId(nextButtonLastName)).perform(click());
+        onView(withId(nextButtonLastName)).check(matches(isDisplayed()));
+        //onView(withId(nextButtonLastName)).perform(click());
     }
 
 

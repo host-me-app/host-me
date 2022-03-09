@@ -41,7 +41,7 @@ public class CreateUserTest2 {
             onView(withId(R.id.lastName)).perform(clearText()).perform(typeText("Maglione"), closeSoftKeyboard());
             onView(withId(R.id.lastName)).check(matches(isDisplayed()));
             int nextButtonLastName = R.id.nextButtonLastName;
-            onView(withId(nextButtonLastName)).check(matches(isDisplayed()));
+            onView(withId(nextButtonLastName)).perform(click());
         }
     }
 

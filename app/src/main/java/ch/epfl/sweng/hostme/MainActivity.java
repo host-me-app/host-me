@@ -23,16 +23,27 @@ public class MainActivity extends AppCompatActivity {
         Button signUp = findViewById(R.id.signUpButton);
         signUp.setOnClickListener(view -> askUserQuestion());
 
+        Button forgotPwd = findViewById(R.id.passwordForgot);
+        forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
+
+    }
+
+    private void enterMailToChangePwd() {
+        Intent intent = new Intent(this, EnterMailChangePwd.class);
+        startActivity(intent);
+        overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
     private void welcome() {
         Intent intent = new Intent(this, WelcomePage.class);
         startActivity(intent);
+        overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
     private void askUserQuestion() {
         Intent intent = new Intent(this, UserCreationPage1.class);
         startActivity(intent);
+        overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
 }

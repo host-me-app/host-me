@@ -23,6 +23,9 @@
             android:name=".WelcomePage"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".EnterMailChangePwd"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".UserCreationPage1"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".UserCreationPage2"

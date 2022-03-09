@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_app">
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nextButtonMail2"
+        android:layout_width="57dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="310dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="44dp"
+        android:background="?android:selectableItemBackground"
+        android:drawableEnd="@drawable/nice_arrow_smaller"
+        android:minWidth="0dp"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mailForgotPwd" />
+
+    <EditText
+        android:id="@+id/mailForgotPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="111dp"
+        android:layout_marginEnd="101dp"
+        android:ems="10"
+        android:fontFamily="@font/roboto_light"
+        android:inputType="textPersonName"
+        android:text="e-mail address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="182dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="114dp"
+        android:layout_marginTop="194dp"
+        android:layout_marginEnd="115dp"
+        android:fontFamily="@font/roboto"
+        android:text="Enter your mail address"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

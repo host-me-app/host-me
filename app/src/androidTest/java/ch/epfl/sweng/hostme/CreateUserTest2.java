@@ -36,11 +36,12 @@ public class CreateUserTest2 {
         Intent intent = new Intent(getApplicationContext(), UserCreationPage3.class);
         try (ActivityScenario<UserCreationPage3> scenario = launch(intent)) {
                 /*int nextButtonLastName = R.id.nextButtonLastName;
-                onView(withId(nextButtonLastName)).check(matches(isDisplayed()));
                 onView(withId(R.id.lastName)).check(matches(isDisplayed()));
                 onView(withId(nextButtonLastName)).perform(click());*/
             onView(withId(R.id.lastName)).perform(clearText()).perform(typeText("Maglione"), closeSoftKeyboard());
             onView(withId(R.id.lastName)).check(matches(isDisplayed()));
+            int nextButtonLastName = R.id.nextButtonLastName;
+            onView(withId(nextButtonLastName)).check(matches(isDisplayed()));
         }
     }
 

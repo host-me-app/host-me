@@ -9,15 +9,14 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextButtonMail2"
-        android:layout_width="57dp"
-        android:layout_height="55dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="310dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="44dp"
         android:background="?android:selectableItemBackground"
         android:drawableEnd="@drawable/nice_arrow_smaller"
-        android:minWidth="0dp"
         android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,15 +32,15 @@
         android:ems="10"
         android:fontFamily="@font/roboto_light"
         android:inputType="textPersonName"
-        android:text="e-mail address"
+        android:hint="e-mail address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="182dp"
-        android:layout_height="34dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="114dp"
         android:layout_marginTop="194dp"
         android:layout_marginEnd="115dp"

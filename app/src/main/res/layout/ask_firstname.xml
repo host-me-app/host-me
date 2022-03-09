@@ -25,15 +25,14 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextButtonFirstName"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="305dp"
         android:layout_marginTop="98dp"
         android:layout_marginEnd="16dp"
         android:background="?android:selectableItemBackground"
         android:drawableEnd="@drawable/nice_arrow_smaller"
-        android:minWidth="0dp"
         android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

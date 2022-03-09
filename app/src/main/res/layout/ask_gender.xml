@@ -18,12 +18,11 @@
         android:paddingRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genderQuestion"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/genderQuestion">
 
         <RadioButton
             android:id="@+id/radioM"
-            android:layout_width="121dp"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="left"
             android:layout_marginStart="103dp"
@@ -40,7 +39,7 @@
 
         <RadioButton
             android:id="@+id/radioF"
-            android:layout_width="121dp"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="right"
             android:layout_marginStart="24dp"
@@ -60,8 +59,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextButtonGender"
-        android:layout_width="51dp"
-        android:layout_height="52dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="330dp"
         android:layout_marginTop="46dp"

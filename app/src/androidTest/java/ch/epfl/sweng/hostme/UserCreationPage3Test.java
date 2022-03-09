@@ -37,7 +37,7 @@ public class UserCreationPage3Test {
 
         onView(withId(R.id.lastName)).perform(clearText()).perform(typeText("Maglione"), closeSoftKeyboard());
         onView(withId(R.id.lastName)).check(matches(isDisplayed()));
-        onView(withId(R.id.logInButton)).perform(click());
+        onView(withId(R.id.nextButtonLastName)).perform(click());
 
         Intents.release();
     }

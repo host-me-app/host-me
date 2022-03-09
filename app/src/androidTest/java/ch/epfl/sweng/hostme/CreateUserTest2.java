@@ -9,15 +9,16 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.junit.Assert.assertTrue;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import android.content.Intent;
+import android.os.SystemClock;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 
@@ -27,20 +28,20 @@ import org.junit.runner.RunWith;
 
 
 @RunWith(AndroidJUnit4.class)
-public class UserCreation2Test {
-
-    @Rule
-    public ActivityScenarioRule<UserCreationPage2> testRule =
-            new ActivityScenarioRule<>(UserCreationPage2.class);
+public class CreateUserTest2 {
 
 
     @Test
-    public void checkFirstNamePage() {
-        int nextButtonFirstName = R.id.nextButtonFirstName;
-        onView(withId(nextButtonFirstName)).check(matches(isDisplayed()));
-       // onView(withId(nextButtonFirstName)).perform(click());
+    public void checkLastNamePage() {
+        Intent intent = new Intent(getApplicationContext(), UserCreationPage3.class);
+        try (ActivityScenario<UserCreationPage3> scenario = launch(intent)) {
+                /*int nextButtonLastName = R.id.nextButtonLastName;
+                onView(withId(nextButtonLastName)).check(matches(isDisplayed()));
+                onView(withId(R.id.lastName)).check(matches(isDisplayed()));
+                onView(withId(nextButtonLastName)).perform(click());*/
+            onView(withId(R.id.lastName)).perform(clearText()).perform(typeText("Maglione"), closeSoftKeyboard());
+            onView(withId(R.id.lastName)).check(matches(isDisplayed()));
+        }
     }
-
-
 
 }

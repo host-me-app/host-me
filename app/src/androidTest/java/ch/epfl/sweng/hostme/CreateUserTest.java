@@ -41,7 +41,7 @@ public class CreateUserTest {
             }
         }*/
 
-        @Test
+        /*@Test
         public void checkFirstNamePage() {
             Intent intent = new Intent(getApplicationContext(), UserCreationPage2.class);
             try (ActivityScenario<UserCreationPage2> scenario = launch(intent)) {
@@ -52,9 +52,8 @@ public class CreateUserTest {
                 onView(withId(R.id.firstName)).check(matches(isDisplayed()));
                 //onView(withId(nextButtonFirstName)).perform(click());
             }
-        }
+        }*/
 
-/*
         @Test
         public void checkLastNamePage() {
             Intent intent = new Intent(getApplicationContext(), UserCreationPage3.class);
@@ -65,6 +64,7 @@ public class CreateUserTest {
                 onView(withId(nextButtonLastName)).perform(click());
             }
         }
+/*
 
         @Test
         public void checkMailPage() {

@@ -45,6 +45,7 @@ public class CreateUserTest2 {
         try (ActivityScenario<UserCreationPage3> scenario = launch(intent)) {
             onView(withId(R.id.lastName)).perform(clearText()).perform(typeText("Maglione"), closeSoftKeyboard());
             onView(withId(R.id.lastName)).check(matches(isDisplayed()));
+            onView(withId(R.id.nextButtonLastName)).perform(click());
         }
     }
 

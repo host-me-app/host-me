@@ -29,7 +29,7 @@ public class UserCreationPage3Test {
 
     @Rule
     public ActivityScenarioRule<UserCreationPage3> rule =
-            new ActivityScenarioRule<UserCreationPage3>(UserCreationPage3.class);
+            new ActivityScenarioRule<>(UserCreationPage3.class);
 
     @Test
     public void checkLastNamePage() {
@@ -37,7 +37,7 @@ public class UserCreationPage3Test {
 
         onView(withId(R.id.lastName)).perform(clearText()).perform(typeText("Maglione"), closeSoftKeyboard());
         onView(withId(R.id.lastName)).check(matches(isDisplayed()));
-        onView(withId(R.id.nextButtonLastName)).perform(click());
+        onView(withId(R.id.logInButton)).perform(click());
 
         Intents.release();
     }

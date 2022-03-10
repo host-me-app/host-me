@@ -6,9 +6,9 @@ check_android_task:
     ARCH: x86
     CC_TEST_REPORTER_ID: ENCRYPTED[!445507ba263591f96756192e1bc763ca5eeb4fad812182f3fdb8955ab88b276592b81dd49e0fcec207e4200b61121227!]
   container:
-    image: reactivecircus/android-emulator-$API_LEVEL:latest
+    image: cirrusci/android-sdk:$API_LEVEL
     kvm: "true"
-    cpu: 8
+    cpu: 4
     memory: 10G
   create_device_script:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"

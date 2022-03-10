@@ -22,9 +22,8 @@ public class UserCreationPage1 extends AppCompatActivity {
         setContentView(R.layout.ask_gender);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-
-        Button genderButt = findViewById(R.id.genderNextButton);
         RadioGroup radioGroup = findViewById(R.id.radioGrp);
+        Button genderButt = findViewById(R.id.genderNextButton);
         genderButt.setOnClickListener(view -> {
             int selectedGender = radioGroup.getCheckedRadioButtonId();
             RadioButton selectedButton = findViewById(selectedGender);

@@ -56,4 +56,16 @@ public class MainActivityTest {
             onView(withId(R.id.signUpButton)).perform(click());
         }
     }
+
+    @Test
+    public void ForgotPwdButtonTest() {
+
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.passwordForgot)).check(matches(isDisplayed()));
+            onView(withId(R.id.passwordForgot)).perform(click());
+        }
+    }
+
 }

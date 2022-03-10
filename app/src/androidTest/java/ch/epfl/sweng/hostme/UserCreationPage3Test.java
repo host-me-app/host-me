@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
@@ -21,6 +22,7 @@ public class UserCreationPage3Test {
 
     @Test
     public void checkLastNamePage() {
+
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage3.class);
 
         try (ActivityScenario<UserCreationPage3> scenario = ActivityScenario.launch(intent)) {

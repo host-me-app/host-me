@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
@@ -21,6 +22,7 @@ public class UserCreationPage4Test {
 
     @Test
     public void checkMailPage() {
+
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage4.class);
 
         try (ActivityScenario<UserCreationPage4> scenario = ActivityScenario.launch(intent)) {

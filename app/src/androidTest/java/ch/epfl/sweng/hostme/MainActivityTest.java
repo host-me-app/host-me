@@ -14,6 +14,7 @@ import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
@@ -25,6 +26,7 @@ public class MainActivityTest {
 
     @Test
     public void checkLoginWithValues() {
+
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
 
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -47,6 +49,7 @@ public class MainActivityTest {
 
     @Test
     public void checkSignUpButton() {
+
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
 
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -57,12 +60,12 @@ public class MainActivityTest {
 
     @Test
     public void ForgotPwdButtonTest() {
+
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
 
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             onView(withId(R.id.passwordForgot)).check(matches(isDisplayed()));
         }
     }
-
 
 }

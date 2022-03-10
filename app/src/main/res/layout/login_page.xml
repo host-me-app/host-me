@@ -44,7 +44,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName"
         app:layout_constraintVertical_bias="1.0"
-        android:autofillHints="" />
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <EditText
         android:id="@+id/pwd"
@@ -63,7 +64,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="" />
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logInButton"
@@ -92,7 +94,8 @@
         android:layout_marginBottom="53dp"
         android:background="@drawable/only_text_button"
         android:text="@string/forgot_your_password"
-        android:textSize="10sp"
+        android:textSize="11sp"
+        android:width="75dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.966"

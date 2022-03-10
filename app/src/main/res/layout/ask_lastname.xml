@@ -26,13 +26,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextButtonLastName"
-        android:layout_width="82dp"
-        android:layout_height="55dp"
+        android:layout_width="103dp"
+        android:layout_height="56dp"
         android:layout_marginStart="292dp"
         android:layout_marginTop="99dp"
-        android:layout_marginEnd="37dp"
+        android:layout_marginEnd="16dp"
         android:width="275dp"
-        android:background="@drawable/only_text_button"
+        android:background="@drawable/button_gradient"
         android:fontFamily="@font/roboto_family"
         android:text="Next"
         app:layout_constraintEnd_toEndOf="parent"

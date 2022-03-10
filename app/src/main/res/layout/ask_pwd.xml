@@ -47,7 +47,7 @@
         android:layout_marginStart="156dp"
         android:layout_marginTop="126dp"
         android:layout_marginEnd="162dp"
-        android:width="75dp"
+        android:width="130dp"
         android:background="?android:selectableItemBackground"
         android:fontFamily="@font/roboto_family"
         android:text="TERMINATE"

@@ -30,14 +30,14 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class UserCreationPage3Test {
 
-    @Test
+    /*@Test
     public void checkGenderPage() {
         Intent intent = new Intent(getApplicationContext(), UserCreationPage1.class);
         try (ActivityScenario<UserCreationPage1> scenario = launch(intent)) {
             onView(withId(R.id.nextButtonGender)).perform(click());
             onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
         }
-    }
+    }*/
 
     @Test
     public void checkFirstNamePage() {
@@ -76,7 +76,6 @@ public class UserCreationPage3Test {
             int terminateButton = R.id.terminateButton;
             onView(withId(terminateButton)).check(matches(isDisplayed()));
             onView(withId(terminateButton)).perform(click());
-            onView(withId(R.id.welcomeMessage)).check(matches(isDisplayed()));
         }
     }
 

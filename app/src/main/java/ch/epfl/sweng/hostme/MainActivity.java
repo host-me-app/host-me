@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button forgotPwd = findViewById(R.id.forgotPassword);
         forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
-
     }
 
     private void enterMailToChangePwd() {

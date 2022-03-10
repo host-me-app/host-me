@@ -15,10 +15,9 @@ public class WelcomePage extends AppCompatActivity {
         setContentView(R.layout.welcome);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-
         String userName = UserCreationPage5.DATA.get(UserCreationPage2.FIRST_NAME);
         String userLastName = UserCreationPage5.DATA.get(UserCreationPage3.LAST_NAME);
         TextView welcomeMessage = findViewById(R.id.welcomeMessage);
-        welcomeMessage.setText(String.format("Welcome %s %s", userName, userLastName));
+        welcomeMessage.setText(String.format("Welcome \n %s %s", userName, userLastName));
     }
 }

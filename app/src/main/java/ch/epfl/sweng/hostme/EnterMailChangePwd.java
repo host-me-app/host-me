@@ -13,7 +13,6 @@ public class EnterMailChangePwd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_pwd);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-
     }
 
 }

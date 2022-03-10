@@ -25,8 +25,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextButtonFirstName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="145dp"
+        android:layout_height="60dp"
         android:layout_marginStart="156dp"
         android:layout_marginTop="126dp"
         android:layout_marginEnd="162dp"

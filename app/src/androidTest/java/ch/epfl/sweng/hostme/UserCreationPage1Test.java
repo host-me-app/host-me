@@ -25,6 +25,7 @@ public class UserCreationPage1Test {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage1.class);
 
         try (ActivityScenario<UserCreationPage1> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.radioF)).perform(click());
             onView(withId(R.id.nextButtonGender)).perform(click());
             onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
         }

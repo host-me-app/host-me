@@ -26,7 +26,7 @@ public class UserCreationPage1Test {
 
         try (ActivityScenario<UserCreationPage1> scenario = ActivityScenario.launch(intent)) {
             onView(withId(R.id.radioM)).check(matches(isDisplayed()));
-            //onView(withId(R.id.genderNextButton)).check(matches(isDisplayed()));
+            onView(withId(R.id.genderNextButton)).check(matches(isDisplayed()));
             onView(withId(R.id.genderNextButton)).perform(click());
             onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
         }

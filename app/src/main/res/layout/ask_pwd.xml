@@ -43,15 +43,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/terminateButton"
-        android:layout_width="145dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
         android:layout_marginTop="132dp"
         android:layout_marginEnd="162dp"
-        android:width="75dp"
-        android:background="@color/purple_200"
         android:fontFamily="@font/roboto_family"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"

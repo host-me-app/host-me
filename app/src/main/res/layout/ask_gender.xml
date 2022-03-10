@@ -73,15 +73,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/genderNextButton"
-        android:layout_width="145dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="155dp"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="168dp"
-        android:width="75dp"
-        android:background="@color/purple_200"
         android:fontFamily="@font/roboto_family"
         android:text="@string/genderButton"
         app:layout_constraintEnd_toEndOf="parent"

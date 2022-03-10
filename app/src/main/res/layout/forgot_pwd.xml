@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/nextButtonMail2"
-        android:layout_width="145dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
         android:layout_marginTop="126dp"
         android:layout_marginEnd="162dp"
-        android:width="75dp"
-        android:background="@color/purple_200"
         android:fontFamily="@font/roboto_family"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"

@@ -15,7 +15,7 @@
         android:layout_marginEnd="101dp"
         android:ems="10"
         android:fontFamily="@font/roboto_light"
-        android:hint="firstName"
+        android:hint="@string/firstname"
         android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"

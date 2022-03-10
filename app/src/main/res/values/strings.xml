@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Host me</string>
     <string name="next">Next</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="what_is_your_gender">What is your gender ?</string>
+    <string name="firstname">firstName</string>
+    <string name="lastname">lastName</string>
+    <string name="e_mail_address">e-mail address</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="password">password</string>
+    <string name="enter_your_mail_address">Enter your mail address</string>
 </resources>

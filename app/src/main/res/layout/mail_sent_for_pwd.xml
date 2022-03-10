@@ -14,7 +14,7 @@
         android:layout_marginTop="347dp"
         android:layout_marginEnd="92dp"
         android:layout_marginBottom="348dp"
-        android:text="Check your mail box  "
+        android:text="Check your mail box"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -26,6 +26,7 @@ public class UserCreationPage3Test {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage3.class);
 
         try (ActivityScenario<UserCreationPage3> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.nextButtonLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.nextButtonLastName)).perform(click());
             onView(withId(R.id.nextButtonMail)).check(matches(isDisplayed()));
         }

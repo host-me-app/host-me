@@ -26,6 +26,7 @@ public class UserCreationPage4Test {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage4.class);
 
         try (ActivityScenario<UserCreationPage4> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.nextButtonMail)).check(matches(isDisplayed()));
             onView(withId(R.id.nextButtonMail)).perform(click());
             onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
         }

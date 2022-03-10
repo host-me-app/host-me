@@ -38,11 +38,10 @@ public class MainActivityTest {
             onView(withId(R.id.userName)).perform(clearText()).perform(typeText("nonexistinguser@example.com"), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(clearText()).perform(typeText("invalidpwd"), closeSoftKeyboard());
 
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-
             onView(withId(R.id.userName)).check(matches(withText(username)));
             onView(withId(R.id.pwd)).check(matches(withText(pwd)));
 
+            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
         }
     }
@@ -65,6 +64,7 @@ public class MainActivityTest {
 
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             onView(withId(R.id.passwordForgot)).check(matches(isDisplayed()));
+            onView(withId(R.id.passwordForgot)).perform(click());
         }
     }
 

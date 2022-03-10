@@ -26,6 +26,7 @@ public class UserCreationPage2Test {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage2.class);
 
         try (ActivityScenario<UserCreationPage2> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
             onView(withId(R.id.nextButtonFirstName)).perform(click());
             onView(withId(R.id.nextButtonLastName)).check(matches(isDisplayed()));
         }

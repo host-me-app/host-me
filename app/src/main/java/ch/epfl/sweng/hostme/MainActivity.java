@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Button signUp = findViewById(R.id.signUpButton);
         signUp.setOnClickListener(view -> askUserQuestion());
 
-        Button forgotPwd = findViewById(R.id.passwordForgot);
+        Button forgotPwd = findViewById(R.id.forgotPassword);
         forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
 
     }

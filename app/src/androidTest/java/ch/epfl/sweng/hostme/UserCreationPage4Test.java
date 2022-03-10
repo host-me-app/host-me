@@ -10,11 +10,8 @@ import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,17 +19,14 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class UserCreationPage4Test {
 
-    @Rule
-    public ActivityScenarioRule<UserCreationPage4> testRule = new ActivityScenarioRule<>(UserCreationPage4.class);
-
     @Test
     public void checkMailPage() {
-        Intents.init();
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage4.class);
 
-        onView(withId(R.id.nextButtonMail)).perform(click());
-        onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
-
-        Intents.release();
+        try (ActivityScenario<UserCreationPage4> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.nextButtonMail)).perform(click());
+            onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
+        }
     }
 
 }

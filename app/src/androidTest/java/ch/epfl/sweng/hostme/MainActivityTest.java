@@ -10,6 +10,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import android.content.Intent;
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -22,49 +26,45 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
-
     @Test
     public void checkLoginWithValues() {
-        Intents.init();
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
 
-        String username = "nonexistinguser@example.com";
-        String pwd = "invalidpwd";
-        onView(withId(R.id.userName)).check(matches(isDisplayed()));
-        onView(withId(R.id.pwd)).check(matches(isDisplayed()));
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            String username = "nonexistinguser@example.com";
+            String pwd = "invalidpwd";
+            onView(withId(R.id.userName)).check(matches(isDisplayed()));
+            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.userName)).perform(clearText()).perform(typeText("nonexistinguser@example.com"), closeSoftKeyboard());
-        onView(withId(R.id.pwd)).perform(clearText()).perform(typeText("invalidpwd"), closeSoftKeyboard());
+            onView(withId(R.id.userName)).perform(clearText()).perform(typeText("nonexistinguser@example.com"), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(clearText()).perform(typeText("invalidpwd"), closeSoftKeyboard());
 
-        onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
+            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.userName)).check(matches(withText(username)));
-        onView(withId(R.id.pwd)).check(matches(withText(pwd)));
+            onView(withId(R.id.userName)).check(matches(withText(username)));
+            onView(withId(R.id.pwd)).check(matches(withText(pwd)));
 
-        onView(withId(R.id.logInButton)).perform(click());
-
-        Intents.release();
-
+            onView(withId(R.id.logInButton)).perform(click());
+        }
     }
 
     @Test
     public void checkSignUpButton() {
-        Intents.init();
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
 
-        onView(withId(R.id.signUpButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.signUpButton)).perform(click());
-
-        Intents.release();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.signUpButton)).check(matches(isDisplayed()));
+            onView(withId(R.id.signUpButton)).perform(click());
+        }
     }
 
     @Test
     public void ForgotPwdButtonTest() {
-        Intents.init();
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
 
-        onView(withId(R.id.passwordForgot)).check(matches(isDisplayed()));
-
-        Intents.release();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.passwordForgot)).check(matches(isDisplayed()));
+        }
     }
 
 

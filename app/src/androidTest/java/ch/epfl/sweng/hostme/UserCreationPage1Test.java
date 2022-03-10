@@ -10,11 +10,8 @@ import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,17 +19,15 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class UserCreationPage1Test {
 
-    @Rule
-    public ActivityScenarioRule<UserCreationPage1> testRule = new ActivityScenarioRule<>(UserCreationPage1.class);
-
     @Test
     public void checkGenderPage() {
-        Intents.init();
 
-        onView(withId(R.id.nextButtonGender)).perform(click());
-        onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UserCreationPage1.class);
 
-        Intents.release();
+        try (ActivityScenario<UserCreationPage1> scenario = ActivityScenario.launch(intent)) {
+            onView(withId(R.id.nextButtonGender)).perform(click());
+            onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
+        }
     }
 
 }

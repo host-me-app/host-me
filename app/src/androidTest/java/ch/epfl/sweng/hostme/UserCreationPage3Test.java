@@ -35,7 +35,6 @@ public class UserCreationPage3Test {
         Intent intent = new Intent(getApplicationContext(), UserCreationPage1.class);
         try (ActivityScenario<UserCreationPage1> scenario = launch(intent)) {
             onView(withId(R.id.nextButtonGender)).perform(click());
-            onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
         }
     }*/
 

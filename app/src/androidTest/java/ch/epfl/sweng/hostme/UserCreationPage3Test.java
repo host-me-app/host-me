@@ -69,7 +69,7 @@ public class UserCreationPage3Test {
         }
     }
 
-    @Test
+    /*@Test
     public void checkPwdPage() {
         Intent intent = new Intent(getApplicationContext(), UserCreationPage5.class);
         try (ActivityScenario<UserCreationPage5> scenario = launch(intent)){
@@ -77,7 +77,7 @@ public class UserCreationPage3Test {
             onView(withId(terminateButton)).check(matches(isDisplayed()));
             onView(withId(terminateButton)).perform(click());
         }
-    }
+    }*/
 
 }
 

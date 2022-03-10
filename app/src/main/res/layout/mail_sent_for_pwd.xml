@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_app">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView2"
@@ -14,7 +13,7 @@
         android:layout_marginTop="347dp"
         android:layout_marginEnd="92dp"
         android:layout_marginBottom="348dp"
-        android:text="Check your mail box"
+        android:text="@string/check_your_mail_box"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

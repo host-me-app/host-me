@@ -16,7 +16,7 @@
         android:layout_marginTop="116dp"
         android:layout_marginEnd="122dp"
         android:fontFamily="@font/roboto"
-        android:text="HOST ME"
+        android:text="@string/host_me"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,14 +35,16 @@
         android:ems="10"
         android:fontFamily="@font/roboto_light"
         android:inputType="textPersonName"
-        android:text="UserName"
+        android:minHeight="48dp"
+        android:text="@string/username"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/pwd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/pwd"
@@ -54,12 +56,14 @@
         android:ems="10"
         android:fontFamily="@font/roboto_light"
         android:inputType="textPersonName"
-        android:text="Password"
+        android:minHeight="48dp"
+        android:text="@string/password_field"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/logInButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:autofillHints="" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logInButton"
@@ -71,22 +75,23 @@
         android:width="275dp"
         android:background="@drawable/button_gradient"
         android:fontFamily="@font/roboto_family"
-        android:text="Log in !"
+        android:text="@string/log_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pwd" />
+        app:layout_constraintTop_toBottomOf="@+id/pwd"
+        tools:ignore="TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/passwordForgot"
-        android:layout_width="wrap_content"
-        android:layout_height="31dp"
+        android:layout_width="160dp"
+        android:layout_height="51dp"
         android:layout_marginStart="180dp"
         android:layout_marginTop="108dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="53dp"
         android:background="@drawable/only_text_button"
-        android:text="Forgot your password ?"
+        android:text="@string/forgot_your_password"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +109,7 @@
         android:width="275dp"
         android:background="@drawable/button_shape"
         android:fontFamily="@font/roboto_family"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"

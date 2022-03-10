@@ -20,17 +20,17 @@ import org.junit.runner.RunWith;
 
 
 @RunWith(AndroidJUnit4.class)
-public class UserCreationPage3Test {
+public class UserCreationPage2Test {
 
     @Rule
-    public ActivityScenarioRule<UserCreationPage3> testRule = new ActivityScenarioRule<>(UserCreationPage3.class);
+    public ActivityScenarioRule<UserCreationPage2> testRule = new ActivityScenarioRule<>(UserCreationPage2.class);
 
     @Test
-    public void checkLastNamePage() {
+    public void checkFirstNamePage() {
         Intents.init();
 
-        onView(withId(R.id.nextButtonLastName)).perform(click());
-        onView(withId(R.id.nextButtonMail)).check(matches(isDisplayed()));
+        onView(withId(R.id.nextButtonFirstName)).perform(click());
+        onView(withId(R.id.nextButtonLastName)).check(matches(isDisplayed()));
 
         Intents.release();
     }

@@ -10,11 +10,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.junit.Assert.assertTrue;
-
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,12 +23,12 @@ import org.junit.runner.RunWith;
 public class MainActivityTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> testRule =
-            new ActivityScenarioRule<>(MainActivity.class);
-
+    public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
     public void checkLoginWithValues() {
+        Intents.init();
+
         String username = "nonexistinguser@example.com";
         String pwd = "invalidpwd";
         onView(withId(R.id.userName)).check(matches(isDisplayed()));
@@ -46,19 +44,28 @@ public class MainActivityTest {
 
         onView(withId(R.id.logInButton)).perform(click());
 
+        Intents.release();
+
     }
 
     @Test
     public void checkSignUpButton() {
+        Intents.init();
+
         onView(withId(R.id.signUpButton)).check(matches(isDisplayed()));
         onView(withId(R.id.signUpButton)).perform(click());
+
+        Intents.release();
     }
 
     @Test
     public void ForgotPwdButtonTest() {
-        onView(withId(R.id.passwordForgot)).check(matches(isDisplayed()));
-    }
+        Intents.init();
 
+        onView(withId(R.id.passwordForgot)).check(matches(isDisplayed()));
+
+        Intents.release();
+    }
 
 
 }

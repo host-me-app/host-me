@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class UserProfileTest {
+public class UserProfileActivityTest {
 
 
     @Test
@@ -25,8 +25,6 @@ public class UserProfileTest {
 
         Context context = ApplicationProvider.getApplicationContext();
         Intent intent = new Intent(context,UserProfileActivity.class);
-
-        //intent.putExtra("com.example.host_me.NAME", "Abcdeffefefefef");
 
         try (ActivityScenario<UserProfileActivity> scenario = ActivityScenario.launch(intent)) {
 

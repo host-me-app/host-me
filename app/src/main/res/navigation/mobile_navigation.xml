@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="ch.epfl.sweng.hostme.ui.Favorites.FavoritesFragment"
+        android:name="ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
         tools:layout="@layout/fragment_favorites" />
 

@@ -8,13 +8,15 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public class UserCreationPage4 extends AppCompatActivity {
 
     public static final String MAIL = "Mail";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ask_mail);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
@@ -24,8 +26,10 @@ public class UserCreationPage4 extends AppCompatActivity {
         Button nextMailButt = findViewById(R.id.nextButtonMail);
         nextMailButt.setOnClickListener(view -> {
             String mailText = mail.getText().toString();
-            UserCreationPage5.DATA.put(MAIL, mailText);
-            goToPage5();
+            if (EmailValidator.checkPattern(mailText)) {
+                UserCreationPage5.DATA.put(MAIL, mailText);
+                goToPage5();
+            }
         });
     }
 

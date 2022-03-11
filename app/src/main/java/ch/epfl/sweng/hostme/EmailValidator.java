@@ -23,7 +23,7 @@ public class EmailValidator {
             + "{2,})$";
     private static final Pattern PATTERN = Pattern.compile(EMAIL_PATTERN);
 
-    private static Boolean checkPattern(String email) {
+    public static Boolean checkPattern(String email) {
         return PATTERN.matcher(email)
                 .matches();
     }

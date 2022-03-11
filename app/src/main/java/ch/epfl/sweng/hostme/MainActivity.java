@@ -2,6 +2,8 @@ package ch.epfl.sweng.hostme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +22,9 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private EditText userName;
+    private EditText pwd;
+    private Button logInButt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-        EditText mail = findViewById(R.id.userName);
-        EditText pwd = findViewById(R.id.pwd);
+        userName = findViewById(R.id.userName);
+        pwd = findViewById(R.id.pwd);
 
-        Button logInButt = findViewById(R.id.logInButton);
+        userName.addTextChangedListener(logInTextWatcher);
+        pwd.addTextChangedListener(logInTextWatcher);
+
+        logInButt = findViewById(R.id.logInButton);
+        logInButt.setEnabled(false);
         logInButt.setOnClickListener(view -> {
-            String mailText = mail.getText().toString();
+            String mailText = userName.getText().toString();
             String pwdText = pwd.getText().toString();
             loginUser(mailText, pwdText);
         });
@@ -46,6 +55,26 @@ public class MainActivity extends AppCompatActivity {
         Button forgotPwd = findViewById(R.id.forgotPassword);
         forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
     }
+
+    private TextWatcher logInTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String userNameText = userName.getText().toString().trim();
+            String pwdText = pwd.getText().toString().trim();
+
+            logInButt.setEnabled(!userNameText.isEmpty() && !pwdText.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
     private void enterMailToChangePwd() {
         Intent intent = new Intent(MainActivity.this, EnterMailChangePwd.class);

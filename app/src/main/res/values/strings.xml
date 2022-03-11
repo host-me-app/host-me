@@ -10,4 +10,13 @@
     <string name="confirm_password">confirm password</string>
     <string name="password">password</string>
     <string name="enter_your_mail_address">Enter your mail address</string>
+    <string name="hello_you">Hello you</string>
+    <string name="check_your_mail_box">Check your mail box</string>
+    <string name="log_in">Log in !</string>
+    <string name="host_me">HOST ME</string>
+    <string name="username">UserName</string>
+    <string name="forgot_your_password">Forgot your password ?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password_field">Password</string>
+    <string name="forgot_pwd">Forgot your password?</string>
 </resources>

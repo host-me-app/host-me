@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_app">
+    android:layout_height="match_parent">
 
-
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/nextButtonMail2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="310dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="44dp"
-        android:background="?android:selectableItemBackground"
-        android:drawableEnd="@drawable/nice_arrow_smaller"
-        android:scaleType="center"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="126dp"
+        android:layout_marginEnd="162dp"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/mailForgotPwd" />
+        app:layout_constraintTop_toBottomOf="@+id/mailForgotPwd" />
+
 
     <EditText
         android:id="@+id/mailForgotPwd"
@@ -29,10 +26,13 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="111dp"
         android:layout_marginEnd="101dp"
+        android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/roboto_light"
-        android:inputType="textPersonName"
         android:hint="@string/e_mail_address"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -46,6 +46,7 @@
         android:layout_marginEnd="115dp"
         android:fontFamily="@font/roboto"
         android:text="@string/enter_your_mail_address"
+        android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

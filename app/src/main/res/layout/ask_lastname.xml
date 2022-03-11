@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background_app"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserCreationPage3">
@@ -16,23 +15,23 @@
         android:layout_marginEnd="101dp"
         android:ems="10"
         android:fontFamily="@font/roboto_light"
-        android:inputType="textPersonName"
         android:hint="@string/lastname"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/nextButtonLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
         android:layout_marginTop="126dp"
         android:layout_marginEnd="162dp"
-        android:width="75dp"
-        android:background="?android:selectableItemBackground"
         android:fontFamily="@font/roboto_family"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"

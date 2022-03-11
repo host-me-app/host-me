@@ -2,10 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background_app"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/genderQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginEnd="96dp"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/what_is_your_gender"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.709"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioGrp"
@@ -58,38 +72,18 @@
 
     </RadioGroup>
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/nextButtonGender"
+    <Button
+        android:id="@+id/genderNextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="126dp"
-        android:layout_marginEnd="162dp"
-        android:width="75dp"
-        android:background="?android:selectableItemBackground"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="168dp"
         android:fontFamily="@font/roboto_family"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
-
-    <TextView
-        android:id="@+id/genderQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="177dp"
-        android:layout_marginTop="115dp"
-        android:layout_marginEnd="96dp"
-        android:fontFamily="@font/roboto_family"
-        android:text="@string/what_is_your_gender"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.709"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

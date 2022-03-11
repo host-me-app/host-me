@@ -2,13 +2,12 @@ package ch.epfl.sweng.hostme;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
@@ -17,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText userName;
     private EditText pwd;
     private Button logInButt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             String userNameText = userName.getText().toString().trim();
             String pwdText = pwd.getText().toString().trim();
 
-            logInButt.setEnabled(!userNameText.isEmpty() && ! pwdText.isEmpty());
+            logInButt.setEnabled(!userNameText.isEmpty() && !pwdText.isEmpty());
         }
 
         @Override

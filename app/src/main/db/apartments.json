@@ -1,4 +1,9 @@
 {
+    "lid": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+_[a-z0-9]+_.+$",
+        "required": true
+    },
     "name": {
         "type": "string",
         "required": true
@@ -49,6 +54,11 @@
         "Content-Type": ["image/jpg", "image/jpeg", "image/png"],
         "required": true
     },
+    "available": {
+        "type": "boolean",
+        "default": true,
+        "required": true
+    },
     "proprietor": {
         "type": "string",
         "required": true
@@ -58,9 +68,19 @@
         "default": 0,
         "required": true
     },
+    "deposit": {
+        "type": "number",
+        "default": 0,
+        "required": true
+    },
     "duration": {
         "type":"string",
         "default": "1 month",
+        "required": true
+    },
+    "currentLease": {
+        "type": "timestamp",
+        "default": null,
         "required": true
     }
 }

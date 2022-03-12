@@ -7,10 +7,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
 
-public class UserCreationPage1 extends AppCompatActivity {
+public class UserCreation extends AppCompatActivity {
 
     public final static String GENDER = "Gender";
     public final static String MALE = "Male";
@@ -29,14 +30,15 @@ public class UserCreationPage1 extends AppCompatActivity {
             RadioButton selectedButton = findViewById(selectedGender);
             String gender = selectedButton.getText().toString().equals(MALE) ? MALE : FEMALE;
             UserCreationPage5.DATA.put(GENDER, gender);
-            goToPage2();
+            goToFragment2();
         });
 
     }
 
-    private void goToPage2() {
-        Intent intent = new Intent(UserCreationPage1.this, UserCreationPage2.class);
-        startActivity(intent);
+    private void goToFragment2() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, new FragmentCreationPage2());
+        fragmentTransaction.commit();
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 

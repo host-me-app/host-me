@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".CreationContainer"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".WelcomePage"
             android:parentActivityName=".MainActivity" />
@@ -26,11 +28,11 @@
             android:name=".EnterMailChangePwd"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".UserCreationPage1"
+            android:name=".UserCreation"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UserCreationPage2"
-            android:parentActivityName=".UserCreationPage1" />
+            android:parentActivityName=".UserCreation" />
         <activity
             android:name=".UserCreationPage3"
             android:parentActivityName=".UserCreationPage2" />

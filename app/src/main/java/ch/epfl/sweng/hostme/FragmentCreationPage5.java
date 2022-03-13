@@ -41,7 +41,7 @@ public class FragmentCreationPage5 extends Fragment {
             String pwdText = pwd.getText().toString();
             String confirm_pwdText = confirm_pwd.getText().toString();
             if (pwdText.equals(confirm_pwdText) && PasswordValidator.isValid(pwdText)) {
-                createUser(DATA.get(UserCreationPage4.MAIL), pwdText);
+                createUser(DATA.get(FragmentCreationPage4.MAIL), pwdText);
             }
         });
 
@@ -56,7 +56,7 @@ public class FragmentCreationPage5 extends Fragment {
 
     private void createUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, task -> {
+                .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Toast.makeText(getActivity(), "Authentication successed.",

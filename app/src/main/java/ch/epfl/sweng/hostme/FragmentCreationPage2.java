@@ -22,7 +22,7 @@ public class FragmentCreationPage2 extends Fragment {
         Button nameButt = view.findViewById(R.id.nextButtonFirstName);
         nameButt.setOnClickListener(v -> {
             String name = userName.getText().toString();
-            UserCreationPage5.DATA.put(FIRST_NAME, name);
+            FragmentCreationPage5.DATA.put(FIRST_NAME, name);
             goToFragment3();
         });
         return view;

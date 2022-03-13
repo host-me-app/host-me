@@ -25,7 +25,7 @@ public class FragmentCreationPage3 extends Fragment {
         Button nameButt = view.findViewById(R.id.nextButtonLastName);
         nameButt.setOnClickListener(v -> {
             String userLastName = lastName.getText().toString();
-            UserCreationPage5.DATA.put(LAST_NAME, userLastName);
+            FragmentCreationPage5.DATA.put(LAST_NAME, userLastName);
             goToFragment4();
         });
 

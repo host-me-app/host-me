@@ -26,7 +26,7 @@ public class FragmentCreationPage4 extends Fragment {
         nextMailButt.setOnClickListener(v -> {
             String mailText = mail.getText().toString();
             if (EmailValidator.checkPattern(mailText)) {
-                UserCreationPage5.DATA.put(MAIL, mailText);
+                FragmentCreationPage5.DATA.put(MAIL, mailText);
                 goToFragment5();
             }
         });

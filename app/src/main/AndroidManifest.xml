@@ -27,21 +27,6 @@
         <activity
             android:name=".EnterMailChangePwd"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".UserCreation"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".UserCreationPage2"
-            android:parentActivityName=".UserCreation" />
-        <activity
-            android:name=".UserCreationPage3"
-            android:parentActivityName=".UserCreationPage2" />
-        <activity
-            android:name=".UserCreationPage4"
-            android:parentActivityName=".UserCreationPage3" />
-        <activity
-            android:name=".UserCreationPage5"
-            android:parentActivityName=".UserCreationPage4" />
 
         <meta-data
             android:name="preloaded_fonts"

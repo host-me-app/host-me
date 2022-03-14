@@ -39,7 +39,7 @@ class RecyclerviewApartments extends RecyclerView.Adapter<RecyclerviewApartments
     }
 
 
-    static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         public TextView name,price;
         private LinearLayout itemLayout;

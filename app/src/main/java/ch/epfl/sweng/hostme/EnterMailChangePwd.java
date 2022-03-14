@@ -35,23 +35,27 @@ public class EnterMailChangePwd extends AppCompatActivity {
 
         sendPwd.setOnClickListener(v -> {
             String mailText = mail.getText().toString().trim();
-            mAuth.sendPasswordResetEmail(mailText)
-                    .addOnCompleteListener(this, task -> {
-                      if (task.isSuccessful()) {
-                          Toast.makeText(getApplicationContext(),
-                                  "Reset password instructions sent to " + mailText, Toast.LENGTH_LONG).show();
-                          Intent intent = new Intent(this, MainActivity.class);
-                          startActivity(intent);
-                          overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-                      } else {
-                          Toast.makeText(getApplicationContext(),
-                                  mailText + " does not exist", Toast.LENGTH_LONG).show();
-                      }
-            });
+            sendMail(mailText);
         });
 
 
 
+    }
+
+    private void sendMail(String mailText) {
+        mAuth.sendPasswordResetEmail(mailText)
+                .addOnCompleteListener(this, task -> {
+                  if (task.isSuccessful()) {
+                      Toast.makeText(getApplicationContext(),
+                              "Reset password instructions sent to " + mailText, Toast.LENGTH_LONG).show();
+                      Intent intent = new Intent(this, MainActivity.class);
+                      startActivity(intent);
+                      overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+                  } else {
+                      Toast.makeText(getApplicationContext(),
+                              mailText + " does not exist", Toast.LENGTH_LONG).show();
+                  }
+        });
     }
 
     private final TextWatcher sendMailTextWatcher = new TextWatcher() {

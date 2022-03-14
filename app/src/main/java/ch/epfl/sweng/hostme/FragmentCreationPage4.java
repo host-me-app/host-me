@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,18 @@ import android.widget.EditText;
 public class FragmentCreationPage4 extends Fragment {
 
     public static final String MAIL = "Mail";
+    private EditText mail;
+    private Button nextMailButt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page4, container, false);
-        EditText mail = view.findViewById(R.id.mail);
+        mail = view.findViewById(R.id.mail);
+        mail.addTextChangedListener(mailTextWatcher);
 
-        Button nextMailButt = view.findViewById(R.id.nextButtonMail);
+        nextMailButt = view.findViewById(R.id.nextButtonMail);
+        nextMailButt.setEnabled(false);
         nextMailButt.setOnClickListener(v -> {
             String mailText = mail.getText().toString();
             if (EmailValidator.checkPattern(mailText)) {
@@ -33,6 +39,18 @@ public class FragmentCreationPage4 extends Fragment {
 
         return view;
     }
+
+    private TextWatcher mailTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String mailText = mail.getText().toString().trim();
+            nextMailButt.setEnabled(!mailText.isEmpty() && EmailValidator.checkPattern(mailText));
+        }
+        @Override
+        public void afterTextChanged(Editable editable) {}
+    };
 
     private void goToFragment5() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();

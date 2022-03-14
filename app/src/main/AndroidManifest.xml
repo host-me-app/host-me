@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HostMe">
         <activity
-            android:name=".ScrollingApartment"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +28,8 @@
             android:name=".EnterMailChangePwd"
             android:parentActivityName=".MainActivity" />
 
-        <!--<activity
-            android:name=".ScrollingApartment" />-->
+        <activity
+            android:name=".ScrollingApartment" />
 
         <meta-data
             android:name="preloaded_fonts"

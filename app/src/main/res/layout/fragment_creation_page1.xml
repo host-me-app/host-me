@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentCreationPage1">
+
 
     <TextView
         android:id="@+id/genderQuestion"
@@ -76,9 +79,7 @@
         android:id="@+id/genderNextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="86dp"
-        android:layout_marginEnd="168dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/roboto_family"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/mail"
+        android:id="@+id/lastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -13,11 +13,10 @@
         android:layout_marginEnd="101dp"
         android:ems="10"
         android:fontFamily="@font/roboto_light"
-        android:hint="@string/e_mail_address"
+        android:hint="@string/lastname"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColor="@color/black"
-        android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,17 +24,15 @@
         android:autofillHints="" />
 
     <Button
-        android:id="@+id/nextButtonMail"
+        android:id="@+id/nextButtonLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
         android:layout_marginTop="126dp"
-        android:layout_marginEnd="162dp"
         android:fontFamily="@font/roboto_family"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mail" />
+        app:layout_constraintTop_toBottomOf="@+id/lastName" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

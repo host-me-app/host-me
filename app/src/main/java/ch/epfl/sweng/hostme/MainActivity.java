@@ -8,12 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -56,11 +52,9 @@ public class MainActivity extends AppCompatActivity {
         forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
     }
 
-    private TextWatcher logInTextWatcher = new TextWatcher() {
+    private final TextWatcher logInTextWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -71,9 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
+        public void afterTextChanged(Editable editable) {}
     };
 
     private void enterMailToChangePwd() {
@@ -89,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void askUserQuestion() {
-        Intent intent = new Intent(MainActivity.this, UserCreationPage1.class);
+        Intent intent = new Intent(MainActivity.this, CreationContainer.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

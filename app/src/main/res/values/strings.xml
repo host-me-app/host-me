@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Host me</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_add">Add</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_account">Account</string>
 </resources>

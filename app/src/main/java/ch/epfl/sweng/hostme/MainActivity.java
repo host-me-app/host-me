@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -101,21 +100,22 @@ public class MainActivity extends AppCompatActivity {
      * Login the user with email and password
      * Go to main menu if success
      * Display message if failure
+     *
      * @param email
      * @param password
      */
     private void loginUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                welcome();
-                Toast.makeText(MainActivity.this, "Authentication successed.",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        welcome();
+                        Toast.makeText(MainActivity.this, "Authentication successed.",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

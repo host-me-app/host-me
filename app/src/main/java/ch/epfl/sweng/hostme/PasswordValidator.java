@@ -11,6 +11,7 @@ public class PasswordValidator {
 
     /**
      * Check if the password has a valid pattern
+     *
      * @param password
      * @return True if the password has a valid pattern
      */
@@ -21,6 +22,7 @@ public class PasswordValidator {
 
     /**
      * Public method to check password validity
+     *
      * @param password
      * @return True if the password is valid
      */

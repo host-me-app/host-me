@@ -25,6 +25,7 @@ public class EmailValidator {
 
     /**
      * Check if the email has a valid pattern
+     *
      * @param email
      * @return True if the email has a valid pattern
      */
@@ -35,6 +36,7 @@ public class EmailValidator {
 
     /**
      * Fetch emails from the database
+     *
      * @return Emails from accounts in the database
      * @throws ExecutionException
      * @throws InterruptedException
@@ -53,6 +55,7 @@ public class EmailValidator {
 
     /**
      * Check if is the email is already used
+     *
      * @param email
      * @return True if the email is not used in the app
      * @throws ExecutionException
@@ -65,6 +68,7 @@ public class EmailValidator {
 
     /**
      * Check email validity (uniqueness and pattern)
+     *
      * @param email
      * @return True if email is valid
      * @throws ExecutionException

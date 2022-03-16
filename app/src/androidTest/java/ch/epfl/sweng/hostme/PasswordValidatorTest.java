@@ -8,16 +8,17 @@ import ch.epfl.sweng.hostme.utils.PasswordValidator;
 
 public class PasswordValidatorTest {
 
-    PasswordValidator validator = new PasswordValidator();
 
     @Test
     public void checkPatternIsCorrect() {
+        PasswordValidator validator = new PasswordValidator();
         String pwd = "Test111!";
         assertEquals(validator.isValid(pwd), true);
     }
 
     @Test
     public void checkPatternIsInCorrect() {
+        PasswordValidator validator = new PasswordValidator();
         String pwd = "testTest!";
         assertEquals(validator.isValid(pwd), false);
         String pwd2 = "Test1111";

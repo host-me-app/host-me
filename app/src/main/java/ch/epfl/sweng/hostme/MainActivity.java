@@ -70,37 +70,52 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Go to forgot password fragment
+     */
     private void enterMailToChangePwd() {
         Intent intent = new Intent(MainActivity.this, EnterMailChangePwd.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
+    /**
+     * Go to menu activity
+     */
     private void welcome() {
         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
+    /**
+     * Start user account creation fragment
+     */
     private void askUserQuestion() {
         Intent intent = new Intent(MainActivity.this, CreationContainer.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
+    /**
+     * Login the user with email and password
+     * Go to main menu if success
+     * Display message if failure
+     * @param email
+     * @param password
+     */
     private void loginUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        welcome();
-                        Toast.makeText(MainActivity.this, "Authentication successed.",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(MainActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+        .addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                welcome();
+                Toast.makeText(MainActivity.this, "Authentication successed.",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

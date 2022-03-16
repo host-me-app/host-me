@@ -53,6 +53,9 @@ public class FragmentCreationPage4 extends Fragment {
         }
     };
 
+    /**
+     * Go to password fragment
+     */
     private void goToFragment5() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage5());

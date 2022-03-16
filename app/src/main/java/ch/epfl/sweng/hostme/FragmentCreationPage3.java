@@ -31,6 +31,9 @@ public class FragmentCreationPage3 extends Fragment {
         return view;
     }
 
+    /**
+     * Go to email fragment
+     */
     private void goToFragment4() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage4());

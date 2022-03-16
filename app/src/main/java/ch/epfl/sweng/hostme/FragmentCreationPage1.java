@@ -36,6 +36,9 @@ public class FragmentCreationPage1 extends Fragment {
         return view;
     }
 
+    /**
+     * Go to first name fragment
+     */
     private void goToFragment2() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage2());

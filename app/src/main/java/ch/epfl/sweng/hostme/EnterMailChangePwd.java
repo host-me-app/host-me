@@ -38,6 +38,10 @@ public class EnterMailChangePwd extends AppCompatActivity {
         });
     }
 
+    /**
+     * Send email to change password
+     * @param mailText
+     */
     private void sendMail(String mailText) {
         mAuth.sendPasswordResetEmail(mailText)
                 .addOnCompleteListener(this, task -> {

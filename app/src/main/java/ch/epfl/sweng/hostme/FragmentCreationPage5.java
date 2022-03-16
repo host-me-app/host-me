@@ -44,28 +44,34 @@ public class FragmentCreationPage5 extends Fragment {
         return view;
     }
 
+    /**
+     * Go to menu activity
+     */
     private void welcome() {
         Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
+    /**
+     * Create a user on firebase
+     * @param email
+     * @param password
+     */
     private void createUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(
-                        task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Authentication successed.",
-                                        Toast.LENGTH_SHORT).show();
-                                welcome();
-                            } else {
-                                Toast.makeText(getActivity(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-
-
+        .addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getActivity(), "Authentication successed.",
+                                Toast.LENGTH_SHORT).show();
+                        welcome();
+                    } else {
+                        Toast.makeText(getActivity(), "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
     }
 
 }

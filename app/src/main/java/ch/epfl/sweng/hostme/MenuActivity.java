@@ -10,6 +10,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 import ch.epfl.sweng.hostme.databinding.ActivityMenu1Binding;
 
 public class MenuActivity extends AppCompatActivity {
@@ -19,6 +21,8 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
 
         binding = ActivityMenu1Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

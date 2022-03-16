@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CreationContainer"
+        <activity
+            android:name=".CreationContainer"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".WelcomePage"

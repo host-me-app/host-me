@@ -6,20 +6,14 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -29,22 +23,28 @@ public class ChangePwdTest {
 
 
     @Test
-    public void enterWrongMail() {
+    public void enterWrongMail() throws InterruptedException {
         Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
+        Intents.init();
         try (ActivityScenario<MainActivity> scenario = launch(intent)) {
-            String wrongMail = "jules.magggg@orange.fr";
+            String wrongMail = "host.me@gmail.com";
             onView(withId(R.id.mailForgotPwd)).perform(typeText(wrongMail), closeSoftKeyboard());
             onView(withId(R.id.nextButtonMail2)).perform(click());
+            Thread.sleep(5000);
         }
+        Intents.release();
     }
 
     @Test
-    public void enterValidMail() {
+    public void enterValidMail() throws InterruptedException {
         Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
+        Intents.init();
         try (ActivityScenario<MainActivity> scenario = launch(intent)) {
-            String validMail = "jules.maglione20@gmail.com";
+            String validMail = "host.me.app2022@gmail.com";
             onView(withId(R.id.mailForgotPwd)).perform(typeText(validMail), closeSoftKeyboard());
             onView(withId(R.id.nextButtonMail2)).perform(click());
+            Thread.sleep(5000);
         }
+        Intents.release();
     }
 }

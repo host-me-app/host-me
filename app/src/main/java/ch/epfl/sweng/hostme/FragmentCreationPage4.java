@@ -1,10 +1,6 @@
 package ch.epfl.sweng.hostme;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 public class FragmentCreationPage4 extends Fragment {
@@ -31,10 +30,8 @@ public class FragmentCreationPage4 extends Fragment {
         nextMailButt.setEnabled(false);
         nextMailButt.setOnClickListener(v -> {
             String mailText = mail.getText().toString();
-            if (EmailValidator.checkPattern(mailText)) {
-                FragmentCreationPage5.DATA.put(MAIL, mailText);
-                goToFragment5();
-            }
+            FragmentCreationPage5.DATA.put(MAIL, mailText);
+            goToFragment5();
         });
 
         return view;
@@ -42,14 +39,18 @@ public class FragmentCreationPage4 extends Fragment {
 
     private TextWatcher mailTextWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String mailText = mail.getText().toString().trim();
-            nextMailButt.setEnabled(!mailText.isEmpty() && EmailValidator.checkPattern(mailText));
+            nextMailButt.setEnabled(EmailValidator.checkPattern(mailText));
         }
+
         @Override
-        public void afterTextChanged(Editable editable) {}
+        public void afterTextChanged(Editable editable) {
+        }
     };
 
     private void goToFragment5() {

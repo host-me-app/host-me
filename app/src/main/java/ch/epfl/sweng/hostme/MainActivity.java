@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final TextWatcher logInTextWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {}
+        public void afterTextChanged(Editable editable) {
+        }
     };
 
     private void enterMailToChangePwd() {
@@ -88,17 +90,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void loginUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                welcome();
-                Toast.makeText(MainActivity.this, "Authentication successed.",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        welcome();
+                        Toast.makeText(MainActivity.this, "Authentication successed.",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

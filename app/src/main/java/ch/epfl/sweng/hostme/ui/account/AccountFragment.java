@@ -5,29 +5,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
 import ch.epfl.sweng.hostme.databinding.FragmentAccountBinding;
 
 public class AccountFragment extends Fragment {
 
-private FragmentAccountBinding binding;
+    private FragmentAccountBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         AccountViewModel accountViewModel =
                 new ViewModelProvider(this).get(AccountViewModel.class);
 
-    binding = FragmentAccountBinding.inflate(inflater, container, false);
-    View root = binding.getRoot();
+        binding = FragmentAccountBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
         final TextView textView = binding.textAccount;
         accountViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
-@Override
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;

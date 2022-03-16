@@ -1,24 +1,27 @@
 package ch.epfl.sweng.hostme;
 
 import android.os.Bundle;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import ch.epfl.sweng.hostme.databinding.ActivityMenu1Binding;
 
 public class MenuActivity extends AppCompatActivity {
 
-private ActivityMenu1Binding binding;
+    private ActivityMenu1Binding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-     binding = ActivityMenu1Binding.inflate(getLayoutInflater());
-     setContentView(binding.getRoot());
+        binding = ActivityMenu1Binding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 public class MainActivityTest {
 
     @Test
-    public void checkLoginWithValues() {
+    public void checkLoginWithValues() throws InterruptedException {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -44,6 +44,7 @@ public class MainActivityTest {
 
             onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(5000);
         }
         Intents.release();
     }

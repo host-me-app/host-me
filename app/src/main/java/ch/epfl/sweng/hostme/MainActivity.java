@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void welcome() {
-        Intent intent = new Intent(MainActivity.this, WelcomePage.class);
+        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

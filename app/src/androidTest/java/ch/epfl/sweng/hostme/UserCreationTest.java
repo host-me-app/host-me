@@ -74,7 +74,7 @@ public class UserCreationTest {
 
             onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
             onView(withId(R.id.terminateButton)).perform(click());
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         }
         Intents.release();
     }

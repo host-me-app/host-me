@@ -45,7 +45,7 @@ public class FragmentCreationPage5 extends Fragment {
     }
 
     private void welcome() {
-        Intent intent = new Intent(getActivity(), WelcomePage.class);
+        Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

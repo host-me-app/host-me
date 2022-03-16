@@ -12,6 +12,8 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import ch.epfl.sweng.hostme.utils.EmailValidator;
+
 
 public class FragmentCreationPage4 extends Fragment {
 

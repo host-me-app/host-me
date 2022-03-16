@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.utils.EmailValidator;
+
 public class EnterMailChangePwd extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText mail;

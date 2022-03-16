@@ -7,12 +7,14 @@ import org.junit.Test;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import ch.epfl.sweng.hostme.utils.EmailValidator;
+
 public class EmailValidatorTest {
 
     EmailValidator validator = new EmailValidator();
 
     @Test
-    public void checkPatternIsCorrect() throws ExecutionException, InterruptedException, TimeoutException {
+    public void checkEmailIsCorrect() throws ExecutionException, InterruptedException, TimeoutException {
         String email = "test@gmail.com";
         assertEquals(validator.isValid(email), true);
     }

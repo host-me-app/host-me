@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Host me</string>
+    <string name="next">Next</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="what_is_your_gender">What is your gender ?</string>
+    <string name="firstname">firstName</string>
+    <string name="lastname">lastName</string>
+    <string name="e_mail_address">e-mail address</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="password">password</string>
+    <string name="enter_your_mail_address">Enter your mail address</string>
+    <string name="hello_you">Hello you</string>
+    <string name="check_your_mail_box">Check your mail box</string>
+    <string name="log_in">Log in !</string>
+    <string name="host_me">HOST ME</string>
+    <string name="username">UserName</string>
+    <string name="forgot_your_password">Forgot your password ?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password_field">Password</string>
+    <string name="forgot_pwd">Forgot your password?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="terminate">Terminate</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_add">Add</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_account">Account</string>
 </resources>

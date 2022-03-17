@@ -28,4 +28,10 @@
     <string name="title_favorites">Favorites</string>
     <string name="title_messages">Messages</string>
     <string name="title_account">Account</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="save">Save</string>
+    <string name="my_account">My Account</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email">Email</string>
 </resources>

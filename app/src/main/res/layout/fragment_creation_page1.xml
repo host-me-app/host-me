@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentCreationPage1">
+
+
+    <TextView
+        android:id="@+id/genderQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginEnd="96dp"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/what_is_your_gender"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.709"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGrp"
+        android:layout_width="502dp"
+        android:layout_height="151dp"
+        android:layout_marginTop="125dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingTop="64dp"
+        android:paddingRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genderQuestion">
+
+        <RadioButton
+            android:id="@+id/radioM"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="left"
+            android:layout_marginStart="103dp"
+            android:layout_marginTop="141dp"
+            android:layout_marginEnd="24dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:fontFamily="@font/roboto"
+            android:text="@string/male"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/radioF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genderQuestion"
+            tools:ignore="RtlHardcoded" />
+
+        <RadioButton
+            android:id="@+id/radioF"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="141dp"
+            android:layout_marginEnd="88dp"
+            android:layout_weight="1"
+            android:checked="false"
+            android:fontFamily="@font/roboto"
+            android:text="@string/female"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/radioM"
+            app:layout_constraintTop_toBottomOf="@+id/genderQuestion"
+            tools:ignore="RtlHardcoded" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/genderNextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

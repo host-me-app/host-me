@@ -52,14 +52,9 @@ public class AccountFragment extends Fragment {
         databaseName = user.getDisplayName();
         databaseEmail = user.getEmail();
         String checkPhone = user.getPhoneNumber();
-        if (checkPhone == null){
-            databasePhoneNumber = "";
-        }
-        else{
-            databasePhoneNumber = checkPhone;
-        }
 
-
+        if (checkPhone == null) databasePhoneNumber = "";
+        else databasePhoneNumber = checkPhone;
 
 
         editName = view.findViewById(R.id.userProfileName);
@@ -77,6 +72,17 @@ public class AccountFragment extends Fragment {
         editName.addTextChangedListener(SaveProfileWatcher);
         editEmail.addTextChangedListener(SaveProfileWatcher);
 
+        addListenerToSaveButton();
+
+        logOutButton.setOnClickListener(v -> {
+            logUserOut();
+        });
+
+        return view;
+    }
+
+
+    private void addListenerToSaveButton(){
 
         saveButton.setOnClickListener(v -> {
             String nameText = editName.getText().toString().trim();
@@ -90,11 +96,7 @@ public class AccountFragment extends Fragment {
 
         });
 
-        logOutButton.setOnClickListener(v -> {
-            logUserOut();
-        });
 
-        return view;
     }
 
 
@@ -176,9 +178,4 @@ public class AccountFragment extends Fragment {
         }
     };
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 }

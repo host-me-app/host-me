@@ -5,6 +5,7 @@ import java.util.Date;
 public class Apartment {
 
     private String address;
+    private String area;
     private boolean available;
     private Date currentLease;
     private String bath;
@@ -24,11 +25,12 @@ public class Apartment {
 
     public Apartment() {}
 
-    public Apartment(String address, boolean available, Date currentLease, String bath, int deposit,
+    public Apartment(String address, String area, boolean available, Date currentLease, String bath, int deposit,
                      boolean furnished, String image_path, String kitchen, String laundry, String lid,
                      String name, int occupants, boolean pets, String proprietor, int rent, String room,
                      int utilities) {
         this.address = address;
+        this.area = area;
         this.available = available;
         this.currentLease = currentLease;
         this.bath = bath;
@@ -181,5 +183,13 @@ public class Apartment {
 
     public void setUtilities(int utilities) {
         this.utilities = utilities;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }

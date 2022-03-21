@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -13,7 +12,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import android.content.Context;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -52,11 +50,11 @@ public class UserProfileTest {
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
 
-            onView(withId(R.id.userProfileName)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfilePhone)).check(matches(isDisplayed()));
 
-            onView(withId(R.id.userProfileName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
+            onView(withId(R.id.userProfileLastName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
             onView(withId(R.id.userProfileEmail)).check(matches(withText(mAuth.getCurrentUser().getEmail())));
 
             Thread.sleep(5000);
@@ -85,11 +83,11 @@ public class UserProfileTest {
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
 
-            onView(withId(R.id.userProfileName)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfilePhone)).check(matches(isDisplayed()));
 
-            onView(withId(R.id.userProfileName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
+            onView(withId(R.id.userProfileLastName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
             onView(withId(R.id.userProfileEmail)).check(matches(withText(mAuth.getCurrentUser().getEmail())));
 
             onView(withId(R.id.userProfilelogOutButton)).check(matches(isDisplayed()));
@@ -122,16 +120,16 @@ public class UserProfileTest {
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
 
-            onView(withId(R.id.userProfileName)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfilePhone)).check(matches(isDisplayed()));
 
-            onView(withId(R.id.userProfileName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
+            onView(withId(R.id.userProfileLastName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
             onView(withId(R.id.userProfileEmail)).check(matches(withText(mAuth.getCurrentUser().getEmail())));
 
             //Change Name
             String name = "Nat modified";
-            onView(withId(R.id.userProfileName)).perform(clearText())
+            onView(withId(R.id.userProfileLastName)).perform(clearText())
                     .perform(typeText(name), closeSoftKeyboard());
 
             onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));
@@ -156,11 +154,11 @@ public class UserProfileTest {
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
 
-            onView(withId(R.id.userProfileName)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfilePhone)).check(matches(isDisplayed()));
 
-            onView(withId(R.id.userProfileName)).check(matches(withText(name)));
+            onView(withId(R.id.userProfileLastName)).check(matches(withText(name)));
             onView(withId(R.id.userProfileEmail)).check(matches(withText(mAuth.getCurrentUser().getEmail())));
 
 
@@ -191,17 +189,17 @@ public class UserProfileTest {
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
 
-            onView(withId(R.id.userProfileName)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfilePhone)).check(matches(isDisplayed()));
 
-            onView(withId(R.id.userProfileName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
+            onView(withId(R.id.userProfileLastName)).check(matches(withText(mAuth.getCurrentUser().getDisplayName())));
             onView(withId(R.id.userProfileEmail)).check(matches(withText(mAuth.getCurrentUser().getEmail())));
 
             //Change Name
             String name = mAuth.getCurrentUser().getDisplayName() + "add";
 
-            onView(withId(R.id.userProfileName)).perform(clearText())
+            onView(withId(R.id.userProfileLastName)).perform(clearText())
                     .perform(typeText(name), closeSoftKeyboard());
 
             onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));
@@ -209,7 +207,7 @@ public class UserProfileTest {
 
             String name2 = mAuth.getCurrentUser().getDisplayName();
 
-            onView(withId(R.id.userProfileName)).perform(clearText())
+            onView(withId(R.id.userProfileLastName)).perform(clearText())
                     .perform(typeText(name2), closeSoftKeyboard());
 
             onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));

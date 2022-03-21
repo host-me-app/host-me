@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,26 +21,40 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.Profile;
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.databinding.FragmentAccountBinding;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 public class AccountFragment extends Fragment {
 
-    private FragmentAccountBinding binding;
-    private FirebaseUser user;
+    private View view;
 
-    private EditText editName;
+    private EditText editFirstName;
+    private EditText editLastName;
     private EditText editEmail;
+    private RadioGroup editGender;
+    private RadioButton buttonM;
+    private RadioButton buttonF;
     private EditText editPhoneNumber;
+
     private Button saveButton;
     private Button logOutButton;
 
-    private String databaseName;
-    private String databaseEmail;
-    private String databasePhoneNumber;
+    private String dbFirstName;
+    private String dbLastName;
+    private String dbEmail;
+    private String dbGender;
+    private String dbPhoneNumber;
+
+
+    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
+    //    private FragmentAccountBinding binding;
+    private FirebaseUser userFire;
+    private FirebaseAuth mAuth;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,52 +62,96 @@ public class AccountFragment extends Fragment {
         AccountViewModel accountViewModel =
                 new ViewModelProvider(this).get(AccountViewModel.class);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
         View view = inflater.inflate(R.layout.fragment_account, container, false);
+        this.view = view;
 
-        databaseName = user.getDisplayName();
-        databaseEmail = user.getEmail();
-        String checkPhone = user.getPhoneNumber();
-
-        if (checkPhone == null) databasePhoneNumber = "";
-        else databasePhoneNumber = checkPhone;
-
-
-        editName = view.findViewById(R.id.userProfileName);
+        editFirstName = view.findViewById(R.id.userProfileFirstName);
+        editLastName = view.findViewById(R.id.userProfileLastName);
         editEmail = view.findViewById(R.id.userProfileEmail);
         editPhoneNumber = view.findViewById(R.id.userProfilePhone);
-        logOutButton = view.findViewById(R.id.userProfilelogOutButton);
+        editGender = view.findViewById(R.id.userProfileRadioG);
+        buttonM = view.findViewById(R.id.userProfileGenderM);
+        buttonF = view.findViewById(R.id.userProfileGenderF);
 
+        logOutButton = view.findViewById(R.id.userProfilelogOutButton);
         saveButton = view.findViewById(R.id.userProfileSaveButton);
+
         saveButton.setEnabled(false);
 
-        editName.setText(databaseName);
-        editEmail.setText(databaseEmail);
-        editPhoneNumber.setText(databasePhoneNumber);
 
-        editName.addTextChangedListener(SaveProfileWatcher);
-        editEmail.addTextChangedListener(SaveProfileWatcher);
+        mAuth = FirebaseAuth.getInstance();
 
-        addListenerToSaveButton();
+        DocumentReference docRef = database.collection("users")
+                .document(mAuth.getUid());
 
-        logOutButton.setOnClickListener(v -> {
-            logUserOut();
-        });
+        docRef.get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()){
+                        Profile userInDB = task.getResult().toObject(Profile.class);
+                        displayUIFromDB(userInDB);
+
+                        editFirstName.addTextChangedListener(SaveProfileWatcher);
+                        editLastName.addTextChangedListener(SaveProfileWatcher);
+                        editEmail.addTextChangedListener(SaveProfileWatcher);
+                        editPhoneNumber.addTextChangedListener(SaveProfileWatcher);
+                        editGender.setOnCheckedChangeListener(SaveProfileCheckWatcher);
+
+                        addListenerToSaveButton();
+
+                        logOutButton.setOnClickListener(v -> {
+                            logUserOut();
+                        });
+
+                    }
+                }
+        );
+
+
+        Log.d( "TAG","sal ");
 
         return view;
+    }
+
+    private void displayUIFromDB(Profile userInDB) {
+
+        dbFirstName = userInDB.getFirstName();
+        dbLastName = userInDB.getLastName();
+        dbEmail = userInDB.getEmail();
+        dbGender = userInDB.getGender();
+        dbPhoneNumber = userInDB.getPhoneNumber();
+
+        editFirstName.setText(dbFirstName);
+        editLastName.setText(dbLastName);
+        editEmail.setText(dbEmail);
+        RadioButton selectButton = dbGender.equals("Male") ? buttonM : buttonF;
+        selectButton.setChecked(true);
+        editPhoneNumber.setText(dbPhoneNumber);
+    }
+
+    private Profile getProfileFromUI(){
+
+        String firstName = editFirstName.getText().toString().trim();
+        String lastName = editLastName.getText().toString().trim();
+        String email= editEmail.getText().toString().trim();
+        String phoneNumber = editPhoneNumber.getText().toString().trim();
+
+        int selectedGender = editGender.getCheckedRadioButtonId();
+        RadioButton selectedButton = view.findViewById(selectedGender);
+        String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
+
+        return new Profile(firstName,lastName,email,gender,phoneNumber);
+
     }
 
 
     private void addListenerToSaveButton(){
 
         saveButton.setOnClickListener(v -> {
-            String nameText = editName.getText().toString().trim();
-            String emailText = editEmail.getText().toString().trim();
-            String phoneNumberText = editPhoneNumber.getText().toString().trim();
 
-            if (EmailValidator.checkPattern(emailText)){
-                saveUserProperties(nameText, emailText,phoneNumberText);
+            Profile toUpdateUser = getProfileFromUI();
+
+            if (EmailValidator.checkPattern(toUpdateUser.getEmail())){
+                saveUserProperties(toUpdateUser);
             }
             saveButton.setEnabled(false);
 
@@ -113,43 +174,92 @@ public class AccountFragment extends Fragment {
 
 
     /**
-     * Save new properties of the user on the app
+     * Save updated user's profile on the  database
      *
-     * @param nameText new name
-     * @param emailText new email
-     * @param phoneNumberText new Phone Number
+     * @param toUpdateUser the updated profile
      */
-    private void saveUserProperties(String nameText, String emailText, String phoneNumberText) {
+    private void saveUserProperties(Profile toUpdateUser) {
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(nameText)
-                .build();
-
-        user.updateProfile(profileUpdates)
+        database.collection("users").document(mAuth.getUid()).set(toUpdateUser)
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Name's update succeeded.",
-                                        Toast.LENGTH_SHORT).show();
-                                databaseName = nameText;
-                            }else{
-                                Toast.makeText(getActivity(), "Name's update failed.",
+                                dbFirstName = toUpdateUser.getFirstName();
+                                dbLastName = toUpdateUser.getLastName();
+                                dbEmail = toUpdateUser.getEmail();
+                                dbGender = toUpdateUser.getGender();
+                                dbPhoneNumber = toUpdateUser.getPhoneNumber();
+
+                                Toast.makeText(getActivity(), "Profile's update succeeded.",
                                         Toast.LENGTH_SHORT).show();
                             }
-                        });
-        try{
-            user.updateEmail(emailText);
-            Toast.makeText(getActivity(), "Email's update succeeded.",
-                    Toast.LENGTH_SHORT).show();
-                    databaseEmail = emailText;
-        }
-        catch(Exception e){
-            Toast.makeText(getActivity(), "Email's update failed.",
-                    Toast.LENGTH_SHORT).show();
-        }
+                            else{
+                                Toast.makeText(getActivity(), "Profile's update failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+
+
+//        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+//                .setDisplayName(toUpdateUser.getFirstName())
+//                .build();
+//
+//        userFire.updateProfile(profileUpdates)
+//                .addOnCompleteListener(
+//                        task -> {
+//                            if (task.isSuccessful()) {
+//                                Toast.makeText(getActivity(), "Display name's update succeeded.",
+//                                        Toast.LENGTH_SHORT).show();
+//                                dbFirstName = toUpdateUser.getFirstName();
+//                            }else{
+//                                Toast.makeText(getActivity(), "Display name's update failed.",
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+
+//        try{
+//            userFire.updateEmail(toUpdateUser.getEmail());
+//
+//        }
+//        catch(Exception e){
+//            Toast.makeText(getActivity(), "Profile's update failed.",
+//                    Toast.LENGTH_SHORT).show();
+//        }
 
 
     }
+
+    private RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher  = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+            String firstName = editFirstName.getText().toString().trim();
+            String lastName = editLastName.getText().toString().trim();
+            String email= editEmail.getText().toString().trim();
+            String phoneNumber = editPhoneNumber.getText().toString().trim();
+
+            RadioButton selectedButton = view.findViewById(checkedId);
+            String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
+
+            Boolean allTheSame = firstName.equals(dbFirstName)
+                    &&lastName.equals(dbLastName)
+                    &&firstName.equals(dbFirstName)
+                    &&email.equals(dbEmail)
+                    &&phoneNumber.equals(dbPhoneNumber)
+                    &&gender.equals(dbGender);
+
+
+            if(allTheSame || !EmailValidator.checkPattern(email)){
+                saveButton.setEnabled(false);
+            }else{
+                saveButton.setEnabled(true);
+            }
+
+        }
+
+    };
+
 
     private final TextWatcher SaveProfileWatcher = new TextWatcher() {
         @Override
@@ -158,14 +268,24 @@ public class AccountFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String nameText = editName.getText().toString().trim();
-            String emailText = editEmail.getText().toString().trim();
+
+            String firstName = editFirstName.getText().toString().trim();
+            String lastName = editLastName.getText().toString().trim();
+            String email= editEmail.getText().toString().trim();
+            String phoneNumber = editPhoneNumber.getText().toString().trim();
+            int selectedGender = editGender.getCheckedRadioButtonId();
+            RadioButton selectedButton = view.findViewById(selectedGender);
+            String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
+
+            Boolean allTheSame = firstName.equals(dbFirstName)
+                    &&lastName.equals(dbLastName)
+                    &&firstName.equals(dbFirstName)
+                    &&email.equals(dbEmail)
+                    &&phoneNumber.equals(dbPhoneNumber)
+                    &&gender.equals(dbGender);
 
 
-            Boolean allTheSame = nameText.equals(databaseName)&& emailText.equals(databaseEmail);
-
-
-            if(allTheSame || !EmailValidator.checkPattern(emailText)){
+            if(allTheSame || !EmailValidator.checkPattern(email)){
                 saveButton.setEnabled(false);
             }else{
                 saveButton.setEnabled(true);

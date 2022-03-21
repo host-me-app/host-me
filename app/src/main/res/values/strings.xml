@@ -34,4 +34,7 @@
     <string name="name">Name</string>
     <string name="phone_number">Phone Number</string>
     <string name="email">Email</string>
+    <string name="first_name">First name</string>
+    <string name="gender">Gender</string>
+    <string name="last_name">Last name</string>
 </resources>

@@ -11,10 +11,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +23,7 @@ import ch.epfl.sweng.hostme.utils.PasswordValidator;
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
     private FirebaseAuth mAuth;
+    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
 
 
     @Override
@@ -69,30 +68,35 @@ public class FragmentCreationPage5 extends Fragment {
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                String displayName = DATA.get(FragmentCreationPage2.FIRST_NAME) + " "
-                                        + DATA.get(FragmentCreationPage3.LAST_NAME);
-
-                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(displayName)
-                                        .build();
-
-                                user.updateProfile(profileUpdates)
-                                        .addOnCompleteListener(
-                                                task2 -> {
-                                                    if (task2.isSuccessful()) {
-                                                        Toast.makeText(getActivity(), "Authentication successed.",
-                                                                Toast.LENGTH_SHORT).show();
-                                                        welcome();
-                                                    }
-                                                });
-
+                                updateFireStoreDB();
+                                Toast.makeText(getActivity(), "Authentication successed.",
+                                        Toast.LENGTH_SHORT).show();
+                                welcome();
                             } else {
                                 Toast.makeText(getActivity(), "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
                 );
+    }
+
+    /**
+     * Update the database with user's attributes
+     */
+    private void updateFireStoreDB() {
+        Profile user = new Profile(
+                DATA.get(FragmentCreationPage2.FIRST_NAME),
+                DATA.get(FragmentCreationPage3.LAST_NAME),
+                DATA.get(FragmentCreationPage4.MAIL),
+                DATA.get(FragmentCreationPage1.GENDER),
+                ""
+                );
+
+        database.collection("users").document(mAuth.getUid()).set(user);
+
+//        database.collection("users")
+//                .document(mAuth.getUid())
+//                .set(DATA);
     }
 
 }

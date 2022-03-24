@@ -28,7 +28,7 @@ public class AccountFragment extends Fragment {
         View root = inflater.inflate(R.layout.account_profile, container, false);
         Button wallet_button = root.findViewById(R.id.wallet_button);
         wallet_button.setOnClickListener(v -> {
-
+            goToWalletFragment();
         });
         return root;
 
@@ -45,7 +45,7 @@ public class AccountFragment extends Fragment {
      */
     private void goToWalletFragment() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.account_container, new WalletFragment());
+        fragmentTransaction.replace(R.id.nav_host_fragment_activity_menu1, new WalletFragment());
         fragmentTransaction.commit();
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

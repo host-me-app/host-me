@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -24,9 +23,8 @@ import ch.epfl.sweng.hostme.utils.Profile;
 
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
-    private FirebaseAuth mAuth;
     private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
-
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,7 +90,7 @@ public class FragmentCreationPage5 extends Fragment {
                 DATA.get(FragmentCreationPage3.LAST_NAME),
                 DATA.get(FragmentCreationPage4.MAIL),
                 DATA.get(FragmentCreationPage1.GENDER)
-                );
+        );
 
         database.collection("users").document(mAuth.getUid()).set(user);
 

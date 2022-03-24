@@ -22,35 +22,95 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import ch.epfl.sweng.hostme.MainActivity;
-import ch.epfl.sweng.hostme.utils.Profile;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
+import ch.epfl.sweng.hostme.utils.Profile;
 
 public class AccountFragment extends Fragment {
 
+    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
     private View view;
-
     private EditText editFirstName;
     private EditText editLastName;
     private EditText editEmail;
     private RadioGroup editGender;
     private RadioButton buttonM;
     private RadioButton buttonF;
-
     private Button saveButton;
     private Button logOutButton;
     private Button changePasswordButton;
-
     private String dbFirstName;
     private String dbLastName;
     private String dbEmail;
     private String dbGender;
+    /**
+     * Watcher for any modifications of the text in the fields of the profile
+     */
+    private final TextWatcher SaveProfileWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            String firstName = editFirstName.getText().toString().trim();
+            String lastName = editLastName.getText().toString().trim();
+            String email = editEmail.getText().toString().trim();
+            int selectedGender = editGender.getCheckedRadioButtonId();
+            RadioButton selectedButton = view.findViewById(selectedGender);
+            String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
+
+            Boolean allTheSame = firstName.equals(dbFirstName)
+                    && lastName.equals(dbLastName)
+                    && firstName.equals(dbFirstName)
+                    && email.equals(dbEmail)
+                    && gender.equals(dbGender);
 
 
+            if (allTheSame || !EmailValidator.checkPattern(email)) {
+                saveButton.setEnabled(false);
+            } else {
+                saveButton.setEnabled(true);
+            }
 
-    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
     private FirebaseAuth mAuth;
+    /**
+     * Watcher for any modifications of the gender button that is checked
+     */
+    private RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+            String firstName = editFirstName.getText().toString().trim();
+            String lastName = editLastName.getText().toString().trim();
+            String email = editEmail.getText().toString().trim();
+
+            RadioButton selectedButton = view.findViewById(checkedId);
+            String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
+
+            Boolean allTheSame = firstName.equals(dbFirstName)
+                    && lastName.equals(dbLastName)
+                    && firstName.equals(dbFirstName)
+                    && email.equals(dbEmail)
+                    && gender.equals(dbGender);
+
+
+            if (allTheSame || !EmailValidator.checkPattern(email)) {
+                saveButton.setEnabled(false);
+            } else {
+                saveButton.setEnabled(true);
+            }
+
+        }
+
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,7 +141,7 @@ public class AccountFragment extends Fragment {
 
         docRef.get().addOnCompleteListener(
                 task -> {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         Profile userInDB = task.getResult().toObject(Profile.class);
                         displayUIFromDB(userInDB);
 
@@ -107,6 +167,7 @@ public class AccountFragment extends Fragment {
 
     /**
      * Display to the UI the profile previously fetched from the database
+     *
      * @param userInDB Profile in Database
      */
     private void displayUIFromDB(Profile userInDB) {
@@ -123,36 +184,35 @@ public class AccountFragment extends Fragment {
         selectButton.setChecked(true);
     }
 
-
     /**
      * Take data present in the UI and turn it into a Profile class
+     *
      * @return Profile
      */
-    private Profile getProfileFromUI(){
+    private Profile getProfileFromUI() {
 
         String firstName = editFirstName.getText().toString().trim();
         String lastName = editLastName.getText().toString().trim();
-        String email= editEmail.getText().toString().trim();
+        String email = editEmail.getText().toString().trim();
 
         int selectedGender = editGender.getCheckedRadioButtonId();
         RadioButton selectedButton = view.findViewById(selectedGender);
         String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
 
-        return new Profile(firstName,lastName,email,gender);
+        return new Profile(firstName, lastName, email, gender);
 
     }
-
 
     /**
      * Add a listener to the button Save
      */
-    private void addListenerToSaveButton(){
+    private void addListenerToSaveButton() {
 
         saveButton.setOnClickListener(v -> {
 
             Profile toUpdateUser = getProfileFromUI();
 
-            if (EmailValidator.checkPattern(toUpdateUser.getEmail())){
+            if (EmailValidator.checkPattern(toUpdateUser.getEmail())) {
                 saveUserProperties(toUpdateUser);
             }
             saveButton.setEnabled(false);
@@ -176,13 +236,9 @@ public class AccountFragment extends Fragment {
         });
     }
 
-
-
-
-
-        /**
-         * Logs the user out of the app.
-         */
+    /**
+     * Logs the user out of the app.
+     */
     private void logUserOut() {
         FirebaseAuth.getInstance().signOut();
 
@@ -190,7 +246,6 @@ public class AccountFragment extends Fragment {
         startActivity(intent);
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
-
 
     /**
      * Save updated user's profile on the  database
@@ -217,90 +272,19 @@ public class AccountFragment extends Fragment {
                                                 dbEmail = toUpdateUser.getEmail();
                                                 Toast.makeText(getActivity(), "Email's update succeeded.",
                                                         Toast.LENGTH_SHORT).show();
-                                            }else{
+                                            } else {
                                                 Toast.makeText(getActivity(), "Email's update failed.",
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                 );
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(getActivity(), "Profile's update failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
                 );
 
-        }
-
-
-    /**
-     * Watcher for any modifications of the gender button that is checked
-     */
-    private RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher  = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-            String firstName = editFirstName.getText().toString().trim();
-            String lastName = editLastName.getText().toString().trim();
-            String email= editEmail.getText().toString().trim();
-
-            RadioButton selectedButton = view.findViewById(checkedId);
-            String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
-
-            Boolean allTheSame = firstName.equals(dbFirstName)
-                    &&lastName.equals(dbLastName)
-                    &&firstName.equals(dbFirstName)
-                    &&email.equals(dbEmail)
-                    &&gender.equals(dbGender);
-
-
-            if(allTheSame || !EmailValidator.checkPattern(email)){
-                saveButton.setEnabled(false);
-            }else{
-                saveButton.setEnabled(true);
-            }
-
-        }
-
-    };
-
-    /**
-     * Watcher for any modifications of the text in the fields of the profile
-     */
-    private final TextWatcher SaveProfileWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            String firstName = editFirstName.getText().toString().trim();
-            String lastName = editLastName.getText().toString().trim();
-            String email= editEmail.getText().toString().trim();
-            int selectedGender = editGender.getCheckedRadioButtonId();
-            RadioButton selectedButton = view.findViewById(selectedGender);
-            String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
-
-            Boolean allTheSame = firstName.equals(dbFirstName)
-                    &&lastName.equals(dbLastName)
-                    &&firstName.equals(dbFirstName)
-                    &&email.equals(dbEmail)
-                    &&gender.equals(dbGender);
-
-
-            if(allTheSame || !EmailValidator.checkPattern(email)){
-                saveButton.setEnabled(false);
-            }else{
-                saveButton.setEnabled(true);
-            }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
+    }
 
 }

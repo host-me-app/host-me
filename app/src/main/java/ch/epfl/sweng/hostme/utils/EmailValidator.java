@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.utils;
 
 import android.util.Log;
 
@@ -29,7 +29,7 @@ public class EmailValidator {
      * @param email
      * @return True if the email has a valid pattern
      */
-    public static Boolean checkPattern(String email) {
+    private static Boolean checkPattern(String email) {
         return PATTERN.matcher(email)
                 .matches();
     }
@@ -71,11 +71,8 @@ public class EmailValidator {
      *
      * @param email
      * @return True if email is valid
-     * @throws ExecutionException
-     * @throws InterruptedException
-     * @throws TimeoutException
      */
-    public static Boolean isValid(String email) throws ExecutionException, InterruptedException, TimeoutException {
-        return checkPattern(email) && checkUniqueness(email);
+    public static Boolean isValid(String email) {
+        return checkPattern(email);
     }
 }

@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.utils.EmailValidator;
+
 public class EnterMailChangePwd extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText mail;
@@ -67,7 +69,7 @@ public class EnterMailChangePwd extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String mailText = mail.getText().toString().trim();
-            sendPwd.setEnabled(EmailValidator.checkPattern(mailText));
+            sendPwd.setEnabled(EmailValidator.isValid(mailText));
         }
 
         @Override

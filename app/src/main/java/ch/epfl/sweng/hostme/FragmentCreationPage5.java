@@ -22,6 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sweng.hostme.utils.PasswordValidator;
+
 
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();

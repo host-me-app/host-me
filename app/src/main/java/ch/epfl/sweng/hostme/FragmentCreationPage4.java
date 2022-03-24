@@ -18,21 +18,6 @@ public class FragmentCreationPage4 extends Fragment {
     public static final String MAIL = "Mail";
     private EditText mail;
     private Button nextMailButt;
-    private TextWatcher mailTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String mailText = mail.getText().toString().trim();
-            nextMailButt.setEnabled(EmailValidator.checkPattern(mailText));
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +36,22 @@ public class FragmentCreationPage4 extends Fragment {
 
         return view;
     }
+
+    private TextWatcher mailTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String mailText = mail.getText().toString().trim();
+            nextMailButt.setEnabled(EmailValidator.checkPattern(mailText));
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     /**
      * Go to password fragment

@@ -27,10 +27,6 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MenuActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<MenuActivity> testRule =
-            new ActivityScenarioRule<>(MenuActivity.class);
-
     @Test
     public void SearchFragOpen_whenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
@@ -39,6 +35,7 @@ public class MenuActivityTest {
             onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).perform(click());
+            onView(withId(R.id.text_search)).check(matches(isDisplayed()));
         }
 
     }
@@ -94,4 +91,8 @@ public class MenuActivityTest {
         }
 
     }
+
+    @Rule
+    public ActivityScenarioRule<MenuActivity> testRule =
+            new ActivityScenarioRule<>(MenuActivity.class);
 }

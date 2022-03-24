@@ -39,7 +39,7 @@ public class UserCreationTest {
     }
 
     @Test
-    public void checkAuthSuccess() throws InterruptedException {
+    public void checkAuthSuccess() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainer.class);
         Intents.init();
         try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
@@ -73,14 +73,12 @@ public class UserCreationTest {
             onView(withId(R.id.confirm_pwd)).perform(typeText("!Hostme2022"), closeSoftKeyboard());
 
             onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.terminateButton)).perform(click());
-            Thread.sleep(5000);
         }
         Intents.release();
     }
 
     @Test
-    public void checkAuthFail() throws InterruptedException {
+    public void checkAuthFail() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainer.class);
         Intents.init();
         try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
@@ -121,8 +119,6 @@ public class UserCreationTest {
             onView(withId(R.id.confirm_pwd)).perform(typeText("2022"), closeSoftKeyboard());
 
             onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.terminateButton)).perform(click());
-            Thread.sleep(5000);
         }
         Intents.release();
     }

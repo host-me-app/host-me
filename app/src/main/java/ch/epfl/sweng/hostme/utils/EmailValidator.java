@@ -29,7 +29,7 @@ public class EmailValidator {
      * @param email
      * @return True if the email has a valid pattern
      */
-    private static Boolean checkPattern(String email) {
+    public static Boolean checkPattern(String email) {
         return PATTERN.matcher(email)
                 .matches();
     }

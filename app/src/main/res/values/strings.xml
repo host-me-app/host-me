@@ -28,4 +28,17 @@
     <string name="title_favorites">Favorites</string>
     <string name="title_messages">Messages</string>
     <string name="title_account">Account</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="save">Save</string>
+    <string name="my_account">My Account</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="first_name">First name</string>
+    <string name="gender">Gender</string>
+    <string name="last_name">Last name</string>
+    <string name="change_password">Change Password</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
 </resources>

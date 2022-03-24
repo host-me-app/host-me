@@ -13,24 +13,24 @@ public class PasswordValidatorTest {
     public void checkPatternIsCorrect() {
         PasswordValidator validator = new PasswordValidator();
         String pwd = "Test111!";
-        assertEquals(validator.isValid(pwd), true);
+        assertEquals(true,validator.isValid(pwd));
     }
 
     @Test
     public void checkPatternIsInCorrect() {
         PasswordValidator validator = new PasswordValidator();
         String pwd = "testTest!";
-        assertEquals(validator.isValid(pwd), false);
+        assertEquals(false,validator.isValid(pwd));
         String pwd2 = "Test1111";
-        assertEquals(validator.isValid(pwd2), false);
+        assertEquals(false,validator.isValid(pwd2));
         String pwd3 = "test111!";
-        assertEquals(validator.isValid(pwd3), false);
+        assertEquals(false,validator.isValid(pwd3));
         String pwd4 = "TEST111!";
-        assertEquals(validator.isValid(pwd4), false);
+        assertEquals(false,validator.isValid(pwd4));
         String pwd5 = "Test1!";
-        assertEquals(validator.isValid(pwd5), false);
+        assertEquals(false,validator.isValid(pwd5));
         String pwd6 = "TestTestTestTestTestTest1!";
-        assertEquals(validator.isValid(pwd6), false);
+        assertEquals(false,validator.isValid(pwd6));
     }
 
 }

@@ -16,10 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-<<<<<<< HEAD
-=======
+
 import com.google.firebase.database.FirebaseDatabase;
->>>>>>> master
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;

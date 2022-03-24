@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class UserProfileTest {
+public class UserProfileUITest {
 
 
 
@@ -118,7 +118,7 @@ public class UserProfileTest {
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
 
-            Thread.sleep(3000);
+            Thread.sleep(5000);
 
             //Change FirstName
             String firstname = "Nat modified";
@@ -138,9 +138,10 @@ public class UserProfileTest {
             onView(withId(R.id.userProfilelogOutButton)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfilelogOutButton)).perform(click());
 
+
             //Re-Log in
 
-            Thread.sleep(3000);
+            Thread.sleep(5000);
 
             onView(withId(R.id.userName)).check(matches(isDisplayed()));
             onView(withId(R.id.pwd)).check(matches(isDisplayed()));
@@ -149,12 +150,12 @@ public class UserProfileTest {
             onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
 
-            Thread.sleep(2000);
+            Thread.sleep(3000);
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
 
-            Thread.sleep(2000);
+            Thread.sleep(5000);
             onView(withId(R.id.userProfileFirstName)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
 
@@ -188,6 +189,8 @@ public class UserProfileTest {
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
+
+            Thread.sleep(5000);
 
             onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
 

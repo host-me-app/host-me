@@ -15,18 +15,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import ch.epfl.sweng.hostme.CreationContainer;
-import ch.epfl.sweng.hostme.FragmentCreationPage1;
 import ch.epfl.sweng.hostme.MainActivity;
-import ch.epfl.sweng.hostme.Profile;
+import ch.epfl.sweng.hostme.utils.Profile;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
@@ -109,6 +105,10 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Display to the UI the profile previously fetched from the database
+     * @param userInDB Profile in Database
+     */
     private void displayUIFromDB(Profile userInDB) {
 
         dbFirstName = userInDB.getFirstName();
@@ -123,6 +123,11 @@ public class AccountFragment extends Fragment {
         selectButton.setChecked(true);
     }
 
+
+    /**
+     * Take data present in the UI and turn it into a Profile class
+     * @return Profile
+     */
     private Profile getProfileFromUI(){
 
         String firstName = editFirstName.getText().toString().trim();
@@ -138,6 +143,9 @@ public class AccountFragment extends Fragment {
     }
 
 
+    /**
+     * Add a listener to the button Save
+     */
     private void addListenerToSaveButton(){
 
         saveButton.setOnClickListener(v -> {
@@ -154,7 +162,9 @@ public class AccountFragment extends Fragment {
 
     }
 
-
+    /**
+     * Add a listener to the change password button
+     */
     private void addListenerToChangePasswordButton() {
 
         changePasswordButton.setOnClickListener(v -> {
@@ -224,6 +234,9 @@ public class AccountFragment extends Fragment {
         }
 
 
+    /**
+     * Watcher for any modifications of the gender button that is checked
+     */
     private RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher  = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -252,7 +265,9 @@ public class AccountFragment extends Fragment {
 
     };
 
-
+    /**
+     * Watcher for any modifications of the text in the fields of the profile
+     */
     private final TextWatcher SaveProfileWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

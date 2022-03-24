@@ -9,20 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
+import ch.epfl.sweng.hostme.utils.Profile;
 
 
 public class FragmentCreationPage5 extends Fragment {
@@ -89,9 +86,17 @@ public class FragmentCreationPage5 extends Fragment {
      * Update the database with user's attributes
      */
     private void updateFireStoreDB() {
-        database.collection("users")
-                .document(mAuth.getUid())
-                .set(DATA);
+
+        Profile user = new Profile(
+                DATA.get(FragmentCreationPage2.FIRST_NAME),
+                DATA.get(FragmentCreationPage3.LAST_NAME),
+                DATA.get(FragmentCreationPage4.MAIL),
+                DATA.get(FragmentCreationPage1.GENDER)
+                );
+
+        database.collection("users").document(mAuth.getUid()).set(user);
+
+
     }
 
 }

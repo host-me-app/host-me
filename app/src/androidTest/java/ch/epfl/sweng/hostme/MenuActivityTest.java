@@ -79,17 +79,7 @@ public class MenuActivityTest {
 
     }
 
-    @Test
-    public void AccountFragOpen_whenIconClicked() {
-        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-        try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
-            onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
-            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
-            onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
-            onView(withId(R.id.navigation_account)).perform(click());
-        }
 
-    }
 
     @Rule
     public ActivityScenarioRule<MenuActivity> testRule =

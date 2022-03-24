@@ -18,6 +18,21 @@ public class EnterMailChangePwd extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText mail;
     private Button sendPwd;
+    private final TextWatcher sendMailTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String mailText = mail.getText().toString().trim();
+            sendPwd.setEnabled(EmailValidator.checkPattern(mailText));
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,21 +73,5 @@ public class EnterMailChangePwd extends AppCompatActivity {
                     }
                 });
     }
-
-    private final TextWatcher sendMailTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String mailText = mail.getText().toString().trim();
-            sendPwd.setEnabled(EmailValidator.checkPattern(mailText));
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
 
 }

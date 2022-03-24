@@ -27,6 +27,10 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MenuActivityTest {
 
+    @Rule
+    public ActivityScenarioRule<MenuActivity> testRule =
+            new ActivityScenarioRule<>(MenuActivity.class);
+
     @Test
     public void SearchFragOpen_whenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
@@ -90,8 +94,4 @@ public class MenuActivityTest {
         }
 
     }
-
-    @Rule
-    public ActivityScenarioRule<MenuActivity> testRule =
-            new ActivityScenarioRule<>(MenuActivity.class);
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -26,7 +25,6 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 
-import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.databinding.FragmentSearchBinding;
 
@@ -34,9 +32,8 @@ public class SearchFragment extends Fragment {
 
     private static final String APARTMENTS_PATH = "apartments/";
     private static final String PREVIEW_1_JPG = "/preview1.jpg";
-
-    private FragmentSearchBinding binding;
     private final static long NB_APARTMENT_TO_DISPLAY = 9;
+    private FragmentSearchBinding binding;
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private FirestoreRecyclerAdapter recyclerAdapter;
@@ -70,6 +67,10 @@ public class SearchFragment extends Fragment {
                 return new ViewHolder(view);
             }
 
+            @Override
+            public void onDataChanged() {
+
+            }
 
         };
 
@@ -82,19 +83,27 @@ public class SearchFragment extends Fragment {
     }
 
     private void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
-        storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
-        try {
-            final File localFile = File.createTempFile("preview1", "jpg");
-            storageReference.getFile(localFile)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                            holder.image.setImageBitmap(bitmap);
-                        }
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (model.getLid() != null) {
+            storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
+            try {
+                final File localFile = File.createTempFile("preview1", "jpg");
+                storageReference.getFile(localFile)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                holder.image.setImageBitmap(bitmap);
+                            }
+                        });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
@@ -113,11 +122,5 @@ public class SearchFragment extends Fragment {
             this.image = itemView.findViewById(R.id.apartment_image);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

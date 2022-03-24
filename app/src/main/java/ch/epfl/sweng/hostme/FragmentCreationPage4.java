@@ -12,6 +12,8 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import ch.epfl.sweng.hostme.utils.EmailValidator;
+
 
 public class FragmentCreationPage4 extends Fragment {
 
@@ -45,7 +47,7 @@ public class FragmentCreationPage4 extends Fragment {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String mailText = mail.getText().toString().trim();
-            nextMailButt.setEnabled(EmailValidator.checkPattern(mailText));
+            nextMailButt.setEnabled(EmailValidator.isValid(mailText));
         }
 
         @Override

@@ -7,18 +7,20 @@ import org.junit.Test;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import ch.epfl.sweng.hostme.utils.EmailValidator;
+
 public class EmailValidatorTest {
 
     EmailValidator validator = new EmailValidator();
 
     @Test
-    public void checkPatternIsCorrect() throws ExecutionException, InterruptedException, TimeoutException {
+    public void checkEmailIsCorrect() {
         String email = "test@gmail.com";
         assertEquals(validator.isValid(email), true);
     }
 
     @Test
-    public void checkPatternIsIncorrect() throws ExecutionException, InterruptedException, TimeoutException {
+    public void checkPatternIsIncorrect() {
         String email = "test@gmail.com.";
         assertEquals(validator.isValid(email), false);
         String email2 = ".test@gmail.com";
@@ -27,11 +29,5 @@ public class EmailValidatorTest {
         assertEquals(validator.isValid(email3), false);
         String email4 = "çtêst@gmail.com";
         assertEquals(validator.isValid(email4), false);
-    }
-
-    @Test
-    public void checkUniquenessIsIncorrect() throws ExecutionException, InterruptedException, TimeoutException {
-        String email = "host.me.app2022@gmail.com";
-        assertEquals(validator.isValid(email), false);
     }
 }

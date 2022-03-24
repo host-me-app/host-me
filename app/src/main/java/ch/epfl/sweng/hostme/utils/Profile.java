@@ -18,9 +18,6 @@ public class Profile {
         this.email = email;
     }
 
-    public Profile(Profile that){
-        this(that.getFirstName(), that.getLastName(), that.getEmail(), that.getGender());
-    }
 
     public String getFirstName() {
         return firstName;

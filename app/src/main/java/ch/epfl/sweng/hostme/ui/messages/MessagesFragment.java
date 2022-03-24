@@ -1,5 +1,8 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +29,13 @@ public class MessagesFragment extends Fragment {
 
         final TextView textView = binding.textMessages;
         messagesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        setListeners();
         return root;
+    }
+
+    private void setListeners(){
+        binding.contactButton.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), MessagesHomeActivity.class)));
     }
 
     @Override

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_200"
     tools:context=".ui.messages.MessagesHomeActivity">
 
     <ImageView
@@ -15,7 +16,7 @@
         android:src="@drawable/account_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textHome"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/textHome"
@@ -34,6 +35,7 @@
         android:id="@+id/contactButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:tint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textHome"
         app:layout_constraintTop_toTopOf="parent"

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.models;
+package ch.epfl.sweng.hostme.users;
 
 import java.io.Serializable;
 

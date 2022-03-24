@@ -27,6 +27,7 @@ public class UsersActivity extends AppCompatActivity {
         binding = ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getUsers();
+        setListeners();
     }
 
     private void setListeners(){

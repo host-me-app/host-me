@@ -9,9 +9,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+<<<<<<< HEAD
+=======
+import com.google.firebase.database.FirebaseDatabase;
+>>>>>>> master
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -84,6 +92,7 @@ public class FragmentCreationPage5 extends Fragment {
      * Update the database with user's attributes
      */
     private void updateFireStoreDB() {
+
         Profile user = new Profile(
                 DATA.get(FragmentCreationPage2.FIRST_NAME),
                 DATA.get(FragmentCreationPage3.LAST_NAME),
@@ -93,9 +102,7 @@ public class FragmentCreationPage5 extends Fragment {
 
         database.collection("users").document(mAuth.getUid()).set(user);
 
-//        database.collection("users")
-//                .document(mAuth.getUid())
-//                .set(DATA);
+
     }
 
 }

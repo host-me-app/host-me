@@ -23,27 +23,23 @@ public class ChangePwdTest {
 
 
     @Test
-    public void enterWrongMail() throws InterruptedException {
+    public void enterWrongMail() {
         Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = launch(intent)) {
             String wrongMail = "host.me@gmail.com";
             onView(withId(R.id.mailForgotPwd)).perform(typeText(wrongMail), closeSoftKeyboard());
-            onView(withId(R.id.nextButtonMail2)).perform(click());
-            Thread.sleep(5000);
         }
         Intents.release();
     }
 
     @Test
-    public void enterValidMail() throws InterruptedException {
+    public void enterValidMail() {
         Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = launch(intent)) {
             String validMail = "host.me.app2022@gmail.com";
             onView(withId(R.id.mailForgotPwd)).perform(typeText(validMail), closeSoftKeyboard());
-            onView(withId(R.id.nextButtonMail2)).perform(click());
-            Thread.sleep(5000);
         }
         Intents.release();
     }

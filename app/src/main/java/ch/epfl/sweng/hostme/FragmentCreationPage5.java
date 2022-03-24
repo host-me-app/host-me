@@ -9,9 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +28,7 @@ import ch.epfl.sweng.hostme.utils.PasswordValidator;
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
     private FirebaseAuth mAuth;
+    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
 
 
     @Override
@@ -66,6 +73,7 @@ public class FragmentCreationPage5 extends Fragment {
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
+                                updateFireStoreDB();
                                 Toast.makeText(getActivity(), "Authentication successed.",
                                         Toast.LENGTH_SHORT).show();
                                 welcome();
@@ -75,6 +83,15 @@ public class FragmentCreationPage5 extends Fragment {
                             }
                         }
                 );
+    }
+
+    /**
+     * Update the database with user's attributes
+     */
+    private void updateFireStoreDB() {
+        database.collection("users")
+                .document(mAuth.getUid())
+                .set(DATA);
     }
 
 }

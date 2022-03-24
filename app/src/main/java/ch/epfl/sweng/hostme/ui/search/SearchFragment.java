@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -34,9 +33,8 @@ public class SearchFragment extends Fragment {
 
     private static final String APARTMENTS_PATH = "apartments/";
     private static final String PREVIEW_1_JPG = "/preview1.jpg";
-
-    private FragmentSearchBinding binding;
     private final static long NB_APARTMENT_TO_DISPLAY = 9;
+    private FragmentSearchBinding binding;
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private FirestoreRecyclerAdapter recyclerAdapter;
@@ -48,7 +46,7 @@ public class SearchFragment extends Fragment {
         View root = inflater.inflate(R.layout.recycler_view, container, false);
         firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView = root.findViewById(R.id.recyclerView);
-        Query query = firebaseFirestore.collection("apartments")/*.limit(NB_APARTMENT_TO_DISPLAY)*/;
+        Query query = firebaseFirestore.collection("apartments").limit(NB_APARTMENT_TO_DISPLAY);
         FirestoreRecyclerOptions<Apartment> options = new FirestoreRecyclerOptions.Builder<Apartment>()
                 .setQuery(query, Apartment.class)
                 .setLifecycleOwner(this)
@@ -58,7 +56,7 @@ public class SearchFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Apartment model) {
                 holder.addr.setText(model.getAddress());
-                holder.price.setText(String.format("%s CHF", model.getRent()));
+                holder.price.setText(String.format("%s CHF/month", model.getRent()));
                 holder.area.setText(String.format("%s m²", model.getArea()));
                 retrieveAndDisplayImage(holder, model);
             }
@@ -97,13 +95,19 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
     private static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView price;
         public TextView addr;
         public TextView area;
         public ImageView image;
-        public CardView relativeLayout;
+        public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -111,13 +115,7 @@ public class SearchFragment extends Fragment {
             this.addr = itemView.findViewById(R.id.list_addr);
             this.area = itemView.findViewById(R.id.list_area);
             this.image = itemView.findViewById(R.id.apartment_image);
-            relativeLayout = itemView.findViewById(R.id.relativeLayout);
+            cardView = itemView.findViewById(R.id.cardView);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

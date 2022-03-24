@@ -4,7 +4,8 @@ public class MyListData {
     private String description;
     private int imgId;
 
-    public MyListData(){}
+    public MyListData() {
+    }
 
     public MyListData(String description, int imgId) {
         this.description = description;

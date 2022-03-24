@@ -23,7 +23,8 @@ public class Apartment {
     private String room;
     private int utilities;
 
-    public Apartment() {}
+    public Apartment() {
+    }
 
     public Apartment(String address, int area, boolean available, Date currentLease, String bath, int deposit,
                      boolean furnished, String image_path, String kitchen, String laundry, String lid,

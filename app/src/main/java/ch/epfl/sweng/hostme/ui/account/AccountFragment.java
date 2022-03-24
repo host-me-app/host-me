@@ -159,11 +159,6 @@ public class AccountFragment extends Fragment {
 
         changePasswordButton.setOnClickListener(v -> {
 
-//            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-//            //fragmentTransaction.replace(R.id.nav_host_fragment_activity_menu1, new ChangePasswordFragment());
-//            fragmentTransaction.commit();
-//            requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-
             Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
             startActivity(intent);
             getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);

@@ -88,8 +88,7 @@ public class FragmentCreationPage5 extends Fragment {
                 DATA.get(FragmentCreationPage2.FIRST_NAME),
                 DATA.get(FragmentCreationPage3.LAST_NAME),
                 DATA.get(FragmentCreationPage4.MAIL),
-                DATA.get(FragmentCreationPage1.GENDER),
-                ""
+                DATA.get(FragmentCreationPage1.GENDER)
                 );
 
         database.collection("users").document(mAuth.getUid()).set(user);

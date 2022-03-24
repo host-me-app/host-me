@@ -37,4 +37,8 @@
     <string name="first_name">First name</string>
     <string name="gender">Gender</string>
     <string name="last_name">Last name</string>
+    <string name="change_password">Change Password</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
 </resources>

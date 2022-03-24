@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +15,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import ch.epfl.sweng.hostme.CreationContainer;
+import ch.epfl.sweng.hostme.FragmentCreationPage1;
 import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.Profile;
 import ch.epfl.sweng.hostme.R;
@@ -39,21 +40,19 @@ public class AccountFragment extends Fragment {
     private RadioGroup editGender;
     private RadioButton buttonM;
     private RadioButton buttonF;
-    private EditText editPhoneNumber;
 
     private Button saveButton;
     private Button logOutButton;
+    private Button changePasswordButton;
 
     private String dbFirstName;
     private String dbLastName;
     private String dbEmail;
     private String dbGender;
-    private String dbPhoneNumber;
+
 
 
     private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
-    //    private FragmentAccountBinding binding;
-    private FirebaseUser userFire;
     private FirebaseAuth mAuth;
 
 
@@ -68,13 +67,13 @@ public class AccountFragment extends Fragment {
         editFirstName = view.findViewById(R.id.userProfileFirstName);
         editLastName = view.findViewById(R.id.userProfileLastName);
         editEmail = view.findViewById(R.id.userProfileEmail);
-        editPhoneNumber = view.findViewById(R.id.userProfilePhone);
         editGender = view.findViewById(R.id.userProfileRadioG);
         buttonM = view.findViewById(R.id.userProfileGenderM);
         buttonF = view.findViewById(R.id.userProfileGenderF);
 
         logOutButton = view.findViewById(R.id.userProfilelogOutButton);
         saveButton = view.findViewById(R.id.userProfileSaveButton);
+        changePasswordButton = view.findViewById(R.id.userProfileChangePasswordButton);
 
         saveButton.setEnabled(false);
 
@@ -93,10 +92,10 @@ public class AccountFragment extends Fragment {
                         editFirstName.addTextChangedListener(SaveProfileWatcher);
                         editLastName.addTextChangedListener(SaveProfileWatcher);
                         editEmail.addTextChangedListener(SaveProfileWatcher);
-                        editPhoneNumber.addTextChangedListener(SaveProfileWatcher);
                         editGender.setOnCheckedChangeListener(SaveProfileCheckWatcher);
 
                         addListenerToSaveButton();
+                        addListenerToChangePasswordButton();
 
                         logOutButton.setOnClickListener(v -> {
                             logUserOut();
@@ -107,8 +106,6 @@ public class AccountFragment extends Fragment {
         );
 
 
-        Log.d( "TAG","sal ");
-
         return view;
     }
 
@@ -118,14 +115,12 @@ public class AccountFragment extends Fragment {
         dbLastName = userInDB.getLastName();
         dbEmail = userInDB.getEmail();
         dbGender = userInDB.getGender();
-        dbPhoneNumber = userInDB.getPhoneNumber();
 
         editFirstName.setText(dbFirstName);
         editLastName.setText(dbLastName);
         editEmail.setText(dbEmail);
         RadioButton selectButton = dbGender.equals("Male") ? buttonM : buttonF;
         selectButton.setChecked(true);
-        editPhoneNumber.setText(dbPhoneNumber);
     }
 
     private Profile getProfileFromUI(){
@@ -133,13 +128,12 @@ public class AccountFragment extends Fragment {
         String firstName = editFirstName.getText().toString().trim();
         String lastName = editLastName.getText().toString().trim();
         String email= editEmail.getText().toString().trim();
-        String phoneNumber = editPhoneNumber.getText().toString().trim();
 
         int selectedGender = editGender.getCheckedRadioButtonId();
         RadioButton selectedButton = view.findViewById(selectedGender);
         String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
 
-        return new Profile(firstName,lastName,email,gender,phoneNumber);
+        return new Profile(firstName,lastName,email,gender);
 
     }
 
@@ -161,9 +155,29 @@ public class AccountFragment extends Fragment {
     }
 
 
-    /**
-     * Logs the user out of the app.
-     */
+    private void addListenerToChangePasswordButton() {
+
+        changePasswordButton.setOnClickListener(v -> {
+
+//            FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+//            //fragmentTransaction.replace(R.id.nav_host_fragment_activity_menu1, new ChangePasswordFragment());
+//            fragmentTransaction.commit();
+//            requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+
+            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+
+        });
+    }
+
+
+
+
+
+        /**
+         * Logs the user out of the app.
+         */
     private void logUserOut() {
         FirebaseAuth.getInstance().signOut();
 
@@ -188,10 +202,22 @@ public class AccountFragment extends Fragment {
                                 dbLastName = toUpdateUser.getLastName();
                                 dbEmail = toUpdateUser.getEmail();
                                 dbGender = toUpdateUser.getGender();
-                                dbPhoneNumber = toUpdateUser.getPhoneNumber();
 
                                 Toast.makeText(getActivity(), "Profile's update succeeded.",
                                         Toast.LENGTH_SHORT).show();
+
+                                mAuth.getCurrentUser().updateEmail(toUpdateUser.getEmail()).addOnCompleteListener(
+                                        task2 -> {
+                                            if (task2.isSuccessful()) {
+                                                dbEmail = toUpdateUser.getEmail();
+                                                Toast.makeText(getActivity(), "Email's update succeeded.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }else{
+                                                Toast.makeText(getActivity(), "Email's update failed.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                );
                             }
                             else{
                                 Toast.makeText(getActivity(), "Profile's update failed.",
@@ -200,35 +226,8 @@ public class AccountFragment extends Fragment {
                         }
                 );
 
+        }
 
-//        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-//                .setDisplayName(toUpdateUser.getFirstName())
-//                .build();
-//
-//        userFire.updateProfile(profileUpdates)
-//                .addOnCompleteListener(
-//                        task -> {
-//                            if (task.isSuccessful()) {
-//                                Toast.makeText(getActivity(), "Display name's update succeeded.",
-//                                        Toast.LENGTH_SHORT).show();
-//                                dbFirstName = toUpdateUser.getFirstName();
-//                            }else{
-//                                Toast.makeText(getActivity(), "Display name's update failed.",
-//                                        Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-
-//        try{
-//            userFire.updateEmail(toUpdateUser.getEmail());
-//
-//        }
-//        catch(Exception e){
-//            Toast.makeText(getActivity(), "Profile's update failed.",
-//                    Toast.LENGTH_SHORT).show();
-//        }
-
-
-    }
 
     private RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher  = new RadioGroup.OnCheckedChangeListener() {
         @Override
@@ -237,7 +236,6 @@ public class AccountFragment extends Fragment {
             String firstName = editFirstName.getText().toString().trim();
             String lastName = editLastName.getText().toString().trim();
             String email= editEmail.getText().toString().trim();
-            String phoneNumber = editPhoneNumber.getText().toString().trim();
 
             RadioButton selectedButton = view.findViewById(checkedId);
             String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
@@ -246,7 +244,6 @@ public class AccountFragment extends Fragment {
                     &&lastName.equals(dbLastName)
                     &&firstName.equals(dbFirstName)
                     &&email.equals(dbEmail)
-                    &&phoneNumber.equals(dbPhoneNumber)
                     &&gender.equals(dbGender);
 
 
@@ -272,7 +269,6 @@ public class AccountFragment extends Fragment {
             String firstName = editFirstName.getText().toString().trim();
             String lastName = editLastName.getText().toString().trim();
             String email= editEmail.getText().toString().trim();
-            String phoneNumber = editPhoneNumber.getText().toString().trim();
             int selectedGender = editGender.getCheckedRadioButtonId();
             RadioButton selectedButton = view.findViewById(selectedGender);
             String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
@@ -281,7 +277,6 @@ public class AccountFragment extends Fragment {
                     &&lastName.equals(dbLastName)
                     &&firstName.equals(dbFirstName)
                     &&email.equals(dbEmail)
-                    &&phoneNumber.equals(dbPhoneNumber)
                     &&gender.equals(dbGender);
 
 

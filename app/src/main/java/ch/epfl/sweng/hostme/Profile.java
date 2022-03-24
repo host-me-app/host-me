@@ -8,20 +8,18 @@ public class Profile {
     private String lastName;
     private String gender;
     private String email;
-    private String phoneNumber;
 
     public Profile(){};
 
-    public Profile(String firstName, String lastName, String email, String gender, String phoneNumber) {
+    public Profile(String firstName, String lastName, String email, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.email = email;
-        this.phoneNumber = phoneNumber;
     }
 
     public Profile(Profile that){
-        this(that.getFirstName(), that.getLastName(), that.getEmail(), that.getGender(), that.getPhoneNumber());
+        this(that.getFirstName(), that.getLastName(), that.getEmail(), that.getGender());
     }
 
     public String getFirstName() {
@@ -54,14 +52,6 @@ public class Profile {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
 }

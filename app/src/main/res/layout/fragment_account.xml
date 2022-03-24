@@ -2,10 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account_container"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/background_app"
     tools:context=".ui.account.AccountFragment">
+
+    <Button
+        android:id="@+id/userProfileChangePasswordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="275dp"
+        android:background="@drawable/button_gradient"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/change_password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.739"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/userProfileFieldGender"
@@ -56,17 +72,17 @@
 
     <Button
         android:id="@+id/userProfileSaveButton"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
+        android:layout_width="116dp"
+        android:layout_height="54dp"
         android:layout_marginTop="20dp"
         android:width="275dp"
         android:background="@drawable/button_gradient"
         android:fontFamily="@font/roboto_family"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.638"
+        app:layout_constraintHorizontal_bias="0.596"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfilePhone"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileRadioG"
         tools:ignore="TextContrastCheck" />
 
     <Button
@@ -132,38 +148,6 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/userProfilePhone"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:fontFamily="@font/roboto_light"
-        android:inputType="number"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.677"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.609"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/userProfileFieldPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/phone_number"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/userProfilePhone"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.606" />
-
-    <EditText
         android:id="@+id/userProfileEmail"
         android:layout_width="200dp"
         android:layout_height="51dp"
@@ -181,14 +165,15 @@
 
     <RadioGroup
         android:id="@+id/userProfileRadioG"
-        android:layout_width="269dp"
-        android:layout_height="57dp"
+        android:layout_width="239dp"
+        android:layout_height="58dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.943"
+        app:layout_constraintHorizontal_bias="0.779"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499">
 
         <RadioButton
             android:id="@+id/userProfileGenderM"

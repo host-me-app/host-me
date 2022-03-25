@@ -2,14 +2,18 @@ package ch.epfl.sweng.hostme;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +25,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 
 
@@ -36,6 +39,7 @@ public class WalletFragment extends Fragment {
 
     private Button buttonBrowse;
     private Button buttonDownload;
+    private ImageView check;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +52,7 @@ public class WalletFragment extends Fragment {
         uid = mAuth.getUid() + "/";
         buttonBrowse = root.findViewById(R.id.button_browse);
         buttonDownload = root.findViewById(R.id.button_download);
+        check = root.findViewById(R.id.check_residence_permit);
 
         buttonBrowse.setOnClickListener(view -> askPermissionAndBrowseFile());
         buttonDownload.setOnClickListener(view -> {
@@ -121,13 +126,22 @@ public class WalletFragment extends Fragment {
 
     private void downloadFile() throws IOException {
         StorageReference strRef = storage.getReference().child("documents/residence_permit/" + uid + "residence_permit.pdf");
-        File file = new File(getContext().getFilesDir(), "residence_permit.pdf");
 
-        strRef.getFile(file).addOnSuccessListener(taskSnapshot -> {
+        strRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            downloadFile(getContext(), "residence_permit", ".pdf", Environment.DIRECTORY_DOWNLOADS, uri.toString());
             Toast.makeText(this.getContext(), "Download successed!", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener(exception -> {
             Toast.makeText(this.getContext(), "Download failed!", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void downloadFile(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(context, destinationDirectory, fileName + fileExtension);
+        downloadManager.enqueue(request);
     }
 
     private void checkFileUploaded() {
@@ -146,6 +160,7 @@ public class WalletFragment extends Fragment {
     private void changeButton() {
         changeButtonText();
         buttonDownload.setVisibility(View.VISIBLE);
+        check.setVisibility(View.VISIBLE);
     }
 
     private void changeButtonText() {

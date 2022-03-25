@@ -80,7 +80,6 @@ public class MenuActivityTest {
     }
 
 
-
     @Rule
     public ActivityScenarioRule<MenuActivity> testRule =
             new ActivityScenarioRule<>(MenuActivity.class);

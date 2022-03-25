@@ -5,22 +5,21 @@
     android:id="@+id/account_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_app"
     tools:context=".ui.account.AccountFragment">
+
 
     <Button
         android:id="@+id/userProfileChangePasswordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:width="275dp"
         android:background="@drawable/button_gradient"
         android:fontFamily="@font/roboto_family"
         android:text="@string/change_password"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileSaveButton"
         tools:ignore="TextContrastCheck" />
 
     <TextView
@@ -74,30 +73,43 @@
         android:id="@+id/userProfileSaveButton"
         android:layout_width="116dp"
         android:layout_height="54dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:width="275dp"
         android:background="@drawable/button_gradient"
         android:fontFamily="@font/roboto_family"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.596"
+        app:layout_constraintHorizontal_bias="0.661"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userProfileRadioG"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/wallet_button"
+        android:layout_width="125dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="36dp"
+        android:width="275dp"
+        android:fontFamily="@font/roboto_family"
+        android:text="Wallet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/userProfilelogOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:width="275dp"
         android:background="@drawable/button_gradient"
         android:fontFamily="@font/roboto_family"
         android:text="@string/log_out"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileChangePasswordButton"
         tools:ignore="TextContrastCheck" />
 
     <TextView

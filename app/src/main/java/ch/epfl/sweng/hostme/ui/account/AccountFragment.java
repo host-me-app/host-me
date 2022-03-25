@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.WalletActivity;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 
@@ -135,6 +136,11 @@ public class AccountFragment extends Fragment {
 
 
         mAuth = FirebaseAuth.getInstance();
+
+        Button wallet_button = view.findViewById(R.id.wallet_button);
+        wallet_button.setOnClickListener(v -> {
+            goToWalletFragment();
+        });
 
         DocumentReference docRef = database.collection("users")
                 .document(mAuth.getUid());
@@ -285,6 +291,15 @@ public class AccountFragment extends Fragment {
                         }
                 );
 
+    }
+
+    /**
+     * Go to wallet fragment
+     */
+    private void goToWalletFragment() {
+        Intent intent = new Intent(getActivity(), WalletActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
 }

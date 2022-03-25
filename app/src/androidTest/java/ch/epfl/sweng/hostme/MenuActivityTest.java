@@ -39,7 +39,6 @@ public class MenuActivityTest {
             onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).perform(click());
-            //onView(withId(R.id.text_search)).check(matches(isDisplayed()));
         }
 
     }

@@ -1,10 +1,8 @@
 package ch.epfl.sweng.hostme.ui.search;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,18 +66,6 @@ public class SearchFragment extends Fragment {
                 holder.price.setText(String.format("%s CHF/month", model.getRent()));
                 holder.area.setText(String.format("%s m²", model.getArea()));
                 retrieveAndDisplayImage(holder, model);
-                holder.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(getContext(), DisplayApartment.class);
-                    intent.putExtra(ADDR, model.getAddress());
-                    intent.putExtra(RENT, model.getRent());
-                    intent.putExtra(AREA, model.getArea());
-                    intent.putExtra(LID, model.getLid());
-                    //String lease = DateFormat.format("dd-MM-yyyy", model.getCurrentLease()).toString();
-                    intent.putExtra(LEASE, model.getCurrentLease());
-                    intent.putExtra(OCCUPANT, model.getOccupants());
-                    intent.putExtra(PROPRIETOR, model.getProprietor());
-                    holder.itemView.getContext().startActivity(intent);
-                });
             }
 
             @NonNull

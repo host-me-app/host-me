@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -26,14 +27,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
-public class WalletFragment extends Fragment {
+public class WalletFragment extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE_PERMISSION = 1000;
     private static final int MY_RESULT_CODE_FILECHOOSER = 2000;
 
-    private View root;
     private FirebaseStorage storage;
     private String uid;
 
@@ -42,33 +43,33 @@ public class WalletFragment extends Fragment {
     private ImageView check;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.wallet, container, false);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.wallet);
+
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
 
         storage = FirebaseStorage.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         uid = mAuth.getUid() + "/";
-        buttonBrowse = root.findViewById(R.id.button_browse);
-        buttonDownload = root.findViewById(R.id.button_download);
-        check = root.findViewById(R.id.check_residence_permit);
+        buttonBrowse = findViewById(R.id.button_browse);
+        buttonDownload = findViewById(R.id.button_download);
+        check = findViewById(R.id.check_residence_permit);
 
         buttonBrowse.setOnClickListener(view -> askPermissionAndBrowseFile());
         buttonDownload.setOnClickListener(view -> {
             try {
                 downloadFile();
             } catch (IOException e) {
-                Toast.makeText(this.getContext(), "Download failed 3!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Download failed 3!", Toast.LENGTH_SHORT).show();
             }
         });
         checkFileUploaded();
-
-        return root;
     }
 
     private void askPermissionAndBrowseFile() {
-        int permisson = ActivityCompat.checkSelfPermission(this.getContext(),
+        int permisson = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (permisson != PackageManager.PERMISSION_GRANTED) {
@@ -99,7 +100,7 @@ public class WalletFragment extends Fragment {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 this.doBrowseFile();
             } else {
-                Toast.makeText(this.getContext(), "Permission denied!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -113,10 +114,10 @@ public class WalletFragment extends Fragment {
                     StorageReference fileRef = storage.getReference().child("documents/residence_permit/" + uid + "residence_permit.pdf");
                     UploadTask uploadTask = fileRef.putFile(file);
                     uploadTask.addOnFailureListener(exception -> {
-                        Toast.makeText(this.getContext(), "Upload failed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Upload failed!", Toast.LENGTH_SHORT).show();
                     }).addOnSuccessListener(taskSnapshot -> {
                         checkFileUploaded();
-                        Toast.makeText(this.getContext(), "Upload successed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Upload successed!", Toast.LENGTH_SHORT).show();
                     });
                 }
             }
@@ -128,10 +129,10 @@ public class WalletFragment extends Fragment {
         StorageReference strRef = storage.getReference().child("documents/residence_permit/" + uid + "residence_permit.pdf");
 
         strRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            downloadFile(getContext(), "residence_permit", ".pdf", Environment.DIRECTORY_DOWNLOADS, uri.toString());
-            Toast.makeText(this.getContext(), "Download successed!", Toast.LENGTH_SHORT).show();
+            downloadFile(this, "residence_permit", ".pdf", Environment.DIRECTORY_DOWNLOADS, uri.toString());
+            Toast.makeText(this, "Download successed!", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener(exception -> {
-            Toast.makeText(this.getContext(), "Download failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Download failed!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -153,7 +154,7 @@ public class WalletFragment extends Fragment {
             }
         })
         .addOnFailureListener(e -> {
-            Toast.makeText(this.getContext(), "Failed to check documents!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to check documents!", Toast.LENGTH_SHORT).show();
         });
     }
 

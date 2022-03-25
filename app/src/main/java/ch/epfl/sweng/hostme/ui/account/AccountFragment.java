@@ -314,9 +314,8 @@ public class AccountFragment extends Fragment {
      * Go to wallet fragment
      */
     private void goToWalletFragment() {
-        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment_activity_menu1, new WalletFragment());
-        fragmentTransaction.commit();
+        Intent intent = new Intent(getActivity(), WalletFragment.class);
+        startActivity(intent);
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 

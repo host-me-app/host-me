@@ -38,6 +38,9 @@
         <activity
             android:name=".ui.account.ChangePasswordActivity"
             android:exported="false" />
+        <activity
+            android:name=".WalletFragment"
+            android:parentActivityName=".MenuActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
-
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 public class EmailValidatorTest {

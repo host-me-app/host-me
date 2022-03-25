@@ -9,9 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,7 +27,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class WalletFragment extends AppCompatActivity {
+public class WalletActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE_PERMISSION = 1000;
     private static final int MY_RESULT_CODE_FILECHOOSER = 2000;
@@ -60,7 +57,7 @@ public class WalletFragment extends AppCompatActivity {
         buttonBrowse.setOnClickListener(view -> askPermissionAndBrowseFile());
         buttonDownload.setOnClickListener(view -> {
             try {
-                downloadFile();
+                download();
             } catch (IOException e) {
                 Toast.makeText(this, "Download failed 3!", Toast.LENGTH_SHORT).show();
             }
@@ -125,7 +122,7 @@ public class WalletFragment extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void downloadFile() throws IOException {
+    private void download() throws IOException {
         StorageReference strRef = storage.getReference().child("documents/residence_permit/" + uid + "residence_permit.pdf");
 
         strRef.getDownloadUrl().addOnSuccessListener(uri -> {
@@ -148,14 +145,14 @@ public class WalletFragment extends AppCompatActivity {
     private void checkFileUploaded() {
         StorageReference listRef = storage.getReference().child("documents/residence_permit/" + uid);
         listRef.listAll()
-        .addOnSuccessListener(listResult -> {
-            if (listResult.getItems().size() == 1) {
-                changeButton();
-            }
-        })
-        .addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to check documents!", Toast.LENGTH_SHORT).show();
-        });
+                .addOnSuccessListener(listResult -> {
+                    if (listResult.getItems().size() == 1) {
+                        changeButton();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to check documents!", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void changeButton() {

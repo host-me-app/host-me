@@ -27,7 +27,6 @@ import org.junit.runner.RunWith;
 public class UserProfileUITest {
 
 
-
     @Test
     public void ProfileInfoIsDisplayedTest() throws InterruptedException {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);

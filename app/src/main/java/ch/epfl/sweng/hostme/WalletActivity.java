@@ -30,7 +30,7 @@ import java.util.Objects;
 public class WalletActivity extends AppCompatActivity {
 
     private static final int MY_REQUEST_CODE_PERMISSION = 1000;
-    private static final int MY_RESULT_CODE_FILECHOOSER = 2000;
+    private static final int MY_RESULT_CODE_FILE_CHOOSER = 2000;
 
     private FirebaseStorage storage;
     private String uid;
@@ -85,7 +85,7 @@ public class WalletActivity extends AppCompatActivity {
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
 
         chooseFileIntent = Intent.createChooser(chooseFileIntent, "Choose a file");
-        startActivityForResult(chooseFileIntent, MY_RESULT_CODE_FILECHOOSER);
+        startActivityForResult(chooseFileIntent, MY_RESULT_CODE_FILE_CHOOSER);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class WalletActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MY_RESULT_CODE_FILECHOOSER) {
+        if (requestCode == MY_RESULT_CODE_FILE_CHOOSER) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     Uri file = data.getData();

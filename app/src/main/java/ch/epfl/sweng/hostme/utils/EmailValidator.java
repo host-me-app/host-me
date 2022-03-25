@@ -71,11 +71,8 @@ public class EmailValidator {
      *
      * @param email
      * @return True if email is valid
-     * @throws ExecutionException
-     * @throws InterruptedException
-     * @throws TimeoutException
      */
-    public static Boolean isValid(String email) throws ExecutionException, InterruptedException, TimeoutException {
-        return checkPattern(email) && checkUniqueness(email);
+    public static Boolean isValid(String email) {
+        return checkPattern(email);
     }
 }

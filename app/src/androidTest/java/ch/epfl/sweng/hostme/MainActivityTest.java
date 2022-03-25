@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 public class MainActivityTest {
 
     @Test
-    public void checkLoginWithValues() throws InterruptedException {
+    public void checkLoginWithValues() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -43,8 +43,6 @@ public class MainActivityTest {
             onView(withId(R.id.pwd)).check(matches(withText(pwd)));
 
             onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(5000);
         }
         Intents.release();
     }
@@ -72,7 +70,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void displayWelcome() throws InterruptedException {
+    public void displayWelcome() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -84,8 +82,6 @@ public class MainActivityTest {
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(5000);
         }
         Intents.release();
     }

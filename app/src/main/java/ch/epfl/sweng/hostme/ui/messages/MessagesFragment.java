@@ -2,15 +2,12 @@ package ch.epfl.sweng.hostme.ui.messages;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +20,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import ch.epfl.sweng.hostme.FragmentCreationPage5;
-import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.databinding.FragmentMessagesBinding;
 import ch.epfl.sweng.hostme.utils.Constants;
 
@@ -50,11 +45,11 @@ public class MessagesFragment extends Fragment {
     }
 
 
-    private void getToken(){
+    private void getToken() {
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
 
-    private void updateToken(String token){
+    private void updateToken(String token) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference =
                 database.collection(Constants.KEY_COLLECTION_USERS).document(FirebaseAuth.getInstance().getUid());
@@ -63,9 +58,10 @@ public class MessagesFragment extends Fragment {
                 .addOnFailureListener(e -> showToast("Unable to update token"));
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

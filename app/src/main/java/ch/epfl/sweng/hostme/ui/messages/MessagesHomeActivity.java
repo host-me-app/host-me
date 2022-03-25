@@ -1,11 +1,10 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
-import androidx.appcompat.app.AppCompatActivity;
-import java.util.Objects;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,15 +26,17 @@ public class MessagesHomeActivity extends AppCompatActivity {
         getToken();
         setListeners();
     }
-    private void setListeners(){
+
+    private void setListeners() {
         binding.contactButton.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), UsersActivity.class)));
     }
-    private void getToken(){
+
+    private void getToken() {
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
 
-    private void updateToken(String token){
+    private void updateToken(String token) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference =
                 database.collection(Constants.KEY_COLLECTION_USERS).document(FirebaseAuth.getInstance().getUid());
@@ -44,7 +45,7 @@ public class MessagesHomeActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> showToast("Unable to update token"));
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -20,6 +20,23 @@ public class MainActivity extends AppCompatActivity {
     private EditText userName;
     private EditText pwd;
     private Button logInButt;
+    private final TextWatcher logInTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String userNameText = userName.getText().toString().trim();
+            String pwdText = pwd.getText().toString().trim();
+
+            logInButt.setEnabled(!userNameText.isEmpty() && !pwdText.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +68,6 @@ public class MainActivity extends AppCompatActivity {
         forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
 
     }
-
-    private final TextWatcher logInTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String userNameText = userName.getText().toString().trim();
-            String pwdText = pwd.getText().toString().trim();
-
-            logInButt.setEnabled(!userNameText.isEmpty() && !pwdText.isEmpty());
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
 
     /**
      * Go to forgot password fragment

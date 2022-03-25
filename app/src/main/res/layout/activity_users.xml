@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges= "true"
+    android:animateLayoutChanges="true"
     android:background="@color/purple_200"
     tools:context=".ui.messages.UsersActivity">
 
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/buttonBackUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonBackUser"/>
+        app:layout_constraintTop_toTopOf="@+id/buttonBackUser" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -68,8 +68,6 @@
             android:textSize="12dp"
             android:visibility="gone" />
     </FrameLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

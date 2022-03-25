@@ -1,9 +1,9 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,21 +32,21 @@ public class UsersActivity extends AppCompatActivity {
         setListeners();
     }
 
-    private void setListeners(){
+    private void setListeners() {
         binding.buttonBackUser.setOnClickListener(v -> onBackPressed());
     }
 
-    private void getUsers(){
+    private void getUsers() {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS).get()
                 .addOnCompleteListener(task -> {
                     loading(false);
                     String currentUserId = FirebaseAuth.getInstance().getUid();
-                    if(task.isSuccessful() && task.getResult() != null){
+                    if (task.isSuccessful() && task.getResult() != null) {
                         List<User> users = new ArrayList<>();
-                        for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                            if(currentUserId.equals(queryDocumentSnapshot.getId())){
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                            if (currentUserId.equals(queryDocumentSnapshot.getId())) {
                                 continue;
                             }
                             User user = new User();
@@ -56,30 +56,28 @@ public class UsersActivity extends AppCompatActivity {
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             users.add(user);
                         }
-                        if(users.size()>0){
+                        if (users.size() > 0) {
                             UsersAdapter usersAdapter = new UsersAdapter(users);
                             binding.usersRecyclerView.setAdapter(usersAdapter);
                             binding.usersRecyclerView.setVisibility(View.VISIBLE);
-                        }
-                        else{
+                        } else {
                             showErrorMessage();
                         }
-                    }
-                    else{
+                    } else {
                         showErrorMessage();
                     }
                 });
     }
 
-    private void showErrorMessage(){
+    private void showErrorMessage() {
         binding.errorMessage.setText(String.format("%s", "No user available"));
         binding.errorMessage.setVisibility(View.VISIBLE);
     }
 
-    private void loading(Boolean isLoading){
-        if(isLoading) {
+    private void loading(Boolean isLoading) {
+        if (isLoading) {
             binding.progressBar.setVisibility(View.VISIBLE);
-        } else{
+        } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }

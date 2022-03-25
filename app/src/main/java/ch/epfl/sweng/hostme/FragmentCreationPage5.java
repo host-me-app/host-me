@@ -23,9 +23,8 @@ import ch.epfl.sweng.hostme.utils.Profile;
 
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
+    private final static FirebaseFirestore DB = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
-    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,7 +92,7 @@ public class FragmentCreationPage5 extends Fragment {
                 DATA.get(FragmentCreationPage1.GENDER)
         );
 
-        database.collection("users").document(mAuth.getUid()).set(user);
+        DB.collection("users").document(mAuth.getUid()).set(user);
 
 
     }

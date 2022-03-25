@@ -11,6 +11,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ch.epfl.sweng.hostme.databinding.ActivityUsersBinding;
 import ch.epfl.sweng.hostme.users.User;
@@ -25,6 +26,7 @@ public class UsersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityUsersBinding.inflate(getLayoutInflater());
+        Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
         getUsers();
         setListeners();

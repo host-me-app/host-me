@@ -1,8 +1,10 @@
 package ch.epfl.sweng.hostme.ui.search;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,13 @@ import ch.epfl.sweng.hostme.databinding.FragmentSearchBinding;
 
 public class SearchFragment extends Fragment {
 
+    public static final String ADDR = "addr";
+    public static final String RENT = "rent";
+    public static final String AREA = "area";
+    public static final String LID = "lid";
+    public static final String LEASE = "lease";
+    public static final String OCCUPANT = "occupant";
+    public static final String PROPRIETOR = "propietor";
     private static final String APARTMENTS_PATH = "apartments/";
     private static final String PREVIEW_1_JPG = "/preview1.jpg";
     private final static long NB_APARTMENT_TO_DISPLAY = 9;
@@ -46,7 +55,7 @@ public class SearchFragment extends Fragment {
         View root = inflater.inflate(R.layout.recycler_view, container, false);
         firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView = root.findViewById(R.id.recyclerView);
-        Query query = firebaseFirestore.collection("apartments").limit(NB_APARTMENT_TO_DISPLAY);
+        Query query = firebaseFirestore.collection("apartments").orderBy("rent", Query.Direction.ASCENDING).limit(NB_APARTMENT_TO_DISPLAY);
         FirestoreRecyclerOptions<Apartment> options = new FirestoreRecyclerOptions.Builder<Apartment>()
                 .setQuery(query, Apartment.class)
                 .setLifecycleOwner(this)
@@ -59,6 +68,18 @@ public class SearchFragment extends Fragment {
                 holder.price.setText(String.format("%s CHF/month", model.getRent()));
                 holder.area.setText(String.format("%s m²", model.getArea()));
                 retrieveAndDisplayImage(holder, model);
+                holder.itemView.setOnClickListener(view -> {
+                    Intent intent = new Intent(getContext(), DisplayApartment.class);
+                    intent.putExtra(ADDR, model.getAddress());
+                    intent.putExtra(RENT, model.getRent());
+                    intent.putExtra(AREA, model.getArea());
+                    intent.putExtra(LID, model.getLid());
+                    //String lease = DateFormat.format("dd-MM-yyyy", model.getCurrentLease()).toString();
+                    intent.putExtra(LEASE, model.getCurrentLease());
+                    intent.putExtra(OCCUPANT, model.getOccupants());
+                    intent.putExtra(PROPRIETOR, model.getProprietor());
+                    holder.itemView.getContext().startActivity(intent);
+                });
             }
 
             @NonNull
@@ -79,7 +100,7 @@ public class SearchFragment extends Fragment {
         return root;
     }
 
-    private void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
+    public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
         storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");

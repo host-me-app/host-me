@@ -36,6 +36,9 @@
         <activity
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ui.search.DisplayApartment"
+            android:parentActivityName=".MenuActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

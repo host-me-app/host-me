@@ -62,19 +62,19 @@ public class FragmentCreationPage5 extends Fragment {
      */
     private void createUser(String email, String password) {
         Auth.createUser(email, password)
-        .addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        updateFireStoreDB();
-                        Toast.makeText(getActivity(), "Authentication successed.",
-                                Toast.LENGTH_SHORT).show();
-                        welcome();
-                    } else {
-                        Toast.makeText(getActivity(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
+                .addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+                                updateFireStoreDB();
+                                Toast.makeText(getActivity(), "Authentication successed.",
+                                        Toast.LENGTH_SHORT).show();
+                                welcome();
+                            } else {
+                                Toast.makeText(getActivity(), "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
     }
 
     /**

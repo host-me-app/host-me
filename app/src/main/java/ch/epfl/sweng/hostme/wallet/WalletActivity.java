@@ -2,13 +2,9 @@ package ch.epfl.sweng.hostme.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +29,8 @@ public class WalletActivity extends AppCompatActivity {
         documentUploader = new ArrayList<>();
         for (Document doc : Document.values()) {
             documentUploader.add(new DocumentUploader(doc, uid, this, this));
+            new DocumentDownloader(doc, uid, this, this);
         }
-        new DocumentDownloader(Document.RESIDENCE_PERMIT, uid, this, this);
     }
 
     @Override

@@ -103,16 +103,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loginUser(String email, String password) {
         Auth.loginUserWithEmail(email, password)
-        .addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                welcome();
-                Toast.makeText(MainActivity.this, "Authentication succeed.",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        welcome();
+                        Toast.makeText(MainActivity.this, "Authentication succeed.",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

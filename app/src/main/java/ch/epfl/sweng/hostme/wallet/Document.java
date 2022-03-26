@@ -4,7 +4,7 @@ import ch.epfl.sweng.hostme.R;
 
 public enum Document {
 
-    RESIDENCE_PERMIT("Residence permit", "application/pdf", "documents/residence_permit/", "residence_permit", ".pdf", R.id.button_browse, R.id.button_download, R.id.check_residence_permit);
+    RESIDENCE_PERMIT("Residence permit", "application/pdf", "documents/residence_permit/", "residence_permit", ".pdf", R.id.button_browse, R.id.button_download, R.id.check_residence_permit, 1);
 
     private final String documentName;
     private final String type;
@@ -14,8 +14,9 @@ public enum Document {
     private final int buttonBrowseId;
     private final int buttonDownloadId;
     private final int checkImageId;
+    private final int codePermission;
 
-    Document(String documentName, String type, String path, String fileName, String fileExtension, int buttonBrowseId, int buttonDownloadId, int checkImageId) {
+    Document(String documentName, String type, String path, String fileName, String fileExtension, int buttonBrowseId, int buttonDownloadId, int checkImageId, int codePermission) {
         this.documentName = documentName;
         this.type = type;
         this.path = path;
@@ -24,6 +25,7 @@ public enum Document {
         this.buttonBrowseId = buttonBrowseId;
         this.buttonDownloadId = buttonDownloadId;
         this.checkImageId = checkImageId;
+        this.codePermission = codePermission;
     }
 
     public String getDocumentName() {
@@ -56,5 +58,9 @@ public enum Document {
 
     public int getCheckImageId() {
         return this.checkImageId;
+    }
+
+    public int getCodePermission() {
+        return codePermission;
     }
 }

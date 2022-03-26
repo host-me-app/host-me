@@ -21,8 +21,6 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 public class DocumentUploader {
 
-    private static final int MY_REQUEST_CODE_PERMISSION = 1000;
-    private static final int MY_RESULT_CODE_FILE_CHOOSER = 2000;
     private static final String UPLOAD_SUCCEED_MESSAGE = "Upload succeed!";
     private static final String UPLOAD_FAILED_MESSAGE = "Upload failed!";
     private static final String PERMISSION_DENIED_MESSAGE = "Permission denied!";
@@ -56,7 +54,7 @@ public class DocumentUploader {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             this.activity.requestPermissions(
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_REQUEST_CODE_PERMISSION
+                    this.document.getCodePermission()
             );
         }
         this.doBrowseFile();
@@ -68,11 +66,11 @@ public class DocumentUploader {
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
 
         chooseFileIntent = Intent.createChooser(chooseFileIntent, this.titleChooser);
-        this.activity.startActivityForResult(chooseFileIntent, MY_RESULT_CODE_FILE_CHOOSER);
+        this.activity.startActivityForResult(chooseFileIntent, this.document.getCodePermission());
     }
 
     public void onPermissionsResult(int requestCode, @NonNull int[] grantResults) {
-        if (requestCode == MY_REQUEST_CODE_PERMISSION) {
+        if (requestCode == this.document.getCodePermission()) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 this.doBrowseFile();
             } else {
@@ -82,7 +80,7 @@ public class DocumentUploader {
     }
 
     public void onBrowseFileResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MY_RESULT_CODE_FILE_CHOOSER && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == this.document.getCodePermission() && resultCode == Activity.RESULT_OK && data != null) {
             this.uploadFile(data.getData());
         }
     }

@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 
 import ch.epfl.sweng.hostme.Apartment;
+import ch.epfl.sweng.hostme.LinearLayoutManagerWrapper;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.databinding.FragmentSearchBinding;
 
@@ -89,12 +90,10 @@ public class SearchFragment extends Fragment {
                 return new ViewHolder(view);
             }
 
-
         };
 
-
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
         recyclerView.setAdapter(recyclerAdapter);
 
         return root;

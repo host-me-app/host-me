@@ -44,6 +44,7 @@ public class SearchFragment extends Fragment {
     private static final String APARTMENTS_PATH = "apartments/";
     private static final String PREVIEW_1_JPG = "/preview1.jpg";
     private final static long NB_APARTMENT_TO_DISPLAY = 9;
+    public static final String APARTMENTS = "apartments";
     private FragmentSearchBinding binding;
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
@@ -56,7 +57,7 @@ public class SearchFragment extends Fragment {
         View root = inflater.inflate(R.layout.recycler_view, container, false);
         firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView = root.findViewById(R.id.recyclerView);
-        Query query = firebaseFirestore.collection("apartments").orderBy("rent", Query.Direction.ASCENDING).limit(NB_APARTMENT_TO_DISPLAY);
+        Query query = firebaseFirestore.collection(APARTMENTS).orderBy("rent", Query.Direction.ASCENDING).limit(NB_APARTMENT_TO_DISPLAY);
         FirestoreRecyclerOptions<Apartment> options = new FirestoreRecyclerOptions.Builder<Apartment>()
                 .setQuery(query, Apartment.class)
                 .setLifecycleOwner(this)

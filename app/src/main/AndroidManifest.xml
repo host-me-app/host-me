@@ -47,7 +47,7 @@
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".WalletActivity"
+            android:name=".wallet.WalletActivity"
             android:parentActivityName=".MenuActivity" />
 
 

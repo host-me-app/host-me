@@ -30,7 +30,7 @@ public class Listing {
     private String laundry;
     private boolean pet;
     private String imageDir;
-    // private List<String> images;    // either string of image directory path or change to: <Bitmap | Drawable | Image>
+    // private List<String> images;    // will change to <Bitmap | Drawable | Image>
     private boolean available;
     private String proprietor;
     private final String UID;
@@ -70,8 +70,7 @@ public class Listing {
 
 
             // TODO: pull and parse image directory
-            DateFormat time = new SimpleDateFormat();
-            this.currentLease = new Timestamp(time.parse(fields.getString("currentLease"),
+            this.currentLease = new Timestamp(new SimpleDateFormat().parse(fields.getString("currentLease"),
                     new ParsePosition(0)));
         } catch (org.json.JSONException e) {
             throw new RuntimeException(e);

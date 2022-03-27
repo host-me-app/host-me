@@ -21,8 +21,8 @@ import ch.epfl.sweng.hostme.adapter.ApartmentAdapter;
 
 public class SearchFragment extends Fragment {
 
-    private final static long NB_APARTMENT_TO_DISPLAY = 9;
     public static final String APARTMENTS = "apartments";
+    private final static long NB_APARTMENT_TO_DISPLAY = 9;
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private RecyclerView recyclerView;
     private ApartmentAdapter recyclerAdapter;

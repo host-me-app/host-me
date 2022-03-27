@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -24,7 +23,6 @@ import java.io.IOException;
 
 import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.databinding.FragmentSearchBinding;
 import ch.epfl.sweng.hostme.ui.search.DisplayApartment;
 
 public class ApartmentAdapter extends FirestoreRecyclerAdapter<Apartment, ApartmentAdapter.ViewHolder> {

@@ -25,7 +25,6 @@ public class DisplayApartment extends AppCompatActivity {
     private static final String APARTMENTS_PATH = "apartments/";
     private static final String PREVIEW_1_JPG = "/preview1.jpg";
     private StorageReference storageReference;
-    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

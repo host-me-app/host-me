@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme.ui.search;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.adapter.ApartmentAdapter;
 
 public class DisplayApartment extends AppCompatActivity {
 
@@ -32,24 +34,20 @@ public class DisplayApartment extends AppCompatActivity {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
         ImageView image = findViewById(R.id.apart_image);
-        String lid = getIntent().getStringExtra(SearchFragment.LID);
+        String lid = getIntent().getStringExtra(ApartmentAdapter.LID);
 
-        String addr = getIntent().getStringExtra(SearchFragment.ADDR);
+        Intent intent = getIntent();
+        String addr = intent.getStringExtra(ApartmentAdapter.ADDR);
+        int area = intent.getIntExtra(ApartmentAdapter.AREA, 0);
+        int rent = intent.getIntExtra(ApartmentAdapter.RENT, 0);
+        String lease = intent.getStringExtra(ApartmentAdapter.LEASE);
+        int occupants = intent.getIntExtra(ApartmentAdapter.OCCUPANT, 0);
+        String proprietor = intent.getStringExtra(ApartmentAdapter.PROPRIETOR);
         changeText(addr, R.id.addr);
-
-        int area = getIntent().getIntExtra(SearchFragment.AREA, 0);
         changeText(String.valueOf(area), R.id.area);
-
-        int rent = getIntent().getIntExtra(SearchFragment.RENT, 0);
         changeText(String.valueOf(rent), R.id.price);
-
-        String lease = getIntent().getStringExtra(SearchFragment.LEASE);
         changeText(lease, R.id.lease);
-
-        int occupants = getIntent().getIntExtra(SearchFragment.OCCUPANT, 0);
         changeText(String.valueOf(occupants), R.id.occupants);
-
-        String proprietor = getIntent().getStringExtra(SearchFragment.PROPRIETOR);
         changeText(proprietor, R.id.proprietor);
 
         storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + lid + PREVIEW_1_JPG);

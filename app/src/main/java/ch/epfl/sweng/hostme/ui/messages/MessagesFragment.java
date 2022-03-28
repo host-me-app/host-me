@@ -36,7 +36,7 @@ public class MessagesFragment extends Fragment {
         View root = binding.getRoot();
         final TextView textView = binding.textMessages;
         messagesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        //getToken();
+        getToken();
         ImageButton contactButt = binding.contactButton;
         contactButt.setOnClickListener(v -> {
             startActivity(new Intent(getActivity().getApplicationContext(), UsersActivity.class));
@@ -51,8 +51,9 @@ public class MessagesFragment extends Fragment {
 
     private void updateToken(String token) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         DocumentReference documentReference =
-                database.collection(Constants.KEY_COLLECTION_USERS).document(FirebaseAuth.getInstance().getUid());
+                database.collection(Constants.KEY_COLLECTION_USERS).document(auth.getUid());
 
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
                 .addOnFailureListener(e -> showToast("Unable to update token"));

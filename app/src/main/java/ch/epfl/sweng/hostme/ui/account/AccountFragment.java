@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.ui.account;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,11 +21,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.WalletActivity;
+import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 
@@ -246,11 +252,23 @@ public class AccountFragment extends Fragment {
      * Logs the user out of the app.
      */
     private void logUserOut() {
-        FirebaseAuth.getInstance().signOut();
+        // delete token for messaging part
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        DocumentReference documentReference =
+                database.collection(Constants.KEY_COLLECTION_USERS).document(auth.getUid());
 
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates).addOnSuccessListener(unused -> {
+
+            FirebaseAuth.getInstance().signOut();
+
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        })
+        .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "unable to sign out", Toast.LENGTH_SHORT).show());
     }
 
     /**

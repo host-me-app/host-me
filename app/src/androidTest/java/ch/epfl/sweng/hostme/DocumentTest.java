@@ -1,7 +1,8 @@
 package ch.epfl.sweng.hostme;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import ch.epfl.sweng.hostme.wallet.Document;
 

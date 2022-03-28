@@ -49,6 +49,8 @@
         <activity
             android:name=".wallet.WalletActivity"
             android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".ui.search.DisplayApartment" />
 
 
         <service
@@ -58,9 +60,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <activity
-            android:name=".ui.search.DisplayApartment"
-            android:parentActivityName=".MenuActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

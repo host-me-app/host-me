@@ -22,7 +22,7 @@ public class Listing {
     private String room;
     private String address;
     private double rent;
-    private int occupants;
+    private int beds;
     private int area;
     private boolean furnished;
     private String bath;
@@ -53,7 +53,7 @@ public class Listing {
             this.room = fields.getString("room");
             this.address = fields.getString("address");
             this.rent = fields.getDouble("rent");
-            this.occupants = fields.getInt("occupants");
+            this.beds = fields.getInt("beds");
             this.area = fields.getInt("area");
             this.furnished = fields.getBoolean("furnished");
             this.bath = fields.getString("bath");
@@ -109,8 +109,8 @@ public class Listing {
         return this.rent;
     }
 
-    public int getOccupants() {
-        return this.occupants;
+    public int getBeds() {
+        return this.beds;
     }
 
     public int getArea() {
@@ -185,8 +185,8 @@ public class Listing {
         this.rent = rent;
     }
 
-    public void setOccupants(int occupants) {
-        this.occupants = occupants;
+    public void setBeds(int beds) {
+        this.beds = beds;
     }
 
     public void setArea(int area) {
@@ -245,7 +245,7 @@ public class Listing {
             ret.put("room", this.room);
             ret.put("address", this.address);
             ret.put("rent", this.rent);
-            ret.put("occupants", this.occupants);
+            ret.put("beds", this.beds);
             ret.put("area", this.area);
             ret.put("furnished", this.furnished);
             ret.put("bath", this.bath);

@@ -10,6 +10,7 @@ check_android_task:
     kvm: "true"
     cpu: 8
     memory: 10G
+  environment:
   create_device_script:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:
@@ -34,7 +35,6 @@ check_android_task:
     export JACOCO_SOURCE_PATH=app/src/main/java/
     ./cc-test-reporter format-coverage ./app/build/reports/coverage/androidTest/debug/report.xml --input-type jacoco
     ./cc-test-reporter upload-coverage
-
   lint_script:
     ./gradlew lintDebug
   always:

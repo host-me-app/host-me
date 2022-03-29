@@ -36,33 +36,14 @@ import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.ui.search.DisplayApartment;
 
-public class ApartmentAdapter extends FirestoreRecyclerAdapter<Apartment, ApartmentAdapter.ViewHolder> {
+public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
     private StorageReference storageReference;
+    private List<Apartment> apartments;
 
 
-    public ApartmentAdapter(@NonNull FirestoreRecyclerOptions<Apartment> options) {
-        super(options);
-    }
-
-    @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Apartment model) {
-        holder.addr.setText(model.getAddress());
-        holder.price.setText(String.format("%s CHF/month", model.getRent()));
-        holder.area.setText(String.format("%s m²", model.getArea()));
-        retrieveAndDisplayImage(holder, model);
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), DisplayApartment.class);
-            intent.putExtra(ADDR, model.getAddress());
-            intent.putExtra(RENT, model.getRent());
-            intent.putExtra(AREA, model.getArea());
-            intent.putExtra(LID, model.getLid());
-            //String lease = DateFormat.format("dd-MM-yyyy", model.getCurrentLease()).toString();
-            intent.putExtra(LEASE, model.getCurrentLease());
-            intent.putExtra(OCCUPANT, model.getOccupants());
-            intent.putExtra(PROPRIETOR, model.getProprietor());
-            holder.itemView.getContext().startActivity(intent);
-        });
+    public ApartmentAdapter(List<Apartment> apartments) {
+        this.apartments = apartments;
     }
 
     @NonNull
@@ -70,6 +51,32 @@ public class ApartmentAdapter extends FirestoreRecyclerAdapter<Apartment, Apartm
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Apartment apartment = apartments.get(position);
+        holder.addr.setText(apartment.getAddress());
+        holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
+        holder.area.setText(String.format("%s m²", apartment.getArea()));
+        retrieveAndDisplayImage(holder, apartment);
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(holder.itemView.getContext(), DisplayApartment.class);
+            intent.putExtra(ADDR, apartment.getAddress());
+            intent.putExtra(RENT, apartment.getRent());
+            intent.putExtra(AREA, apartment.getArea());
+            intent.putExtra(LID, apartment.getLid());
+            //String lease = DateFormat.format("dd-MM-yyyy", model.getCurrentLease()).toString();
+            intent.putExtra(LEASE, apartment.getCurrentLease());
+            intent.putExtra(OCCUPANT, apartment.getOccupants());
+            intent.putExtra(PROPRIETOR, apartment.getProprietor());
+            holder.itemView.getContext().startActivity(intent);
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return apartments.size();
     }
 
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
@@ -89,6 +96,7 @@ public class ApartmentAdapter extends FirestoreRecyclerAdapter<Apartment, Apartm
     }
 
     public void setApartments(List<Apartment> apartments) {
+        this.apartments = apartments;
         notifyDataSetChanged();
     }
 

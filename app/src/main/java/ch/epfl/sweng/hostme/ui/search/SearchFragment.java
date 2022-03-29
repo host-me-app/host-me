@@ -17,10 +17,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.prefs.Preferences;
 
 import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.LinearLayoutManagerWrapper;
@@ -71,7 +80,8 @@ public class SearchFragment extends Fragment {
                 changeFilterVisibility(View.GONE);
                 filterButt.setText("Filters");
                 filterIsClicked = false;
-                updateRecyclerView("rent", rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1));
+                updateRecyclerView("rent", rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
+                       "area", rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
                 //updateRecyclerView("area", rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
             }
         });
@@ -84,7 +94,7 @@ public class SearchFragment extends Fragment {
         rangeBarArea.setLabelFormatter(value -> value + " m²");
 
 
-        updateRecyclerView(null, null, null);
+        updateRecyclerView(null, null, null, null, null, null);
 
 
         viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
@@ -101,50 +111,49 @@ public class SearchFragment extends Fragment {
     /**
      * set up or update the recycler view
      */
-    private void updateRecyclerView(String field, Float min, Float max) {
+    private void updateRecyclerView(String field, Float min, Float max, String field2, Float min2, Float max2) {
         // ------
+        List<Apartment> apartments = new ArrayList<>();
         if (field == null) {
-            query = reference.limit(NB_APARTMENT_TO_DISPLAY);
+            reference.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot snapshot = task.getResult();
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                        apartments.add(doc.toObject(Apartment.class));
+                    }
+                    recyclerAdapter = new ApartmentAdapter(apartments);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
+                    recyclerView.setAdapter(recyclerAdapter);
+                }
+            });
         } else {
-            query = reference.whereGreaterThanOrEqualTo(field, min)
-                    .whereLessThanOrEqualTo(field, max);
+           // query = reference.whereGreaterThanOrEqualTo(field, min)
+             //       .whereLessThanOrEqualTo(field, max);
+            reference.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot snapshot = task.getResult();
+                    apartments.clear();
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                        long rent = (long) doc.get("rent");
+                        long area = (long) doc.get("area");
+                        if (min <= rent && rent <= max && min2 <= area && area <= max2) {
+                            apartments.add(doc.toObject(Apartment.class));
+                        }
+                        recyclerAdapter = new ApartmentAdapter(apartments);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
+                        recyclerView.setAdapter(recyclerAdapter);
+                    }
+                }
+            });
         }
 
-        FirestoreRecyclerOptions<Apartment> options = new FirestoreRecyclerOptions.Builder<Apartment>()
-                .setQuery(query, Apartment.class)
-                .setLifecycleOwner(this)
-                .build();
-        // ------
-        recyclerAdapter = new ApartmentAdapter(options);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
-        recyclerView.setAdapter(recyclerAdapter);
     }
 
-    /*private RangeSlider.OnSliderTouchListener getTouchListener(String field) {
-        return new RangeSlider.OnSliderTouchListener() {
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
-            }
-
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
-                updateRecyclerView(field, null, slider.getValues().get(0), slider.getValues().get(1));
-            }
-        };
-    }*/
 
     @Override
-    public void onStart() {
-        super.onStart();
-        recyclerAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        recyclerAdapter.stopListening();
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

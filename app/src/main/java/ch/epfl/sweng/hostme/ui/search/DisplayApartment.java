@@ -1,5 +1,15 @@
 package ch.epfl.sweng.hostme.ui.search;
 
+import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
+import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
+import static ch.epfl.sweng.hostme.utils.Constants.LID;
+import static ch.epfl.sweng.hostme.utils.Constants.OCCUPANT;
+import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
+import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +19,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -18,12 +27,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.adapter.ApartmentAdapter;
 
 public class DisplayApartment extends AppCompatActivity {
 
-    private static final String APARTMENTS_PATH = "apartments/";
-    private static final String PREVIEW_1_JPG = "/preview1.jpg";
     private StorageReference storageReference;
 
     @Override
@@ -33,15 +39,15 @@ public class DisplayApartment extends AppCompatActivity {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
         ImageView image = findViewById(R.id.apart_image);
-        String lid = getIntent().getStringExtra(ApartmentAdapter.LID);
+        String lid = getIntent().getStringExtra(LID);
 
         Intent intent = getIntent();
-        String addr = intent.getStringExtra(ApartmentAdapter.ADDR);
-        int area = intent.getIntExtra(ApartmentAdapter.AREA, 0);
-        int rent = intent.getIntExtra(ApartmentAdapter.RENT, 0);
-        String lease = intent.getStringExtra(ApartmentAdapter.LEASE);
-        int occupants = intent.getIntExtra(ApartmentAdapter.OCCUPANT, 0);
-        String proprietor = intent.getStringExtra(ApartmentAdapter.PROPRIETOR);
+        String addr = intent.getStringExtra(ADDR);
+        int area = intent.getIntExtra(AREA, 0);
+        int rent = intent.getIntExtra(RENT, 0);
+        String lease = intent.getStringExtra(LEASE);
+        int occupants = intent.getIntExtra(OCCUPANT, 0);
+        String proprietor = intent.getStringExtra(PROPRIETOR);
         changeText(addr, R.id.addr);
         changeText(String.valueOf(area), R.id.area);
         changeText(String.valueOf(rent), R.id.price);
@@ -49,6 +55,16 @@ public class DisplayApartment extends AppCompatActivity {
         changeText(String.valueOf(occupants), R.id.occupants);
         changeText(proprietor, R.id.proprietor);
 
+        displayImage(image, lid);
+
+    }
+
+    /**
+     * display the image into the ImageView image
+     * @param image
+     * @param lid
+     */
+    private void displayImage(ImageView image, String lid) {
         storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
@@ -62,11 +78,15 @@ public class DisplayApartment extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    private void changeText(String addr, int p) {
-        TextView addrText = findViewById(p);
+    /**
+     * change the text view to display the data
+     * @param addr
+     * @param id
+     */
+    private void changeText(String addr, int id) {
+        TextView addrText = findViewById(id);
         addrText.setText(addr);
     }
 }

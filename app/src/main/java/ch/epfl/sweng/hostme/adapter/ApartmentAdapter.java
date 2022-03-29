@@ -1,5 +1,15 @@
 package ch.epfl.sweng.hostme.adapter;
 
+import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
+import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
+import static ch.epfl.sweng.hostme.utils.Constants.LID;
+import static ch.epfl.sweng.hostme.utils.Constants.OCCUPANT;
+import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
+import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.R;
@@ -27,15 +38,6 @@ import ch.epfl.sweng.hostme.ui.search.DisplayApartment;
 
 public class ApartmentAdapter extends FirestoreRecyclerAdapter<Apartment, ApartmentAdapter.ViewHolder> {
 
-    public static final String ADDR = "addr";
-    public static final String RENT = "rent";
-    public static final String AREA = "area";
-    public static final String LID = "lid";
-    public static final String LEASE = "lease";
-    public static final String OCCUPANT = "occupant";
-    public static final String PROPRIETOR = "propietor";
-    private static final String APARTMENTS_PATH = "apartments/";
-    private static final String PREVIEW_1_JPG = "/preview1.jpg";
     private StorageReference storageReference;
 
 
@@ -50,7 +52,7 @@ public class ApartmentAdapter extends FirestoreRecyclerAdapter<Apartment, Apartm
         holder.area.setText(String.format("%s m²", model.getArea()));
         retrieveAndDisplayImage(holder, model);
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.cardView.getContext(), DisplayApartment.class);
+            Intent intent = new Intent(holder.itemView.getContext(), DisplayApartment.class);
             intent.putExtra(ADDR, model.getAddress());
             intent.putExtra(RENT, model.getRent());
             intent.putExtra(AREA, model.getArea());
@@ -84,6 +86,10 @@ public class ApartmentAdapter extends FirestoreRecyclerAdapter<Apartment, Apartm
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setApartments(List<Apartment> apartments) {
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

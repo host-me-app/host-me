@@ -23,9 +23,33 @@ public class Apartment {
     private String room;
     private int utilities;
 
+    /**
+     * constructor needed for Firebase
+     */
     public Apartment() {
     }
 
+    /**
+     * Constructor of a an apartment
+     * @param address
+     * @param area
+     * @param available
+     * @param currentLease
+     * @param bath
+     * @param deposit
+     * @param furnished
+     * @param image_path
+     * @param kitchen
+     * @param laundry
+     * @param lid
+     * @param name
+     * @param occupants
+     * @param pets
+     * @param proprietor
+     * @param rent
+     * @param room
+     * @param utilities
+     */
     public Apartment(String address, int area, boolean available, Date currentLease, String bath, int deposit,
                      boolean furnished, String image_path, String kitchen, String laundry, String lid,
                      String name, int occupants, boolean pets, String proprietor, int rent, String room,

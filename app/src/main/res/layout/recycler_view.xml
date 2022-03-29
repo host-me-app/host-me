@@ -2,7 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/filter_price"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRICE : " />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/range_bar_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stepSize="100"
+                android:valueFrom="0"
+                android:valueTo="5000"
+                android:backgroundTint="@color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/filter_area"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AREA : " />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/range_bar_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stepSize="10"
+                android:valueFrom="0"
+                android:valueTo="3000"
+                android:backgroundTint="@color/white"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/filters"
+            android:enabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Filters" />
+
+
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

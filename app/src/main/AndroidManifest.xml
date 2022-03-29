@@ -47,10 +47,9 @@
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".WalletActivity"
+            android:name=".wallet.WalletActivity"
             android:parentActivityName=".MenuActivity" />
-        <activity
-            android:name=".ui.search.DisplayApartment" />
+        <activity android:name=".ui.search.DisplayApartment" />
 
 
         <service

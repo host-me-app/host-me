@@ -8,10 +8,10 @@ public final class Database {
     private static boolean test = false;
 
     public static CollectionReference getCollection(String collectionPath) {
-        return getAdaptedInstance().collection(collectionPath);
+        return getExactInstance().collection(collectionPath);
     }
 
-    private static FirebaseFirestore getAdaptedInstance() {
+    private static FirebaseFirestore getExactInstance() {
         if (test) {
             FirebaseFirestore fb = FirebaseFirestore.getInstance();
             fb.useEmulator("10.0.2.2", 8080);

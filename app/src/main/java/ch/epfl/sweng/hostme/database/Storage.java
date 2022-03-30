@@ -8,10 +8,10 @@ public final class Storage {
     private static boolean test = false;
 
     public static StorageReference getStorageReferenceByChild(String pathString) {
-        return getAdaptedInstance().getReference().child(pathString);
+        return getExactInstance().getReference().child(pathString);
     }
 
-    private static FirebaseStorage getAdaptedInstance() {
+    private static FirebaseStorage getExactInstance() {
         if (test) {
             FirebaseStorage fb = FirebaseStorage.getInstance();
             fb.useEmulator("10.0.2.2", 9199);

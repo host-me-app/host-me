@@ -33,7 +33,7 @@ public class loginTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
-            String username = "logintest@gmail.com";
+            String username = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
             onView(withId(R.id.userName)).check(matches(isDisplayed()));
             onView(withId(R.id.pwd)).check(matches(isDisplayed()));
@@ -46,7 +46,8 @@ public class loginTest {
 
             onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(5000);
+            Thread.sleep(1000);
+            onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
         }
         Intents.release();
     }

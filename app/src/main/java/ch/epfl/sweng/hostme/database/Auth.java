@@ -8,30 +8,30 @@ public final class Auth {
     private static boolean test = false;
 
     public static com.google.android.gms.tasks.Task<com.google.firebase.auth.AuthResult> loginUserWithEmail(String email, String password) {
-        return getAdaptedInstance().signInWithEmailAndPassword(email, password);
+        return getExactInstance().signInWithEmailAndPassword(email, password);
     }
 
     public static com.google.android.gms.tasks.Task<com.google.firebase.auth.AuthResult> createUser(String email, String password) {
-        return getAdaptedInstance().createUserWithEmailAndPassword(email, password);
+        return getExactInstance().createUserWithEmailAndPassword(email, password);
     }
 
     public static com.google.android.gms.tasks.Task<Void> resetEmail(String email) {
-        return getAdaptedInstance().sendPasswordResetEmail(email);
+        return getExactInstance().sendPasswordResetEmail(email);
     }
 
     public static String getUid() {
-        return getAdaptedInstance().getUid();
+        return getExactInstance().getUid();
     }
 
     public static FirebaseUser getCurrentUser() {
-        return getAdaptedInstance().getCurrentUser();
+        return getExactInstance().getCurrentUser();
     }
 
     public static void signOut() {
-        getAdaptedInstance().signOut();
+        getExactInstance().signOut();
     }
 
-    private static FirebaseAuth getAdaptedInstance() {
+    private static FirebaseAuth getExactInstance() {
         if (test) {
             FirebaseAuth fb = FirebaseAuth.getInstance();
             fb.useEmulator("10.0.2.2", 9099);

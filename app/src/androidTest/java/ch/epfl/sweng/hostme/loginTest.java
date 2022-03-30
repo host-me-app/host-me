@@ -16,6 +16,8 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
+import com.google.firebase.FirebaseApp;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,8 +26,10 @@ import ch.epfl.sweng.hostme.database.Auth;
 public class loginTest {
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         Auth.setTest();
+        FirebaseApp.clearInstancesForTest();
+        FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
     @Test
@@ -46,7 +50,7 @@ public class loginTest {
 
             onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
+            Thread.sleep(3000);
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
         }
         Intents.release();

@@ -28,8 +28,6 @@ public class loginTest {
     @BeforeClass
     public static void setUp() throws Exception {
         Auth.setTest();
-        FirebaseApp.clearInstancesForTest();
-        FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
         Thread.sleep(1000);
     }
 

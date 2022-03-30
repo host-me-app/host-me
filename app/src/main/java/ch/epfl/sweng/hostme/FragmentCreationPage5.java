@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -61,7 +62,7 @@ public class FragmentCreationPage5 extends Fragment {
      * @param password
      */
     private void createUser(String email, String password) {
-        Auth.createUser(email, password)
+        Auth.getAdaptedInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {

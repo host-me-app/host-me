@@ -24,14 +24,9 @@ public class Auth {
      * depending on state.
      */
     public static FirebaseAuth getAdaptedInstance() {
-
-        if (test) {
-            FirebaseAuth fb = FirebaseAuth.getInstance();
-            fb.useEmulator("10.0.2.2", 9099);
-            return fb;
-        } else {
-            return FirebaseAuth.getInstance();
-        }
+        FirebaseAuth fb = FirebaseAuth.getInstance();
+        fb.useEmulator("10.0.2.2", 9099);
+        return fb;
     }
 
     public static void setTest() {

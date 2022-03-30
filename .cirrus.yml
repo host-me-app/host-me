@@ -9,8 +9,7 @@ check_android_task:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
     kvm: "true"
     cpu: 8
-    memory: 10G
-  environment:
+    memory: 32G
   create_device_script:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:

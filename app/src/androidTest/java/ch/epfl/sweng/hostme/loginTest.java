@@ -50,8 +50,8 @@ public class loginTest {
 
             onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(3000);
-            onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
+            Thread.sleep(5000);
+            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
         }
         Intents.release();
     }

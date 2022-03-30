@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:allowBackup="true"
@@ -19,9 +21,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.messages.UsersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.messages.MessagesHomeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.account.ChangePasswordActivity"
@@ -48,9 +47,10 @@
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".WalletActivity"
+            android:name=".wallet.WalletActivity"
             android:parentActivityName=".MenuActivity" />
         <activity android:name=".ui.search.DisplayApartment" />
+
 
         <service
             android:name=".ui.messages.MessageService"

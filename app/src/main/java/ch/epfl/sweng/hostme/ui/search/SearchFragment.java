@@ -46,7 +46,7 @@ public class SearchFragment extends Fragment {
     private LinearLayout filters;
     private SearchView searchView;
     private List<Apartment> apartments;
-
+    private String searchText;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,27 +69,9 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                apartments = new ArrayList<>();
-                reference.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        apartments.clear();
-                        QuerySnapshot snapshot = task.getResult();
-                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                            Apartment apartment = doc.toObject(Apartment.class);
-                            String city = (String) doc.get("city");
-                            String address = (String) doc.get("address");
-                            Long npa = (Long) doc.get("npa");
-                            String string = s.toLowerCase();
-                            if (city.toLowerCase().contains(string) ||
-                                    address.toLowerCase().contains(string) ||
-                                    String.valueOf(npa).toLowerCase().contains(string)) {
-                                apartments.add(apartment);
-                            }
-                            recyclerAdapter.setApartments(apartments);
-                            recyclerAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
+                searchText = s.toLowerCase();
+                updateRecyclerView("rent", rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
+                        "area", rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
                 return true;
             }
         });
@@ -144,17 +126,25 @@ public class SearchFragment extends Fragment {
                 QuerySnapshot snapshot = task.getResult();
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
                     Apartment apartment = doc.toObject(Apartment.class);
-                    long rent = (long) doc.get(field);
-                    long area = (long) doc.get(field2);
-                    if (min <= rent && rent <= max && min2 <= area && area <= max2 &&
-                            !apartments.contains(apartment)) {
+                    Long rent = (Long) doc.get(field);
+                    Long area = (Long) doc.get(field2);
+                    String city = (String) doc.get("city");
+                    String address = (String) doc.get("address");
+                    Long npa = (Long) doc.get("npa");
+                    if (min <= rent && rent <= max && min2 <= area && area <= max2 && searchText == null) {
                         apartments.add(apartment);
+                    } else if (min <= rent && rent <= max && min2 <= area && area <= max2) {
+                        if (String.valueOf(npa).toLowerCase().contains(searchText) ||
+                        address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText)) {
+                            apartments.add(apartment);
+                        }
                     }
-                    recyclerAdapter.setApartments(apartments);
-                    recyclerAdapter.notifyDataSetChanged();
                 }
+                recyclerAdapter.setApartments(apartments);
+                recyclerAdapter.notifyDataSetChanged();
             }
         });
+
     }
 
 

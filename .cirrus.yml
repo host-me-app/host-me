@@ -5,12 +5,13 @@ check_android_task:
     TARGET: google_apis
     ARCH: x86
     CC_TEST_REPORTER_ID: ENCRYPTED[!445507ba263591f96756192e1bc763ca5eeb4fad812182f3fdb8955ab88b276592b81dd49e0fcec207e4200b61121227!]
-    FIREBASE_TOKEN: ENCRYPTED[f12bf037fa46b93a79ded24d95721326f7c093b1590ef6e9c0dd27cf7694b65d0a7109e65956b416f1585e9c0718e54f]
   container:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
     kvm: "true"
     cpu: 8
     memory: 32G
+  environment:
+    FIREBASE_TOKEN: ENCRYPTED[f12bf037fa46b93a79ded24d95721326f7c093b1590ef6e9c0dd27cf7694b65d0a7109e65956b416f1585e9c0718e54f]
   create_device_script:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:

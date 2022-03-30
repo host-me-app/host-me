@@ -13,7 +13,7 @@ check_android_task:
   environment:
     FIREBASE_TOKEN: ENCRYPTED[f12bf037fa46b93a79ded24d95721326f7c093b1590ef6e9c0dd27cf7694b65d0a7109e65956b416f1585e9c0718e54f]
     FIREBASE_PROJECT: ENCRYPTED[dcd5fbb12c1692177e35be238ea1601d798a7b1675094a0e0e0a18d0392dee1a76fe1c8a528b67958290abaaa8e2bf13]
-    FIREBASE_CONFIG: ENCRYPTED[029cd7cb6a469c780c3e984309048a84baf7dee9175ea3445fae3c5bc7e2c0539f2a597e719c296fdaa174e3c286702d]
+    FIREBASE_CONFIG: ENCRYPTED[888e8035d3fefde0772e5510d751a64078fbaa8ff81422a03732500b04ee0ffbcc846afc426ec52626bb7d212b9bb499]
     FIRESTORE_DB_RULES: ENCRYPTED[17f34b59826317565c3f5e5cc34be6a120dee61b119a4b518cb464af5f39871b5e0658d4e0b73dd3c17f2e35157e6c39]
     FIRESTORE_INDEXES: ENCRYPTED[aac2134137f9f76468ce48d1a507a306564c216184777ed405379c05950c903d2174e830817be1b7cb4eacc3cc179996]
     FIREBASE_STORAGE_RULES: ENCRYPTED[e6e9011186b93b645d48735ac9c6c7cd2276374304f132a4d3ed1ab4a537908832a4c2c5f67adaea008ac46c878e8870]
@@ -22,21 +22,22 @@ check_android_task:
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
   firebase_project_file:
-    path: .firebaserc
+    path: firebase/.firebaserc
     variable_name: FIREBASE_PROJECT
   firebase_json_file:
-    path: firebase.json
+    path: firebase/firebase.json
     variable_name: FIREBASE_CONFIG
   firestore_db_rules_file:
-    path: firestore.rules
+    path: firebase/firestore.rules
     variable_name: FIRESTORE_DB_RULES
   firestore_indexes_file:
-    path: firestore.indexes.json
+    path: firebase/firestore.indexes.json
     variable_name: FIRESTORE_INDEXES
   storage_rules_file:
-    path: storage.rules
+    path: firebase/storage.rules
     variable_name: FIREBASE_STORAGE_RULES
   setup_firebase_script: |
+    cd firebase
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
     ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase &

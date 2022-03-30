@@ -38,9 +38,9 @@ check_android_task:
     variable_name: FIREBASE_STORAGE_RULES
   setup_firebase_script: |
     cd firebase
-    curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools | bash
-    chmod +x firebase-tools | bash
-    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase
+    curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
+    chmod u+x firebase-tools
+    ./firebase-tools emulators:start --only auth --import=./emulated-firebase
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest

@@ -6,11 +6,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityMessagesHomeBinding;
 import ch.epfl.sweng.hostme.utils.Constants;
 
@@ -37,9 +37,8 @@ public class MessagesHomeActivity extends AppCompatActivity {
     }
 
     private void updateToken(String token) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference =
-                database.collection(Constants.KEY_COLLECTION_USERS).document(FirebaseAuth.getInstance().getUid());
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
                 .addOnFailureListener(e -> showToast("Unable to update token"));

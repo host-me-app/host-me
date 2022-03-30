@@ -1,9 +1,9 @@
 package ch.epfl.sweng.hostme.database;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseUser;
 
-public class Auth {
+public final class Auth {
 
     private static boolean test = false;
 
@@ -15,18 +15,30 @@ public class Auth {
         return getAdaptedInstance().createUserWithEmailAndPassword(email, password);
     }
 
-    public static FirebaseAuth getAuth() {
-        return getAdaptedInstance();
+    public static com.google.android.gms.tasks.Task<Void> resetEmail(String email) {
+        return getAdaptedInstance().sendPasswordResetEmail(email);
     }
 
-    /**
-     * @return a firebase database that may use a local emulator or not,
-     * depending on state.
-     */
-    public static FirebaseAuth getAdaptedInstance() {
-        FirebaseAuth fb = FirebaseAuth.getInstance();
-        fb.useEmulator("10.0.2.2", 9099);
-        return fb;
+    public static String getUid() {
+        return getAdaptedInstance().getUid();
+    }
+
+    public static FirebaseUser getCurrentUser() {
+        return getAdaptedInstance().getCurrentUser();
+    }
+
+    public static void signOut() {
+        getAdaptedInstance().signOut();
+    }
+
+    private static FirebaseAuth getAdaptedInstance() {
+        if (test) {
+            FirebaseAuth fb = FirebaseAuth.getInstance();
+            fb.useEmulator("10.0.2.2", 9099);
+            return fb;
+        } else {
+            return FirebaseAuth.getInstance();
+        }
     }
 
     public static void setTest() {

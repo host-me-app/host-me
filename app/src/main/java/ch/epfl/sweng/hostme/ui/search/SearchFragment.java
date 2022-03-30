@@ -17,9 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -28,6 +26,8 @@ import java.io.IOException;
 import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.LinearLayoutManagerWrapper;
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.databinding.FragmentSearchBinding;
 
 public class SearchFragment extends Fragment {
@@ -44,7 +44,6 @@ public class SearchFragment extends Fragment {
     private final static long NB_APARTMENT_TO_DISPLAY = 9;
     public static final String APARTMENTS = "apartments";
     private FragmentSearchBinding binding;
-    private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private FirestoreRecyclerAdapter recyclerAdapter;
     private StorageReference storageReference;
@@ -53,9 +52,8 @@ public class SearchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.recycler_view, container, false);
-        firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView = root.findViewById(R.id.recyclerView);
-        Query query = firebaseFirestore.collection(APARTMENTS).orderBy("rent", Query.Direction.ASCENDING).limit(NB_APARTMENT_TO_DISPLAY);
+        Query query = Database.getCollection(APARTMENTS).orderBy("rent", Query.Direction.ASCENDING).limit(NB_APARTMENT_TO_DISPLAY);
         FirestoreRecyclerOptions<Apartment> options = new FirestoreRecyclerOptions.Builder<Apartment>()
                 .setQuery(query, Apartment.class)
                 .setLifecycleOwner(this)
@@ -99,7 +97,7 @@ public class SearchFragment extends Fragment {
     }
 
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
-        storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
+        storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

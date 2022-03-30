@@ -11,20 +11,17 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 
 
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
-    private final static FirebaseFirestore DB = FirebaseFirestore.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +59,7 @@ public class FragmentCreationPage5 extends Fragment {
      * @param password
      */
     private void createUser(String email, String password) {
-        Auth.getAdaptedInstance().createUserWithEmailAndPassword(email, password)
+        Auth.createUser(email, password)
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
@@ -90,7 +87,7 @@ public class FragmentCreationPage5 extends Fragment {
                 DATA.get(FragmentCreationPage1.GENDER)
         );
 
-        DB.collection("users").document(Auth.getAuth().getUid()).set(user);
+        Database.getCollection("users").document(Auth.getUid()).set(user);
 
 
     }

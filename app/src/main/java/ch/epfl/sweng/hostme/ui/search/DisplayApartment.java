@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -17,13 +15,13 @@ import java.io.IOException;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Storage;
 
 public class DisplayApartment extends AppCompatActivity {
 
     private static final String APARTMENTS_PATH = "apartments/";
     private static final String PREVIEW_1_JPG = "/preview1.jpg";
     private StorageReference storageReference;
-    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class DisplayApartment extends AppCompatActivity {
         String proprietor = getIntent().getStringExtra(SearchFragment.PROPRIETOR);
         changeText(proprietor, R.id.proprietor);
 
-        storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
+        storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

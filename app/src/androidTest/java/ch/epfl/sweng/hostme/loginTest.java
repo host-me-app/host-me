@@ -16,8 +16,6 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
-import com.google.firebase.FirebaseApp;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,7 +26,6 @@ public class loginTest {
     @BeforeClass
     public static void setUp() throws Exception {
         Auth.setTest();
-        Thread.sleep(1000);
     }
 
     @Test
@@ -37,7 +34,7 @@ public class loginTest {
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             String username = "logintest@gmail.com";
-            String pwd = "fakePassword";
+            String pwd = "fakePassword1!";
             onView(withId(R.id.userName)).check(matches(isDisplayed()));
             onView(withId(R.id.pwd)).check(matches(isDisplayed()));
 

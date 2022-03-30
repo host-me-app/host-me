@@ -5,14 +5,14 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityUsersBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.users.UsersAdapter;
@@ -38,11 +38,10 @@ public class UsersActivity extends AppCompatActivity {
 
     private void getUsers() {
         loading(true);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_USERS).get()
+        Database.getCollection(Constants.KEY_COLLECTION_USERS).get()
                 .addOnCompleteListener(task -> {
                     loading(false);
-                    String currentUserId = FirebaseAuth.getInstance().getUid();
+                    String currentUserId = Auth.getUid();
                     if (task.isSuccessful() && task.getResult() != null) {
                         List<User> users = new ArrayList<>();
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {

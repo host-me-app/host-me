@@ -25,7 +25,7 @@ public class WalletActivity extends AppCompatActivity {
 
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-        String uid = Auth.getAuth().getUid();
+        String uid = Auth.getUid();
         documentUploader = new ArrayList<>();
         for (Document doc : Document.values()) {
             documentUploader.add(new DocumentUploader(doc, uid, this, this));

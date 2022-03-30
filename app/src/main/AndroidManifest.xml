@@ -20,9 +20,6 @@
             android:name=".ui.messages.UsersActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.messages.MessagesHomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.account.ChangePasswordActivity"
             android:exported="false" />
         <activity

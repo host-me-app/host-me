@@ -18,11 +18,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
         android:background="@drawable/received_message"
         android:padding="12dp"
         android:textColor="@color/white"
-        android:textSize="13dp"
+        android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@id/imageSender"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75"/>
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/grey"
-        android:textSize="10dp"
+        android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/textMessage"
         app:layout_constraintTop_toBottomOf="@id/textMessage"/>
 

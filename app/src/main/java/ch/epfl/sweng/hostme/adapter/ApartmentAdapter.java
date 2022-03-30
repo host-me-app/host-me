@@ -97,7 +97,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
-        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

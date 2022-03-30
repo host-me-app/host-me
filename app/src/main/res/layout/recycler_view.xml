@@ -2,14 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search location (street, NPA, city)" />
+
     <LinearLayout
-        android:id="@+id/header"
+        android:id="@+id/all_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_marginTop="20dp"
@@ -57,17 +64,51 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/filters"
-            android:enabled="true"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/filter_pet"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="Filters" />
+            android:layout_width="wrap_content"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PET : " />
 
+            <RadioGroup
+                android:id="@+id/pet_radio_grp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="100dp">
+
+                <RadioButton
+                    android:id="@+id/yes_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="YES" />
+
+                <RadioButton
+                    android:id="@+id/no_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO" />
+
+            </RadioGroup>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:enabled="true"
+        android:text="Filters" />
+
 
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"

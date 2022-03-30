@@ -64,41 +64,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/filter_pet"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PET : " />
-
-            <RadioGroup
-                android:id="@+id/pet_radio_grp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:orientation="horizontal"
-                android:paddingLeft="100dp">
-
-                <RadioButton
-                    android:id="@+id/yes_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="YES" />
-
-                <RadioButton
-                    android:id="@+id/no_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NO" />
-
-            </RadioGroup>
-
-        </LinearLayout>
-
     </LinearLayout>
 
     <Button

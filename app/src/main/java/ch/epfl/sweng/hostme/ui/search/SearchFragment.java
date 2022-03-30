@@ -8,10 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,7 +19,6 @@ import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -49,6 +45,7 @@ public class SearchFragment extends Fragment {
     private View root;
     private LinearLayout filters;
     private SearchView searchView;
+    private List<Apartment> apartments;
 
 
 
@@ -72,18 +69,21 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                List<Apartment> apartments = new ArrayList<>();
+                apartments = new ArrayList<>();
                 reference.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        QuerySnapshot snapshot = task.getResult();
                         apartments.clear();
+                        QuerySnapshot snapshot = task.getResult();
                         for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                            Apartment apartment = doc.toObject(Apartment.class);
                             String city = (String) doc.get("city");
                             String address = (String) doc.get("address");
                             Long npa = (Long) doc.get("npa");
-                            if (city.contains(s) || address.contains(s) ||
-                                    String.valueOf(npa).contains(s)) {
-                                apartments.add(doc.toObject(Apartment.class));
+                            String string = s.toLowerCase();
+                            if (city.toLowerCase().contains(string) ||
+                                    address.toLowerCase().contains(string) ||
+                                    String.valueOf(npa).toLowerCase().contains(string)) {
+                                apartments.add(apartment);
                             }
                             recyclerAdapter.setApartments(apartments);
                             recyclerAdapter.notifyDataSetChanged();
@@ -138,16 +138,17 @@ public class SearchFragment extends Fragment {
      */
     private void updateRecyclerView(String field, Float min, Float max, String field2, Float min2, Float max2) {
         // ------
-        List<Apartment> apartments = new ArrayList<>();
+        apartments = new ArrayList<>();
         reference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();
-                apartments.clear();
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                    Apartment apartment = doc.toObject(Apartment.class);
                     long rent = (long) doc.get(field);
                     long area = (long) doc.get(field2);
-                    if (min <= rent && rent <= max && min2 <= area && area <= max2) {
-                        apartments.add(doc.toObject(Apartment.class));
+                    if (min <= rent && rent <= max && min2 <= area && area <= max2 &&
+                            !apartments.contains(apartment)) {
+                        apartments.add(apartment);
                     }
                     recyclerAdapter.setApartments(apartments);
                     recyclerAdapter.notifyDataSetChanged();
@@ -161,7 +162,7 @@ public class SearchFragment extends Fragment {
      * Initialize the recycler view with no filtered apartments
      */
     private void setUpRecyclerView() {
-        List<Apartment> apartments = new ArrayList<>();
+        apartments = new ArrayList<>();
         reference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();

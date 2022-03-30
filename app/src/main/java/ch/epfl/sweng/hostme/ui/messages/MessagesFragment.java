@@ -29,14 +29,11 @@ public class MessagesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        MessagesViewModel messagesViewModel =
-                new ViewModelProvider(this).get(MessagesViewModel.class);
+        /*MessagesViewModel messagesViewModel =
+                new ViewModelProvider(this).get(MessagesViewModel.class);*/
 
         binding = FragmentMessagesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final TextView textView = binding.textMessages;
-        messagesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        getToken();
         ImageButton contactButt = binding.contactButton;
         contactButt.setOnClickListener(v -> {
             startActivity(new Intent(getActivity().getApplicationContext(), UsersActivity.class));

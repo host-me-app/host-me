@@ -11,6 +11,7 @@ public class WelcomePage extends AppCompatActivity {
 
     /**
      * Welcome the user with his name
+     *
      * @param savedInstanceState
      */
     @Override

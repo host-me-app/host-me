@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Apartment {
 
+    private String city;
+    private int npa;
     private String address;
     private int area;
     private boolean available;
@@ -22,6 +24,7 @@ public class Apartment {
     private int rent;
     private String room;
     private int utilities;
+    private String uid;
 
     /**
      * constructor needed for Firebase
@@ -31,6 +34,9 @@ public class Apartment {
 
     /**
      * Constructor of a an apartment
+     *
+     * @param city
+     * @param npa
      * @param address
      * @param area
      * @param available
@@ -49,11 +55,14 @@ public class Apartment {
      * @param rent
      * @param room
      * @param utilities
+     * @param uid
      */
-    public Apartment(String address, int area, boolean available, Date currentLease, String bath, int deposit,
+    public Apartment(String city, int npa, String address, int area, boolean available, Date currentLease, String bath, int deposit,
                      boolean furnished, String image_path, String kitchen, String laundry, String lid,
                      String name, int occupants, boolean pets, String proprietor, int rent, String room,
-                     int utilities) {
+                     int utilities, String uid) {
+        this.city = city;
+        this.npa = npa;
         this.address = address;
         this.area = area;
         this.available = available;
@@ -72,6 +81,7 @@ public class Apartment {
         this.rent = rent;
         this.room = room;
         this.utilities = utilities;
+        this.uid = uid;
     }
 
     public String getAddress() {
@@ -216,5 +226,29 @@ public class Apartment {
 
     public void setArea(int area) {
         this.area = area;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getNpa() {
+        return npa;
+    }
+
+    public void setNpa(int npa) {
+        this.npa = npa;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

@@ -3,12 +3,15 @@ package ch.epfl.sweng.hostme.adapter;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.LID;
+import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.OCCUPANT;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,8 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -57,16 +58,20 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Apartment apartment = apartments.get(position);
         holder.addr.setText(apartment.getAddress());
+        holder.npa.setText(String.valueOf(apartment.getNpa()));
+        holder.city.setText(apartment.getCity());
         holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
         holder.area.setText(String.format("%s m²", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment);
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DisplayApartment.class);
+            intent.putExtra(UID, apartment.getUid());
             intent.putExtra(ADDR, apartment.getAddress());
+            intent.putExtra(NPA, apartment.getNpa());
+            intent.putExtra(CITY, apartment.getCity());
             intent.putExtra(RENT, apartment.getRent());
             intent.putExtra(AREA, apartment.getArea());
             intent.putExtra(LID, apartment.getLid());
-            //String lease = DateFormat.format("dd-MM-yyyy", model.getCurrentLease()).toString();
             intent.putExtra(LEASE, apartment.getCurrentLease());
             intent.putExtra(OCCUPANT, apartment.getOccupants());
             intent.putExtra(PROPRIETOR, apartment.getProprietor());
@@ -104,6 +109,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         public TextView price;
         public TextView addr;
         public TextView area;
+        public TextView city;
+        public TextView npa;
         public ImageView image;
         public CardView cardView;
 
@@ -112,6 +119,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             this.price = itemView.findViewById(R.id.list_price);
             this.addr = itemView.findViewById(R.id.list_addr);
             this.area = itemView.findViewById(R.id.list_area);
+            this.npa = itemView.findViewById(R.id.list_npa);
+            this.city = itemView.findViewById(R.id.list_city);
             this.image = itemView.findViewById(R.id.apartment_image);
             cardView = itemView.findViewById(R.id.cardView);
         }

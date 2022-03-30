@@ -33,18 +33,16 @@ public class SearchFragment extends Fragment {
 
     public static final float MAX_AREA = 3000f;
     public static final float MAX_PRICE = 5000f;
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final CollectionReference reference = firebaseFirestore.collection(APARTMENTS);
     private SearchViewModel viewModel;
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private RecyclerView recyclerView;
     private ApartmentAdapter recyclerAdapter;
-    private CollectionReference reference = firebaseFirestore.collection(APARTMENTS);
     private Button filterButt;
     private boolean filterIsClicked;
     private RangeSlider rangeBarPrice;
     private RangeSlider rangeBarArea;
-    private View root;
     private LinearLayout filters;
-    private SearchView searchView;
     private List<Apartment> apartments;
     private String searchText;
 
@@ -52,14 +50,14 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.recycler_view, container, false);
+        View root = inflater.inflate(R.layout.recycler_view, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
 
         rangeBarPrice = root.findViewById(R.id.range_bar_price);
         rangeBarArea = root.findViewById(R.id.range_bar_area);
         filterButt = root.findViewById(R.id.filters);
         filters = root.findViewById(R.id.all_filters);
-        searchView = root.findViewById(R.id.search_view);
+        SearchView searchView = root.findViewById(R.id.search_view);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -70,8 +68,8 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 searchText = s.toLowerCase();
-                updateRecyclerView("rent", rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
-                        "area", rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
+                updateRecyclerView(rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
+                        rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
                 return true;
             }
         });
@@ -81,14 +79,14 @@ public class SearchFragment extends Fragment {
         filterButt.setOnClickListener(view -> {
             if (!filterIsClicked) {
                 changeFilterVisibility(View.VISIBLE);
-                filterButt.setText("Apply Filters");
+                filterButt.setText(R.string.apply_filters);
                 filterIsClicked = true;
             } else {
                 changeFilterVisibility(View.GONE);
-                filterButt.setText("Filters");
+                filterButt.setText(R.string.filters_text);
                 filterIsClicked = false;
-                updateRecyclerView("rent", rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
-                       "area", rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
+                updateRecyclerView(rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
+                        rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
             }
         });
 
@@ -109,7 +107,8 @@ public class SearchFragment extends Fragment {
 
     /**
      * display or not all the filters
-     * @param visible
+     *
+     * @param visible GONE or INVISIBLE
      */
     private void changeFilterVisibility(int visible) {
         filters.setVisibility(visible);
@@ -118,7 +117,7 @@ public class SearchFragment extends Fragment {
     /**
      * set up or update the recycler view
      */
-    private void updateRecyclerView(String field, Float min, Float max, String field2, Float min2, Float max2) {
+    private void updateRecyclerView(Float min, Float max, Float min2, Float max2) {
         // ------
         apartments = new ArrayList<>();
         reference.get().addOnCompleteListener(task -> {
@@ -126,16 +125,16 @@ public class SearchFragment extends Fragment {
                 QuerySnapshot snapshot = task.getResult();
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
                     Apartment apartment = doc.toObject(Apartment.class);
-                    Long rent = (Long) doc.get(field);
-                    Long area = (Long) doc.get(field2);
+                    Long rent = (Long) doc.get("rent");
+                    Long area = (Long) doc.get("area");
                     String city = (String) doc.get("city");
                     String address = (String) doc.get("address");
                     Long npa = (Long) doc.get("npa");
-                    if (min <= rent && rent <= max && min2 <= area && area <= max2 && searchText == null) {
+                    if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2) && (searchText == null)) {
                         apartments.add(apartment);
-                    } else if (min <= rent && rent <= max && min2 <= area && area <= max2) {
+                    } else if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
                         if (String.valueOf(npa).toLowerCase().contains(searchText) ||
-                        address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText)) {
+                                address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText)) {
                             apartments.add(apartment);
                         }
                     }

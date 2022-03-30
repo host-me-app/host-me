@@ -41,4 +41,6 @@
     <string name="old_password">Old password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
+    <string name="apply_filters">Apply Filters</string>
+    <string name="filters_text">Filters</string>
 </resources>

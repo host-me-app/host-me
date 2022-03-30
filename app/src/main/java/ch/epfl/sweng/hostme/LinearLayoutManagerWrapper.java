@@ -9,6 +9,7 @@ public class LinearLayoutManagerWrapper extends LinearLayoutManager {
 
     /**
      * Constructor for this personalised LinearLayoutManager
+     *
      * @param context
      */
     public LinearLayoutManagerWrapper(Context context) {
@@ -17,6 +18,7 @@ public class LinearLayoutManagerWrapper extends LinearLayoutManager {
 
     /**
      * 2nd Constructor
+     *
      * @param context
      * @param orientation
      * @param reverseLayout
@@ -27,6 +29,7 @@ public class LinearLayoutManagerWrapper extends LinearLayoutManager {
 
     /**
      * 3rd constructor
+     *
      * @param context
      * @param attrs
      * @param defStyleAttr

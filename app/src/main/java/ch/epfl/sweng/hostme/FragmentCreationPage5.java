@@ -11,12 +11,12 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 
@@ -24,14 +24,11 @@ import ch.epfl.sweng.hostme.utils.Profile;
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
     private final static FirebaseFirestore DB = FirebaseFirestore.getInstance();
-    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page5, container, false);
-        mAuth = FirebaseAuth.getInstance();
-
 
         Button terminateButt = view.findViewById(R.id.terminateButton);
         EditText pwd = view.findViewById(R.id.password);
@@ -64,7 +61,7 @@ public class FragmentCreationPage5 extends Fragment {
      * @param password
      */
     private void createUser(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        Auth.createUser(email, password)
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
@@ -92,7 +89,7 @@ public class FragmentCreationPage5 extends Fragment {
                 DATA.get(FragmentCreationPage1.GENDER)
         );
 
-        DB.collection("users").document(mAuth.getUid()).set(user);
+        DB.collection("users").document(Auth.getAuth().getUid()).set(user);
 
 
     }

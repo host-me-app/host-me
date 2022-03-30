@@ -28,10 +28,10 @@ import java.util.HashMap;
 
 import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.WalletActivity;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
+import ch.epfl.sweng.hostme.wallet.WalletActivity;
 
 public class AccountFragment extends Fragment {
 

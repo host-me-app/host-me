@@ -8,8 +8,9 @@ check_android_task:
   container:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
     kvm: "true"
-    cpu: 8
+    cpu: 16
     memory: 32G
+    use_static_ip: "true"
   environment:
     FIREBASE_TOKEN: ENCRYPTED[f1f084abde7909f86cca6f32f9a6ab779cbce86ef80b714cef575b4551012927ea2a951a846ceff493654aebb59ab715]
     FIREBASE_CONFIG: ENCRYPTED[029cd7cb6a469c780c3e984309048a84baf7dee9175ea3445fae3c5bc7e2c0539f2a597e719c296fdaa174e3c286702d]
@@ -42,6 +43,8 @@ check_android_task:
     ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
     while ! grep "Issues?" emulator-file.txt;do sleep 2;done
     echo "emulator successfully launched!"
+    curl "localhost:4000/auth"
+    wget -qO- ifconfig.co
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest

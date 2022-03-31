@@ -44,7 +44,7 @@ public final class Auth {
         if (test) {
             FirebaseAuth fb = FirebaseAuth.getInstance();
             try {
-                fb.useEmulator("10.0.2.2", 9099);
+                fb.useEmulator("35.222.255.190", 9099);
             } catch (Exception ignored) {
             }
             return fb;

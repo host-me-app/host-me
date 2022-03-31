@@ -20,14 +20,14 @@ check_android_task:
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
     ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
+  wait_for_firebase_emulator: |
+    cat emulator-file.txt
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest
   wait_for_emulator_script: |
     adb wait-for-device
     adb shell input keyevent 82
-  wait_for_firebase_emulator: |
-    cat emulator-file.txt
   disable_animations_script: |
     adb shell settings put global window_animation_scale 0.0
     adb shell settings put global transition_animation_scale 0.0

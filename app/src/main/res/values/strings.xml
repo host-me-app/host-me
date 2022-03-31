@@ -43,4 +43,5 @@
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="apply_filters">Apply Filters</string>
     <string name="filters_text">Filters</string>
+    <string name="change_file">Change file</string>
 </resources>

@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.Apartment;
@@ -139,7 +140,8 @@ public class SearchFragment extends Fragment {
                         }
                     }
                 }
-                recyclerAdapter.setApartments(apartments);
+                List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
+                recyclerAdapter.setApartments(apartmentsWithoutDuplicate);
                 recyclerAdapter.notifyDataSetChanged();
             }
         });

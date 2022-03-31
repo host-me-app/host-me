@@ -10,6 +10,8 @@ check_android_task:
     kvm: "true"
     cpu: 8
     memory: 32G
+  environment:
+    FIREBASE_TOKEN: "1//09y_T7Bbq7F3-CgYIARAAGAkSNwF-L9IrwX-v9aMIaHOHjTzJypd6XqF7ZF_yf2M8bmdlHQGU4XXZLUzYvZFY1uSMXEJZm1fEFrY"
   create_device_script:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:

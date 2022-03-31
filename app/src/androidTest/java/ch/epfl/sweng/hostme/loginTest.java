@@ -55,6 +55,6 @@ public class loginTest {
             emails.add(document.getString("email"));
         }
         assertEquals(1, emails.size());
-        assertTrue(emails.contains("testlogin@gmail.co"));
+        assertTrue(emails.contains("testlogin@gmail.com"));
     }
 }

@@ -10,8 +10,6 @@ check_android_task:
     kvm: "true"
     cpu: 8
     memory: 32G
-  environment:
-    FIREBASE_TOKEN: ENCRYPTED[f12bf037fa46b93a79ded24d95721326f7c093b1590ef6e9c0dd27cf7694b65d0a7109e65956b416f1585e9c0718e54f]
   create_device_script:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:
@@ -19,7 +17,7 @@ check_android_task:
   setup_firebase_script: |
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
-    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase &
+    ./firebase-tools emulators:start --token "1//09y_T7Bbq7F3-CgYIARAAGAkSNwF-L9IrwX-v9aMIaHOHjTzJypd6XqF7ZF_yf2M8bmdlHQGU4XXZLUzYvZFY1uSMXEJZm1fEFrY" --only auth,firestore --import=./emulated-firebase &
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest

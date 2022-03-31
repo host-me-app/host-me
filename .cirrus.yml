@@ -39,7 +39,7 @@ check_android_task:
   setup_firebase_script: |
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
-    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
+    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt
     while ! grep "Issues?" emulator-file.txt;do sleep 2;done
     echo "emulator successfully launched!";
   build_script: |

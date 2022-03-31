@@ -41,15 +41,31 @@ public class loginTest {
     @BeforeClass
     public static void setUp() {
         Auth.setTest();
-        Database.setTest();
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
     @Test
     public void checkLoginWithValues() throws Exception {
-        Task<DocumentSnapshot> task = Database.getCollection("users").document("twLMR1WN7wCqQBmnChMvoSmx3jP9").get();
-        Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
-        assertTrue(task.getResult().exists());
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intents.init();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            String username = "testlogin@gmail.com";
+            String pwd = "fakePassword1!";
+            onView(withId(R.id.userName)).check(matches(isDisplayed()));
+            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
+
+            onView(withId(R.id.userName)).perform(clearText()).perform(typeText(username), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(clearText()).perform(typeText(pwd), closeSoftKeyboard());
+
+            onView(withId(R.id.userName)).check(matches(withText(username)));
+            onView(withId(R.id.pwd)).check(matches(withText(pwd)));
+
+            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(3000);
+            onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
+        }
+        Intents.release();
     }
 }

@@ -15,7 +15,10 @@ public final class Database {
     private static FirebaseFirestore getExactInstance() {
         if (test) {
             FirebaseFirestore fb = FirebaseFirestore.getInstance();
-            fb.useEmulator("10.0.2.2", 8080);
+            try {
+                fb.useEmulator("10.0.2.2", 8080);
+            } catch (Exception ignored) {
+            }
             FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                     .setPersistenceEnabled(false)
                     .build();

@@ -5,6 +5,9 @@ import com.google.firebase.storage.StorageReference;
 
 public final class Storage {
 
+    private Storage() {
+    }
+
     private static boolean test = false;
 
     public static StorageReference getStorageReferenceByChild(String pathString) {
@@ -14,7 +17,10 @@ public final class Storage {
     private static FirebaseStorage getExactInstance() {
         if (test) {
             FirebaseStorage fb = FirebaseStorage.getInstance();
-            fb.useEmulator("10.0.2.2", 9199);
+            try {
+                fb.useEmulator("10.0.2.2", 9199);
+            } catch (Exception ignored) {
+            }
             return fb;
         } else {
             return FirebaseStorage.getInstance();

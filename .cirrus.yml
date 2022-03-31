@@ -22,7 +22,7 @@ check_android_task:
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
   firebase_json_file:
-    path: firebase/firebase.json
+    path: firebase.json
     variable_name: FIREBASE_CONFIG
   firebase_project_file:
     path: firebase/.firebaserc
@@ -37,7 +37,6 @@ check_android_task:
     path: firebase/storage.rules
     variable_name: STORAGE_RULES
   setup_firebase_script: |
-    cd firebase
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
     ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &

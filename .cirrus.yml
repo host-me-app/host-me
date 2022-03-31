@@ -42,6 +42,9 @@ check_android_task:
     ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
     while ! grep "Issues?" emulator-file.txt;do sleep 2;done
     echo "emulator successfully launched!";
+  check_port_script: |
+    curl "localhost:9099"
+    curl "localhost:8080"
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest

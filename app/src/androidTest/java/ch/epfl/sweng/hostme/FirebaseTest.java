@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -31,6 +32,15 @@ public class FirebaseTest {
     }
 
     @Test
+    public void checkLoginUser() throws Exception {
+        String username = "testlogin@gmail.com";
+        String pwd = "fakePassword1!";
+        Task<AuthResult> task = Auth.loginUserWithEmail(username, pwd);
+        Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
+        assertTrue(task.isSuccessful());
+    }
+
+    @Test
     public void checkUserInFirestore() throws Exception {
         List<String> emails = new ArrayList<>();
         Task<QuerySnapshot> task = Database.getCollection("users").get();
@@ -40,4 +50,5 @@ public class FirebaseTest {
         }
         assertTrue(emails.contains("testlogin@gmail.com"));
     }
+
 }

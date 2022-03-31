@@ -41,7 +41,7 @@ check_android_task:
     chmod u+x firebase-tools
     ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
     while ! grep "Issues?" emulator-file.txt;do sleep 2;done
-    ipconfig
+    ifconfig
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest

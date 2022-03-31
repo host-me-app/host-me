@@ -20,7 +20,7 @@ check_android_task:
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
     ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
-  wait_for_firebase_emulator: |
+  firebase_emulator: |
     cat emulator-file.txt
   build_script: |
     chmod +x gradlew

@@ -48,7 +48,6 @@ public class loginTest {
 
     @Test
     public void checkLoginWithValues() throws Exception {
-        List<String> emails = new ArrayList<>();
         Task<DocumentSnapshot> task = Database.getCollection("users").document("twLMR1WN7wCqQBmnChMvoSmx3jP9").get();
         Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
         assertTrue(task.getResult().exists());

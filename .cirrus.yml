@@ -25,21 +25,6 @@ check_android_task:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
-  firebase_json_file:
-    path: firebase.json
-    variable_name: FIREBASE_CONFIG
-  firebase_project_file:
-    path: .firebaserc
-    variable_name: FIREBASE_PROJECT
-  firestore_rules_file:
-    path: firestore.rules
-    variable_name: FIRESTORE_RULES
-  firestore_indexes_file:
-    path: firestore.indexes.json
-    variable_name: FIRESTORE_INDEXES
-  storage_rules_file:
-    path: storage.rules
-    variable_name: STORAGE_RULES
   setup_firebase_script: |
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools

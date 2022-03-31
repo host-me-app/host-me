@@ -20,9 +20,6 @@
             android:name=".ui.messages.UsersActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.messages.MessagesHomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.account.ChangePasswordActivity"
             android:exported="false" />
         <activity
@@ -47,7 +44,7 @@
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".WalletActivity"
+            android:name=".wallet.WalletActivity"
             android:parentActivityName=".MenuActivity" />
         <activity android:name=".ui.search.DisplayApartment" />
 

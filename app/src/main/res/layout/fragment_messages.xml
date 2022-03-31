@@ -7,32 +7,19 @@
     android:background="@color/white"
     tools:context=".ui.messages.MessagesFragment">
 
-    <TextView
-        android:id="@+id/text_messages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/imageProfile"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
         android:width="275dp"
         android:background="@drawable/background_icon"
         android:src="@drawable/account_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/textHome"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022"
         app:tint="@color/black" />
 
     <TextView
@@ -53,12 +40,13 @@
         android:id="@+id/contactButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
         android:backgroundTint="@color/light_purple"
-        app:layout_constraintBottom_toBottomOf="@+id/textHome"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.021"
         app:srcCompat="@drawable/contacts_icon"
         app:tint="@color/black" />
 

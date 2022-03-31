@@ -15,6 +15,14 @@
         "type": "string",
         "required": true
     },
+    "npa": {
+        "type": "number",
+        "required": true
+    },
+    "city": {
+        "type": "string",
+        "required": true
+    },
     "rent": {
         "type": "number",
         "required": true

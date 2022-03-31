@@ -40,8 +40,10 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
+        android:id="@+id/add_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:background="@color/purple_100"
@@ -62,7 +64,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="textCapWords|text"
-            android:text="..."></EditText>
+            android:hint="Building Name" />
         <EditText
             android:id="@+id/enter_room"
             android:layout_width="match_parent"
@@ -72,7 +74,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="text"
-            android:text="#"></EditText>
+            android:hint="#" />
         <EditText
             android:id="@+id/enter_address"
             android:layout_width="match_parent"
@@ -82,7 +84,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="textPostalAddress|textMultiLine|text"
-            android:text=", VD CH"></EditText>
+            android:hint="street address\nNPA city, VD CH" />
         <EditText
             android:id="@+id/enter_rent"
             android:layout_width="match_parent"
@@ -92,7 +94,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="numberDecimal|number"
-            android:text=".-CHF/ month"></EditText>
+            android:hint=".-CHF/ month" />
         <EditText
             android:id="@+id/enter_beds"
             android:layout_width="match_parent"
@@ -102,7 +104,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="number"
-            android:text=""></EditText>
+            android:hint="" />
         <EditText
             android:id="@+id/enter_area"
             android:layout_width="match_parent"
@@ -112,7 +114,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="number"
-            android:text="in m\u00B2"></EditText>
+            android:hint="in m\u00B2" />
         <EditText
             android:id="@+id/enter_furnished"
             android:layout_width="match_parent"
@@ -122,7 +124,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="text"
-            android:text="yes / no"></EditText>
+            android:hint="yes / no" />
         <EditText
             android:id="@+id/enter_bath"
             android:layout_width="match_parent"
@@ -132,7 +134,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="text"
-            android:text="private / shared"></EditText>
+            android:hint="private / shared" />
         <EditText
             android:id="@+id/enter_kitchen"
             android:layout_width="match_parent"
@@ -142,7 +144,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="text"
-            android:text="none / private / shared"></EditText>
+            android:hint="none / private / shared" />
         <EditText
             android:id="@+id/enter_laundry"
             android:layout_width="match_parent"
@@ -152,7 +154,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="text"
-            android:text="none, private, shared"></EditText>
+            android:hint="none, private, shared" />
         <EditText
             android:id="@+id/enter_pet"
             android:layout_width="match_parent"
@@ -162,7 +164,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="text"
-            android:text="yes, no"></EditText>
+            android:hint="yes, no" />
         <EditText
             android:id="@+id/enter_proprietor"
             android:layout_width="match_parent"
@@ -172,7 +174,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="textCapWords|text"
-            android:text="Your name/ organization"></EditText>
+            android:hint="Your Name/ Organization" />
         <EditText
             android:id="@+id/enter_utilities"
             android:layout_width="match_parent"
@@ -182,7 +184,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="numberDecimal|number"
-            android:text=".-CHF/ month"></EditText>
+            android:hint=".-CHF/ month" />
         <EditText
             android:id="@+id/enter_deposit"
             android:layout_width="match_parent"
@@ -192,7 +194,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="numberDecimal|number"
-            android:text=".-CHF"></EditText>
+            android:hint=".-CHF" />
         <EditText
             android:id="@+id/enter_duration"
             android:layout_width="match_parent"
@@ -202,7 +204,7 @@
             android:fontFamily="@font/roboto_light"
             android:textSize="16sp"
             android:inputType="number"
-            android:text="in months"></EditText>
+            android:hint="in months" />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -219,11 +221,12 @@
                 app:layout_constraintEnd_toStartOf="@+id/add_submit"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"></Button>
+                app:layout_constraintBottom_toBottomOf="parent" />
             <Button
                 android:id="@+id/add_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:backgroundTint="@color/purple_500"
                 android:textSize="12sp"
                 android:fontFamily="@font/roboto"
@@ -232,7 +235,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"></Button>
+                app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

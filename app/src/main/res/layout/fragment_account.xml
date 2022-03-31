@@ -88,12 +88,13 @@
         android:id="@+id/wallet_button"
         android:layout_width="125dp"
         android:layout_height="56dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="28dp"
         android:width="275dp"
+        android:background="@drawable/button_shape"
         android:fontFamily="@font/roboto_family"
         android:text="Wallet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintHorizontal_bias="0.961"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
@@ -207,6 +208,31 @@
             android:text="@string/female" />
 
     </RadioGroup>
+
+    <ImageView
+        android:id="@+id/userProfileImage"
+        android:layout_width="121dp"
+        android:layout_height="113dp"
+        android:clickable="false"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/userProfileChangePhotoButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="76dp"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:fabCustomSize="50dp"
+        app:layout_constraintStart_toStartOf="@+id/userProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/userProfileImage"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

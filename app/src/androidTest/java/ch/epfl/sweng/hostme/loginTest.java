@@ -22,12 +22,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 
 public class loginTest {
 
     @BeforeClass
     public static void setUp() {
         Auth.setTest();
+        Database.setTest();
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }

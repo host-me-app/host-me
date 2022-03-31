@@ -12,13 +12,9 @@ public final class Database {
     }
 
     private static FirebaseFirestore getExactInstance() {
-        if (test) {
-            FirebaseFirestore fb = FirebaseFirestore.getInstance();
-            fb.useEmulator("10.0.2.2", 8080);
-            return fb;
-        } else {
-            return FirebaseFirestore.getInstance();
-        }
+        FirebaseFirestore fb = FirebaseFirestore.getInstance();
+        fb.useEmulator("10.0.2.2", 8080);
+        return fb;
     }
 
     public static void setTest() {

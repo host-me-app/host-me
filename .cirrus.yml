@@ -12,9 +12,6 @@ check_android_task:
     memory: 32G
     use_static_ip: "true"
   environment:
-    FIREBASE_AUTH_EMULATOR_HOST: "localhost:9099"
-    FIRESTORE_EMULATOR_HOST: "localhost:8080"
-    GCLOUD_PROJECT: "host-me-9072b"
     FIREBASE_TOKEN: ENCRYPTED[f1f084abde7909f86cca6f32f9a6ab779cbce86ef80b714cef575b4551012927ea2a951a846ceff493654aebb59ab715]
     FIREBASE_CONFIG: ENCRYPTED[029cd7cb6a469c780c3e984309048a84baf7dee9175ea3445fae3c5bc7e2c0539f2a597e719c296fdaa174e3c286702d]
     FIREBASE_PROJECT: ENCRYPTED[dcd5fbb12c1692177e35be238ea1601d798a7b1675094a0e0e0a18d0392dee1a76fe1c8a528b67958290abaaa8e2bf13]
@@ -25,6 +22,21 @@ check_android_task:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
+  firebase_json_file:
+    path: firebase.json
+    variable_name: FIREBASE_CONFIG
+  firebase_project_file:
+    path: .firebaserc
+    variable_name: FIREBASE_PROJECT
+  firestore_rules_file:
+    path: firestore.rules
+    variable_name: FIRESTORE_RULES
+  firestore_indexes_file:
+    path: firestore.indexes.json
+    variable_name: FIRESTORE_INDEXES
+  storage_rules_file:
+    path: storage.rules
+    variable_name: STORAGE_RULES
   setup_firebase_script: |
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools

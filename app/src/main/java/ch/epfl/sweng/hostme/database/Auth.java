@@ -32,9 +32,13 @@ public final class Auth {
     }
 
     private static FirebaseAuth getExactInstance() {
-        FirebaseAuth fb = FirebaseAuth.getInstance();
-        fb.useEmulator("10.0.2.2", 9099);
-        return fb;
+        if (test) {
+            FirebaseAuth fb = FirebaseAuth.getInstance();
+            fb.useEmulator("10.0.2.2", 9099);
+            return fb;
+        } else {
+            return FirebaseAuth.getInstance();
+        }
     }
 
     public static void setTest() {

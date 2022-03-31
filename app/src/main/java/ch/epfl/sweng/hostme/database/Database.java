@@ -2,6 +2,7 @@ package ch.epfl.sweng.hostme.database;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 public final class Database {
 
@@ -12,9 +13,17 @@ public final class Database {
     }
 
     private static FirebaseFirestore getExactInstance() {
-        FirebaseFirestore fb = FirebaseFirestore.getInstance();
-        fb.useEmulator("10.0.2.2", 8080);
-        return fb;
+        if (test) {
+            FirebaseFirestore fb = FirebaseFirestore.getInstance();
+            fb.useEmulator("10.0.2.2", 8080);
+            FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                    .setPersistenceEnabled(false)
+                    .build();
+            fb.setFirestoreSettings(settings);
+            return fb;
+        } else {
+            return FirebaseFirestore.getInstance();
+        }
     }
 
     public static void setTest() {

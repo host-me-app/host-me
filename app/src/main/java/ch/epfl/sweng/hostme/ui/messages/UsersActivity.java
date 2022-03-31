@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,10 +16,11 @@ import java.util.Objects;
 
 import ch.epfl.sweng.hostme.databinding.ActivityUsersBinding;
 import ch.epfl.sweng.hostme.users.User;
+import ch.epfl.sweng.hostme.users.UserListener;
 import ch.epfl.sweng.hostme.users.UsersAdapter;
 import ch.epfl.sweng.hostme.utils.Constants;
 
-public class UsersActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity implements UserListener {
 
     private ActivityUsersBinding binding;
 
@@ -57,7 +59,7 @@ public class UsersActivity extends AppCompatActivity {
                             users.add(user);
                         }
                         if (users.size() > 0) {
-                            UsersAdapter usersAdapter = new UsersAdapter(users);
+                            UsersAdapter usersAdapter = new UsersAdapter(users, this);
                             binding.usersRecyclerView.setAdapter(usersAdapter);
                             binding.usersRecyclerView.setVisibility(View.VISIBLE);
                         } else {
@@ -80,5 +82,13 @@ public class UsersActivity extends AppCompatActivity {
         } else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onUserClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+        finish();
     }
 }

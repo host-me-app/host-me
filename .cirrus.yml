@@ -17,7 +17,7 @@ check_android_task:
   setup_firebase_script: |
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
-    ./firebase-tools emulators:start --token "1//09y_T7Bbq7F3-CgYIARAAGAkSNwF-L9IrwX-v9aMIaHOHjTzJypd6XqF7ZF_yf2M8bmdlHQGU4XXZLUzYvZFY1uSMXEJZm1fEFrY" --only auth,firestore --import=./emulated-firebase &
+    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase &
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest

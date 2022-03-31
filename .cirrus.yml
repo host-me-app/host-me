@@ -19,7 +19,7 @@ check_android_task:
   setup_firebase_script: |
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
-    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase; do sleep 120; &
+    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest
@@ -35,6 +35,7 @@ check_android_task:
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
   check_script:
+    cat emulator-file.txt
     ./gradlew check connectedCheck
   report_codeclimate_script: |
     export JACOCO_SOURCE_PATH=app/src/main/java/

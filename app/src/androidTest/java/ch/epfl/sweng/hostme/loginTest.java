@@ -11,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
 
@@ -21,6 +22,7 @@ import androidx.test.espresso.intent.Intents;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -47,11 +49,8 @@ public class loginTest {
     @Test
     public void checkLoginWithValues() throws Exception {
         List<String> emails = new ArrayList<>();
-        Task<QuerySnapshot> task = Database.getCollection("users").get();
+        Task<DocumentSnapshot> task = Database.getCollection("users").document("twLMR1WN7wCqQBmnChMvoSmx3jP9").get();
         Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
-        for (QueryDocumentSnapshot document : task.getResult()) {
-            emails.add(document.getString("email"));
-        }
-        assertEquals(1, emails.size());
+        assertTrue(task.getResult().exists());
     }
 }

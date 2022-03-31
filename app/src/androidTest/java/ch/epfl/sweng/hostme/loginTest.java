@@ -48,25 +48,12 @@ public class loginTest {
 
     @Test
     public void checkLoginWithValues() throws Exception {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
-        Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
-            String username = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-            onView(withId(R.id.userName)).check(matches(isDisplayed()));
-            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
-
-            onView(withId(R.id.userName)).perform(clearText()).perform(typeText(username), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(clearText()).perform(typeText(pwd), closeSoftKeyboard());
-
-            onView(withId(R.id.userName)).check(matches(withText(username)));
-            onView(withId(R.id.pwd)).check(matches(withText(pwd)));
-
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(3000);
-            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
+        List<String> emails = new ArrayList<>();
+        Task<QuerySnapshot> task = Database.getCollection("users").get();
+        Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
+        for (QueryDocumentSnapshot document : task.getResult()) {
+            emails.add(document.getString("email"));
         }
-        Intents.release();
+        assertEquals(1, emails.size());
     }
 }

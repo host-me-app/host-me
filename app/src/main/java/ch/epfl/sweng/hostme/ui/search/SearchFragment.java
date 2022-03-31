@@ -98,11 +98,9 @@ public class SearchFragment extends Fragment {
         rangeBarArea.setValues(0f, MAX_AREA);
         rangeBarArea.setLabelFormatter(value -> value + " m²");
 
+        apartments = new ArrayList<>();
         setUpRecyclerView();
 
-        viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        viewModel.getApartments().observe(getViewLifecycleOwner(), apartments ->
-                recyclerAdapter.setApartments(apartments));
         return root;
     }
 
@@ -122,6 +120,7 @@ public class SearchFragment extends Fragment {
         // ------
         apartments = new ArrayList<>();
         reference.get().addOnCompleteListener(task -> {
+            apartments.clear();
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
@@ -155,12 +154,14 @@ public class SearchFragment extends Fragment {
     private void setUpRecyclerView() {
         apartments = new ArrayList<>();
         reference.get().addOnCompleteListener(task -> {
+            apartments.clear();
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
                     apartments.add(doc.toObject(Apartment.class));
                 }
-                recyclerAdapter = new ApartmentAdapter(apartments);
+                List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
+                recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
                 recyclerView.setAdapter(recyclerAdapter);

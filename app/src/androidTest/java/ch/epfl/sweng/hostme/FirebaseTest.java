@@ -32,23 +32,21 @@ public class FirebaseTest {
     }
 
     @Test
+    public void checkCreateUser() throws Exception {
+        String username = "testlogin@gmail.com";
+        String pwd = "fakePassword1!";
+        Task<AuthResult> task = Auth.createUser(username, pwd);
+        Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
+        assertTrue(task.isSuccessful());
+    }
+
+    @Test
     public void checkLoginUser() throws Exception {
         String username = "testlogin@gmail.com";
         String pwd = "fakePassword1!";
         Task<AuthResult> task = Auth.loginUserWithEmail(username, pwd);
         Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
         assertTrue(task.isSuccessful());
-    }
-
-    @Test
-    public void checkUserInFirestore() throws Exception {
-        List<String> emails = new ArrayList<>();
-        Task<QuerySnapshot> task = Database.getCollection("users").get();
-        Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
-        for (QueryDocumentSnapshot document : task.getResult()) {
-            emails.add(document.getString("email"));
-        }
-        assertTrue(emails.contains("testlogin@gmail.com"));
     }
 
 }

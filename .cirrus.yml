@@ -12,6 +12,8 @@ check_android_task:
     memory: 32G
     use_static_ip: "true"
   environment:
+    FIREBASE_AUTH_EMULATOR_HOST: "localhost:9099"
+    FIRESTORE_EMULATOR_HOST: "localhost:8080"
     FIREBASE_TOKEN: ENCRYPTED[f1f084abde7909f86cca6f32f9a6ab779cbce86ef80b714cef575b4551012927ea2a951a846ceff493654aebb59ab715]
     FIREBASE_CONFIG: ENCRYPTED[1f958cc131351852b44ff856d231d6b07dbf209ef035cf47ded29882e81625e93092b2feea968142415da47a12c3b931]
     FIREBASE_PROJECT: ENCRYPTED[dcd5fbb12c1692177e35be238ea1601d798a7b1675094a0e0e0a18d0392dee1a76fe1c8a528b67958290abaaa8e2bf13]
@@ -40,7 +42,7 @@ check_android_task:
   setup_firebase_script: |
     curl -sL https://firebase.tools/bin/linux/latest -o firebase-tools
     chmod u+x firebase-tools
-    ./firebase-tools emulators:start --only auth,firestore --import=./emulated-firebase > emulator-file.txt &
+    ./firebase-tools emulators:start --only auth --import=./emulated-firebase > emulator-file.txt &
     while ! grep "Issues?" emulator-file.txt;do sleep 2;done
     echo "emulator successfully launched!"
   build_script: |

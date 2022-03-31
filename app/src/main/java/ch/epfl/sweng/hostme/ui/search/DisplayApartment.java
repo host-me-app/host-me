@@ -4,6 +4,10 @@ import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.LID;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
@@ -23,6 +27,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -31,10 +39,15 @@ import java.io.IOException;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
+import ch.epfl.sweng.hostme.users.User;
+import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends AppCompatActivity {
 
-    private StorageReference storageReference;
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final CollectionReference reference = firebaseFirestore.collection(KEY_COLLECTION_USERS);
+    private final FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +80,23 @@ public class DisplayApartment extends AppCompatActivity {
         Button contactUser = findViewById(R.id.contact_user_button);
         contactUser.setOnClickListener(view -> {
             //TODO lancer la conv avec l'utilisateur qui match @uid
+            reference.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot snapshot = task.getResult();
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                        if (doc.getId().equals(uid)) {
+                            User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
+                                    doc.getString(KEY_LASTNAME),
+                                    null, doc.getString(KEY_EMAIL), null);
+                            Intent newIntent = new Intent(getApplicationContext(), ChatActivity.class);
+                            newIntent.putExtra(Constants.KEY_USER, user);
+                            System.out.println("Name !!!" + user.name + user.email);
+                            startActivity(newIntent);
+                            finish();
+                        }
+                    }
+                }
+            });
         });
         displayImage(image, lid);
 
@@ -79,7 +109,7 @@ public class DisplayApartment extends AppCompatActivity {
      * @param lid
      */
     private void displayImage(ImageView image, String lid) {
-        storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
+        StorageReference storageReference = firebaseStorage.getReference().child(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

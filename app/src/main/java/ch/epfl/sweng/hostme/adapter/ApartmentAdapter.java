@@ -100,6 +100,11 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         }
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
     }

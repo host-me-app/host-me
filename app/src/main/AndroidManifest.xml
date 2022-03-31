@@ -15,10 +15,10 @@
         android:theme="@style/Theme.HostMe"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.messages.UsersActivity"
+            android:name=".ui.messages.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.messages.MessagesHomeActivity"
+            android:name=".ui.messages.UsersActivity"
             android:exported="false" />
         <activity
             android:name=".ui.account.ChangePasswordActivity"

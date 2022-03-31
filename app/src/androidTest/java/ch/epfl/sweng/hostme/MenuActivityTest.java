@@ -44,6 +44,19 @@ public class MenuActivityTest {
     }
 
     @Test
+    public void AddFragOpen_whenIconClicked() {
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
+            onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
+            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
+            onView(withId(R.id.navigation_add)).check(matches(isDisplayed()));
+            onView(withId(R.id.navigation_add)).perform(click());
+            onView(withId(R.id.text_add)).check(matches(isDisplayed()));
+        }
+
+    }
+
+    @Test
     public void FavoritesFragOpen_whenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
@@ -64,5 +77,6 @@ public class MenuActivityTest {
             onView(withId(R.id.navigation_messages)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_messages)).perform(click());
         }
+
     }
 }

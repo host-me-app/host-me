@@ -17,6 +17,10 @@ public final class Auth {
         return getExactInstance().createUserWithEmailAndPassword(email, password);
     }
 
+    public static Task<Void> updateEmail(String email) {
+        return getCurrentUser().updateEmail(email);
+    }
+
     public static Task<Void> resetEmail(String email) {
         return getExactInstance().sendPasswordResetEmail(email);
     }

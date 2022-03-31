@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.ui.account;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,11 +20,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+
+import java.util.HashMap;
 
 import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 import ch.epfl.sweng.hostme.wallet.WalletActivity;
@@ -133,6 +139,7 @@ public class AccountFragment extends Fragment {
 
         saveButton.setEnabled(false);
 
+
         Button wallet_button = view.findViewById(R.id.wallet_button);
         wallet_button.setOnClickListener(v -> {
             goToWalletFragment();
@@ -242,11 +249,21 @@ public class AccountFragment extends Fragment {
      * Logs the user out of the app.
      */
     private void logUserOut() {
-        Auth.signOut();
+        // delete token for messaging part
+        DocumentReference documentReference =
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates).addOnSuccessListener(unused -> {
+
+            Auth.signOut();
+
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        })
+                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "unable to sign out", Toast.LENGTH_SHORT).show());
     }
 
     /**
@@ -268,7 +285,7 @@ public class AccountFragment extends Fragment {
                                 Toast.makeText(getActivity(), "Profile's update succeeded.",
                                         Toast.LENGTH_SHORT).show();
 
-                                Auth.getCurrentUser().updateEmail(toUpdateUser.getEmail()).addOnCompleteListener(
+                                Auth.updateEmail(toUpdateUser.getEmail()).addOnCompleteListener(
                                         task2 -> {
                                             if (task2.isSuccessful()) {
                                                 dbEmail = toUpdateUser.getEmail();
@@ -286,6 +303,7 @@ public class AccountFragment extends Fragment {
                             }
                         }
                 );
+
     }
 
     /**

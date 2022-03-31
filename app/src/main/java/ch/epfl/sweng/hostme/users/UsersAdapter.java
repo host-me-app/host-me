@@ -13,9 +13,12 @@ import ch.epfl.sweng.hostme.databinding.ItemContainerUserBinding;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
     private final List<User> users;
+    private final UserListener userListener;
 
-    public UsersAdapter(List<User> users) {
+    public UsersAdapter(List<User> users, UserListener userListener) {
+
         this.users = users;
+        this.userListener = userListener;
     }
 
     @NonNull
@@ -51,6 +54,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         void setUserData(User user) {
             binding.textName.setText(user.name);
             binding.textEmail.setText(user.email);
+            binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }
 }

@@ -44,4 +44,5 @@
     <string name="apply_filters">Apply Filters</string>
     <string name="filters_text">Filters</string>
     <string name="change_file">Change file</string>
+    <string name="type_message">Type a Message</string>
 </resources>

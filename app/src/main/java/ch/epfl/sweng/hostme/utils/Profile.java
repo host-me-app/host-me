@@ -10,7 +10,6 @@ public class Profile {
     public Profile() {
     }
 
-    ;
 
     public Profile(String firstName, String lastName, String email, String gender) {
         this.firstName = firstName;

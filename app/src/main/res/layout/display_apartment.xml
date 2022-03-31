@@ -72,6 +72,51 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/text_npa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="NPA : "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/npa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="City : "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
                 android:id="@+id/textArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Current Lease :"
+                android:text="Current Lease : "
                 android:textSize="16sp" />
 
             <TextView
@@ -120,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Number of occupants :"
+                android:text="Number of occupants : "
                 android:textSize="16sp" />
 
             <TextView
@@ -142,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Proprietor :"
+                android:text="Proprietor : "
                 android:textSize="16sp" />
 
             <TextView
@@ -153,7 +198,15 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-
+        <Button
+            android:id="@+id/contact_user_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:scaleType="fitEnd"
+            android:text="Contact user"
+            android:textSize="11sp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

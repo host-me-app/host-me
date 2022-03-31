@@ -9,6 +9,11 @@ import java.util.Objects;
 
 public class WelcomePage extends AppCompatActivity {
 
+    /**
+     * Welcome the user with his name
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

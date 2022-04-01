@@ -38,7 +38,7 @@ public class AuthTest {
     public void checkUidIsCorrect() throws Exception {
         String email = "testlogin@gmail.com";
         String pwd = "fakePassword1!";
-        String uid = "twLMR1WN7wCqQBmnChMvoSmx3jP9";
+        String uid = "cTxJ48NI0m5vsGdvlvrJI16cHeqT";
         Task<AuthResult> task = Auth.loginUserWithEmail(email, pwd);
         Tasks.await(task, 1000, TimeUnit.MILLISECONDS);
         assertTrue(task.isSuccessful());

@@ -16,7 +16,7 @@ public final class Database {
         if (test) {
             FirebaseFirestore fb = FirebaseFirestore.getInstance();
             try {
-                fb.useEmulator("10.0.3.2", 8080);
+                fb.useEmulator("10.0.2.2", 8080);
             } catch (Exception ignored) {
             }
             FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()

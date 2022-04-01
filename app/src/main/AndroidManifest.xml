@@ -38,9 +38,6 @@
             android:name=".CreationContainer"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".WelcomePage"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".EnterMailChangePwd"
             android:parentActivityName=".MainActivity" />
         <activity

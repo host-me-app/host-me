@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.database;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,10 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sweng.hostme.database.Auth;
-import ch.epfl.sweng.hostme.database.Database;
-
-public class FirebaseTest {
+public class DatabaseTest {
 
     @BeforeClass
     public static void setUp() {
@@ -29,15 +26,6 @@ public class FirebaseTest {
         Database.setTest();
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
-    }
-
-    @Test
-    public void checkLoginUser() throws Exception {
-        String username = "testlogin@gmail.com";
-        String pwd = "fakePassword1!";
-        Task<AuthResult> task = Auth.loginUserWithEmail(username, pwd);
-        Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
-        assertTrue(task.isSuccessful());
     }
 
     @Test
@@ -50,5 +38,4 @@ public class FirebaseTest {
         }
         assertTrue(emails.contains("testlogin@gmail.com"));
     }
-
 }

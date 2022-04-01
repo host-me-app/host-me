@@ -34,7 +34,7 @@ public class FirebaseTest {
     @Test
     public void checkLoginUser() throws Exception {
         String username = "testlogin@gmail.com";
-        String pwd = "fakePassword1!";
+        String pwd = "fakePassword1";
         Task<AuthResult> task = Auth.loginUserWithEmail(username, pwd);
         Tasks.await(task, 5000, TimeUnit.MILLISECONDS);
         assertTrue(task.isSuccessful());

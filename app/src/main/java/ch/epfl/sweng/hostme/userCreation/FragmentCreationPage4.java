@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.userCreation;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 

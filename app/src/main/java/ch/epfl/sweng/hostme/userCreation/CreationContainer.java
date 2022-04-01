@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.userCreation;
 
 import android.os.Bundle;
 
@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Objects;
+
+import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.userCreation.FragmentCreationPage1;
 
 public class CreationContainer extends AppCompatActivity {
 

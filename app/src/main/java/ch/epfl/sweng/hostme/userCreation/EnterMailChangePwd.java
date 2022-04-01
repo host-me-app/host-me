@@ -14,7 +14,6 @@ import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
-import ch.epfl.sweng.hostme.userCreation.MainActivity;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 public class EnterMailChangePwd extends AppCompatActivity {

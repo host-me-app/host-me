@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.utils;
 
 import static org.junit.Assert.assertEquals;
-
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;

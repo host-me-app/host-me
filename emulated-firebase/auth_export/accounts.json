@@ -4,10 +4,10 @@
     {
       "localId": "twLMR1WN7wCqQBmnChMvoSmx3jP9",
       "createdAt": "1648633912672",
-      "lastLoginAt": "1648654366825",
+      "lastLoginAt": "1648838336641",
       "passwordHash": "fakeHash:salt=fakeSaltnzwgZJPavTaCrUTwtuiH:password=fakePassword1!",
       "salt": "fakeSaltnzwgZJPavTaCrUTwtuiH",
-      "passwordUpdatedAt": 1648654310103,
+      "passwordUpdatedAt": 1648838160623,
       "providerUserInfo": [
         {
           "providerId": "password",
@@ -16,11 +16,11 @@
           "rawId": "testlogin@gmail.com"
         }
       ],
-      "validSince": "1648654310",
+      "validSince": "1648838160",
       "email": "testlogin@gmail.com",
       "emailVerified": false,
       "disabled": false,
-      "lastRefreshAt": "2022-03-30T15:32:46.825Z"
+      "lastRefreshAt": "2022-04-01T18:38:56.641Z"
     }
   ]
 }

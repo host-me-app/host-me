@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import ch.epfl.sweng.hostme.utils.PasswordValidator;
-
 public class PasswordValidatorTest {
 
 

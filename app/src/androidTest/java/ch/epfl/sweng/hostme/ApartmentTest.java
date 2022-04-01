@@ -8,7 +8,6 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.google.firebase.FirebaseApp;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,7 +15,6 @@ import java.util.Date;
 
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.utils.PasswordValidator;
 
 
 public class ApartmentTest {

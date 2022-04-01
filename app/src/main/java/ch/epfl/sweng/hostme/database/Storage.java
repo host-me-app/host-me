@@ -5,9 +5,6 @@ import com.google.firebase.storage.StorageReference;
 
 public final class Storage {
 
-    private Storage() {
-    }
-
     private static boolean test = false;
 
     public static StorageReference getStorageReferenceByChild(String pathString) {

@@ -13,6 +13,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@id/textMessage"
         app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textMessage"
         android:layout_width="0dp"
@@ -24,7 +25,7 @@
         android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@id/imageSender"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.75"/>
+        app:layout_constraintWidth_percent="0.75" />
 
     <TextView
         android:id="@+id/messageDate"
@@ -34,6 +35,6 @@
         android:textColor="@color/grey"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/textMessage"
-        app:layout_constraintTop_toBottomOf="@id/textMessage"/>
+        app:layout_constraintTop_toBottomOf="@id/textMessage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

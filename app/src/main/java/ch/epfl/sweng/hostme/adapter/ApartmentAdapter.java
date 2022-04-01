@@ -26,7 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -35,11 +34,11 @@ import java.util.List;
 
 import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.ui.search.DisplayApartment;
 
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
-    private StorageReference storageReference;
     private List<Apartment> apartments;
 
 
@@ -85,7 +84,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     }
 
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
-        storageReference = FirebaseStorage.getInstance().getReference().child(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
+        StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

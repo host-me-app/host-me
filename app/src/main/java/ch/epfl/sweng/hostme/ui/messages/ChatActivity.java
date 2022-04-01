@@ -1,12 +1,11 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
@@ -14,7 +13,6 @@ import ch.epfl.sweng.hostme.utils.Constants;
 public class ChatActivity extends AppCompatActivity {
 
     private ActivityChatBinding binding;
-    private User receiverUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +24,12 @@ public class ChatActivity extends AppCompatActivity {
         loadReceiverDetails();
     }
 
-    private void loadReceiverDetails(){
-        receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
+    private void loadReceiverDetails() {
+        User receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.textName.setText(receiverUser.name);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
     }
 }

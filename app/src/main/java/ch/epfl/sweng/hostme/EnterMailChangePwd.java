@@ -10,14 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 public class EnterMailChangePwd extends AppCompatActivity {
-    private FirebaseAuth mAuth;
     private EditText mail;
     private Button sendPwd;
     private final TextWatcher sendMailTextWatcher = new TextWatcher() {
@@ -41,8 +39,6 @@ public class EnterMailChangePwd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_pwd);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-        mAuth = FirebaseAuth.getInstance();
-
 
         mail = findViewById(R.id.mailForgotPwd);
         mail.addTextChangedListener(sendMailTextWatcher);
@@ -61,7 +57,7 @@ public class EnterMailChangePwd extends AppCompatActivity {
      * @param mailText
      */
     private void sendMail(String mailText) {
-        mAuth.sendPasswordResetEmail(mailText)
+        Auth.resetEmail(mailText)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getApplicationContext(),

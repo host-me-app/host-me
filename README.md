@@ -27,7 +27,6 @@ use of such a feature).
 Developers :
 
 - Nadal Paul
--
 - Nathan Chettrit
 - Williams Scott
 - Rieupouilh Louise

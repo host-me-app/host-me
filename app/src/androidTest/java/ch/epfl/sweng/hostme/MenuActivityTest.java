@@ -11,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -27,25 +28,23 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MenuActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<MenuActivity> testRule =
-            new ActivityScenarioRule<>(MenuActivity.class);
-
     @Test
     public void SearchFragOpen_whenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
             onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).perform(click());
         }
-
+        Intents.release();
     }
 
     @Test
     public void AddFragOpen_whenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
             onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
@@ -53,30 +52,32 @@ public class MenuActivityTest {
             onView(withId(R.id.navigation_add)).perform(click());
             onView(withId(R.id.text_add)).check(matches(isDisplayed()));
         }
-
+        Intents.release();
     }
 
     @Test
     public void FavoritesFragOpen_whenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
             onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_favorites)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_favorites)).perform(click());
         }
-
+        Intents.release();
     }
 
     @Test
     public void MessagesFragOpen_whenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
             onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_messages)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_messages)).perform(click());
         }
-
+        Intents.release();
     }
 }

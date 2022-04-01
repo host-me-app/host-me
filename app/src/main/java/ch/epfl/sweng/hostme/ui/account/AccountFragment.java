@@ -38,15 +38,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
 import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
@@ -54,7 +54,6 @@ import ch.epfl.sweng.hostme.wallet.WalletActivity;
 
 public class AccountFragment extends Fragment {
 
-    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
     private View view;
     private EditText editFirstName;
     private EditText editLastName;
@@ -102,7 +101,7 @@ public class AccountFragment extends Fragment {
                     && gender.equals(dbGender);
 
 
-            if (allTheSame || !EmailValidator.checkPattern(email)) {
+            if (allTheSame || !EmailValidator.isValid(email)) {
                 saveButton.setEnabled(false);
             } else {
                 saveButton.setEnabled(true);
@@ -114,7 +113,7 @@ public class AccountFragment extends Fragment {
         public void afterTextChanged(Editable editable) {
         }
     };
-    private FirebaseAuth mAuth;
+
     /**
      * Watcher for any modifications of the gender button that is checked
      */
@@ -136,7 +135,7 @@ public class AccountFragment extends Fragment {
                     && gender.equals(dbGender);
 
 
-            if (allTheSame || !EmailValidator.checkPattern(email)) {
+            if (allTheSame || !EmailValidator.isValid(email)) {
                 saveButton.setEnabled(false);
             } else {
                 saveButton.setEnabled(true);
@@ -169,8 +168,6 @@ public class AccountFragment extends Fragment {
 
         editProfilePicture = view.findViewById(R.id.userProfileImage);
         changePictureButton = view.findViewById(R.id.userProfileChangePhotoButton);
-
-        mAuth = FirebaseAuth.getInstance();
 
         Button wallet_button = view.findViewById(R.id.wallet_button);
         wallet_button.setOnClickListener(v -> {
@@ -215,8 +212,8 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        DocumentReference docRef = database.collection("users")
-                .document(mAuth.getUid());
+        DocumentReference docRef = Database.getCollection("users")
+                .document(Auth.getUid());
 
         docRef.get().addOnCompleteListener(
                 task -> {
@@ -373,7 +370,7 @@ public class AccountFragment extends Fragment {
 
             Profile toUpdateUser = getProfileFromUI();
 
-            if (EmailValidator.checkPattern(toUpdateUser.getEmail())) {
+            if (EmailValidator.isValid(toUpdateUser.getEmail())) {
                 saveUserProperties(toUpdateUser);
             }
             saveButton.setEnabled(false);
@@ -402,16 +399,14 @@ public class AccountFragment extends Fragment {
      */
     private void logUserOut() {
         // delete token for messaging part
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         DocumentReference documentReference =
-                database.collection(Constants.KEY_COLLECTION_USERS).document(auth.getUid());
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
 
-            FirebaseAuth.getInstance().signOut();
+            Auth.signOut();
 
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
@@ -427,7 +422,7 @@ public class AccountFragment extends Fragment {
      */
     private void saveUserProperties(Profile toUpdateUser) {
 
-        database.collection("users").document(mAuth.getUid()).set(toUpdateUser)
+        Database.getCollection("users").document(Auth.getUid()).set(toUpdateUser)
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
@@ -439,7 +434,7 @@ public class AccountFragment extends Fragment {
                                 Toast.makeText(getActivity(), "Profile's update succeeded.",
                                         Toast.LENGTH_SHORT).show();
 
-                                mAuth.getCurrentUser().updateEmail(toUpdateUser.getEmail()).addOnCompleteListener(
+                                Auth.updateEmail(toUpdateUser.getEmail()).addOnCompleteListener(
                                         task2 -> {
                                             if (task2.isSuccessful()) {
                                                 dbEmail = toUpdateUser.getEmail();

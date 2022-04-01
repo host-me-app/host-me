@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class User implements Serializable {
     public String name, image, email, token;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String name, String image, String email, String token) {
         this.name = name;

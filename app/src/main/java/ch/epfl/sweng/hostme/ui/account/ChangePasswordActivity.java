@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
 
 public class ChangePasswordActivity extends AppCompatActivity {
@@ -58,7 +58,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
      */
     private void changePasswordDB(String oldPassword, String newPassword) {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = Auth.getCurrentUser();
         final String email = user.getEmail();
         AuthCredential credential = EmailAuthProvider.getCredential(email, oldPassword);
 

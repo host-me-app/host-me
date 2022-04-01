@@ -29,9 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -39,15 +37,15 @@ import java.io.IOException;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends AppCompatActivity {
 
-    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private final CollectionReference reference = firebaseFirestore.collection(KEY_COLLECTION_USERS);
-    private final FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +107,7 @@ public class DisplayApartment extends AppCompatActivity {
      * @param lid
      */
     private void displayImage(ImageView image, String lid) {
-        StorageReference storageReference = firebaseStorage.getReference().child(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
+        StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

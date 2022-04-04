@@ -27,7 +27,6 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.userCreation.MainActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class UserProfileUITest {

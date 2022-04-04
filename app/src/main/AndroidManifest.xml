@@ -26,7 +26,7 @@
             android:name=".ui.account.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".userCreation.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,13 +36,13 @@
         </activity>
         <activity
             android:name=".userCreation.CreationContainer"
-            android:parentActivityName=".userCreation.MainActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".userCreation.EnterMailChangePwd"
-            android:parentActivityName=".userCreation.MainActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MenuActivity"
-            android:parentActivityName=".userCreation.MainActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".wallet.WalletActivity"
             android:parentActivityName=".MenuActivity" />

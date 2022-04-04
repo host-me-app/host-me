@@ -10,7 +10,7 @@ public final class Database {
 
     }
 
-    private static boolean test = true;
+    private static boolean test = false;
 
     public static CollectionReference getCollection(String collectionPath) {
         return getExactInstance().collection(collectionPath);

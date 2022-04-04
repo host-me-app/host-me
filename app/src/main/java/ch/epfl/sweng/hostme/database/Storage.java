@@ -9,7 +9,7 @@ public final class Storage {
 
     }
 
-    private static boolean test = true;
+    private static boolean test = false;
 
     public static StorageReference getStorageReferenceByChild(String pathString) {
         return getExactInstance().getReference().child(pathString);

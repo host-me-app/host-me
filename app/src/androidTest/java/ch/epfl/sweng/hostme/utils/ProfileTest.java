@@ -32,7 +32,6 @@ public class ProfileTest {
         user.setEmail("fred@gmail.com");
         user.setGender("Female");
 
-
         assertEquals("Fred", user.getFirstName());
         assertEquals("Test2", user.getLastName());
         assertEquals("fred@gmail.com", user.getEmail());

@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.account;
 
 import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import android.Manifest;
 import android.app.Activity;
@@ -35,7 +34,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
@@ -147,8 +145,6 @@ public class AccountFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AccountViewModel accountViewModel =
-                new ViewModelProvider(this).get(AccountViewModel.class);
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         this.view = view;
@@ -406,14 +402,11 @@ public class AccountFragment extends Fragment {
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
-
             Auth.signOut();
-
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
             getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-        })
-                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "unable to sign out", Toast.LENGTH_SHORT).show());
+        });
     }
 
     /**

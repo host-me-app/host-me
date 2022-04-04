@@ -7,7 +7,9 @@ public class Profile {
     private String gender;
     private String email;
 
-    public Profile() {}
+    public Profile() {
+
+    }
 
     public Profile(String firstName, String lastName, String email, String gender) {
         this.firstName = firstName;

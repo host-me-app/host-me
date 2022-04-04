@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.Timestamp;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -43,12 +44,12 @@ public class ApartmentTest {
         assertEquals("bath", apartment.getBath());
         apartment.setCity("Lausanne");
         assertEquals("Lausanne", apartment.getCity());
-        apartment.setCurrentLease(new Date(2020));
-        assertEquals(new Date(2020).getTime(), apartment.getCurrentLease().getTime());
+        apartment.setCurrentLease(new Timestamp(new Date(1645784100)));
+        assertEquals(new Timestamp(new Date(1645784100)), apartment.getCurrentLease());
         apartment.setFurnished(true);
         assertTrue(apartment.isFurnished());
-        apartment.setImage_path("/apartments/test");
-        assertEquals("/apartments/test", apartment.getImage_path());
+        apartment.setImagePath("/apartments/test");
+        assertEquals("/apartments/test", apartment.getImagePath());
         apartment.setDeposit(1300);
         assertEquals(1300, apartment.getDeposit());
         apartment.setKitchen("kitchen");
@@ -61,8 +62,8 @@ public class ApartmentTest {
         assertEquals("Rooom22", apartment.getName());
         apartment.setNpa(1024);
         assertEquals(1024, apartment.getNpa());
-        apartment.setOccupants(10);
-        assertEquals(10, apartment.getOccupants());
+        apartment.setBeds(10);
+        assertEquals(10, apartment.getBeds());
         apartment.setPets(false);
         assertFalse(apartment.isPets());
         apartment.setProprietor("FMEL");
@@ -78,8 +79,8 @@ public class ApartmentTest {
         Apartment apartment1 = new Apartment(apartment.getCity(), apartment.getNpa(), apartment.getAddress(),
                 apartment.getArea(), apartment.isAvailable(), apartment.getCurrentLease(),
                 apartment.getBath(), apartment.getDeposit(), apartment.isFurnished(),
-                apartment.getImage_path(), apartment.getKitchen(), apartment.getLaundry(),
-                apartment.getLid(), apartment.getName(), apartment.getOccupants(),
+                apartment.getImagePath(), apartment.getKitchen(), apartment.getLaundry(),
+                apartment.getLid(), apartment.getName(), apartment.getBeds(),
                 apartment.isPets(), apartment.getProprietor(), apartment.getRent(),
                 apartment.getRoom(), apartment.getUtilities(), apartment.getUid());
     }

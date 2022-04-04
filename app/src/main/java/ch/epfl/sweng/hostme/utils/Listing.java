@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

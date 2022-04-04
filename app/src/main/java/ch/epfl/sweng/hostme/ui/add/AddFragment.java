@@ -26,10 +26,11 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ch.epfl.sweng.hostme.Listing;
+
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.FragmentAddBinding;
+import ch.epfl.sweng.hostme.utils.Listing;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 

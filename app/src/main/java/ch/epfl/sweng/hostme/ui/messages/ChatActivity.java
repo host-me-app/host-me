@@ -13,7 +13,7 @@ import ch.epfl.sweng.hostme.utils.Constants;
 public class ChatActivity extends AppCompatActivity {
 
     private ActivityChatBinding binding;
-
+    private User receiverUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +25,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void loadReceiverDetails() {
-        User receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
+        receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.textName.setText(receiverUser.name);
     }
 

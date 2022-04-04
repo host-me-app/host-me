@@ -40,9 +40,8 @@ public class UserProfileUITest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
-
     @Test
-    public void ProfileInfoIsDisplayedTest() throws InterruptedException {
+    public void ProfileInfoIsDisplayedTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -52,169 +51,146 @@ public class UserProfileUITest {
             String lastName = "account";
             String gender = "Male";
 
-
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            onView(withId(R.id.userName)).check(matches(isDisplayed()));
-            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
-
-            Thread.sleep(4000);
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
-
-            Thread.sleep(5000);
-            onView(withId(R.id.userProfileFirstName)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileLastName)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
+            Thread.sleep(1000);
 
             onView(withId(R.id.userProfileFirstName)).check(matches(withText(firstName)));
             onView(withId(R.id.userProfileLastName)).check(matches(withText(lastName)));
-            onView(withId(R.id.userProfileEmail)).check(matches(withText(mAuth.getCurrentUser().getEmail())));
+            onView(withId(R.id.userProfileEmail)).check(matches(withText(Auth.getCurrentUser().getEmail())));
+        }  catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
 
+    @Test
+    public void logOut() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intents.init();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
-        }
-        Intents.release();
-    }
 
-    @Test
-    public void logOut() throws InterruptedException {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
-        Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            onView(withId(R.id.userName)).check(matches(isDisplayed()));
-            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.logInButton)).perform(click());
-
-            Thread.sleep(3000);
-
-            onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
 
-            onView(withId(R.id.userProfilelogOutButton)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfilelogOutButton)).perform(click());
-
-            Thread.sleep(5000);
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
 
-
     @Test
-    public void saveProfileButtonEnabledTest() throws InterruptedException {
+    public void saveProfileButtonEnabledTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            onView(withId(R.id.userName)).check(matches(isDisplayed()));
-            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
 
-            Thread.sleep(3000);
-
-            onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
 
-            Thread.sleep(5000);
-
-            //Change FirstName
-            String firstname = "Nat modified";
+            String firstname = "test modified";
             onView(withId(R.id.userProfileFirstName)).perform(clearText())
                     .perform(typeText(firstname), closeSoftKeyboard());
-
-            //Check button is Enable
             onView(withId(R.id.userProfileSaveButton)).check(matches(isEnabled()));
+            onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            Thread.sleep(1000);
 
-
-            //Re put the original FirstName
-            String firstnameOriginal = "Joe";
+            String firstnameOriginal = "test";
             onView(withId(R.id.userProfileFirstName)).perform(clearText())
                     .perform(typeText(firstnameOriginal), closeSoftKeyboard());
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            Thread.sleep(1000);
 
-
-            onView(withId(R.id.userProfilelogOutButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfilelogOutButton)).perform(click());
-
-
-            //Re-Log in
-
-            Thread.sleep(5000);
-
-            onView(withId(R.id.userName)).check(matches(isDisplayed()));
-            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.logInButton)).perform(click());
-
-            Thread.sleep(3000);
-
-            onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
-            onView(withId(R.id.navigation_account)).perform(click());
-
-            Thread.sleep(5000);
-            onView(withId(R.id.userProfileFirstName)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
-
-            onView(withId(R.id.userProfileFirstName)).check(matches(withText(firstnameOriginal)));
-            onView(withId(R.id.userProfileEmail)).check(matches(withText(mail)));
-
-
-            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
 
-
     @Test
-    public void changePasswordButtonTest() throws InterruptedException {
+    public void checkButtonWalletWorks() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            onView(withId(R.id.userName)).check(matches(isDisplayed()));
-            onView(withId(R.id.pwd)).check(matches(isDisplayed()));
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
             onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
 
-            Thread.sleep(3000);
+            onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.wallet_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.wallet_button)).perform(click());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void changePasswordButtonTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intents.init();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
+            String originalPassword = "fakePassword1!";
+            String newPassword = "!Hostme2022";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
-
-            Thread.sleep(5000);
-
-            onView(withId(R.id.userProfileEmail)).check(matches(isDisplayed()));
+            Thread.sleep(1000);
 
             onView(withId(R.id.userProfileChangePasswordButton)).perform(click());
-
-
+            onView(withId(R.id.userProfileChangePsswdTerminate)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.userProfileOldPassword)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileNewPassword)).check(matches(isDisplayed()));
             onView(withId(R.id.userProfileConfirmNewPassword)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileOldPassword)).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.userProfileNewPassword)).perform(typeText(newPassword), closeSoftKeyboard());
+            onView(withId(R.id.userProfileConfirmNewPassword)).perform(typeText(newPassword), closeSoftKeyboard());
+            onView(withId(R.id.userProfileChangePsswdTerminate)).perform(click());
+            Thread.sleep(1000);
 
-            Thread.sleep(5000);
+            onView(withId(R.id.userProfileOldPassword)).perform(clearText()).perform(typeText(newPassword), closeSoftKeyboard());
+            onView(withId(R.id.userProfileNewPassword)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.userProfileConfirmNewPassword)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.userProfileChangePsswdTerminate)).perform(click());
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

@@ -1,10 +1,8 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.utils;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 public class EmailValidatorTest {
 

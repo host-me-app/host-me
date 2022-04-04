@@ -11,13 +11,19 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.Rule;
+import com.google.firebase.FirebaseApp;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.database.Storage;
 
 
 /**
@@ -27,6 +33,15 @@ import org.junit.runner.RunWith;
  */
 @RunWith(AndroidJUnit4.class)
 public class MenuActivityTest {
+
+    @BeforeClass
+    public static void setUp() {
+        Auth.setTest();
+        Database.setTest();
+        Storage.setTest();
+        FirebaseApp.clearInstancesForTest();
+        FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
+    }
 
     @Test
     public void SearchFragOpen_whenIconClicked() {

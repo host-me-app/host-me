@@ -16,6 +16,7 @@ import java.util.Date;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
+import ch.epfl.sweng.hostme.utils.Apartment;
 
 
 public class ApartmentTest {

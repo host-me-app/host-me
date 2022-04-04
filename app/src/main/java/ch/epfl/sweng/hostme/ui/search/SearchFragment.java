@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import ch.epfl.sweng.hostme.Apartment;
+import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
 

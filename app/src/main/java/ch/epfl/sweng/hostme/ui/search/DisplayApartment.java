@@ -55,6 +55,8 @@ public class DisplayApartment extends AppCompatActivity {
 
         ImageView image = findViewById(R.id.apart_image);
         String lid = getIntent().getStringExtra(LID);
+        displayImage(image, lid);
+
 
         Intent intent = getIntent();
         String addr = intent.getStringExtra(ADDR);
@@ -74,30 +76,26 @@ public class DisplayApartment extends AppCompatActivity {
         changeText(String.valueOf(occupants), R.id.occupants);
         changeText(proprietor, R.id.proprietor);
 
+
         String uid = intent.getStringExtra(UID);
         Button contactUser = findViewById(R.id.contact_user_button);
-        contactUser.setOnClickListener(view -> {
-            //TODO lancer la conv avec l'utilisateur qui match @uid
-            reference.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    QuerySnapshot snapshot = task.getResult();
-                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                        if (doc.getId().equals(uid)) {
-                            User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
-                                    doc.getString(KEY_LASTNAME),
-                                    null, doc.getString(KEY_EMAIL), null);
-                            Intent newIntent = new Intent(getApplicationContext(), ChatActivity.class);
-                            newIntent.putExtra(Constants.KEY_USER, user);
-                            System.out.println("Name !!!" + user.name + user.email);
-                            startActivity(newIntent);
-                            finish();
-                        }
+        contactUser.setOnClickListener(view -> reference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot snapshot = task.getResult();
+                for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                    if (doc.getId().equals(uid)) {
+                        User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
+                                doc.getString(KEY_LASTNAME),
+                                null, doc.getString(KEY_EMAIL), null);
+                        Intent newIntent = new Intent(getApplicationContext(), ChatActivity.class);
+                        newIntent.putExtra(Constants.KEY_USER, user);
+                        System.out.println("Name !!!" + user.name + user.email);
+                        startActivity(newIntent);
+                        finish();
                     }
                 }
-            });
-        });
-        displayImage(image, lid);
-
+            }
+        }));
     }
 
     /**

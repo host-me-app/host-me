@@ -61,7 +61,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.city.setText(apartment.getCity());
         holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
         holder.area.setText(String.format("%s m²", apartment.getArea()));
-        retrieveAndDisplayImage(holder, apartment);
+        //retrieveAndDisplayImage(holder, apartment);
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DisplayApartment.class);
             intent.putExtra(UID, apartment.getUid());
@@ -106,6 +106,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,8 +1,11 @@
 package ch.epfl.sweng.hostme;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Apartment {
+public class Apartment implements Parcelable {
 
     private String city;
     private int npa;
@@ -83,6 +86,70 @@ public class Apartment {
         this.utilities = utilities;
         this.uid = uid;
     }
+
+    protected Apartment(Parcel in) {
+        city = in.readString();
+        npa = in.readInt();
+        address = in.readString();
+        area = in.readInt();
+        available = in.readByte() != 0;
+        bath = in.readString();
+        deposit = in.readInt();
+        furnished = in.readByte() != 0;
+        image_path = in.readString();
+        kitchen = in.readString();
+        laundry = in.readString();
+        lid = in.readString();
+        name = in.readString();
+        occupants = in.readInt();
+        pets = in.readByte() != 0;
+        proprietor = in.readString();
+        rent = in.readInt();
+        room = in.readString();
+        utilities = in.readInt();
+        uid = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(city);
+        dest.writeInt(npa);
+        dest.writeString(address);
+        dest.writeInt(area);
+        dest.writeByte((byte) (available ? 1 : 0));
+        dest.writeString(bath);
+        dest.writeInt(deposit);
+        dest.writeByte((byte) (furnished ? 1 : 0));
+        dest.writeString(image_path);
+        dest.writeString(kitchen);
+        dest.writeString(laundry);
+        dest.writeString(lid);
+        dest.writeString(name);
+        dest.writeInt(occupants);
+        dest.writeByte((byte) (pets ? 1 : 0));
+        dest.writeString(proprietor);
+        dest.writeInt(rent);
+        dest.writeString(room);
+        dest.writeInt(utilities);
+        dest.writeString(uid);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Apartment> CREATOR = new Creator<Apartment>() {
+        @Override
+        public Apartment createFromParcel(Parcel in) {
+            return new Apartment(in);
+        }
+
+        @Override
+        public Apartment[] newArray(int size) {
+            return new Apartment[size];
+        }
+    };
 
     public String getAddress() {
         return address;

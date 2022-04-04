@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.adapter;
+package ch.epfl.sweng.hostme.ui.search;
 
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
@@ -35,7 +35,6 @@ import java.util.List;
 import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.ui.search.DisplayApartment;
 
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 

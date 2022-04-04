@@ -6,6 +6,10 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 public final class Database {
 
+    private Database() {
+
+    }
+
     private static boolean test = false;
 
     public static CollectionReference getCollection(String collectionPath) {

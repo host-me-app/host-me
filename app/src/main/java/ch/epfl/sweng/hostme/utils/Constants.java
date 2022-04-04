@@ -1,6 +1,11 @@
 package ch.epfl.sweng.hostme.utils;
 
-public class Constants {
+public final class Constants {
+
+    private Constants() {
+
+    }
+
     public static final String KEY_COLLECTION_USERS = "users";
     public static final String KEY_FIRSTNAME = "firstName";
     public static final String KEY_LASTNAME = "lastName";

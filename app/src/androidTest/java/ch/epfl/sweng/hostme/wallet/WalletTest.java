@@ -62,7 +62,7 @@ public class WalletTest {
             onView(withId(R.id.wallet_button)).perform(click());
             onView(withId(R.id.button_download_residence_permit)).perform(click());
             Thread.sleep(1000);
-        }  catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -87,7 +87,7 @@ public class WalletTest {
             onView(withId(R.id.wallet_button)).perform(click());
             onView(withId(R.id.button_browse_salary_slips)).perform(click());
             Thread.sleep(1000);
-        }  catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

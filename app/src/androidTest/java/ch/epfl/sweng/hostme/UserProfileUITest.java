@@ -19,7 +19,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -65,7 +64,7 @@ public class UserProfileUITest {
             onView(withId(R.id.userProfileFirstName)).check(matches(withText(firstName)));
             onView(withId(R.id.userProfileLastName)).check(matches(withText(lastName)));
             onView(withId(R.id.userProfileEmail)).check(matches(withText(Auth.getCurrentUser().getEmail())));
-        }  catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

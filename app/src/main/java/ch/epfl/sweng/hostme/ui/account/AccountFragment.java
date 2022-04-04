@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.account;
 
 import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import android.Manifest;
 import android.app.Activity;
@@ -35,7 +34,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;

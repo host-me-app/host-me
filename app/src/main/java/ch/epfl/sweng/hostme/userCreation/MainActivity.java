@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.userCreation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.MenuActivity;
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 
 public class MainActivity extends AppCompatActivity {

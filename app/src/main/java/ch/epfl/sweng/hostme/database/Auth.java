@@ -7,7 +7,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public final class Auth {
 
-    private static boolean test = false;
+    private Auth() {
+
+    }
+
+    private static boolean test = true;
 
     public static Task<AuthResult> loginUserWithEmail(String email, String password) {
         return Auth.getExactInstance().signInWithEmailAndPassword(email, password);

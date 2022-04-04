@@ -50,7 +50,31 @@ public class DisplayApartmentTest {
 
             onView(withId(R.id.recyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            Thread.sleep(1000);
+            onView(withId(R.id.contact_user_button)).perform(click());
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
 
+    @Test
+    public void filterApartmentsTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intents.init();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+            String location = "Lausanne";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.search_view)).perform(typeText(location), closeSoftKeyboard());
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

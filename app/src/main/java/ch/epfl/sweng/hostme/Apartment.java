@@ -1,6 +1,6 @@
 package ch.epfl.sweng.hostme;
 
-import java.util.Date;
+import com.google.firebase.Timestamp;
 
 public class Apartment {
 
@@ -9,16 +9,16 @@ public class Apartment {
     private String address;
     private int area;
     private boolean available;
-    private Date currentLease;
+    private Timestamp currentLease;
     private String bath;
     private int deposit;
     private boolean furnished;
-    private String image_path;
+    private String imagePath;
     private String kitchen;
     private String laundry;
     private String lid;
     private String name;
-    private int occupants;
+    private int beds;
     private boolean pets;
     private String proprietor;
     private int rent;
@@ -44,12 +44,12 @@ public class Apartment {
      * @param bath
      * @param deposit
      * @param furnished
-     * @param image_path
+     * @param imagePath
      * @param kitchen
      * @param laundry
      * @param lid
      * @param name
-     * @param occupants
+     * @param beds
      * @param pets
      * @param proprietor
      * @param rent
@@ -57,9 +57,9 @@ public class Apartment {
      * @param utilities
      * @param uid
      */
-    public Apartment(String city, int npa, String address, int area, boolean available, Date currentLease, String bath, int deposit,
-                     boolean furnished, String image_path, String kitchen, String laundry, String lid,
-                     String name, int occupants, boolean pets, String proprietor, int rent, String room,
+    public Apartment(String city, int npa, String address, int area, boolean available, Timestamp currentLease, String bath, int deposit,
+                     boolean furnished, String imagePath, String kitchen, String laundry, String lid,
+                     String name, int beds, boolean pets, String proprietor, int rent, String room,
                      int utilities, String uid) {
         this.city = city;
         this.npa = npa;
@@ -70,12 +70,12 @@ public class Apartment {
         this.bath = bath;
         this.deposit = deposit;
         this.furnished = furnished;
-        this.image_path = image_path;
+        this.imagePath = imagePath;
         this.kitchen = kitchen;
         this.laundry = laundry;
         this.lid = lid;
         this.name = name;
-        this.occupants = occupants;
+        this.beds = beds;
         this.pets = pets;
         this.proprietor = proprietor;
         this.rent = rent;
@@ -100,11 +100,11 @@ public class Apartment {
         this.available = available;
     }
 
-    public Date getCurrentLease() {
+    public Timestamp getCurrentLease() {
         return currentLease;
     }
 
-    public void setCurrentLease(Date currentLease) {
+    public void setCurrentLease(Timestamp currentLease) {
         this.currentLease = currentLease;
     }
 
@@ -132,12 +132,12 @@ public class Apartment {
         this.furnished = furnished;
     }
 
-    public String getImage_path() {
-        return image_path;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getKitchen() {
@@ -172,12 +172,12 @@ public class Apartment {
         this.name = name;
     }
 
-    public int getOccupants() {
-        return occupants;
+    public int getBeds() {
+        return beds;
     }
 
-    public void setOccupants(int occupants) {
-        this.occupants = occupants;
+    public void setBeds(int beds) {
+        this.beds = beds;
     }
 
     public boolean isPets() {

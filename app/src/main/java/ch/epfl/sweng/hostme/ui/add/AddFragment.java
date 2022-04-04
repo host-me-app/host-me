@@ -61,7 +61,7 @@ public class AddFragment extends Fragment {
         formFields.put("bath", binding.enterBath);
         formFields.put("kitchen", binding.enterKitchen);
         formFields.put("laundry", binding.enterLaundry);
-        formFields.put("pet", binding.enterPet);
+        formFields.put("pets", binding.enterPets);
         formFields.put("proprietor", binding.enterProprietor);
         formFields.put("utilities", binding.enterUtilities);
         formFields.put("deposit", binding.enterDeposit);
@@ -78,9 +78,6 @@ public class AddFragment extends Fragment {
         addSubmit = binding.addSubmit;
         addSubmit.setOnClickListener(v -> {
             Listing latest = generateApartment();
-            try {
-                System.out.println(latest.exportDoc().toString(2));
-            } catch (JSONException e) { throw new RuntimeException(e); }
         });
 
         final FloatingActionButton addNew = binding.addNew;
@@ -138,7 +135,7 @@ public class AddFragment extends Fragment {
             fields.put("bath", formFields.get("bath").getText().toString());
             fields.put("kitchen", formFields.get("kitchen").getText().toString());
             fields.put("laundry", formFields.get("laundry").getText().toString());
-            fields.put("pet", formFields.get("pet").getText().toString().equals("yes"));
+            fields.put("pets", formFields.get("pets").getText().toString().equals("yes"));
             fields.put("proprietor", formFields.get("proprietor").getText().toString());
             fields.put("uid", UID);
             fields.put("utilities", Integer.valueOf(formFields.get("utilities").getText().toString()));

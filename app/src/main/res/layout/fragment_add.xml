@@ -155,7 +155,7 @@
             android:inputType="text"
             android:hint="none, private, shared" />
         <EditText
-            android:id="@+id/enter_pet"
+            android:id="@+id/enter_pets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"

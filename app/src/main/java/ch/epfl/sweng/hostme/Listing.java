@@ -1,6 +1,10 @@
 package ch.epfl.sweng.hostme;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.google.firebase.Timestamp;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.text.ParsePosition;
@@ -13,11 +17,12 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.utils.Privacy;
 
-public class Listing {
-    private final static String BASEURL = "projects/869636231621/storage/host-me-9072b.appspot.com/files/apartments%2F";
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
+public class Listing {
     private String name;
     private String room;
     private String address;
@@ -30,9 +35,9 @@ public class Listing {
     private String bath;
     private String kitchen;
     private String laundry;
-    private boolean pet;
+    private boolean pets;
     private String imagePath;
-    // private List<String> images;    // will change to <Bitmap | Drawable | Image>
+    private List<Bitmap> images;
     private boolean available;
     private String proprietor;
     private String uid;
@@ -42,21 +47,24 @@ public class Listing {
     private Timestamp currentLease;
 
     private Map<String, String> opt;
-    // private Map<String, String> custom;
 
     /**
      * Constructor for Firebase class binding
      */
-    public Listing () { }
+    public Listing () {
+        parseImages();
+    }
 
     /**
      * Constructor of a residence listing. Stores all provided fields, sets default values for
      * fields that do not exist at instantiation, and checks for optional values.
+     *
      * @param fields a JSONObject containing all required fields of the Add UI, optionally
      *               containing some additional fields
+     * @throws JSONException when input data is malformed
      */
     public Listing (JSONObject fields) {
-        // this.images = new ArrayList<>();
+        this.images = new ArrayList<>();
         this.opt = new HashMap<>();
         try {
             this.name = fields.getString("name");
@@ -71,19 +79,20 @@ public class Listing {
             this.bath = fields.getString("bath");
             this.kitchen = fields.getString("kitchen");
             this.laundry = fields.getString("laundry");
-            this.pet = fields.getBoolean("pet");
+            this.pets = fields.getBoolean("pets");
             this.proprietor = fields.getString("proprietor");
             this.uid = fields.getString("uid");
             this.utilities = fields.getInt("utilities");
             this.deposit = fields.getInt("deposit");
             this.duration = fields.getInt("duration");
 
-            this.imagePath = String.format("%s%s_%s_%s", BASEURL,
-                    this.proprietor.toLowerCase(), this.name.toLowerCase(), this.room.toLowerCase());
+            this.imagePath = String.format("%s/%s_%s_%s", APARTMENTS, this.proprietor.toLowerCase(),
+                    this.name.toLowerCase(), this.room.toLowerCase());
             this.available = true;
             this.currentLease = null;
 
             // TODO: pull and parse image directory
+            parseImages();
         } catch (org.json.JSONException e) { throw new RuntimeException(e); }
         JSONObject extra = fields.optJSONObject("opt");
         if (extra != null) {
@@ -193,12 +202,12 @@ public class Listing {
         this.laundry = laundry.toString();
     }
 
-    public boolean isPet() {
-        return this.pet;
+    public boolean isPets() {
+        return this.pets;
     }
 
-    public void togglePet() {
-        this.pet = !this.pet;
+    public void togglePets() {
+        this.pets = !this.pets;
     }
 
     public String getImagePath() {
@@ -256,6 +265,11 @@ public class Listing {
     public void setCurrentLease(Timestamp currentLease) {
         this.currentLease = currentLease;
     }
+
+    public List<Bitmap> getImages() {
+        return this.images;
+    }
+
     public Map<String, String> getOpt() {
         return this.opt;
     }
@@ -275,7 +289,7 @@ public class Listing {
             ret.put("bath", this.bath);
             ret.put("kitchen", this.kitchen);
             ret.put("laundry", this.laundry);
-            ret.put("pet", this.pet);
+            ret.put("pets", this.pets);
             ret.put("imagePath", this.imagePath);
             ret.put("available", this.available);
             ret.put("proprietor", this.proprietor);
@@ -291,5 +305,22 @@ public class Listing {
         } catch (JSONException e) { throw new RuntimeException(e); }
 
         return ret;
+    }
+
+    private void parseImages() {
+        StorageReference imageDir = Storage.getStorageReferenceByChild(this.imagePath);
+        imageDir.listAll().addOnCompleteListener(list -> {
+            if (list.isSuccessful()) {
+                List<StorageReference> files = list.getResult().getItems();
+                for (StorageReference item: files) {
+                    item.getBytes(1000000).addOnCompleteListener(bytes -> {
+                        if (bytes.isSuccessful()) {
+                            byte[] res = bytes.getResult();
+                            images.add(BitmapFactory.decodeByteArray(res, 0, res.length));
+                        }
+                    });
+                }
+            }
+        });
     }
 }

@@ -27,7 +27,6 @@ import java.util.List;
 
 import ch.epfl.sweng.hostme.Apartment;
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.adapter.ApartmentAdapter;
 import ch.epfl.sweng.hostme.database.Database;
 
 public class SearchFragment extends Fragment {
@@ -56,12 +55,6 @@ public class SearchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.recycler_view, container, false);
-        /*if (savedInstanceState != null) {
-            System.out.println("Je passe la !!");
-            apartments = savedInstanceState.getParcelableArrayList(LIST_STATE);
-            savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
-            displayData();
-        } else {*/
 
         recyclerView = root.findViewById(R.id.recyclerView);
 
@@ -188,39 +181,6 @@ public class SearchFragment extends Fragment {
             }
         });
     }
-
-   /* private void displayData() {
-        recyclerView = root.findViewById(R.id.recyclerView);
-        recyclerAdapter = new ApartmentAdapter(apartments);
-        recyclerView.setAdapter(recyclerAdapter);
-        restoreLayoutManagerPosition();
-        recyclerAdapter.notifyDataSetChanged();
-    }
-
-    private void restoreLayoutManagerPosition() {
-        if (savedRecyclerLayoutState != null) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
-        }
-    }
-
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        System.out.println("Je passe dans le onSaveInstanceState");
-        outState.putParcelableArrayList(LIST_STATE, apartments);
-        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, recyclerView.getLayoutManager().onSaveInstanceState());
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
-            recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
-        }
-    }*/
-
 
     @Override
     public void onResume() {

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="4dp">
 
@@ -20,7 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:background="@drawable/received_message"
-        android:padding="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintWidth_max="wrap"
         android:textColor="@color/white"
         android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@id/imageSender"
@@ -33,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/grey"
-        android:textSize="11sp"
+        android:textSize="8sp"
         app:layout_constraintStart_toStartOf="@id/textMessage"
         app:layout_constraintTop_toBottomOf="@id/textMessage" />
 

@@ -44,10 +44,6 @@ public class SearchFragment extends Fragment {
     private String searchText;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private Parcelable listState;
-    private Parcelable savedRecyclerLayoutState;
-    private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_layout";
-    private static String LIST_STATE = "list_state";
     private View root;
 
 

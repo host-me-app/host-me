@@ -15,9 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.Timestamp;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,17 +26,20 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import ch.epfl.sweng.hostme.Listing;
+import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.FragmentAddBinding;
+
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
 public class AddFragment extends Fragment {
     private FragmentAddBinding binding;
     private Map<String, EditText> formFields;
     private Button addSubmit;
 
-    private final static FirebaseFirestore DB = FirebaseFirestore.getInstance();
-    private final String UID = FirebaseAuth.getInstance().getUid(); // may change to extra from FCP5
+    private final CollectionReference DB = Database.getCollection(APARTMENTS);
+    private final String UID = Auth.getUid(); // may change to extra from FCP5
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -119,7 +120,6 @@ public class AddFragment extends Fragment {
     }
 
     private Listing generateApartment() {
-        final CollectionReference apt = DB.collection("apartments");
         JSONObject fields = new JSONObject();
         String addr[] = formFields.get("address").getText().toString().split("\n");
         try{
@@ -145,7 +145,7 @@ public class AddFragment extends Fragment {
 
         Listing ret = new Listing(fields);
 
-        apt.add(ret);
+        DB.add(ret);
 
         return ret;
     }

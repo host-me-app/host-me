@@ -10,24 +10,37 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.Objects;
+
+import ch.epfl.sweng.hostme.database.Auth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
     private EditText userName;
     private EditText pwd;
     private Button logInButt;
+    private final TextWatcher logInTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String userNameText = userName.getText().toString().trim();
+            String pwdText = pwd.getText().toString().trim();
+
+            logInButt.setEnabled(!userNameText.isEmpty() && !pwdText.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-
-        mAuth = FirebaseAuth.getInstance();
 
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
@@ -52,24 +65,6 @@ public class MainActivity extends AppCompatActivity {
         forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
 
     }
-
-    private final TextWatcher logInTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String userNameText = userName.getText().toString().trim();
-            String pwdText = pwd.getText().toString().trim();
-
-            logInButt.setEnabled(!userNameText.isEmpty() && !pwdText.isEmpty());
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
 
     /**
      * Go to forgot password fragment
@@ -107,11 +102,11 @@ public class MainActivity extends AppCompatActivity {
      * @param password
      */
     private void loginUser(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
+        Auth.loginUserWithEmail(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         welcome();
-                        Toast.makeText(MainActivity.this, "Authentication successed.",
+                        Toast.makeText(MainActivity.this, "Authentication succeed.",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(MainActivity.this, "Authentication failed.",

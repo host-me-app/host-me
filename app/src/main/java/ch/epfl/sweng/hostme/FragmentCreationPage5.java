@@ -11,29 +11,22 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 
 
 public class FragmentCreationPage5 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
-    private FirebaseAuth mAuth;
-    private final static FirebaseFirestore database = FirebaseFirestore.getInstance();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page5, container, false);
-        mAuth = FirebaseAuth.getInstance();
-
 
         Button terminateButt = view.findViewById(R.id.terminateButton);
         EditText pwd = view.findViewById(R.id.password);
@@ -53,7 +46,7 @@ public class FragmentCreationPage5 extends Fragment {
     /**
      * Go to menu activity
      */
-    private void welcome() {
+    private void goToMenu() {
         Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
@@ -66,14 +59,14 @@ public class FragmentCreationPage5 extends Fragment {
      * @param password
      */
     private void createUser(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        Auth.createUser(email, password)
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
                                 updateFireStoreDB();
                                 Toast.makeText(getActivity(), "Authentication successed.",
                                         Toast.LENGTH_SHORT).show();
-                                welcome();
+                                goToMenu();
                             } else {
                                 Toast.makeText(getActivity(), "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
@@ -92,9 +85,9 @@ public class FragmentCreationPage5 extends Fragment {
                 DATA.get(FragmentCreationPage3.LAST_NAME),
                 DATA.get(FragmentCreationPage4.MAIL),
                 DATA.get(FragmentCreationPage1.GENDER)
-                );
+        );
 
-        database.collection("users").document(mAuth.getUid()).set(user);
+        Database.getCollection("users").document(Auth.getUid()).set(user);
 
 
     }

@@ -8,3 +8,10 @@
 .externalNativeBuild
 .cxx
 local.properties
+*.log
+.firebaserc
+firestore.rules
+firestore.indexes.json
+firebase.json
+storage.rules
+

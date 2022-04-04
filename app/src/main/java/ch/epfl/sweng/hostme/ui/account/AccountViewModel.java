@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
-
 public class AccountViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;

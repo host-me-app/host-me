@@ -10,24 +10,35 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 public class EnterMailChangePwd extends AppCompatActivity {
-    private FirebaseAuth mAuth;
     private EditText mail;
     private Button sendPwd;
+    private final TextWatcher sendMailTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String mailText = mail.getText().toString().trim();
+            sendPwd.setEnabled(EmailValidator.isValid(mailText));
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_pwd);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-        mAuth = FirebaseAuth.getInstance();
-
 
         mail = findViewById(R.id.mailForgotPwd);
         mail.addTextChangedListener(sendMailTextWatcher);
@@ -46,7 +57,7 @@ public class EnterMailChangePwd extends AppCompatActivity {
      * @param mailText
      */
     private void sendMail(String mailText) {
-        mAuth.sendPasswordResetEmail(mailText)
+        Auth.resetEmail(mailText)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getApplicationContext(),
@@ -60,21 +71,5 @@ public class EnterMailChangePwd extends AppCompatActivity {
                     }
                 });
     }
-
-    private final TextWatcher sendMailTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String mailText = mail.getText().toString().trim();
-            sendPwd.setEnabled(EmailValidator.isValid(mailText));
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
 
 }

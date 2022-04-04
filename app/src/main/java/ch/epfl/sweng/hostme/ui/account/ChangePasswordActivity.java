@@ -1,19 +1,20 @@
 package ch.epfl.sweng.hostme.ui.account;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
 
 public class ChangePasswordActivity extends AppCompatActivity {
@@ -37,14 +38,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         terminateButton = findViewById(R.id.userProfileChangePsswdTerminate);
 
-        terminateButton.setOnClickListener( v -> {
+        terminateButton.setOnClickListener(v -> {
 
             String oldPasswordText = editOldPassword.getText().toString();
             String newPasswordText = editNewPassword.getText().toString();
             String confirmNewPasswordText = editConfirmNewPassword.getText().toString();
 
             if (newPasswordText.equals(confirmNewPasswordText) && PasswordValidator.isValid(confirmNewPasswordText)) {
-                changePasswordDB(oldPasswordText,newPasswordText);
+                changePasswordDB(oldPasswordText, newPasswordText);
             }
         });
     }
@@ -52,31 +53,31 @@ public class ChangePasswordActivity extends AppCompatActivity {
     /**
      * Change app authentication password.
      *
-     * @param oldPassword  Old Password
+     * @param oldPassword Old Password
      * @param newPassword New Password
      */
     private void changePasswordDB(String oldPassword, String newPassword) {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = Auth.getCurrentUser();
         final String email = user.getEmail();
-        AuthCredential credential = EmailAuthProvider.getCredential(email,oldPassword);
+        AuthCredential credential = EmailAuthProvider.getCredential(email, oldPassword);
 
         user.reauthenticate(credential).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
 
-                user.updatePassword(newPassword).addOnCompleteListener( task1 -> {
+                user.updatePassword(newPassword).addOnCompleteListener(task1 -> {
 
-                    if(task1.isSuccessful()){
+                    if (task1.isSuccessful()) {
                         Toast.makeText(this, "Password Successfully Modified",
                                 Toast.LENGTH_SHORT).show();
                         this.getFragmentManager().popBackStack();
-                    }else {
+                    } else {
                         Toast.makeText(this, "Password Modification Failed",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
 
-            }else{
+            } else {
 
                 Toast.makeText(this, "Authentication Failed",
                         Toast.LENGTH_SHORT).show();

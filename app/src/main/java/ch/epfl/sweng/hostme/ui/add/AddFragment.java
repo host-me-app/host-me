@@ -131,7 +131,7 @@ public class AddFragment extends Fragment {
             fields.put("address", addr[0]);
             fields.put("npa", Integer.valueOf(addr[1].substring(0,4)));
             fields.put("city", addr[1].substring(5));
-            fields.put("rent", Double.valueOf(formFields.get("rent").getText().toString()));
+            fields.put("rent", Integer.valueOf(formFields.get("rent").getText().toString()));
             fields.put("beds", Integer.valueOf(formFields.get("beds").getText().toString()));
             fields.put("area", Integer.valueOf(formFields.get("area").getText().toString()));
             fields.put("furnished", formFields.get("furnished").getText().toString().equals("yes"));
@@ -141,8 +141,8 @@ public class AddFragment extends Fragment {
             fields.put("pet", formFields.get("pet").getText().toString().equals("yes"));
             fields.put("proprietor", formFields.get("proprietor").getText().toString());
             fields.put("uid", UID);
-            fields.put("utilities", Double.valueOf(formFields.get("utilities").getText().toString()));
-            fields.put("deposit", Double.valueOf(formFields.get("deposit").getText().toString()));
+            fields.put("utilities", Integer.valueOf(formFields.get("utilities").getText().toString()));
+            fields.put("deposit", Integer.valueOf(formFields.get("deposit").getText().toString()));
             fields.put("duration", formFields.get("duration").getText().toString());
         } catch (JSONException e) { throw new RuntimeException(e); }
 

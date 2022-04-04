@@ -17,8 +17,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -76,7 +74,6 @@ public class MainActivityTest {
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "host.me.app2022@gmail.com";
             String password = "!Hostme2022";
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
             onView(withId(R.id.userName)).check(matches(isDisplayed()));
             onView(withId(R.id.pwd)).check(matches(isDisplayed()));
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());

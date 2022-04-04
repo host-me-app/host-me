@@ -10,7 +10,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
@@ -18,15 +17,14 @@ import org.junit.runner.RunWith;
 
 
 @RunWith(AndroidJUnit4.class)
-public class WelcomePageTest {
+public class ScrollingApartmentTest {
 
     @Test
-    public void welcomeMessageIsDisplayed() {
-        Intent intent = new Intent(getApplicationContext(), WelcomePage.class);
-        Intents.init();
-        try (ActivityScenario<MainActivity> scenario = launch(intent)) {
-            onView(withId(R.id.welcomeMessage)).check(matches(isDisplayed()));
+    public void Search_Apartment_Display() {
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
+            onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
         }
-        Intents.release();
+
     }
 }

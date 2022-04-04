@@ -7,7 +7,6 @@ import java.text.ParsePosition;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -24,7 +23,7 @@ public class Listing {
     private String address;
     private int npa;
     private String city;
-    private double rent;
+    private int rent;
     private int beds;
     private int area;
     private boolean furnished;
@@ -32,21 +31,30 @@ public class Listing {
     private String kitchen;
     private String laundry;
     private boolean pet;
-    private String imageDir;
+    private String imagePath;
     // private List<String> images;    // will change to <Bitmap | Drawable | Image>
     private boolean available;
     private String proprietor;
     private String uid;
-    private double utilities;
-    private double deposit;
+    private int utilities;
+    private int deposit;
     private int duration;
     private Timestamp currentLease;
 
     private Map<String, String> opt;
     // private Map<String, String> custom;
 
+    /**
+     * Constructor for Firebase class binding
+     */
     public Listing () { }
 
+    /**
+     * Constructor of a residence listing. Stores all provided fields, sets default values for
+     * fields that do not exist at instantiation, and checks for optional values.
+     * @param fields a JSONObject containing all required fields of the Add UI, optionally
+     *               containing some additional fields
+     */
     public Listing (JSONObject fields) {
         // this.images = new ArrayList<>();
         this.opt = new HashMap<>();
@@ -56,7 +64,7 @@ public class Listing {
             this.address = fields.getString("address");
             this.npa = fields.getInt("npa");
             this.city = fields.getString("city");
-            this.rent = fields.getDouble("rent");
+            this.rent = fields.getInt("rent");
             this.beds = fields.getInt("beds");
             this.area = fields.getInt("area");
             this.furnished = fields.getBoolean("furnished");
@@ -66,11 +74,11 @@ public class Listing {
             this.pet = fields.getBoolean("pet");
             this.proprietor = fields.getString("proprietor");
             this.uid = fields.getString("uid");
-            this.utilities = fields.getDouble("utilities");
-            this.deposit = fields.getDouble("deposit");
+            this.utilities = fields.getInt("utilities");
+            this.deposit = fields.getInt("deposit");
             this.duration = fields.getInt("duration");
 
-            this.imageDir = String.format("%s%s_%s_%s", BASEURL,
+            this.imagePath = String.format("%s%s_%s_%s", BASEURL,
                     this.proprietor.toLowerCase(), this.name.toLowerCase(), this.room.toLowerCase());
             this.available = true;
             this.currentLease = null;
@@ -129,11 +137,11 @@ public class Listing {
         this.city = city;
     }
 
-    public double getRent() {
+    public int getRent() {
         return this.rent;
     }
 
-    public void setRent(double rent) {
+    public void setRent(int rent) {
         this.rent = rent;
     }
 
@@ -193,6 +201,10 @@ public class Listing {
         this.pet = !this.pet;
     }
 
+    public String getImagePath() {
+        return this.imagePath;
+    }
+
     public boolean isAvailable() {
         return this.available;
     }
@@ -213,23 +225,19 @@ public class Listing {
         return this.uid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public double getUtilities() {
+    public int getUtilities() {
         return this.utilities;
     }
 
-    public void setUtilities(double utilities) {
+    public void setUtilities(int utilities) {
         this.utilities = utilities;
     }
 
-    public double getDeposit() {
+    public int getDeposit() {
         return this.deposit;
     }
 
-    public void setDeposit(double deposit) {
+    public void setDeposit(int deposit) {
         this.deposit = deposit;
     }
 
@@ -268,7 +276,7 @@ public class Listing {
             ret.put("kitchen", this.kitchen);
             ret.put("laundry", this.laundry);
             ret.put("pet", this.pet);
-            ret.put("imageDir", this.imageDir);
+            ret.put("imagePath", this.imagePath);
             ret.put("available", this.available);
             ret.put("proprietor", this.proprietor);
             ret.put("uid", this.uid);

@@ -33,7 +33,6 @@ public class SearchFragment extends Fragment {
     public static final float MAX_AREA = 3000f;
     public static final float MAX_PRICE = 5000f;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
-    private SearchViewModel viewModel;
     private RecyclerView recyclerView;
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;

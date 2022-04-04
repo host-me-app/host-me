@@ -116,12 +116,14 @@ public class UserProfileUITest {
                     .perform(typeText(firstname), closeSoftKeyboard());
             onView(withId(R.id.userProfileSaveButton)).check(matches(isEnabled()));
             onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileGenderF)).perform(click());
             onView(withId(R.id.userProfileSaveButton)).perform(click());
             Thread.sleep(1000);
 
             String firstnameOriginal = "test";
             onView(withId(R.id.userProfileFirstName)).perform(clearText())
                     .perform(typeText(firstnameOriginal), closeSoftKeyboard());
+            onView(withId(R.id.userProfileGenderM)).perform(click());
             onView(withId(R.id.userProfileSaveButton)).perform(click());
             Thread.sleep(1000);
 

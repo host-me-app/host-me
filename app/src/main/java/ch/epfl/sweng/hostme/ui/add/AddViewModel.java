@@ -8,18 +8,22 @@ import androidx.lifecycle.ViewModel;
 
 public class AddViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
-    //private final MutableLiveData<EditText> mField;
+    private final MutableLiveData<EditText> mField;
+    private final MutableLiveData<String> empty;
 
     public AddViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("You have no active listings.");
-
-        //mField = new MutableLiveData<>();
-
+        mField = new MutableLiveData<>();
+        empty = new MutableLiveData<>();
+        empty.setValue("You have no active listings");
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void selectField(EditText f) {
+        mField.setValue(f);
+    }
+    public LiveData<EditText> getField() {
+        return mField;
+    }
+    public LiveData<String> notOwner() {
+        return empty;
     }
 }

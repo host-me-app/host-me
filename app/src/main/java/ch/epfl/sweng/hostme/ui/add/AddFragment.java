@@ -1,6 +1,8 @@
 package ch.epfl.sweng.hostme.ui.add;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,9 @@ public class AddFragment extends Fragment {
     private Map<String, EditText> formFields;
     private Button addSubmit;
 
+    private final static FirebaseFirestore DB = FirebaseFirestore.getInstance();
+    private final String UID = FirebaseAuth.getInstance().getUid(); // may change to extra from FCP5
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +67,10 @@ public class AddFragment extends Fragment {
         formFields.put("deposit", binding.enterDeposit);
         formFields.put("duration", binding.enterDuration);
 
+        for (String item: formFields.keySet()) {
+            formFields.get(item).addTextChangedListener(formWatcher);
+        }
+
         final Button enterImages = binding.enterImages;
         enterImages.setOnClickListener(v -> {   // TODO: replace with image upload
             enterImages.setEnabled(false);
@@ -79,8 +88,11 @@ public class AddFragment extends Fragment {
             formTransition(addForm);
         });
 
-        final TextView textView = binding.addWelcome;
-        addViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView addFirst = binding.addFirst;
+        if (!UID.isEmpty()) {
+            addViewModel.notOwner().observe(getViewLifecycleOwner(), addFirst::setText);
+        }
+
         return root;
     }
 
@@ -110,9 +122,7 @@ public class AddFragment extends Fragment {
     }
 
     private Listing generateApartment() {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final FirebaseAuth auth = FirebaseAuth.getInstance();
-        final CollectionReference apt = db.collection("apartments");
+        final CollectionReference apt = DB.collection("apartments");
         JSONObject fields = new JSONObject();
         String addr[] = formFields.get("address").getText().toString().split("\n");
         try{
@@ -130,7 +140,7 @@ public class AddFragment extends Fragment {
             fields.put("laundry", formFields.get("laundry").getText().toString());
             fields.put("pet", formFields.get("pet").getText().toString().equals("yes"));
             fields.put("proprietor", formFields.get("proprietor").getText().toString());
-            fields.put("uid", auth.getUid());
+            fields.put("uid", UID);
             fields.put("utilities", Double.valueOf(formFields.get("utilities").getText().toString()));
             fields.put("deposit", Double.valueOf(formFields.get("deposit").getText().toString()));
             fields.put("duration", formFields.get("duration").getText().toString());
@@ -142,5 +152,22 @@ public class AddFragment extends Fragment {
 
         return ret;
     }
+
+    private final TextWatcher formWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
 }

@@ -50,40 +50,43 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                switch (position) {
-                    case 0:
-                        navView.getMenu().findItem(R.id.navigation_search).setChecked(true);
-                        break;
-                    case 1:
-                        navView.getMenu().findItem(R.id.navigation_add).setChecked(true);
-                        break;
-                    case 2:
-                        navView.getMenu().findItem(R.id.navigation_favorites).setChecked(true);
-                        break;
-                    case 3:
-                        navView.getMenu().findItem(R.id.navigation_messages).setChecked(true);
-                        break;
-                    case 4:
-                        navView.getMenu().findItem(R.id.navigation_account).setChecked(true);
-                        break;
-                }
+                setCheckedItem(position, navView);
             }
         });
 
         setupViewPager(viewPager);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        
-        /*AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_search, R.id.navigation_add, R.id.navigation_favorites,
-                R.id.navigation_messages, R.id.navigation_account)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_menu1);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);*/
     }
 
+    /**
+     * Set the corresponding Item to checked
+     * @param position
+     * @param navView
+     */
+    private void setCheckedItem(int position, BottomNavigationView navView) {
+        switch (position) {
+            case 0:
+                navView.getMenu().findItem(R.id.navigation_search).setChecked(true);
+                break;
+            case 1:
+                navView.getMenu().findItem(R.id.navigation_add).setChecked(true);
+                break;
+            case 2:
+                navView.getMenu().findItem(R.id.navigation_favorites).setChecked(true);
+                break;
+            case 3:
+                navView.getMenu().findItem(R.id.navigation_messages).setChecked(true);
+                break;
+            case 4:
+                navView.getMenu().findItem(R.id.navigation_account).setChecked(true);
+                break;
+        }
+    }
+
+    /**
+     * set the current item
+     * @param item
+     */
     private void setCurrentItem(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_search:
@@ -104,6 +107,10 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * set up the viewPage
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager2 viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getLifecycle());
 

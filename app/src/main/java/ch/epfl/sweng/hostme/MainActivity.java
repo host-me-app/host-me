@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.userCreation;
+package ch.epfl.sweng.hostme;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-import ch.epfl.sweng.hostme.MenuActivity;
-import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.userCreation.CreationContainer;
+import ch.epfl.sweng.hostme.userCreation.EnterMailChangePwd;
 
 public class MainActivity extends AppCompatActivity {
 

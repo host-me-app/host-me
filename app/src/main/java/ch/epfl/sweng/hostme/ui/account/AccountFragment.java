@@ -44,7 +44,7 @@ import java.util.HashMap;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.userCreation.MainActivity;
+import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;

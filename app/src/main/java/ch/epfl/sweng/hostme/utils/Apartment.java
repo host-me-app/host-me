@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;

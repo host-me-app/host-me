@@ -11,7 +11,7 @@ public final class Auth {
 
     }
 
-    private static boolean test = true;
+    private static boolean test = false;
 
     public static Task<AuthResult> loginUserWithEmail(String email, String password) {
         return Auth.getExactInstance().signInWithEmailAndPassword(email, password);

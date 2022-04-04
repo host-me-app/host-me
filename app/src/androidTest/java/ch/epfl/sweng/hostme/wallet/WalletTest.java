@@ -25,7 +25,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.userCreation.MainActivity;
+import ch.epfl.sweng.hostme.MainActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class WalletTest {

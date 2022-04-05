@@ -52,6 +52,8 @@ public class ChatActivity extends AppCompatActivity {
                 chatMessages,
                 Auth.getUid()
         );
+        binding.chatRecyclerView.setAdapter(chatAdapter);
+        database = FirebaseFirestore.getInstance();
     }
 
     private void sendMessage(){
@@ -70,8 +72,8 @@ public class ChatActivity extends AppCompatActivity {
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
                 .addSnapshotListener(eventListener);
         database.collection(Constants.KEY_COLLECTION_CHAT)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
-                .whereEqualTo(Constants.KEY_SENDER_ID, Auth.getUid())
+                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, Auth.getUid())
                 .addSnapshotListener(eventListener);
     }
 
@@ -92,7 +94,7 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessages.add(chatMessage);
                 }
             }
-            Collections.sort(chatMessages, (a, b) -> a.dateObject.compareTo(b.dateObject));
+            Collections.sort(chatMessages, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
             if(count == 0){
                 chatAdapter.notifyDataSetChanged();
             }else{

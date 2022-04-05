@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.epfl.sweng.hostme.MenuFragment;
+import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -49,7 +49,7 @@ public class FragmentCreationPage5 extends Fragment {
      * Go to menu activity
      */
     private void goToMenu() {
-        Intent intent = new Intent(getActivity(), MenuFragment.class);
+        Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

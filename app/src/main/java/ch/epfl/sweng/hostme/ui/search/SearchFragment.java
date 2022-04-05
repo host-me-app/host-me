@@ -31,8 +31,8 @@ import ch.epfl.sweng.hostme.database.Database;
 
 public class SearchFragment extends Fragment {
 
-    public static final float MAX_AREA = 3000f;
-    public static final float MAX_PRICE = 5000f;
+    public static final float MAX_AREA = 1000f;
+    public static final float MAX_PRICE = 3500f;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;

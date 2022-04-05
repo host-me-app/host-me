@@ -13,6 +13,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
 import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.R;
@@ -67,13 +69,12 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.city.setText(apartment.getCity());
         holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
         holder.area.setText(String.format("%s m²", apartment.getArea()));
-        //retrieveAndDisplayImage(holder, apartment);
+        retrieveAndDisplayImage(holder, apartment);
         holder.itemView.setOnClickListener(view -> {
             Bundle bundle = new Bundle();
             Fragment fragment = new DisplayApartment();
             FragmentTransaction fragmentTransaction =
                     ((AppCompatActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, fragment);
             fragmentTransaction.addToBackStack(null);
             bundle.putString(UID, apartment.getUid());
             bundle.putString(ADDR, apartment.getAddress());
@@ -86,6 +87,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             bundle.putString(PROPRIETOR, apartment.getProprietor());
             bundle.putParcelable(BITMAP, bitmap);
             fragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.main_container, fragment);
             fragmentTransaction.commit();
         });
     }

@@ -42,8 +42,8 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".wallet.WalletActivity"
-            android:parentActivityName=".MenuFragment" />
-        <activity android:name=".MenuContainer" />
+            android:parentActivityName=".MenuActivity" />
+        <activity android:name=".MenuActivity" />
 
         <service
             android:name=".ui.messages.MessageService"

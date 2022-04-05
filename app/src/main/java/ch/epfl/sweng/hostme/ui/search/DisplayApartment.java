@@ -67,7 +67,6 @@ public class DisplayApartment extends Fragment {
             Bitmap bitmap = bundle.getParcelable(ApartmentAdapter.BITMAP);
             image.setImageBitmap(bitmap);
 
-
             changeText(String.valueOf(npa), R.id.npa);
             changeText(city, R.id.city);
             changeText(addr, R.id.addr);
@@ -77,29 +76,31 @@ public class DisplayApartment extends Fragment {
             changeText(String.valueOf(occupants), R.id.occupants);
             changeText(proprietor, R.id.proprietor);
 
-
             String uid = bundle.getString(UID);
             Button contactUser = root.findViewById(R.id.contact_user_button);
-            contactUser.setOnClickListener(view -> reference.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    QuerySnapshot snapshot = task.getResult();
-                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                        if (doc.getId().equals(uid)) {
-                            User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
-                                    doc.getString(KEY_LASTNAME),
-                                    null, doc.getString(KEY_EMAIL), null);
-                            Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
-                            newIntent.putExtra(Constants.KEY_USER, user);
-                            System.out.println("Name !!!" + user.name + user.email);
-                            startActivity(newIntent);
+            contactUser.setOnClickListener(view -> {
+                reference.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot snapshot = task.getResult();
+                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                            if (doc.getId().equals(uid)) {
+                                User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
+                                        doc.getString(KEY_LASTNAME),
+                                        null, doc.getString(KEY_EMAIL), null);
+                                Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+                                newIntent.putExtra(Constants.KEY_USER, user);
+                                startActivity(newIntent);
+                                getActivity().finish();
+                            }
                         }
                     }
-                }
-            }));
+                });
+            });
         }
 
         return root;
     }
+
 
     /**
      * change the text view to display the data

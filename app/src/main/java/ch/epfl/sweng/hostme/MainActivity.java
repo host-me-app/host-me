@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
      * Go to menu activity
      */
     private void welcome() {
-        Intent intent = new Intent(MainActivity.this, MenuContainer.class);
+        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

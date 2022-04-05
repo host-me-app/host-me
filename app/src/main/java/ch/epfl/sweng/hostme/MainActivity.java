@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
+import java.nio.file.attribute.FileTime;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.database.Auth;
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
      * Go to menu activity
      */
     private void welcome() {
-        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+        Intent intent = new Intent(MainActivity.this, MenuContainer.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

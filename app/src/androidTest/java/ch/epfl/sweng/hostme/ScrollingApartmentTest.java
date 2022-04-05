@@ -39,9 +39,9 @@ public class ScrollingApartmentTest {
 
     @Test
     public void Search_Apartment_Display() {
-        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MenuFragment.class);
         Intents.init();
-        try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
+        try (ActivityScenario<MenuFragment> scenario = launch(intent)) {
             onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
         }
         Intents.release();

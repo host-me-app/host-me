@@ -41,11 +41,9 @@
             android:name=".userCreation.EnterMailChangePwd"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".MenuActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".wallet.WalletActivity"
-            android:parentActivityName=".MenuActivity" />
+            android:parentActivityName=".MenuFragment" />
+        <activity android:name=".MenuContainer" />
 
         <service
             android:name=".ui.messages.MessageService"

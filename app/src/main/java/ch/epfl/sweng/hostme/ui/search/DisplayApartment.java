@@ -54,8 +54,6 @@ public class DisplayApartment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-
-            System.out.println("salutuuuuut");
             String lid = bundle.getString(LID);
             String addr = bundle.getString(ADDR);
             int area = bundle.getInt(AREA, 0);

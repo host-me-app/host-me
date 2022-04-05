@@ -73,7 +73,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             Fragment fragment = new DisplayApartment();
             FragmentTransaction fragmentTransaction =
                     ((AppCompatActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(holder.itemView.getId(), fragment);
+            fragmentTransaction.replace(R.id.main_container, fragment);
             fragmentTransaction.addToBackStack(null);
             bundle.putString(UID, apartment.getUid());
             bundle.putString(ADDR, apartment.getAddress());

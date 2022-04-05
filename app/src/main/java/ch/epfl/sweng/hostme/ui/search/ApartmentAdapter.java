@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Storage;
@@ -72,7 +73,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             Fragment fragment = new DisplayApartment();
             FragmentTransaction fragmentTransaction =
                     ((AppCompatActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.nav_view, fragment);
+            fragmentTransaction.add(holder.itemView.getId(), fragment);
             fragmentTransaction.addToBackStack(null);
             bundle.putString(UID, apartment.getUid());
             bundle.putString(ADDR, apartment.getAddress());

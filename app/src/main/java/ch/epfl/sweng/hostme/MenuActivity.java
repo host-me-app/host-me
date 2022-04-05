@@ -14,7 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
-import ch.epfl.sweng.hostme.databinding.ActivityMenu1Binding;
 import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.ui.add.AddFragment;
 import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
@@ -23,22 +22,18 @@ import ch.epfl.sweng.hostme.ui.search.SearchFragment;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private ActivityMenu1Binding binding;
     private ViewPager2 viewPager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_menu1);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-
-        binding = ActivityMenu1Binding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         viewPager = findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(5);
 
         navView.setOnItemSelectedListener(item -> {
             setCurrentItem(item);
@@ -46,7 +41,6 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);

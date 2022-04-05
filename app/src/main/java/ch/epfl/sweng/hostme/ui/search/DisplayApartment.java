@@ -44,6 +44,9 @@ public class DisplayApartment extends Fragment {
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
     private View root;
 
+    public DisplayApartment() {
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,6 +54,8 @@ public class DisplayApartment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
+
+            System.out.println("salutuuuuut");
             String lid = bundle.getString(LID);
             String addr = bundle.getString(ADDR);
             int area = bundle.getInt(AREA, 0);

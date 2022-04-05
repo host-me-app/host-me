@@ -46,8 +46,6 @@
         <activity
             android:name=".wallet.WalletActivity"
             android:parentActivityName=".MenuActivity" />
-        <activity android:name=".ui.search.DisplayApartment" />
-
 
         <service
             android:name=".ui.messages.MessageService"

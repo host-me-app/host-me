@@ -1,8 +1,11 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.DocumentChange;
@@ -13,6 +16,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +30,7 @@ import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class ChatActivity extends AppCompatActivity {
 
     private ActivityChatBinding binding;
@@ -94,7 +99,7 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessages.add(chatMessage);
                 }
             }
-            Collections.sort(chatMessages, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
+            Collections.sort(chatMessages, Comparator.comparing(obj -> obj.dateObject));
             if(count == 0){
                 chatAdapter.notifyDataSetChanged();
             }else{
@@ -116,6 +121,7 @@ public class ChatActivity extends AppCompatActivity {
         binding.layoutSend.setOnClickListener(v -> sendMessage());
     }
 
+    @NonNull
     private String getReadableDataTime(Date date){
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
     }

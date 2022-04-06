@@ -34,7 +34,7 @@ import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+//@RequiresApi(api = Build.VERSION_CODES.N)
 public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "chatA";
@@ -105,7 +105,7 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessages.add(chatMessage);
                 }
             }
-            Collections.sort(chatMessages, Comparator.comparing(obj -> obj.dateObject));
+            Collections.sort(chatMessages, (obj1,obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
             if(count == 0){
                 chatAdapter.notifyDataSetChanged();
             }else{

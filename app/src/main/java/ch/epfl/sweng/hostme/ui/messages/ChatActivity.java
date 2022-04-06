@@ -2,15 +2,18 @@ package ch.epfl.sweng.hostme.ui.messages;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +29,7 @@ import java.util.Objects;
 import ch.epfl.sweng.hostme.chat.ChatAdapter;
 import ch.epfl.sweng.hostme.chat.ChatMessage;
 import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
@@ -33,11 +37,11 @@ import ch.epfl.sweng.hostme.utils.Constants;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ChatActivity extends AppCompatActivity {
 
+    private static final String TAG = "chatA";
     private ActivityChatBinding binding;
     private User receiverUser;
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
-    private FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,6 @@ public class ChatActivity extends AppCompatActivity {
                 Auth.getUid()
         );
         binding.chatRecyclerView.setAdapter(chatAdapter);
-        database = FirebaseFirestore.getInstance();
     }
 
     private void sendMessage(){
@@ -67,16 +70,29 @@ public class ChatActivity extends AppCompatActivity {
         message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
         message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
         message.put(Constants.KEY_TIMESTAMP, new Date());
-        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+        Database.getCollection(Constants.KEY_COLLECTION_CHAT)
+            .add(message)
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error adding document", e);
+                }
+            });
         binding.inputMessage.setText(null);
     }
 
     private void listenMessages(){
-        database.collection(Constants.KEY_COLLECTION_CHAT)
+        Database.getCollection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, Auth.getUid())
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
                 .addSnapshotListener(eventListener);
-        database.collection(Constants.KEY_COLLECTION_CHAT)
+        Database.getCollection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, Auth.getUid())
                 .addSnapshotListener(eventListener);
@@ -118,7 +134,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setListeners() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
-        binding.layoutSend.setOnClickListener(v -> sendMessage());
+        binding.sendButt.setOnClickListener(v -> sendMessage());
     }
 
     @NonNull

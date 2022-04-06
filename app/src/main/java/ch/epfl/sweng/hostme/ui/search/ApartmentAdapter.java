@@ -1,13 +1,12 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
-import static ch.epfl.sweng.hostme.utils.Constants.LID;
+import static ch.epfl.sweng.hostme.utils.Constants.PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
-import static ch.epfl.sweng.hostme.utils.Constants.OCCUPANT;
+import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
@@ -69,9 +68,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             intent.putExtra(CITY, apartment.getCity());
             intent.putExtra(RENT, apartment.getRent());
             intent.putExtra(AREA, apartment.getArea());
-            intent.putExtra(LID, apartment.getLid());
+            intent.putExtra(PATH, apartment.getImagePath());
             intent.putExtra(LEASE, apartment.getCurrentLease());
-            intent.putExtra(OCCUPANT, apartment.getOccupants());
+            intent.putExtra(BEDS, apartment.getBeds());
             intent.putExtra(PROPRIETOR, apartment.getProprietor());
             holder.itemView.getContext().startActivity(intent);
         });
@@ -83,7 +82,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     }
 
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
-        StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
+        StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

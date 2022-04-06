@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
@@ -9,9 +8,9 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
-import static ch.epfl.sweng.hostme.utils.Constants.LID;
+import static ch.epfl.sweng.hostme.utils.Constants.PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
-import static ch.epfl.sweng.hostme.utils.Constants.OCCUPANT;
+import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
@@ -54,14 +53,14 @@ public class DisplayApartment extends AppCompatActivity {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
         ImageView image = findViewById(R.id.apart_image);
-        String lid = getIntent().getStringExtra(LID);
+        String path = getIntent().getStringExtra(PATH);
 
         Intent intent = getIntent();
         String addr = intent.getStringExtra(ADDR);
         int area = intent.getIntExtra(AREA, 0);
         int rent = intent.getIntExtra(RENT, 0);
         String lease = intent.getStringExtra(LEASE);
-        int occupants = intent.getIntExtra(OCCUPANT, 0);
+        int beds = intent.getIntExtra(BEDS, 0);
         String proprietor = intent.getStringExtra(PROPRIETOR);
         String city = intent.getStringExtra(CITY);
         int npa = intent.getIntExtra(NPA, 0);
@@ -71,7 +70,7 @@ public class DisplayApartment extends AppCompatActivity {
         changeText(String.valueOf(area), R.id.area);
         changeText(String.valueOf(rent), R.id.price);
         changeText(lease, R.id.lease);
-        changeText(String.valueOf(occupants), R.id.occupants);
+        changeText(String.valueOf(beds), R.id.occupants);
         changeText(proprietor, R.id.proprietor);
 
         String uid = intent.getStringExtra(UID);
@@ -96,7 +95,7 @@ public class DisplayApartment extends AppCompatActivity {
                 }
             });
         });
-        displayImage(image, lid);
+        displayImage(image, path);
 
     }
 
@@ -104,10 +103,10 @@ public class DisplayApartment extends AppCompatActivity {
      * display the image into the ImageView image
      *
      * @param image
-     * @param lid
+     * @param path
      */
-    private void displayImage(ImageView image, String lid) {
-        StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + lid + PREVIEW_1_JPG);
+    private void displayImage(ImageView image, String path) {
+        StorageReference storageReference = Storage.getStorageReferenceByChild(path + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

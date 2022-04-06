@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.account;
 
 import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import android.Manifest;
 import android.app.Activity;
@@ -35,7 +34,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
@@ -43,10 +41,10 @@ import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 
-import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
@@ -73,7 +71,7 @@ public class AccountFragment extends Fragment {
     private FloatingActionButton changePictureButton;
     private ActivityResultLauncher<Intent> activityResultLauncherGallery;
     private ActivityResultLauncher<Intent> activityResultLauncherCamera;
-    private static final int CAMERA_PERM_CODE = 101 ;
+    private static final int CAMERA_PERM_CODE = 101;
 
 
     /**
@@ -147,8 +145,6 @@ public class AccountFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AccountViewModel accountViewModel =
-                new ViewModelProvider(this).get(AccountViewModel.class);
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         this.view = view;
@@ -178,39 +174,39 @@ public class AccountFragment extends Fragment {
         ContentResolver cont = this.getActivity().getContentResolver();
         activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
 
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    if (result.getData() != null) {
-                        Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
-                        editProfilePicture.setImageBitmap(imageBitmap);
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            if (result.getData() != null) {
+                                Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
+                                editProfilePicture.setImageBitmap(imageBitmap);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
 
         activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    if (result.getData()!= null){
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            if (result.getData() != null) {
 
-                        Uri selectedImage = result.getData().getData();
-                        String[] filePath = { MediaStore.Images.Media.DATA };
-                        Cursor c = cont.query(selectedImage,filePath, null, null, null);
-                        c.moveToFirst();
-                        int columnIndex = c.getColumnIndex(filePath[0]);
-                        String picturePath = c.getString(columnIndex);
-                        c.close();
-                        Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                        editProfilePicture.setImageBitmap(thumbnail);
+                                Uri selectedImage = result.getData().getData();
+                                String[] filePath = {MediaStore.Images.Media.DATA};
+                                Cursor c = cont.query(selectedImage, filePath, null, null, null);
+                                c.moveToFirst();
+                                int columnIndex = c.getColumnIndex(filePath[0]);
+                                String picturePath = c.getString(columnIndex);
+                                c.close();
+                                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                                editProfilePicture.setImageBitmap(thumbnail);
 
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
 
         DocumentReference docRef = Database.getCollection("users")
                 .document(Auth.getUid());
@@ -266,8 +262,7 @@ public class AccountFragment extends Fragment {
 
                     if (which == 0) {
                         pickFromCamera();
-                    }
-                    else if (which == 1){
+                    } else if (which == 1) {
                         pickFromGallery();
                     }
                 }
@@ -280,7 +275,7 @@ public class AccountFragment extends Fragment {
      * Pick user Profile image from Gallery
      */
     private void pickFromGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,EXTERNAL_CONTENT_URI);
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
         galleryIntent.setType("image/*");
         activityResultLauncherGallery.launch(galleryIntent);
     }
@@ -297,9 +292,11 @@ public class AccountFragment extends Fragment {
         }
     }
 
-    /** Only for The camera
-     * @param requestCode The code of the request
-     * @param permissions The permissions that are given
+    /**
+     * Only for The camera
+     *
+     * @param requestCode  The code of the request
+     * @param permissions  The permissions that are given
      * @param grantResults The result of the permission
      */
     @Override
@@ -317,8 +314,8 @@ public class AccountFragment extends Fragment {
     /**
      * Open Camera
      */
-    private void openCamera(){
-        Toast.makeText(getActivity(), "Camera Open Request",Toast.LENGTH_SHORT).show();
+    private void openCamera() {
+        Toast.makeText(getActivity(), "Camera Open Request", Toast.LENGTH_SHORT).show();
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         activityResultLauncherCamera.launch(cameraIntent);
     }
@@ -405,14 +402,11 @@ public class AccountFragment extends Fragment {
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
-
             Auth.signOut();
-
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
             getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-        })
-        .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "unable to sign out", Toast.LENGTH_SHORT).show());
+        });
     }
 
     /**

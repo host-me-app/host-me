@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.userCreation.CreationContainer;
+import ch.epfl.sweng.hostme.userCreation.EnterMailChangePwd;
 
 public class MainActivity extends AppCompatActivity {
 

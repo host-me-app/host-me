@@ -12,6 +12,7 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.slider.RangeSlider;
@@ -23,10 +24,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import ch.epfl.sweng.hostme.Apartment;
-import ch.epfl.sweng.hostme.LinearLayoutManagerWrapper;
+import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.adapter.ApartmentAdapter;
 import ch.epfl.sweng.hostme.database.Database;
 
 public class SearchFragment extends Fragment {
@@ -34,7 +33,6 @@ public class SearchFragment extends Fragment {
     public static final float MAX_AREA = 3000f;
     public static final float MAX_PRICE = 5000f;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
-    private SearchViewModel viewModel;
     private RecyclerView recyclerView;
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
@@ -161,7 +159,7 @@ public class SearchFragment extends Fragment {
                 List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
                 recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
                 recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(recyclerAdapter);
             }
         });

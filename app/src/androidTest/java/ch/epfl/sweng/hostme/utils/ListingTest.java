@@ -35,7 +35,7 @@ public class ListingTest {
         fields.put("laundry", "none");
         fields.put("pets", false);
         fields.put("proprietor", "");
-        fields.put("uid", "");
+        fields.put("uid", "uid");
         fields.put("utilities", 0);
         fields.put("deposit", 0);
         fields.put("duration", 0);

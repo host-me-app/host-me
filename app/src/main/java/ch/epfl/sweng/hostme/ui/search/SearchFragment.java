@@ -3,7 +3,6 @@ package ch.epfl.sweng.hostme.ui.search;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class SearchFragment extends Fragment {
 
@@ -53,12 +52,12 @@ public class SearchFragment extends Fragment {
         root = inflater.inflate(R.layout.recycler_view, container, false);
 
         recyclerView = root.findViewById(R.id.recyclerView);
-
         rangeBarPrice = root.findViewById(R.id.range_bar_price);
         rangeBarArea = root.findViewById(R.id.range_bar_area);
         filterButt = root.findViewById(R.id.filters);
         filters = root.findViewById(R.id.all_filters);
         SearchView searchView = root.findViewById(R.id.search_view);
+        Button clearFilters = root.findViewById(R.id.clear_filters);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -75,34 +74,40 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
         filterIsClicked = false;
-        filterButt.setOnClickListener(view -> {
-            if (!filterIsClicked) {
-                changeFilterVisibility(View.VISIBLE);
-                filterButt.setText(R.string.apply_filters);
-                filterIsClicked = true;
-            } else {
-                changeFilterVisibility(View.GONE);
-                filterButt.setText(R.string.filters_text);
-                filterIsClicked = false;
-                updateRecyclerView(rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
-                        rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
-            }
-        });
+        filterButt.setOnClickListener(view -> changeFiltersViewAndUpdate());
+        clearFilters.setOnClickListener(view -> setDefaultValuesRangeBar());
 
         changeFilterVisibility(View.GONE);
+        setDefaultValuesRangeBar();
+        apartments = new ArrayList<>();
+        setUpRecyclerView();
 
+        return root;
+    }
+
+    private void setDefaultValuesRangeBar() {
         rangeBarPrice.setValues(0f, MAX_PRICE);
         rangeBarPrice.setLabelFormatter(value -> value + " CHF");
         rangeBarArea.setValues(0f, MAX_AREA);
         rangeBarArea.setLabelFormatter(value -> value + " m²");
+    }
 
-        apartments = new ArrayList<>();
-        setUpRecyclerView();
-
-
-        return root;
+    /**
+     * Close or open the filters and update if necessary
+     */
+    private void changeFiltersViewAndUpdate() {
+        if (!filterIsClicked) {
+            changeFilterVisibility(View.VISIBLE);
+            filterButt.setText(R.string.apply_filters);
+            filterIsClicked = true;
+        } else {
+            changeFilterVisibility(View.GONE);
+            filterButt.setText(R.string.filters_text);
+            filterIsClicked = false;
+            updateRecyclerView(rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
+                    rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
+        }
     }
 
 

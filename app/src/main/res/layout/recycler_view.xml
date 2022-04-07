@@ -67,14 +67,27 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/filters"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:enabled="true"
-        android:text="Filters" />
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/clear_filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:enabled="true"
+            android:text="Clear filters" />
+        <Button
+            android:id="@+id/filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:enabled="true"
+            android:text="Filters" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

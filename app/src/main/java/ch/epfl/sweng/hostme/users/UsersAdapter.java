@@ -46,12 +46,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
         ItemContainerUserBinding binding;
 
-        UserViewHolder(ItemContainerUserBinding itemContainerUserBinding) {
+        UserViewHolder(@NonNull ItemContainerUserBinding itemContainerUserBinding) {
             super(itemContainerUserBinding.getRoot());
             binding = itemContainerUserBinding;
         }
 
-        void setUserData(User user) {
+        void setUserData(@NonNull User user) {
             binding.textName.setText(user.name);
             binding.textEmail.setText(user.email);
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));

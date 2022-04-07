@@ -66,24 +66,33 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.area.setText(String.format("%s m²", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment);
         holder.itemView.setOnClickListener(view -> {
-            Bundle bundle = new Bundle();
-            Fragment fragment = new DisplayApartment();
-            FragmentTransaction fragmentTransaction =
-                    ((AppCompatActivity)view.getContext()).getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.addToBackStack(null);
-            bundle.putString(UID, apartment.getUid());
-            bundle.putString(ADDR, apartment.getAddress());
-            bundle.putInt(NPA, apartment.getNpa());
-            bundle.putString(CITY, apartment.getCity());
-            bundle.putInt(RENT, apartment.getRent());
-            bundle.putInt(AREA, apartment.getArea());
-            bundle.putString(LID, apartment.getLid());
-            bundle.putString(PROPRIETOR, apartment.getProprietor());
-            bundle.putParcelable(BITMAP, bitmap);
-            fragment.setArguments(bundle);
-            fragmentTransaction.replace(R.id.main_container, fragment);
-            fragmentTransaction.commit();
+            displayApartment(apartment, view);
         });
+    }
+
+    /**
+     * Launch the fragment that displays the specific data for apartment
+     * @param apartment
+     * @param view
+     */
+    private void displayApartment(Apartment apartment, View view) {
+        Bundle bundle = new Bundle();
+        Fragment fragment = new DisplayApartment();
+        FragmentTransaction fragmentTransaction =
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        bundle.putString(UID, apartment.getUid());
+        bundle.putString(ADDR, apartment.getAddress());
+        bundle.putInt(NPA, apartment.getNpa());
+        bundle.putString(CITY, apartment.getCity());
+        bundle.putInt(RENT, apartment.getRent());
+        bundle.putInt(AREA, apartment.getArea());
+        bundle.putString(LID, apartment.getLid());
+        bundle.putString(PROPRIETOR, apartment.getProprietor());
+        bundle.putParcelable(BITMAP, bitmap);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override

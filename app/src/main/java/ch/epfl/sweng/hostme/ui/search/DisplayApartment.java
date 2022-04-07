@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -49,6 +50,8 @@ public class DisplayApartment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.display_apartment, container, false);
+        BottomNavigationView bottomNav = getActivity().findViewById(R.id.nav_view);
+        bottomNav.setVisibility(View.GONE);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             String lid = bundle.getString(LID);
@@ -94,7 +97,7 @@ public class DisplayApartment extends Fragment {
                     if (doc.getId().equals(uid)) {
                         User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
                                 doc.getString(KEY_LASTNAME),
-                                null, doc.getString(KEY_EMAIL), null);
+                                null, doc.getString(KEY_EMAIL), null, null);
                         Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
                         newIntent.putExtra(Constants.KEY_USER, user);
                         startActivity(newIntent);

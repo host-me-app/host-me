@@ -10,6 +10,10 @@
         android:name="ch.epfl.sweng.hostme.ui.search.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/display_apart"
+        android:name="ch.epfl.sweng.hostme.ui.search.DisplayApartment"
+        tools:layout="@layout/display_apartment" />
 
     <fragment
         android:id="@+id/navigation_add"

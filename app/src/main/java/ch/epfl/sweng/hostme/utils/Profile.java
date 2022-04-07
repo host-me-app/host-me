@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
+import java.util.Objects;
+
 public class Profile {
 
     private String firstName;
@@ -49,6 +51,14 @@ public class Profile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Profile profile = (Profile) o;
+        return firstName.equals(profile.firstName) && lastName.equals(profile.lastName) && gender.equals(profile.gender) && email.equals(profile.email);
     }
 
 }

@@ -8,9 +8,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
-import static ch.epfl.sweng.hostme.utils.Constants.LID;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
-import static ch.epfl.sweng.hostme.utils.Constants.OCCUPANT;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
 import static ch.epfl.sweng.hostme.utils.Constants.UID;
@@ -26,10 +24,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -44,6 +42,7 @@ public class DisplayApartment extends Fragment {
 
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
     private View root;
+    public static final String LID = "lid";
 
     public DisplayApartment() {
     }
@@ -60,7 +59,6 @@ public class DisplayApartment extends Fragment {
             int area = bundle.getInt(AREA, 0);
             int rent = bundle.getInt(RENT, 0);
             String lease = bundle.getString(LEASE);
-            int occupants = bundle.getInt(OCCUPANT, 0);
             String proprietor = bundle.getString(PROPRIETOR);
             String city = bundle.getString(CITY);
             int npa = bundle.getInt(NPA, 0);
@@ -74,7 +72,6 @@ public class DisplayApartment extends Fragment {
             changeText(String.valueOf(area), R.id.area);
             changeText(String.valueOf(rent), R.id.price);
             changeText(lease, R.id.lease);
-            changeText(String.valueOf(occupants), R.id.occupants);
             changeText(proprietor, R.id.proprietor);
 
             String uid = bundle.getString(UID);

@@ -1,19 +1,29 @@
 package ch.epfl.sweng.hostme.ui.add;
 
+import android.widget.EditText;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class AddViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<EditText> mField;
+    private final MutableLiveData<String> empty;
 
     public AddViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is add fragment");
+        mField = new MutableLiveData<>();
+        empty = new MutableLiveData<>();
+        empty.setValue("You have no active listings");
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void selectField(EditText f) {
+        mField.setValue(f);
+    }
+    public LiveData<EditText> getField() {
+        return mField;
+    }
+    public LiveData<String> notOwner() {
+        return empty;
     }
 }

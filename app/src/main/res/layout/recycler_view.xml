@@ -70,9 +70,10 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="100dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/clear_filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,6 +84,7 @@
             android:id="@+id/filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="right"
             android:enabled="true"
             android:text="Filters" />

@@ -30,8 +30,8 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class SearchFragment extends Fragment {
 
-    public static final float MAX_AREA = 1000f;
-    public static final float MAX_PRICE = 3500f;
+    public static final float MAX_AREA = 3000f;
+    public static final float MAX_PRICE = 5000f;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private View root;
-
+    private Button clearFilters;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +57,8 @@ public class SearchFragment extends Fragment {
         filterButt = root.findViewById(R.id.filters);
         filters = root.findViewById(R.id.all_filters);
         SearchView searchView = root.findViewById(R.id.search_view);
-        Button clearFilters = root.findViewById(R.id.clear_filters);
+        clearFilters = root.findViewById(R.id.clear_filters);
+        clearFilters.setVisibility(View.GONE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -76,17 +77,20 @@ public class SearchFragment extends Fragment {
 
         filterIsClicked = false;
         filterButt.setOnClickListener(view -> changeFiltersViewAndUpdate());
-        clearFilters.setOnClickListener(view -> setDefaultValuesRangeBar());
+        clearFilters.setOnClickListener(view -> setRangeBar());
 
         changeFilterVisibility(View.GONE);
-        setDefaultValuesRangeBar();
+        setRangeBar();
         apartments = new ArrayList<>();
         setUpRecyclerView();
 
         return root;
     }
 
-    private void setDefaultValuesRangeBar() {
+    /**
+     * set the range bar to default values
+     */
+    private void setRangeBar() {
         rangeBarPrice.setValues(0f, MAX_PRICE);
         rangeBarPrice.setLabelFormatter(value -> value + " CHF");
         rangeBarArea.setValues(0f, MAX_AREA);
@@ -98,10 +102,12 @@ public class SearchFragment extends Fragment {
      */
     private void changeFiltersViewAndUpdate() {
         if (!filterIsClicked) {
+            clearFilters.setVisibility(View.VISIBLE);
             changeFilterVisibility(View.VISIBLE);
             filterButt.setText(R.string.apply_filters);
             filterIsClicked = true;
         } else {
+            clearFilters.setVisibility(View.GONE);
             changeFilterVisibility(View.GONE);
             filterButt.setText(R.string.filters_text);
             filterIsClicked = false;

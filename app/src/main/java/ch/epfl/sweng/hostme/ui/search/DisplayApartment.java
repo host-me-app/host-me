@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -81,24 +82,33 @@ public class DisplayApartment extends Fragment {
             contactUser.setOnClickListener(view -> {
                 reference.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        QuerySnapshot snapshot = task.getResult();
-                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                            if (doc.getId().equals(uid)) {
-                                User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
-                                        doc.getString(KEY_LASTNAME),
-                                        null, doc.getString(KEY_EMAIL), null);
-                                Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
-                                newIntent.putExtra(Constants.KEY_USER, user);
-                                startActivity(newIntent);
-                                getActivity().finish();
-                            }
-                        }
+                        chatWithUser(uid, task);
                     }
                 });
             });
         }
 
         return root;
+    }
+
+    /**
+     * launch the activity to chat with the owner of the apartment
+     * @param uid
+     * @param task
+     */
+    private void chatWithUser(String uid, Task<QuerySnapshot> task) {
+        QuerySnapshot snapshot = task.getResult();
+        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+            if (doc.getId().equals(uid)) {
+                User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
+                        doc.getString(KEY_LASTNAME),
+                        null, doc.getString(KEY_EMAIL), null);
+                Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+                newIntent.putExtra(Constants.KEY_USER, user);
+                startActivity(newIntent);
+                getActivity().finish();
+            }
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,14 +26,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void loadReceiverDetails() {
-        System.out.println("111");
         User receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
-        System.out.println("222");
         binding.textName.setText(receiverUser.name);
-        System.out.println("333");
     }
 
     private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> onBackPressed());
+        binding.imageBack.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UsersActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 }

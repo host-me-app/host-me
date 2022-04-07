@@ -84,7 +84,7 @@ public class DisplayApartment extends AppCompatActivity {
                         if (doc.getId().equals(uid)) {
                             User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
                                     doc.getString(KEY_LASTNAME),
-                                    null, doc.getString(KEY_EMAIL), null);
+                                    null, doc.getString(KEY_EMAIL), null, null);
                             Intent newIntent = new Intent(getApplicationContext(), ChatActivity.class);
                             newIntent.putExtra(Constants.KEY_USER, user);
                             System.out.println("Name !!!" + user.name + user.email);

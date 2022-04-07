@@ -34,6 +34,7 @@ public class MessagesFragment extends Fragment {
         contactButt.setOnClickListener(v -> {
             startActivity(new Intent(getActivity().getApplicationContext(), UsersActivity.class));
         });
+        getToken();
         return root;
     }
 

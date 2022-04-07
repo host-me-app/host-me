@@ -34,7 +34,6 @@ import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
-//@RequiresApi(api = Build.VERSION_CODES.N)
 public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "chatA";

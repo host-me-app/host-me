@@ -1,0 +1,20 @@
+{
+  "name": "apartments/blank.pdf",
+  "bucket": "host-me-9072b.appspot.com",
+  "contentType": "application/pdf",
+  "metageneration": 1,
+  "generation": 1648838460952,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "0c174b1e-10af-4a70-a688-41767551ce39"
+  ],
+  "etag": "LWBQ/bnvBMxjvLMMVbUKWUWvIRc",
+  "timeCreated": "2022-04-01T18:41:00.952Z",
+  "updated": "2022-04-01T18:41:00.952Z",
+  "size": 4911,
+  "md5Hash": "HDLXhTmOOn6qsOm4dpA8xg==",
+  "crc32c": "3733755105"
+}

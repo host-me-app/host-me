@@ -74,7 +74,4 @@ public class UsersActivityTest {
         }
         Intents.release();
     }
-
-
-
 }

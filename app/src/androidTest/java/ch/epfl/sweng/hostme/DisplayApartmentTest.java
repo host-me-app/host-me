@@ -5,6 +5,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
@@ -81,7 +83,7 @@ public class DisplayApartmentTest {
     }
 
     @Test
-    public void filterOtherApartmentsTest() {
+    public void openFilterAndCloseFilters() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -93,6 +95,8 @@ public class DisplayApartmentTest {
             onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
 
+            onView(withId(R.id.filters)).perform(click());
+            onView(withId(R.id.all_filters)).check(matches(isDisplayed()));
             onView(withId(R.id.filters)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {

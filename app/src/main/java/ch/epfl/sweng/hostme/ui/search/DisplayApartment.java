@@ -60,11 +60,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         if (bundle != null) {
             bottomNav = getActivity().findViewById(R.id.nav_view);
             bottomNav.setVisibility(View.GONE);
-            ImageView backButt = root.findViewById(R.id.backButton);
-            backButt.setOnClickListener(view -> {
-
-            });
-
             String lid = bundle.getString(LID);
             String addr = bundle.getString(ADDR);
             int area = bundle.getInt(AREA, 0);
@@ -134,8 +129,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
 
     @Override
     public boolean onBackPressed() {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.replace(R.id.main_container, new SearchFragment());
         bottomNav.setVisibility(View.VISIBLE);
         return false;
     }

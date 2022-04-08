@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -122,7 +123,10 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> onBackPressed());
+        binding.imageBack.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UsersActivity.class);
+            startActivity(intent);
+        });
         binding.sendButt.setOnClickListener(v -> sendMessage());
     }
 

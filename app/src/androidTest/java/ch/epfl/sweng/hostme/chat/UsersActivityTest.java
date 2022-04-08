@@ -74,20 +74,4 @@ public class UsersActivityTest {
         }
         Intents.release();
     }
-
-    @Test
-    public void progressBarDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UsersActivity.class);
-        Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-
-            onView(withId(R.id.progressBar)).check(matches(isDisplayed()));
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
 }

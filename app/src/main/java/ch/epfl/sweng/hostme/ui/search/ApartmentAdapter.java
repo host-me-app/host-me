@@ -11,8 +11,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +26,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -68,10 +72,35 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.itemView.setOnClickListener(view -> {
             displayApartment(apartment, view);
         });
+        holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            compoundButton.startAnimation(createToggleAnimation());
+        });
+        holder.favouriteButton.setOnClickListener(view -> {
+            saveApartToDB();
+        });
+    }
+
+    /**
+     * Create animation for the Tuggle button
+     */
+    private ScaleAnimation createToggleAnimation() {
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+        scaleAnimation.setDuration(500);
+        BounceInterpolator bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+        return scaleAnimation;
+    }
+
+
+    /**
+     * Save a fourite apartment in the database
+     */
+    private void saveApartToDB() {
     }
 
     /**
      * Launch the fragment that displays the specific data for apartment
+     *
      * @param apartment
      * @param view
      */
@@ -135,6 +164,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         public TextView npa;
         public ImageView image;
         public CardView cardView;
+        public ToggleButton favouriteButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -144,7 +174,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             this.npa = itemView.findViewById(R.id.list_npa);
             this.city = itemView.findViewById(R.id.list_city);
             this.image = itemView.findViewById(R.id.apartment_image);
+            this.favouriteButton = itemView.findViewById(R.id.button_favourite);
             cardView = itemView.findViewById(R.id.cardView);
         }
+
     }
 }

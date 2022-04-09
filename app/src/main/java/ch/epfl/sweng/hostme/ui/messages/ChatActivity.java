@@ -1,32 +1,27 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.chat.ChatAdapter;
 import ch.epfl.sweng.hostme.chat.ChatMessage;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -38,6 +33,7 @@ import ch.epfl.sweng.hostme.utils.Constants;
 public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "chatA";
+    public static final String FROM = "from";
     private ActivityChatBinding binding;
     private User receiverUser;
     private List<ChatMessage> chatMessages;
@@ -124,8 +120,13 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setListeners() {
         binding.imageBack.setOnClickListener(v -> {
-            Intent intent = new Intent(this, UsersActivity.class);
-            startActivity(intent);
+            if (getIntent().getStringExtra(FROM) == null) {
+                onBackPressed();
+            } else if (getIntent().getStringExtra(FROM).equals("apartment")) {
+                Intent intent = new Intent(this, MenuActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
         binding.sendButt.setOnClickListener(v -> sendMessage());
     }

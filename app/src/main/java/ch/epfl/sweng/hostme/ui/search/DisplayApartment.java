@@ -45,6 +45,7 @@ import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends Fragment implements IOnBackPressed {
 
+    public static final String FROM = "from";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
     private View root;
     public static final String LID = "lid";
@@ -107,6 +108,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                                 null, doc.getString(KEY_EMAIL), null, null);
                         Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
                         newIntent.putExtra(Constants.KEY_USER, user);
+                        newIntent.putExtra(FROM, "apartment");
                         startActivity(newIntent);
                         getActivity().finish();
                     }

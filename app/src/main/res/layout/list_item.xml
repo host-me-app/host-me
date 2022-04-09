@@ -15,6 +15,12 @@
         android:layout_marginStart="16dp"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/loading_bar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/apartment_image"

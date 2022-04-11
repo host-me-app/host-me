@@ -2,13 +2,17 @@ package ch.epfl.sweng.hostme.ui.messages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -38,6 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     private User receiverUser;
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
+    private String conversionId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,19 @@ public class ChatActivity extends AppCompatActivity {
             .add(message)
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+        if(conversionId != null){
+            updateConversion(binding.inputMessage.getText().toString());
+        }else{
+            HashMap<String, Object> conversion = new HashMap<>();
+
+            conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
+            conversion.put(Constants.KEY_SENDER_NAME, Auth.getCurrentUser().getEmail());
+            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.email);
+            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+            conversion.put(Constants.KEY_TIMESTAMP, new Date());
+            addConversion(conversion);
+        }
         binding.inputMessage.setText(null);
     }
 
@@ -111,6 +129,9 @@ public class ChatActivity extends AppCompatActivity {
             binding.chatRecyclerView.setVisibility(View.VISIBLE);
         }
         binding.progressBar.setVisibility(View.GONE);
+        if(conversionId == null){
+            checkForConversion();
+        }
     };
 
     private void loadReceiverDetails() {
@@ -135,4 +156,47 @@ public class ChatActivity extends AppCompatActivity {
     private String getReadableDataTime(Date date){
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
     }
+
+    private void addConversion(HashMap<String, Object> conversion){
+        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .add(conversion)
+                .addOnSuccessListener(documentReference -> conversionId = documentReference.getId());
+    }
+
+    private void updateConversion(String message){
+        DocumentReference documentReference =
+                Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
+        documentReference.update(
+                Constants.KEY_LAST_MESSAGE, message,
+                Constants.KEY_TIMESTAMP, new Date()
+        );
+    }
+
+    private void checkForConversion(){
+        if(chatMessages.size() != 0){
+            checkForConversionRemotely(
+                    Auth.getUid(),
+                    receiverUser.id
+            );
+            checkForConversionRemotely(
+                    receiverUser.id,
+                    Auth.getUid()
+            );
+        }
+    }
+
+    private void checkForConversionRemotely(String senderId, String receiverId){
+        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .get()
+                .addOnCompleteListener(conversionOnCompleteListener);
+    }
+
+    private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
+      if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
+          DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+          conversionId = documentSnapshot.getId();
+      }
+    };
 }

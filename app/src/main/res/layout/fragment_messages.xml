@@ -50,4 +50,29 @@
         app:srcCompat="@drawable/contacts_icon"
         app:tint="@color/black" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/content_bottom_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageProfile">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/conversationRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:padding="20dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        <ProgressBar
+            android:id="@id/progressBar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

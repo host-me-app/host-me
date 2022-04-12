@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
@@ -85,8 +86,33 @@ public class MessagesFragment extends Fragment {
                   ChatMessage chatMessage = new ChatMessage();
                   chatMessage.senderId = senderId;
                   chatMessage.receiverId = receiverId;
+                  if(Auth.getUid().equals(senderId)){
+                      chatMessage.conversationId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                      chatMessage.conversationName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
+                  }else{
+                      chatMessage.conversationId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                      chatMessage.conversationName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
+                  }
+                  chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                  chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                  conversations.add(chatMessage);
+              } else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
+                  for(int i = 0; i < conversations.size(); i++){
+                      String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                      String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                      if(conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)){
+                          conversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                          conversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                          break;
+                      }
+                  }
               }
           }
+          Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+          conversationAdapter.notifyDataSetChanged();
+          binding.conversationRecycler.smoothScrollToPosition(0);
+          binding.conversationRecycler.setVisibility(View.VISIBLE);
+          binding.progressBar.setVisibility(View.GONE);
        }
     };
 

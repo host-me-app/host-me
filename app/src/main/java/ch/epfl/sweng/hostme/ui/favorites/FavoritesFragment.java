@@ -10,13 +10,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -54,13 +58,13 @@ public class FavoritesFragment extends Fragment {
      * Set up the page with all the favorite apartments of the user
      */
     private void setUpRecyclerView() {
-        /*apartments = new ArrayList<>();
+        apartments = new ArrayList<>();
         String uid = Auth.getUid();
-        reference.document(uid).get().addOnCompleteListener(task -> {
+        /*reference.document(uid).get(){
             apartments.clear();
             if (task.isSuccessful()) {
                 DocumentSnapshot snapshot = task.getResult();
-                for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                for (DocumentReference doc : snapshot.getReference()) {
                     if (apartments.size() < 10) {
                         Apartment apartment = doc.toObject(Apartment.class);
                         apartment.setDocID(doc.getId());

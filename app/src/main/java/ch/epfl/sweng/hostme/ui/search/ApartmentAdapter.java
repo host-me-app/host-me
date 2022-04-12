@@ -17,6 +17,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -52,7 +54,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public static final String LID = "lid";
     private View view;
     private final CollectionReference reference = Database.getCollection("favourite_apart");
-
+    private final CollectionReference apartRefe = Database.getCollection("apartments");
 
     public ApartmentAdapter(List<Apartment> apartments) {
         this.apartments = apartments;
@@ -77,7 +79,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
         holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
             compoundButton.startAnimation(createToggleAnimation());
-            updateApartDB(apartment, compoundButton.isChecked());
+            updateApartDB(apartment, compoundButton.isChecked(), position);
         });
     }
 
@@ -96,12 +98,31 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Save a fourite apartment in the database
      */
-    private void updateApartDB(Apartment apartment, boolean isAdded) {
-        //TODO
+    private void updateApartDB(Apartment apartment, boolean isAdded, int position) {
         String uid = Auth.getUid();
+        CollectionReference collectionRef = reference.document(uid)
+                .collection(apartment.getDocID());
         if (isAdded) {
-            reference.document(uid).set(apartment);
+            collectionRef.add(apartment)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(view.getContext(), "Apartment added to your favorites",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         } else {
+            collectionRef.get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult()) {
+                                doc.getReference().delete();
+                                Toast.makeText(view.getContext(),
+                                        "Apartment removed from your favorites",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
         }
     }
 
@@ -136,6 +157,13 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         return apartments.size();
     }
 
+    /**
+     * Retrieve image from Firestore storage and display it
+     *
+     * @param holder
+     * @param model
+     * @param loadingBar
+     */
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);

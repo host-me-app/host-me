@@ -2,6 +2,7 @@ package ch.epfl.sweng.hostme;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -108,6 +109,30 @@ public class DisplayApartmentTest {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void clickOnItemAndBack() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intents.init();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)){
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+
+            onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
+            onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+            onView(withId(R.id.contact_user_button)).check(matches(isDisplayed()));
+
+            pressBack();
+
+            onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
         }
         Intents.release();
     }

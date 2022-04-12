@@ -20,6 +20,8 @@ import static ch.epfl.sweng.hostme.utils.Constants.UID;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +29,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
@@ -43,9 +53,10 @@ import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
-public class DisplayApartment extends AppCompatActivity {
+public class DisplayApartment extends AppCompatActivity implements OnMapReadyCallback {
 
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
+    private String fullAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +76,7 @@ public class DisplayApartment extends AppCompatActivity {
         String proprietor = intent.getStringExtra(PROPRIETOR);
         String city = intent.getStringExtra(CITY);
         int npa = intent.getIntExtra(NPA, 0);
+        fullAddress = addr + " " + city + " " + npa;
         changeText(String.valueOf(npa), R.id.npa);
         changeText(city, R.id.city);
         changeText(addr, R.id.addr);
@@ -98,6 +110,9 @@ public class DisplayApartment extends AppCompatActivity {
         });
         displayImage(image, lid);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
     }
 
     /**
@@ -131,5 +146,30 @@ public class DisplayApartment extends AppCompatActivity {
     private void changeText(String addr, int id) {
         TextView addrText = findViewById(id);
         addrText.setText(addr);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng epfl = new LatLng(46.522117, 6.566144);
+        googleMap.addMarker(new MarkerOptions()
+                .position(epfl)
+                .title("EPFL"));
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        try {
+            address = coder.getFromLocationName(this.fullAddress,1);
+            Address location = address.get(0);
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraPosition pos = new CameraPosition.Builder().target(latlng)
+                            .zoom(12.5f)
+                            .build();
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latlng)
+                    .title("Your futur home!"));
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

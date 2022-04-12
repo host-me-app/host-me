@@ -61,7 +61,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         if (bundle != null) {
             bottomNav = getActivity().findViewById(R.id.nav_view);
             bottomNav.setVisibility(View.GONE);
-            String lid = bundle.getString(LID);
             String addr = bundle.getString(ADDR);
             int area = bundle.getInt(AREA, 0);
             int rent = bundle.getInt(RENT, 0);

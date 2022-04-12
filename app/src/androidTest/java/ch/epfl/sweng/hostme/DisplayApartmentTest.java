@@ -124,6 +124,7 @@ public class DisplayApartmentTest {
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
             onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -133,6 +134,8 @@ public class DisplayApartmentTest {
             pressBack();
 
             onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

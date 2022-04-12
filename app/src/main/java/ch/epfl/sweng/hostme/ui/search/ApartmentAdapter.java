@@ -53,8 +53,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String LID = "lid";
     private View view;
-    private final CollectionReference reference = Database.getCollection("favourite_apart");
-    private final CollectionReference apartRefe = Database.getCollection("apartments");
+    private final CollectionReference reference = Database.getCollection("favorite_apart");
 
     public ApartmentAdapter(List<Apartment> apartments) {
         this.apartments = apartments;
@@ -79,7 +78,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
         holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
             compoundButton.startAnimation(createToggleAnimation());
-            updateApartDB(apartment, compoundButton.isChecked(), position);
+            updateApartDB(apartment, compoundButton.isChecked());
         });
     }
 
@@ -98,7 +97,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Save a fourite apartment in the database
      */
-    private void updateApartDB(Apartment apartment, boolean isAdded, int position) {
+    private void updateApartDB(Apartment apartment, boolean isAdded) {
         String uid = Auth.getUid();
         CollectionReference collectionRef = reference.document(uid)
                 .collection(apartment.getDocID());

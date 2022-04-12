@@ -133,6 +133,8 @@ public class DisplayApartmentTest {
 
             pressBack();
 
+            Thread.sleep(500);
+
             onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
         } catch (InterruptedException e) {
             e.printStackTrace();

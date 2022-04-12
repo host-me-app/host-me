@@ -63,8 +63,6 @@ public class FavoritesTest {
             onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.button_favourite))
-                    .check(matches(isDisplayed()));
 
             //add apart to fav
             onView(withId(R.id.button_favourite))

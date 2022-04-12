@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.slider.RangeSlider;
@@ -62,14 +63,7 @@ public class FavoritesFragment extends Fragment {
     private void setUpRecyclerView() {
         apartments = new ArrayList<>();
         String uid = Auth.getUid();
-        /*reference.document(uid).addSnapshotListener((value, error) -> {
-            DocumentReference docRef = value.getReference();
-            Task<DocumentSnapshot> task = docRef.get();
-            task.addOnSuccessListener(documentSnapshot -> {
-                Apartment apartment = documentSnapshot.get().toObject(Apartment.class);
-                System.out.println(" Saltut : " + apartment);
-            });
-        });*/
+        reference.document(uid).get();
             /*apartments.clear();
             if (task.isSuccessful()) {
                 DocumentSnapshot snapshot = task.getResult();

@@ -4,9 +4,14 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 
 import android.content.Intent;
 
@@ -16,10 +21,13 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.rule.ActivityTestRule;
 
 import com.google.firebase.FirebaseApp;
 
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.MainActivity;
@@ -29,6 +37,9 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 
 public class FavoritesTest {
+
+    @Rule
+    public ActivityScenarioRule<MainActivity> mActivityRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @BeforeClass
     public static void setUp() {
@@ -53,7 +64,18 @@ public class FavoritesTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.recyclerView))
-                    .perform(RecyclerViewActions.scrollToPosition(7));
+                    .perform(RecyclerViewActions.scrollToPosition(3));
+
+            onView(withId(R.id.button_favourite))
+                    .check(matches(isDisplayed()));
+
+            //add apart to fav
+            onView(withId(R.id.button_favourite))
+                    .perform(click());
+
+            //remove apart from fav
+            onView(withId(R.id.button_favourite))
+                    .perform(click());
 
         } catch (InterruptedException e) {
             e.printStackTrace();

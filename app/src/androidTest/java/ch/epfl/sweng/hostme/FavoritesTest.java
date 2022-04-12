@@ -63,9 +63,6 @@ public class FavoritesTest {
             onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.recyclerView))
-                    .perform(RecyclerViewActions.scrollToPosition(3));
-
             onView(withId(R.id.button_favourite))
                     .check(matches(isDisplayed()));
 

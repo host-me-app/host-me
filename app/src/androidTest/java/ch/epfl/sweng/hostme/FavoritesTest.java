@@ -121,4 +121,25 @@ public class FavoritesTest {
         }
         Intents.release();
     }
+
+    @Test
+    public void createFavDocRefInDB() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intents.init();
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withIndex(withId(R.id.button_favourite), 0)).perform(click());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
 }

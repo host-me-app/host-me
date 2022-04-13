@@ -64,13 +64,7 @@ public class FavoritesTest {
             Thread.sleep(1000);
 
 
-            //add apart to fav
-            onView(withId(R.id.button_favourite))
-                    .perform(click());
 
-            //remove apart from fav
-            onView(withId(R.id.button_favourite))
-                    .perform(click());
 
         } catch (InterruptedException e) {
             e.printStackTrace();

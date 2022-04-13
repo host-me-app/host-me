@@ -26,7 +26,6 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 public class FavoritesFragment extends Fragment {
 
     private View root;
-    private ArrayList<Apartment> apartments;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private final CollectionReference reference = Database.getCollection("favorite_apart");
@@ -41,13 +40,13 @@ public class FavoritesFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
 
+        List<Apartment> apartments = new ArrayList<>();
         reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
-                setUpRecyclerView();
+                setUpRecyclerView(apartments);
             }
         });
-        apartments = new ArrayList<>();
-        setUpRecyclerView();
+        setUpRecyclerView(apartments);
 
         return root;
     }
@@ -55,7 +54,7 @@ public class FavoritesFragment extends Fragment {
     /**
      * Set up the page with all the favorite apartments of the user
      */
-    private void setUpRecyclerView() {
+    private void setUpRecyclerView(List<Apartment> apartments) {
         String uid = Auth.getUid();
         reference.document(uid)
                 .get()
@@ -70,14 +69,14 @@ public class FavoritesFragment extends Fragment {
                             displayRecycler(apartments);
                         } else {
                             for (String apartID : apartIDs) {
-                                getCorrespondingApartAndDisplay(apartID);
+                                getCorrespondingApartAndDisplay(apartID, apartments);
                             }
                         }
                     }
                 });
     }
 
-    private void getCorrespondingApartAndDisplay(String apartID) {
+    private void getCorrespondingApartAndDisplay(String apartID, List<Apartment> apartments) {
         apartReference.document(apartID)
                 .get()
                 .addOnCompleteListener(task1 -> {

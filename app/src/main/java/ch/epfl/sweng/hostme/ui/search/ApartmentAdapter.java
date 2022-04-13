@@ -203,6 +203,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         notifyDataSetChanged();
     }
 
+    /**
+     * hide the favorite button if you are in favorite fragment
+     */
     public void hideFavButton() {
         this.isFavHidden = true;
     }

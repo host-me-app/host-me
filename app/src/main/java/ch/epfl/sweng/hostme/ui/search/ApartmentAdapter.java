@@ -28,12 +28,16 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -44,6 +48,7 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
     public static final String BITMAP = "bitmap";
+    public static final String FAVORITES = "favorites";
     private List<Apartment> apartments;
     private Bitmap bitmap;
     public static final String UID = "uid";
@@ -99,29 +104,27 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
      */
     private void updateApartDB(Apartment apartment, boolean isAdded) {
         String uid = Auth.getUid();
-        CollectionReference collectionRef = reference.document(uid)
-                .collection(apartment.getDocID());
+        DocumentReference documentRef = reference.document(uid);
         if (isAdded) {
-            collectionRef.add(apartment)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(view.getContext(), "Apartment added to your favorites",
-                                    Toast.LENGTH_SHORT).show();
+            documentRef
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocID()));
+                        } else {
+                            Map<String, ArrayList> mapData = new HashMap<>();
+                            ArrayList<String> favorites = new ArrayList<>();
+                            favorites.add(apartment.getDocID());
+                            mapData.put(FAVORITES, favorites);
+                            documentRef.set(mapData);
                         }
+                        Toast.makeText(view.getContext(), "Apartment added to your favorites",
+                                Toast.LENGTH_SHORT).show();
                     });
         } else {
-            collectionRef.get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot doc : task.getResult()) {
-                                doc.getReference().delete();
-                                Toast.makeText(view.getContext(),
-                                        "Apartment removed from your favorites",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
+            documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
+            Toast.makeText(view.getContext(), "Apartment removed from your favorites",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

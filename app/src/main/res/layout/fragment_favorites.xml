@@ -15,4 +15,14 @@
         android:clipToPadding="false"
         tools:context=".ui.search.SearchFragment" />
 
+    <TextView
+        android:id="@+id/no_fav_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="You have no favorite apartments"
+        android:textSize="20dp"
+        android:fontFamily="@font/roboto_family"
+        android:gravity="center"
+        android:visibility="gone"/>
+
 </LinearLayout>

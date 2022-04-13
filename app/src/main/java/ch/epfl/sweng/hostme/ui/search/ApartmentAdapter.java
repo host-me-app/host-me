@@ -59,6 +59,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public static final String LID = "lid";
     private View view;
     private final CollectionReference reference = Database.getCollection("favorite_apart");
+    private boolean isFavHidden;
 
     public ApartmentAdapter(List<Apartment> apartments) {
         this.apartments = apartments;
@@ -81,10 +82,14 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.area.setText(String.format("%s m²", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
-        holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
-            compoundButton.startAnimation(createToggleAnimation());
-            updateApartDB(apartment, compoundButton.isChecked());
-        });
+        if (isFavHidden) {
+            holder.favouriteButton.setVisibility(View.GONE);
+        } else {
+            holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
+                compoundButton.startAnimation(createToggleAnimation());
+                updateApartDB(apartment, compoundButton.isChecked());
+            });
+        }
     }
 
     /**
@@ -197,6 +202,11 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         this.apartments = apartments;
         notifyDataSetChanged();
     }
+
+    public void hideFavButton() {
+        this.isFavHidden = true;
+    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

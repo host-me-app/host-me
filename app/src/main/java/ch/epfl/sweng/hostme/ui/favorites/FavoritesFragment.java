@@ -1,9 +1,12 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
+import android.bluetooth.BluetoothGatt;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -32,6 +35,7 @@ public class FavoritesFragment extends Fragment {
     private final CollectionReference apartReference = Database.getCollection("apartments");
     private ApartmentAdapter recyclerAdapter;
     private static final String FAVORITES = "favorites";
+    private TextView noFavMessage;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -39,7 +43,7 @@ public class FavoritesFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
-
+        noFavMessage = root.findViewById(R.id.no_fav_message);
         List<Apartment> apartments = new ArrayList<>();
         reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
@@ -65,8 +69,12 @@ public class FavoritesFragment extends Fragment {
                         assert apartIDs != null;
                         if (apartIDs.isEmpty()) {
                             apartments.clear();
+                            noFavMessage.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
                             displayRecycler(apartments);
                         } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            noFavMessage.setVisibility(View.VISIBLE);
                             for (String apartID : apartIDs) {
                                 getCorrespondingApartAndDisplay(apartID, apartments);
                             }
@@ -75,6 +83,11 @@ public class FavoritesFragment extends Fragment {
                 });
     }
 
+    /**
+     * get the apart corresponding to the ID in Firestore and display it
+     * @param apartID
+     * @param apartments
+     */
     private void getCorrespondingApartAndDisplay(String apartID, List<Apartment> apartments) {
         apartReference.document(apartID)
                 .get()
@@ -96,6 +109,7 @@ public class FavoritesFragment extends Fragment {
     private void displayRecycler(List<Apartment> apartments) {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
         recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
+        recyclerAdapter.hideFavButton();
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);

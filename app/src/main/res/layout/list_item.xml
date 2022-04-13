@@ -8,6 +8,19 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
+
+    <ToggleButton
+        android:id="@+id/button_favourite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|end"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/button_favorite"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn="" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,17 +112,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
-
-            <ToggleButton
-                android:id="@+id/button_favourite"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/button_favorite"
-                android:checked="false"
-                android:layout_marginLeft="270dp"
-                android:text=""
-                android:textOff=""
-                android:textOn=""/>
 
         </LinearLayout>
 

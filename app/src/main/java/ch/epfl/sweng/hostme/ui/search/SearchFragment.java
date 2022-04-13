@@ -131,7 +131,6 @@ public class SearchFragment extends Fragment {
      * set up or update the recycler view
      */
     private void updateRecyclerView(Float min, Float max, Float min2, Float max2) {
-        // ------
         apartments = new ArrayList<>();
         reference.get().addOnCompleteListener(task -> {
             apartments.clear();

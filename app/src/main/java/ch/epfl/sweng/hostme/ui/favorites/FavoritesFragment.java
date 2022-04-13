@@ -46,7 +46,6 @@ public class FavoritesFragment extends Fragment {
                 setUpRecyclerView(apartments);
             }
         });
-        setUpRecyclerView(apartments);
 
         return root;
     }

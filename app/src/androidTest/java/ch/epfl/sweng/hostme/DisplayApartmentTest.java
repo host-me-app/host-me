@@ -113,33 +113,4 @@ public class DisplayApartmentTest {
         Intents.release();
     }
 
-    @Test
-    public void clickOnItemAndBack() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
-        Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)){
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
-            onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            Thread.sleep(1000);
-
-            onView(withId(R.id.contact_user_button)).check(matches(isDisplayed()));
-
-            pressBack();
-
-            Thread.sleep(1000);
-
-            onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
 }

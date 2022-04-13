@@ -70,25 +70,31 @@ public class FavoritesFragment extends Fragment {
                             displayRecycler(apartments);
                         } else {
                             for (String apartID : apartIDs) {
-                                apartReference.document(apartID)
-                                        .get()
-                                        .addOnCompleteListener(task1 -> {
-                                            if (task1.isSuccessful()) {
-                                                DocumentSnapshot doc1 = task1.getResult();
-                                                Apartment apartment = doc1.toObject(Apartment.class);
-                                                apartments.add(apartment);
-                                            }
-                                            displayRecycler(apartments);
-                                        });
+                                getCorrespondingApartAndDisplay(apartID);
                             }
                         }
                     }
-
                 });
-
-
     }
 
+    private void getCorrespondingApartAndDisplay(String apartID) {
+        apartReference.document(apartID)
+                .get()
+                .addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        DocumentSnapshot doc1 = task1.getResult();
+                        Apartment apartment = doc1.toObject(Apartment.class);
+                        apartments.add(apartment);
+                    }
+                    displayRecycler(apartments);
+                });
+    }
+
+    /**
+     * prepare the layout and set the adapter to disokay the recyclerView
+     *
+     * @param apartments
+     */
     private void displayRecycler(List<Apartment> apartments) {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
         recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);

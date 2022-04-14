@@ -1,24 +1,16 @@
 package ch.epfl.sweng.hostme.ui.account;
 
-import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +26,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,13 +35,12 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
+import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;

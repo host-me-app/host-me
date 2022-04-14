@@ -9,6 +9,10 @@
 
 # Host me app!
 
+<p align="center">
+    <img src="logo.png" width="200" height="200" />
+</p>
+
 Idea :
 This is an application that allows foreign students to simplify the search for accommodation near
 the universities in Lausanne. The user can manage and import his documents (residence permit...)

@@ -287,6 +287,42 @@ public class AccountFragment extends Fragment {
         }
     }
 
+    /**
+     * Logs the user out of the app.
+     */
+    private void logUserOut() {
+        // delete token for messaging part
+        DocumentReference documentReference =
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates).addOnSuccessListener(unused -> {
+            Auth.signOut();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        });
+    }
+
+    /**
+     * Go to change password Activity
+     */
+    private void goToChangePasswordActivity() {
+        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+    }
+
+    /**
+     * Go to wallet fragment
+     */
+    private void goToWalletFragment() {
+        Intent intent = new Intent(getActivity(), WalletActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+    }
+
 
     /**
      * Display to the UI the profile previously fetched from the database
@@ -376,15 +412,6 @@ public class AccountFragment extends Fragment {
                                 String pathString = "profilePicture/"+ Auth.getUid() +"/" + "profile.jpg";
                                 StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
 
-                                if (uri_to_save != null && deletePic==false) {
-                                    fileRef.putFile(uri_to_save)
-                                            .addOnSuccessListener(taskSnapshot -> {
-                                                Toast.makeText(getActivity(), "Profile Pic Updated", Toast.LENGTH_SHORT).show();
-                                                uri_to_save =null;
-                                                deletePic=false;
-                                                profilePicinDb=true;
-                                            }).addOnFailureListener(exception -> Toast.makeText(getActivity(), "Failed to update Profile Pic", Toast.LENGTH_SHORT).show());
-                                }
                                 if (deletePic && uri_to_save == null&&profilePicinDb){
                                     fileRef.delete()
                                             .addOnSuccessListener(taskSnapshot -> {
@@ -395,6 +422,16 @@ public class AccountFragment extends Fragment {
                                             }).addOnFailureListener(exception -> Toast.makeText(getActivity(), "Failed to Delete Profile Pic", Toast.LENGTH_SHORT).show());
                                 }
 
+                                if (uri_to_save != null && deletePic==false) {
+                                    fileRef.putFile(uri_to_save)
+                                            .addOnSuccessListener(taskSnapshot -> {
+                                                Toast.makeText(getActivity(), "Profile Pic Updated", Toast.LENGTH_SHORT).show();
+                                                uri_to_save =null;
+                                                deletePic=false;
+                                                profilePicinDb=true;
+                                            }).addOnFailureListener(exception -> Toast.makeText(getActivity(), "Failed to update Profile Pic", Toast.LENGTH_SHORT).show());
+                                }
+
                             } else {
                                 Toast.makeText(getActivity(), "Profile's update failed.",
                                         Toast.LENGTH_SHORT).show();
@@ -403,40 +440,6 @@ public class AccountFragment extends Fragment {
                 );
     }
 
-    /**
-     * Logs the user out of the app.
-     */
-    private void logUserOut() {
-        // delete token for messaging part
-        DocumentReference documentReference =
-                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-        documentReference.update(updates).addOnSuccessListener(unused -> {
-            Auth.signOut();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-        });
-    }
-
-    /**
-     * Go to change password Activity
-     */
-    private void goToChangePasswordActivity() {
-        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-    }
-
-    /**
-     * Go to wallet fragment
-     */
-    private void goToWalletFragment() {
-        Intent intent = new Intent(getActivity(), WalletActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-    }
 
 }

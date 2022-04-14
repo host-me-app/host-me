@@ -103,12 +103,11 @@ public class AccountUtils {
      * Delete Profile Picture
      */
     private void deleteProfilePicture(){
-
+        AccountFragment.uri_to_save = null;
         String pathString = "profilePicture/"+ Auth.getUid() +"/profile.jpg";
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
         ImageView editProfilePicture = view.findViewById(R.id.userProfileImage);
         editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
-        AccountFragment.uri_to_save = null;
         if(AccountFragment.profilePicinDb) {
             AccountFragment.deletePic = true;
             Button saveButton = view.findViewById(R.id.userProfileSaveButton);

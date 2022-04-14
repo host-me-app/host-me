@@ -9,7 +9,7 @@
 
 # Host me app!
 
-![<img src="app/src/main/ic_launcher-playstore.png" width="50"/>](app/src/main/ic_launcher-playstore.png)
+![logo](app/src/main/ic_launcher-playstore.png){ width=50% }
 
 Idea :
 This is an application that allows foreign students to simplify the search for accommodation near

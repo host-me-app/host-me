@@ -55,8 +55,6 @@ public class AccountUtils {
     }
 
 
-
-
     /**
      * Showing dialog where you can take select to take image from either
      * the Gallery or the Camera
@@ -101,6 +99,9 @@ public class AccountUtils {
         activityResultLauncherGallery.launch(galleryIntent);
     }
 
+    /**
+     * Delete Profile Picture
+     */
     private void deleteProfilePicture(){
 
         String pathString = "profilePicture/"+ Auth.getUid() +"/profile.jpg";

@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -288,6 +287,42 @@ public class AccountFragment extends Fragment {
         }
     }
 
+    /**
+     * Logs the user out of the app.
+     */
+    private void logUserOut() {
+        // delete token for messaging part
+        DocumentReference documentReference =
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates).addOnSuccessListener(unused -> {
+            Auth.signOut();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        });
+    }
+
+    /**
+     * Go to change password Activity
+     */
+    private void goToChangePasswordActivity() {
+        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+    }
+
+    /**
+     * Go to wallet fragment
+     */
+    private void goToWalletFragment() {
+        Intent intent = new Intent(getActivity(), WalletActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+    }
+
 
     /**
      * Display to the UI the profile previously fetched from the database
@@ -404,40 +439,6 @@ public class AccountFragment extends Fragment {
                 );
     }
 
-    /**
-     * Logs the user out of the app.
-     */
-    private void logUserOut() {
-        // delete token for messaging part
-        DocumentReference documentReference =
-                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-        documentReference.update(updates).addOnSuccessListener(unused -> {
-            Auth.signOut();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-        });
-    }
-
-    /**
-     * Go to change password Activity
-     */
-    private void goToChangePasswordActivity() {
-        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-    }
-
-    /**
-     * Go to wallet fragment
-     */
-    private void goToWalletFragment() {
-        Intent intent = new Intent(getActivity(), WalletActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-    }
 
 }

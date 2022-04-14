@@ -5,6 +5,7 @@ check_android_task:
     TARGET: google_apis
     ARCH: x86
     CC_TEST_REPORTER_ID: ENCRYPTED[!445507ba263591f96756192e1bc763ca5eeb4fad812182f3fdb8955ab88b276592b81dd49e0fcec207e4200b61121227!]
+    MAPS_API_KEY: ENCRYPTED[344b2f325afc403f136ee8739dd11924246b99317c149bc595d527ee4e07e433cbeec47be01e2db819731c51983624ca]
   container:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
     kvm: "true"

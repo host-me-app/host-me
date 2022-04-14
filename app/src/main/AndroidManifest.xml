@@ -66,10 +66,6 @@
             android:parentActivityName=".MenuActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
-        <activity
-            android:name=".ui.search.DisplayApartment"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
 
 
         <service

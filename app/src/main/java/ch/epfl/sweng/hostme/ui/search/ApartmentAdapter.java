@@ -11,8 +11,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,20 +27,28 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Auth;
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
     public static final String BITMAP = "bitmap";
+    public static final String FAVORITES = "favorites";
     private List<Apartment> apartments;
     private Bitmap bitmap;
     public static final String UID = "uid";
@@ -43,7 +57,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public static final String AREA = "area";
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String LID = "lid";
-
+    private View view;
+    private final CollectionReference reference = Database.getCollection("favorite_apart");
+    private boolean isFavHidden;
 
     public ApartmentAdapter(List<Apartment> apartments) {
         this.apartments = apartments;
@@ -52,7 +68,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -64,14 +80,62 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.city.setText(apartment.getCity());
         holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
         holder.area.setText(String.format("%s m²", apartment.getArea()));
-        retrieveAndDisplayImage(holder, apartment);
-        holder.itemView.setOnClickListener(view -> {
-            displayApartment(apartment, view);
-        });
+        retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
+        holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
+        if (isFavHidden) {
+            holder.favouriteButton.setVisibility(View.GONE);
+        } else {
+            holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
+                compoundButton.startAnimation(createToggleAnimation());
+                updateApartDB(apartment, compoundButton.isChecked());
+            });
+        }
+    }
+
+    /**
+     * Create animation for the Tuggle button
+     */
+    private ScaleAnimation createToggleAnimation() {
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+        scaleAnimation.setDuration(500);
+        BounceInterpolator bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+        return scaleAnimation;
+    }
+
+
+    /**
+     * Save a fourite apartment in the database
+     */
+    private void updateApartDB(Apartment apartment, boolean isAdded) {
+        String uid = Auth.getUid();
+        DocumentReference documentRef = reference.document(uid);
+        if (isAdded) {
+            documentRef
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocID()));
+                        } else {
+                            Map<String, ArrayList> mapData = new HashMap<>();
+                            ArrayList<String> favorites = new ArrayList<>();
+                            favorites.add(apartment.getDocID());
+                            mapData.put(FAVORITES, favorites);
+                            documentRef.set(mapData);
+                        }
+                        Toast.makeText(view.getContext(), "Apartment added to your favorites",
+                                Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
+            Toast.makeText(view.getContext(), "Apartment removed from your favorites",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
      * Launch the fragment that displays the specific data for apartment
+     *
      * @param apartment
      * @param view
      */
@@ -100,13 +164,22 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         return apartments.size();
     }
 
-    public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model) {
+    /**
+     * Retrieve image from Firestore storage and display it
+     *
+     * @param holder
+     * @param model
+     * @param loadingBar
+     */
+    public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
+        loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+                            loadingBar.setVisibility(View.GONE);
                             bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                             holder.image.setImageBitmap(bitmap);
                         }
@@ -121,10 +194,22 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         return position;
     }
 
+    /**
+     * Set the apartments list
+     * @param apartments
+     */
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
         notifyDataSetChanged();
     }
+
+    /**
+     * hide the favorite button if you are in favorite fragment
+     */
+    public void hideFavButton() {
+        this.isFavHidden = true;
+    }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -135,6 +220,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         public TextView npa;
         public ImageView image;
         public CardView cardView;
+        public ToggleButton favouriteButton;
+        public ProgressBar loadingBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -144,7 +231,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             this.npa = itemView.findViewById(R.id.list_npa);
             this.city = itemView.findViewById(R.id.list_city);
             this.image = itemView.findViewById(R.id.apartment_image);
+            this.favouriteButton = itemView.findViewById(R.id.button_favourite);
+            this.loadingBar = itemView.findViewById(R.id.loading_bar);
             cardView = itemView.findViewById(R.id.cardView);
         }
+
     }
 }

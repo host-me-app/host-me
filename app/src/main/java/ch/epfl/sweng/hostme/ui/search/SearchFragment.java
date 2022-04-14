@@ -131,7 +131,6 @@ public class SearchFragment extends Fragment {
      * set up or update the recycler view
      */
     private void updateRecyclerView(Float min, Float max, Float min2, Float max2) {
-        // ------
         apartments = new ArrayList<>();
         reference.get().addOnCompleteListener(task -> {
             apartments.clear();
@@ -144,6 +143,7 @@ public class SearchFragment extends Fragment {
                     String city = (String) doc.get("city");
                     String address = (String) doc.get("address");
                     Long npa = (Long) doc.get("npa");
+                    apartment.setDocID(doc.getId());
                     if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2) && (searchText == null)) {
                         if (apartments.size() < 10)
                             apartments.add(apartment);
@@ -174,8 +174,11 @@ public class SearchFragment extends Fragment {
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                    if (apartments.size() < 10)
-                        apartments.add(doc.toObject(Apartment.class));
+                    if (apartments.size() < 10) {
+                        Apartment apartment = doc.toObject(Apartment.class);
+                        apartment.setDocID(doc.getId());
+                        apartments.add(apartment);
+                    }
                 }
                 List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
                 recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);

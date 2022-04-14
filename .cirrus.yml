@@ -5,7 +5,6 @@ check_android_task:
     TARGET: google_apis
     ARCH: x86
     CC_TEST_REPORTER_ID: ENCRYPTED[!445507ba263591f96756192e1bc763ca5eeb4fad812182f3fdb8955ab88b276592b81dd49e0fcec207e4200b61121227!]
-    MAPS_API_KEY: ENCRYPTED[344b2f325afc403f136ee8739dd11924246b99317c149bc595d527ee4e07e433cbeec47be01e2db819731c51983624ca]
   container:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
     kvm: "true"
@@ -19,10 +18,14 @@ check_android_task:
     FIRESTORE_RULES: ENCRYPTED[3832410a02d24153458dabb3358a505bd8ce6d199a4cc6e2b2c6e961280d25b015e4af425a33f009195369c8cf38ca5b]
     FIRESTORE_INDEXES: ENCRYPTED[df9991501f99ba65d26fabd8b7721d3b2aad6b1333eedf075d6271993a0565f4a0b4f23662c99ed8e018b0664f40c8fb]
     STORAGE_RULES: ENCRYPTED[15b76671fa299033f0067d2e68b4a8627a50c21acee1ed48d283f78f27ce66fcfb06eb62971be2d71b8cee9e536b6325]
+    MAPS_API_KEY: ENCRYPTED[83a482c53673c51064564248f55f3e80f9fdd18956833cbb3edf2a3f926d0f14c0dbe2f7112470dedc4b75021ae4069c]
   create_device_script:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
+  local_properties_file:
+    path: local.properties
+    variable_name: MAPS_API_KEY
   firebase_json_file:
     path: firebase.json
     variable_name: FIREBASE_CONFIG

@@ -19,7 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HostMe"
         android:usesCleartextTraffic="true">
-
         <activity
             android:name=".ui.messages.ChatActivity"
             android:exported="false"
@@ -59,6 +58,7 @@
         <activity
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
         <activity

@@ -32,7 +32,7 @@ import ch.epfl.sweng.hostme.database.Storage;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class MenuActivityTest {
+public class MenuFragmentTest {
 
     @BeforeClass
     public static void setUp() {
@@ -49,7 +49,6 @@ public class MenuActivityTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
-            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).perform(click());
         }
@@ -62,10 +61,9 @@ public class MenuActivityTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
-            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_add)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_add)).perform(click());
-            onView(withId(R.id.text_add)).check(matches(isDisplayed()));
+            onView(withId(R.id.add_first)).check(matches(isDisplayed()));
         }
         Intents.release();
     }
@@ -76,7 +74,6 @@ public class MenuActivityTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
-            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_favorites)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_favorites)).perform(click());
         }
@@ -89,7 +86,6 @@ public class MenuActivityTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
-            onView(withId(R.id.nav_host_fragment_activity_menu1)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_messages)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_messages)).perform(click());
         }

@@ -2,12 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="8dp"
+    android:background="@drawable/bg1"
     tools:context=".ui.add.AddFragment">
 
     <TextView
-        android:id="@+id/text_add"
+        android:id="@+id/add_first"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,7 +20,221 @@
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_100"
+        android:clickable="true"
+        android:contentDescription="@string/add_apt"
+        android:src="@drawable/add_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/add_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:background="@color/purple_100"
+        android:padding="10dp"
+        android:divider="@drawable/empty_divider"
+        android:showDividers="middle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/add_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_new"
+        app:layout_constraintVertical_bias="0.2">
+        <EditText
+            android:id="@+id/enter_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="textCapWords|text"
+            android:hint="@string/enter_name_hint" />
+        <EditText
+            android:id="@+id/enter_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="text"
+            android:hint="@string/enter_room_hint" />
+        <EditText
+            android:id="@+id/enter_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="textPostalAddress|textMultiLine|text"
+            android:hint="@string/enter_address_hint" />
+        <EditText
+            android:id="@+id/enter_rent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="numberDecimal|number"
+            android:hint="@string/chf_per_month" />
+        <EditText
+            android:id="@+id/enter_beds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="number" />
+        <EditText
+            android:id="@+id/enter_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="number"
+            android:hint="@string/enter_area_hint" />
+        <EditText
+            android:id="@+id/enter_furnished"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="text"
+            android:hint="yes / no" />
+        <EditText
+            android:id="@+id/enter_bath"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="text"
+            android:hint="private / shared" />
+        <EditText
+            android:id="@+id/enter_kitchen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="text"
+            android:hint="none / private / shared" />
+        <EditText
+            android:id="@+id/enter_laundry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="text"
+            android:hint="none, private, shared" />
+        <EditText
+            android:id="@+id/enter_pets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="text"
+            android:hint="yes, no" />
+        <EditText
+            android:id="@+id/enter_proprietor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="textCapWords|text"
+            android:hint="@string/enter_proprietor_hint" />
+        <EditText
+            android:id="@+id/enter_utilities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="numberDecimal|number"
+            android:hint="@string/chf_per_month" />
+        <EditText
+            android:id="@+id/enter_deposit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="numberDecimal|number"
+            android:hint="@string/chf_once" />
+        <EditText
+            android:id="@+id/enter_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="number"
+            android:hint="@string/enter_duration_hint" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp">
+            <Button
+                android:id="@+id/enter_images"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_200"
+                android:textSize="12sp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/upload_images"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/add_submit"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+            <Button
+                android:id="@+id/add_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:backgroundTint="@color/purple_500"
+                android:textSize="12sp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/terminate"
+                app:layout_constraintStart_toEndOf="@id/enter_images"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,11 +81,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             '**/R.class',
             '*/R$.class',
             '*/BuildConfig.',
-            '*/Manifest.*',
-            '*/*Test.*',
-            'android/*/.*',
+            '/Manifest.',
+            '/*Test.',
+            'android//.',
             // Exclude Hilt generated classes
-            '*/*Hilt.*',
+            '/*Hilt.',
             'hilt_aggregated_deps/**',
             '*/_Factory.class',
             '*/_MembersInjector.class'

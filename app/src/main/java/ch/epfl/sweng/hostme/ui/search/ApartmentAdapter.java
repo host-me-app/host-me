@@ -1,21 +1,13 @@
 package ch.epfl.sweng.hostme.ui.search;
 
-import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
-import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
-import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
-import static ch.epfl.sweng.hostme.utils.Constants.LID;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
-import static ch.epfl.sweng.hostme.utils.Constants.OCCUPANT;
-import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
-import static ch.epfl.sweng.hostme.utils.Constants.RENT;
-import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,22 +15,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Storage;
+import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
+    public static final String BITMAP = "bitmap";
     private List<Apartment> apartments;
+    private Bitmap bitmap;
+    public static final String UID = "uid";
+    public static final String ADDR = "addr";
+    public static final String RENT = "rent";
+    public static final String AREA = "area";
+    public static final String PREVIEW_1_JPG = "/preview1.jpg";
+    public static final String LID = "lid";
 
 
     public ApartmentAdapter(List<Apartment> apartments) {
@@ -62,19 +66,33 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.area.setText(String.format("%s m²", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment);
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), DisplayApartment.class);
-            intent.putExtra(UID, apartment.getUid());
-            intent.putExtra(ADDR, apartment.getAddress());
-            intent.putExtra(NPA, apartment.getNpa());
-            intent.putExtra(CITY, apartment.getCity());
-            intent.putExtra(RENT, apartment.getRent());
-            intent.putExtra(AREA, apartment.getArea());
-            intent.putExtra(LID, apartment.getLid());
-            intent.putExtra(LEASE, apartment.getCurrentLease());
-            intent.putExtra(OCCUPANT, apartment.getOccupants());
-            intent.putExtra(PROPRIETOR, apartment.getProprietor());
-            holder.itemView.getContext().startActivity(intent);
+            displayApartment(apartment, view);
         });
+    }
+
+    /**
+     * Launch the fragment that displays the specific data for apartment
+     * @param apartment
+     * @param view
+     */
+    private void displayApartment(Apartment apartment, View view) {
+        Bundle bundle = new Bundle();
+        Fragment fragment = new DisplayApartment();
+        FragmentTransaction fragmentTransaction =
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        bundle.putString(UID, apartment.getUid());
+        bundle.putString(ADDR, apartment.getAddress());
+        bundle.putInt(NPA, apartment.getNpa());
+        bundle.putString(CITY, apartment.getCity());
+        bundle.putInt(RENT, apartment.getRent());
+        bundle.putInt(AREA, apartment.getArea());
+        bundle.putString(LID, apartment.getLid());
+        bundle.putString(PROPRIETOR, apartment.getProprietor());
+        bundle.putParcelable(BITMAP, bitmap);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -89,7 +107,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             storageReference.getFile(localFile)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                             holder.image.setImageBitmap(bitmap);
                         }
                     });
@@ -105,6 +123,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

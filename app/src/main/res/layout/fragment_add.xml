@@ -43,7 +43,7 @@
         android:id="@+id/add_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:background="@color/purple_100"
@@ -55,6 +55,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/add_new"
         app:layout_constraintVertical_bias="0.2">
+
+        <EditText
+            android:id="@+id/enter_proprietor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="textCapWords|text"
+            android:hint="@string/enter_proprietor_hint" />
         <EditText
             android:id="@+id/enter_name"
             android:layout_width="match_parent"
@@ -96,85 +107,6 @@
             android:inputType="numberDecimal|number"
             android:hint="@string/chf_per_month" />
         <EditText
-            android:id="@+id/enter_beds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="number" />
-        <EditText
-            android:id="@+id/enter_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="number"
-            android:hint="@string/enter_area_hint" />
-        <EditText
-            android:id="@+id/enter_furnished"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:hint="yes / no" />
-        <EditText
-            android:id="@+id/enter_bath"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:hint="private / shared" />
-        <EditText
-            android:id="@+id/enter_kitchen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:hint="none / private / shared" />
-        <EditText
-            android:id="@+id/enter_laundry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:hint="none, private, shared" />
-        <EditText
-            android:id="@+id/enter_pets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:hint="yes, no" />
-        <EditText
-            android:id="@+id/enter_proprietor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="4dp"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="16sp"
-            android:inputType="textCapWords|text"
-            android:hint="@string/enter_proprietor_hint" />
-        <EditText
             android:id="@+id/enter_utilities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -195,6 +127,25 @@
             android:inputType="numberDecimal|number"
             android:hint="@string/chf_once" />
         <EditText
+            android:id="@+id/enter_beds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="number" />
+        <EditText
+            android:id="@+id/enter_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="16sp"
+            android:inputType="number"
+            android:hint="@string/enter_area_hint" />
+        <EditText
             android:id="@+id/enter_duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -204,14 +155,85 @@
             android:textSize="16sp"
             android:inputType="number"
             android:hint="@string/enter_duration_hint" />
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RadioGroup
+            android:id="@+id/select_furnished"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:showDividers="middle"
+            android:divider="@drawable/center_divider"
+            android:checkedButton="@id/furnished_yes">
+            <RadioButton
+                android:id="@+id/furnished_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/white"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:text="@string/yes"/>
+            <RadioButton
+                android:id="@+id/furnished_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/white"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:text="@string/no"/>
+        </RadioGroup>
+        <Spinner
+            android:id="@+id/select_bath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/privacy_enum"/>
+        <Spinner
+            android:id="@+id/select_kitchen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/privacy_enum"/>
+        <Spinner
+            android:id="@+id/select_laundry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/privacy_enum"/>
+        <RadioGroup
+            android:id="@+id/select_pets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:showDividers="middle"
+            android:divider="@drawable/center_divider"
+            android:checkedButton="@id/pets_no">
+            <RadioButton
+                android:id="@+id/pets_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/white"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:text="@string/yes"/>
+            <RadioButton
+                android:id="@+id/pets_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/white"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:text="@string/no"/>
+        </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            android:divider="@drawable/center_divider">
             <Button
                 android:id="@+id/enter_images"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:backgroundTint="@color/teal_200"
                 android:textSize="12sp"
                 android:fontFamily="@font/roboto"
@@ -225,6 +247,7 @@
                 android:id="@+id/add_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:enabled="false"
                 android:backgroundTint="@color/purple_500"
                 android:textSize="12sp"
@@ -235,6 +258,6 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.utils.Privacy;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
@@ -182,24 +181,24 @@ public class Listing {
         return this.bath;
     }
 
-    public void setBath(Privacy bath) {
-        this.bath = bath.toString();
+    public void setBath(String bath) {
+        this.bath = bath;
     }
 
     public String getKitchen() {
         return this.kitchen;
     }
 
-    public void setKitchen(Privacy kitchen) {
-        this.kitchen = kitchen.toString();
+    public void setKitchen(String kitchen) {
+        this.kitchen = kitchen;
     }
 
     public String getLaundry() {
         return this.laundry;
     }
 
-    public void setLaundry(Privacy laundry) {
-        this.laundry = laundry.toString();
+    public void setLaundry(String laundry) {
+        this.laundry = laundry;
     }
 
     public boolean isPets() {

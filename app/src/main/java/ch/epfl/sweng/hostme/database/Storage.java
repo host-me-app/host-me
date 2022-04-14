@@ -12,7 +12,7 @@ public final class Storage {
     private static boolean test = false;
 
     public static StorageReference getStorageReferenceByChild(String pathString) {
-        return getExactInstance().getReference().child(pathString);
+        return getExactInstance().getReference(pathString);
     }
 
     private static FirebaseStorage getExactInstance() {

@@ -42,6 +42,13 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="add_apt">create new listing</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string-array name="privacy_enum">
+        <item>None</item>
+        <item>Private</item>
+        <item>Shared</item>
+    </string-array>
     <string name="enter_name_hint">Building Name</string>
     <string name="enter_room_hint">#</string>
     <string name="enter_address_hint">Street Address #\nNPA City</string>

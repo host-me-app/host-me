@@ -155,10 +155,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed, OnMapR
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng epfl = new LatLng(46.522117, 6.566144);
-        googleMap.addMarker(new MarkerOptions()
-                .position(epfl)
-                .title("EPFL"));
         Geocoder coder = new Geocoder(this.getContext());
         List<Address> address;
         try {

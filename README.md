@@ -9,7 +9,9 @@
 
 # Host me app!
 
-<img src="logo.png" width="200" height="200" />
+<p align="center">
+    <img src="logo.png" width="200" height="200" />
+</p>
 
 Idea :
 This is an application that allows foreign students to simplify the search for accommodation near

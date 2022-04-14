@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.utils.Apartment;
 
@@ -34,6 +34,8 @@ public class SearchFragment extends Fragment {
     public static final float MAX_AREA = 3000f;
     public static final float MAX_PRICE = 5000f;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
+    private final CollectionReference favReference = Database.getCollection("favorite_apart");
+    private static final String FAVORITES = "favorites";
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;
@@ -177,6 +179,7 @@ public class SearchFragment extends Fragment {
                     if (apartments.size() < 10) {
                         Apartment apartment = doc.toObject(Apartment.class);
                         apartment.setDocID(doc.getId());
+                        checkIfApartIsFavorite(apartment);
                         apartments.add(apartment);
                     }
                 }
@@ -191,6 +194,27 @@ public class SearchFragment extends Fragment {
                 recyclerView.setAdapter(recyclerAdapter);
             }
         });
+    }
+
+    /**
+     * Check if the apart is a favorite one to update the buttons
+     *
+     * @param apartment
+     */
+    private void checkIfApartIsFavorite(Apartment apartment) {
+        apartment.setFavorite(false);
+        favReference.document(Auth.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot doc = task.getResult();
+                        List<String> apartIDs = (List<String>) doc.get(FAVORITES);
+                        assert apartIDs != null;
+                        if (apartIDs.contains(apartment.getDocID())) {
+                            apartment.setFavorite(true);
+                        }
+                    }
+                });
     }
 
     @Override

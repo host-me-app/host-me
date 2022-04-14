@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp;
 
 public class Apartment {
 
+    private boolean isFavorite;
     private String docID;
     private String name;
     private String room;
@@ -58,12 +59,12 @@ public class Apartment {
      * @param utilities
      * @param uid
      */
-
-    public Apartment(String docID, String city, int npa, String address,
+    public Apartment(boolean isFavorite, String docID, String city, int npa, String address,
                      int area, boolean available, Timestamp currentLease, String bath, int deposit,
                      boolean furnished, String imagePath, String kitchen, String laundry, String lid,
                      String name, int beds, boolean pets, String proprietor, int rent, String room,
                      int utilities, String uid) {
+        this.isFavorite = isFavorite;
         this.docID = docID;
         this.city = city;
         this.npa = npa;
@@ -262,5 +263,13 @@ public class Apartment {
 
     public void setDocID(String docID) {
         this.docID = docID;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

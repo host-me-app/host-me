@@ -85,6 +85,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         if (isFavHidden) {
             holder.favouriteButton.setVisibility(View.GONE);
         } else {
+            holder.favouriteButton.setChecked(apartment.isFavorite());
             holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
                 compoundButton.startAnimation(createToggleAnimation());
                 updateApartDB(apartment, compoundButton.isChecked());

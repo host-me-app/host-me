@@ -111,7 +111,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         String uid = Auth.getUid();
         DocumentReference documentRef = reference.document(uid);
         if (isAdded) {
-            apartment.setFavorite(true);
             documentRef
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
@@ -128,7 +127,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                 Toast.LENGTH_SHORT).show();
                     });
         } else {
-            apartment.setFavorite(true);
             documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
             Toast.makeText(view.getContext(), "Apartment removed from your favorites",
                     Toast.LENGTH_SHORT).show();

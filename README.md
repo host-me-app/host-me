@@ -9,6 +9,8 @@
 
 # Host me app!
 
+![logo](app/src/main/ic_launcher-playstore.png)
+
 Idea :
 This is an application that allows foreign students to simplify the search for accommodation near
 the universities in Lausanne. The user can manage and import his documents (residence permit...)

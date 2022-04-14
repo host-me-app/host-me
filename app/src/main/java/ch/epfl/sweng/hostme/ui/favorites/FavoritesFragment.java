@@ -73,8 +73,8 @@ public class FavoritesFragment extends Fragment {
                             recyclerView.setVisibility(View.GONE);
                             displayRecycler(apartments);
                         } else {
+                            noFavMessage.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
-                            noFavMessage.setVisibility(View.VISIBLE);
                             for (String apartID : apartIDs) {
                                 getCorrespondingApartAndDisplay(apartID, apartments);
                             }

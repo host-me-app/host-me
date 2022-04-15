@@ -49,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
     private String conversionId = null;
+    private Profile dbProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +86,10 @@ public class ChatActivity extends AppCompatActivity {
             updateConversion(binding.inputMessage.getText().toString());
         }else{
             // retreiving current user from database
-            String sender = retrieveName(Auth.getUid());
+            retrieveName(Auth.getUid());
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
-            conversion.put(Constants.KEY_SENDER_NAME, sender);
+            conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
@@ -98,26 +99,15 @@ public class ChatActivity extends AppCompatActivity {
         binding.inputMessage.setText(null);
     }
 
-    private String retrieveName(String id){
-        final String[] name = {null};
+    private void retrieveName(String id){
         DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(id);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        println("====" + document.getData().get(Constants.KEY_FIRSTNAME));
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+        docRef.get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
 
-        return name[0];
+                        dbProfile = task.getResult().toObject(Profile.class);
+                    }
+        });
     }
 
     private void listenMessages(){

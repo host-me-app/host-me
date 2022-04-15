@@ -179,7 +179,6 @@ public class SearchFragment extends Fragment {
                     if (apartments.size() < 10) {
                         Apartment apartment = doc.toObject(Apartment.class);
                         apartment.setDocID(doc.getId());
-                        //checkIfApartIsFavorite(apartment);
                         apartments.add(apartment);
                     }
                 }
@@ -194,27 +193,6 @@ public class SearchFragment extends Fragment {
                 recyclerView.setAdapter(recyclerAdapter);
             }
         });
-    }
-
-    /**
-     * Check if the apart is a favorite one to update the buttons
-     *
-     * @param apartment
-     */
-    private void checkIfApartIsFavorite(Apartment apartment) {
-        apartment.setFavorite(false);
-        favReference.document(Auth.getUid())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot doc = task.getResult();
-                        List<String> apartIDs = (List<String>) doc.get(FAVORITES);
-                        assert apartIDs != null;
-                        if (apartIDs.contains(apartment.getDocID())) {
-                            apartment.setFavorite(true);
-                        }
-                    }
-                });
     }
 
     @Override

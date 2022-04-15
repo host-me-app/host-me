@@ -96,8 +96,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             holder.favouriteButton.setChecked(state.equals("yes"));
             holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
                 compoundButton.startAnimation(createToggleAnimation());
-                updateApartDB(holder.itemView.getContext(), position,
-                        apartment, compoundButton.isChecked());
+                updateApartDB(holder.itemView.getContext(), apartment, compoundButton.isChecked());
             });
         }
     }
@@ -117,7 +116,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Save a fourite apartment in the database
      */
-    private void updateApartDB(Context context, int position, Apartment apartment,
+    private void updateApartDB(Context context, Apartment apartment,
                                boolean isAdded) {
         String uid = Auth.getUid();
         DocumentReference documentRef = reference.document(uid);

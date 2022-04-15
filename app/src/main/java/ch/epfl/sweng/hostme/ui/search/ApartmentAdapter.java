@@ -87,19 +87,16 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.area.setText(String.format("%s m²", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
-        // ----- Test ------
-        //read the prefrences
-        SharedPreferences pref = holder.itemView.getContext().getSharedPreferences("Button", MODE_PRIVATE);
-        String state = pref.getString(position + "pressed", "no");
-
-        // -----------------
+        SharedPreferences pref = holder.itemView.getContext()
+                .getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE);
+        String state = pref.getString(apartment.getDocID() + "pressed", "no");
         if (isFavHidden) {
             holder.favouriteButton.setVisibility(View.GONE);
         } else {
             holder.favouriteButton.setChecked(state.equals("yes"));
             holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
                 compoundButton.startAnimation(createToggleAnimation());
-                updateApartDB(holder.favouriteButton, holder.itemView.getContext(), position,
+                updateApartDB(holder.itemView.getContext(), position,
                         apartment, compoundButton.isChecked());
             });
         }
@@ -120,13 +117,14 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Save a fourite apartment in the database
      */
-    private void updateApartDB(ToggleButton button, Context context, int position, Apartment apartment,
+    private void updateApartDB(Context context, int position, Apartment apartment,
                                boolean isAdded) {
         String uid = Auth.getUid();
         DocumentReference documentRef = reference.document(uid);
-        SharedPreferences.Editor editor = context.getSharedPreferences("Button", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.
+                getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE).edit();
         if (isAdded) {
-            editor.putString(position + "pressed", "yes");
+            editor.putString(apartment.getDocID() + "pressed", "yes");
             editor.apply();
             documentRef
                     .get()
@@ -144,7 +142,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                 Toast.LENGTH_SHORT).show();
                     });
         } else {
-            editor.putString(position + "pressed", "no");
+            editor.putString(apartment.getDocID() + "pressed", "no");
             editor.apply();
             documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
             Toast.makeText(view.getContext(), "Apartment removed from your favorites",

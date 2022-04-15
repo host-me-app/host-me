@@ -179,7 +179,7 @@ public class SearchFragment extends Fragment {
                     if (apartments.size() < 10) {
                         Apartment apartment = doc.toObject(Apartment.class);
                         apartment.setDocID(doc.getId());
-                        checkIfApartIsFavorite(apartment);
+                        //checkIfApartIsFavorite(apartment);
                         apartments.add(apartment);
                     }
                 }

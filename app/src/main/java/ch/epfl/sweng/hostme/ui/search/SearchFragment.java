@@ -89,7 +89,11 @@ public class SearchFragment extends Fragment {
         apartments = new ArrayList<>();
         setUpRecyclerView();
 
-        
+        favReference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
+            if (value != null && value.exists()) {
+                //TODO update only if the click comes from the favorite fragment !
+            }
+        });
 
         return root;
     }

@@ -97,7 +97,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         }
         holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
             compoundButton.startAnimation(createToggleAnimation());
-            updateApartDB(holder.itemView.getContext(), apartment, compoundButton.isChecked());
+            updateApartDB(holder.itemView.getContext(), apartment, compoundButton.isChecked(), isFavFragment);
         });
     }
 
@@ -107,9 +107,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
      * Save a favourite apartment in the database
      */
     private void updateApartDB(Context context, Apartment apartment,
-                               boolean isAdded) {
+                               boolean isAdded, boolean isFavFragment) {
         String uid = Auth.getUid();
         DocumentReference documentRef = reference.document(uid);
+        setPreferences(context, isFavFragment);
         SharedPreferences.Editor editor = context.
                 getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE).edit();
         if (isAdded) {
@@ -140,6 +141,25 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                     });
             Toast.makeText(view.getContext(), "Apartment removed from your favorites",
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Change the preference to know if we are in the favorite fragment or not,
+     * if we are we will load the data but if we are in the main recyclerview we will not
+     * @param context
+     * @param isFavFragment
+     */
+    private void setPreferences(Context context, boolean isFavFragment) {
+        SharedPreferences prefFragment = context.getSharedPreferences("FavoriteFragment", MODE_PRIVATE);
+        if (isFavFragment) {
+            SharedPreferences.Editor editor1 = prefFragment.edit();
+            editor1.putBoolean("isFavorite", true);
+            editor1.apply();
+        } else {
+            SharedPreferences.Editor editor2 = prefFragment.edit();
+            editor2.putBoolean("isFavorite", false);
+            editor2.apply();
         }
     }
 

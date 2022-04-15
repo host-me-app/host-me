@@ -34,8 +34,6 @@ public class SearchFragment extends Fragment {
     public static final float MAX_AREA = 3000f;
     public static final float MAX_PRICE = 5000f;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
-    private final CollectionReference favReference = Database.getCollection("favorite_apart");
-    private static final String FAVORITES = "favorites";
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;

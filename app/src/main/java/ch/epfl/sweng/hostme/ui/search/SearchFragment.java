@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class SearchFragment extends Fragment {
     public static final float MAX_AREA = 3000f;
     public static final float MAX_PRICE = 5000f;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
+    private final CollectionReference favReference = Database.getCollection("favorite_apart");
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;
@@ -84,6 +88,8 @@ public class SearchFragment extends Fragment {
         setRangeBar();
         apartments = new ArrayList<>();
         setUpRecyclerView();
+
+        
 
         return root;
     }

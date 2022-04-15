@@ -1,24 +1,18 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
-import android.bluetooth.BluetoothGatt;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -75,7 +69,6 @@ public class FavoritesFragment extends Fragment {
                             apartments.clear();
                             noFavMessage.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
-                            displayRecycler(apartments);
                         } else {
                             noFavMessage.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
@@ -99,6 +92,7 @@ public class FavoritesFragment extends Fragment {
                     if (task1.isSuccessful()) {
                         DocumentSnapshot doc1 = task1.getResult();
                         Apartment apartment = doc1.toObject(Apartment.class);
+                        apartment.setDocID(doc1.getId());
                         apartments.add(apartment);
                     }
                     displayRecycler(apartments);
@@ -113,7 +107,7 @@ public class FavoritesFragment extends Fragment {
     private void displayRecycler(List<Apartment> apartments) {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
         recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
-        recyclerAdapter.hideFavButton();
+        recyclerAdapter.setFavFragment();
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);

@@ -62,7 +62,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public static final String LID = "lid";
     private View view;
     private final CollectionReference reference = Database.getCollection("favorite_apart");
-    private boolean isFavHidden;
+    private boolean isFavFragment;
     private Context context;
 
     public ApartmentAdapter(List<Apartment> apartments, Context context) {
@@ -90,31 +90,21 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         SharedPreferences pref = holder.itemView.getContext()
                 .getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE);
         String state = pref.getString(apartment.getDocID() + "pressed", "no");
-        if (isFavHidden) {
-            holder.favouriteButton.setVisibility(View.GONE);
+        if (isFavFragment) {
+            holder.favouriteButton.setChecked(true);
         } else {
             holder.favouriteButton.setChecked(state.equals("yes"));
-            holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
-                compoundButton.startAnimation(createToggleAnimation());
-                updateApartDB(holder.itemView.getContext(), apartment, compoundButton.isChecked());
-            });
         }
-    }
-
-    /**
-     * Create animation for the Tuggle button
-     */
-    private ScaleAnimation createToggleAnimation() {
-        ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
-        scaleAnimation.setDuration(500);
-        BounceInterpolator bounceInterpolator = new BounceInterpolator();
-        scaleAnimation.setInterpolator(bounceInterpolator);
-        return scaleAnimation;
+        holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            compoundButton.startAnimation(createToggleAnimation());
+            updateApartDB(holder.itemView.getContext(), apartment, compoundButton.isChecked());
+        });
     }
 
 
+
     /**
-     * Save a fourite apartment in the database
+     * Save a favourite apartment in the database
      */
     private void updateApartDB(Context context, Apartment apartment,
                                boolean isAdded) {
@@ -125,8 +115,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         if (isAdded) {
             editor.putString(apartment.getDocID() + "pressed", "yes");
             editor.apply();
-            documentRef
-                    .get()
+            documentRef.get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocID()));
@@ -143,10 +132,26 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         } else {
             editor.putString(apartment.getDocID() + "pressed", "no");
             editor.apply();
-            documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
+            documentRef.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
+                        }
+                    });
             Toast.makeText(view.getContext(), "Apartment removed from your favorites",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Create animation for the Tuggle button
+     */
+    private ScaleAnimation createToggleAnimation() {
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
+        scaleAnimation.setDuration(500);
+        BounceInterpolator bounceInterpolator = new BounceInterpolator();
+        scaleAnimation.setInterpolator(bounceInterpolator);
+        return scaleAnimation;
     }
 
     /**
@@ -222,8 +227,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * hide the favorite button if you are in favorite fragment
      */
-    public void hideFavButton() {
-        this.isFavHidden = true;
+    public void setFavFragment() {
+        this.isFavFragment = true;
     }
 
 

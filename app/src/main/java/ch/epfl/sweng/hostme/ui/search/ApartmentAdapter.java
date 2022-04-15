@@ -189,7 +189,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
      */
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
-        StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getLid() + PREVIEW_1_JPG);
+        StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getImagePath() + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

@@ -25,13 +25,15 @@ import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.chat.ChatMessage;
+import ch.epfl.sweng.hostme.chat.ConversionListener;
 import ch.epfl.sweng.hostme.chat.RecentConversationAdapter;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.FragmentMessagesBinding;
+import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
-public class MessagesFragment extends Fragment {
+public class MessagesFragment extends Fragment implements ConversionListener {
 
     private FragmentMessagesBinding binding;
     private List<ChatMessage> conversations;
@@ -49,12 +51,13 @@ public class MessagesFragment extends Fragment {
             startActivity(new Intent(getActivity().getApplicationContext(), UsersActivity.class));
         });
         getToken();
+        listenConversations();
         return root;
     }
 
     private void init(){
         conversations = new ArrayList<>();
-        conversationAdapter = new RecentConversationAdapter(conversations);
+        conversationAdapter = new RecentConversationAdapter(conversations, this);
         binding.conversationRecycler.setAdapter(conversationAdapter);
     }
 
@@ -74,6 +77,15 @@ public class MessagesFragment extends Fragment {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    private void listenConversations(){
+        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, Auth.getUid())
+                .addSnapshotListener(eventListener);
+        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, Auth.getUid())
+                .addSnapshotListener(eventListener);
+    }
+
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
        if(error != null){
            return;
@@ -87,11 +99,11 @@ public class MessagesFragment extends Fragment {
                   chatMessage.senderId = senderId;
                   chatMessage.receiverId = receiverId;
                   if(Auth.getUid().equals(senderId)){
-                      chatMessage.conversationId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                      chatMessage.conversationName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
+                      chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                      chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
                   }else{
-                      chatMessage.conversationId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
-                      chatMessage.conversationName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
+                      chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                      chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
                   }
                   chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
                   chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
@@ -115,6 +127,13 @@ public class MessagesFragment extends Fragment {
           binding.progressBar.setVisibility(View.GONE);
        }
     };
+
+    @Override
+    public void onConversionClicked(User user) {
+        Intent intent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+    }
 
     @Override
     public void onDestroyView() {

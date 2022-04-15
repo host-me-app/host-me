@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static java.sql.DriverManager.println;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -10,10 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -33,6 +38,7 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
+import ch.epfl.sweng.hostme.utils.Profile;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -78,17 +84,40 @@ public class ChatActivity extends AppCompatActivity {
         if(conversionId != null){
             updateConversion(binding.inputMessage.getText().toString());
         }else{
+            // retreiving current user from database
+            String sender = retrieveName(Auth.getUid());
             HashMap<String, Object> conversion = new HashMap<>();
-
             conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
-            conversion.put(Constants.KEY_SENDER_NAME, Auth.getCurrentUser().getEmail());
+            conversion.put(Constants.KEY_SENDER_NAME, sender);
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.email);
+            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
         }
         binding.inputMessage.setText(null);
+    }
+
+    private String retrieveName(String id){
+        final String[] name = {null};
+        DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        println("====" + document.getData().get(Constants.KEY_FIRSTNAME));
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        return name[0];
     }
 
     private void listenMessages(){

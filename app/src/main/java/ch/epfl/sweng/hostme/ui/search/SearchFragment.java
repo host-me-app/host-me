@@ -184,7 +184,7 @@ public class SearchFragment extends Fragment {
                     }
                 }
                 List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-                recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
+                recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
                 recyclerView.setHasFixedSize(true);
                 linearLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(linearLayoutManager);

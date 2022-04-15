@@ -108,7 +108,7 @@ public class FavoritesFragment extends Fragment {
      */
     private void displayRecycler(List<Apartment> apartments) {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
+        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
         recyclerAdapter.hideFavButton();
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());

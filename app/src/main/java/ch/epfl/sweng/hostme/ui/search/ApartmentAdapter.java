@@ -1,10 +1,13 @@
 package ch.epfl.sweng.hostme.ui.search;
 
+import static android.content.Context.MODE_PRIVATE;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -60,8 +63,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private View view;
     private final CollectionReference reference = Database.getCollection("favorite_apart");
     private boolean isFavHidden;
+    private Context context;
 
-    public ApartmentAdapter(List<Apartment> apartments) {
+    public ApartmentAdapter(List<Apartment> apartments, Context context) {
+        this.context = context;
         this.apartments = apartments;
     }
 
@@ -82,13 +87,20 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.area.setText(String.format("%s m²", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
+        // ----- Test ------
+        //read the prefrences
+        SharedPreferences pref = holder.itemView.getContext().getSharedPreferences("Button", MODE_PRIVATE);
+        String state = pref.getString(position + "pressed", "no");
+
+        // -----------------
         if (isFavHidden) {
             holder.favouriteButton.setVisibility(View.GONE);
         } else {
-            holder.favouriteButton.setChecked(apartment.isFavorite());
+            holder.favouriteButton.setChecked(state.equals("yes"));
             holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
                 compoundButton.startAnimation(createToggleAnimation());
-                updateApartDB(apartment, compoundButton.isChecked());
+                updateApartDB(holder.favouriteButton, holder.itemView.getContext(), position,
+                        apartment, compoundButton.isChecked());
             });
         }
     }
@@ -108,10 +120,14 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Save a fourite apartment in the database
      */
-    private void updateApartDB(Apartment apartment, boolean isAdded) {
+    private void updateApartDB(ToggleButton button, Context context, int position, Apartment apartment,
+                               boolean isAdded) {
         String uid = Auth.getUid();
         DocumentReference documentRef = reference.document(uid);
+        SharedPreferences.Editor editor = context.getSharedPreferences("Button", MODE_PRIVATE).edit();
         if (isAdded) {
+            editor.putString(position + "pressed", "yes");
+            editor.apply();
             documentRef
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
@@ -128,6 +144,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                 Toast.LENGTH_SHORT).show();
                     });
         } else {
+            editor.putString(position + "pressed", "no");
+            editor.apply();
             documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
             Toast.makeText(view.getContext(), "Apartment removed from your favorites",
                     Toast.LENGTH_SHORT).show();

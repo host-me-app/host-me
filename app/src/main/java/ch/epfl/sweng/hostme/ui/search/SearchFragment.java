@@ -91,7 +91,7 @@ public class SearchFragment extends Fragment {
         setUpRecyclerView();
 
         favReference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
-            SharedPreferences pref = getActivity().getSharedPreferences(FAVORITE_FRAGMENT, Context.MODE_PRIVATE);
+            SharedPreferences pref = root.getContext().getSharedPreferences(FAVORITE_FRAGMENT, Context.MODE_PRIVATE);
             if (value != null && value.exists() && pref.getBoolean(IS_FAVORITE, false)) {
                 setUpRecyclerView();
             }

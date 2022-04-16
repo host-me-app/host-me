@@ -2,6 +2,8 @@ package ch.epfl.sweng.hostme.ui.search;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.utils.Apartment;
 
@@ -33,7 +35,10 @@ public class SearchFragment extends Fragment {
 
     public static final float MAX_AREA = 3000f;
     public static final float MAX_PRICE = 5000f;
+    public static final String IS_FAVORITE = "isFavorite";
+    public static final String FAVORITE_FRAGMENT = "FavoriteFragment";
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
+    private final CollectionReference favReference = Database.getCollection("favorite_apart");
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;
@@ -84,6 +89,13 @@ public class SearchFragment extends Fragment {
         setRangeBar();
         apartments = new ArrayList<>();
         setUpRecyclerView();
+
+        favReference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
+            SharedPreferences pref = root.getContext().getSharedPreferences(FAVORITE_FRAGMENT, Context.MODE_PRIVATE);
+            if (value != null && value.exists() && pref.getBoolean(IS_FAVORITE, false)) {
+                setUpRecyclerView();
+            }
+        });
 
         return root;
     }
@@ -181,7 +193,7 @@ public class SearchFragment extends Fragment {
                     }
                 }
                 List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-                recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
+                recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
                 recyclerView.setHasFixedSize(true);
                 linearLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(linearLayoutManager);

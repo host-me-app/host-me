@@ -84,30 +84,32 @@ public class ChatActivity extends AppCompatActivity {
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         if(conversionId != null){
             updateConversion(binding.inputMessage.getText().toString());
+            binding.inputMessage.setText(null);
         }else{
-            // retreiving current user from database
-            retrieveName(Auth.getUid());
-            HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
-            conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
-            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
-            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
-            conversion.put(Constants.KEY_TIMESTAMP, new Date());
-            addConversion(conversion);
+            DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+            Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
+                    task -> {
+                        if (task.isSuccessful()) {
+                            System.err.println("retrieve database");
+                            dbProfile = task.getResult().toObject(Profile.class);
+                            HashMap<String, Object> conversion = new HashMap<>();
+                            conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
+                            System.err.println("get first name");
+
+                            conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
+                            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+                            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+                            conversion.put(Constants.KEY_TIMESTAMP, new Date());
+                            addConversion(conversion);
+                            binding.inputMessage.setText(null);
+                        }
+                        else{
+                            System.out.println("erreur in retrieve name");
+                            System.out.println(task.getException().toString());
+                        }
+                    });
         }
-        binding.inputMessage.setText(null);
-    }
-
-    private void retrieveName(String id){
-        DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(id);
-        docRef.get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-
-                        dbProfile = task.getResult().toObject(Profile.class);
-                    }
-        });
     }
 
     private void listenMessages(){

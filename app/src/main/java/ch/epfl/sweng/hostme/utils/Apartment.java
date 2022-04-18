@@ -4,27 +4,29 @@ import com.google.firebase.Timestamp;
 
 public class Apartment {
 
-    private String city;
-    private int npa;
+    private boolean isFavorite;
+    private String docID;
+    private String name;
+    private String room;
     private String address;
+    private int npa;
+    private String city;
+    private int rent;
+    private int beds;
     private int area;
-    private boolean available;
-    private Timestamp currentLease;
-    private String bath;
-    private int deposit;
     private boolean furnished;
-    private String imagePath;
+    private String bath;
     private String kitchen;
     private String laundry;
-    private String lid;
-    private String name;
-    private int beds;
     private boolean pets;
+    private String imagePath;
+    private boolean available;
     private String proprietor;
-    private int rent;
-    private String room;
-    private int utilities;
     private String uid;
+    private String lid;
+    private int utilities;
+    private int deposit;
+    private Timestamp currentLease;
 
     /**
      * constructor needed for Firebase
@@ -34,7 +36,7 @@ public class Apartment {
 
     /**
      * Constructor of a an apartment
-     *
+     * @param docID
      * @param city
      * @param npa
      * @param address
@@ -57,10 +59,13 @@ public class Apartment {
      * @param utilities
      * @param uid
      */
-    public Apartment(String city, int npa, String address, int area, boolean available, Timestamp currentLease, String bath, int deposit,
+    public Apartment(boolean isFavorite, String docID, String city, int npa, String address,
+                     int area, boolean available, Timestamp currentLease, String bath, int deposit,
                      boolean furnished, String imagePath, String kitchen, String laundry, String lid,
                      String name, int beds, boolean pets, String proprietor, int rent, String room,
                      int utilities, String uid) {
+        this.isFavorite = isFavorite;
+        this.docID = docID;
         this.city = city;
         this.npa = npa;
         this.address = address;
@@ -250,5 +255,21 @@ public class Apartment {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getDocID() {
+        return docID;
+    }
+
+    public void setDocID(String docID) {
+        this.docID = docID;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

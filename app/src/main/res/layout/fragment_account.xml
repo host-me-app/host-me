@@ -8,35 +8,6 @@
     tools:context=".ui.account.AccountFragment">
 
 
-    <Button
-        android:id="@+id/userProfileChangePasswordButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:width="275dp"
-        android:background="@drawable/button_gradient"
-        android:fontFamily="@font/roboto_family"
-        android:text="@string/change_password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileSaveButton"
-        tools:ignore="TextContrastCheck" />
-
-    <TextView
-        android:id="@+id/userProfileFieldGender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/gender"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/userProfileRadioG"
-        app:layout_constraintHorizontal_bias="0.777"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
-
     <EditText
         android:id="@+id/userProfileFirstName"
         android:layout_width="200dp"
@@ -50,68 +21,8 @@
         app:layout_constraintHorizontal_bias="0.635"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.236"
         tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/userProfileFieldFirstName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/first_name"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/userProfileLastName"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.217" />
-
-
-    <Button
-        android:id="@+id/userProfileSaveButton"
-        android:layout_width="116dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="16dp"
-        android:width="275dp"
-        android:background="@drawable/button_gradient"
-        android:fontFamily="@font/roboto_family"
-        android:text="@string/save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.661"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileRadioG"
-        tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/wallet_button"
-        android:layout_width="125dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="28dp"
-        android:width="275dp"
-        android:background="@drawable/button_shape"
-        android:fontFamily="@font/roboto_family"
-        android:text="Wallet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.961"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/userProfilelogOutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:width="275dp"
-        android:background="@drawable/button_gradient"
-        android:fontFamily="@font/roboto_family"
-        android:text="@string/log_out"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileChangePasswordButton"
-        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/userProfileFieldLastName"
@@ -126,7 +37,21 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.303" />
+        app:layout_constraintVertical_bias="0.337" />
+
+    <Button
+        android:id="@+id/userProfilelogOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:width="275dp"
+        android:background="@drawable/button_gradient"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/log_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileChangePasswordButton"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/userProfileFieldEmail"
@@ -139,54 +64,65 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/userProfileEmail"
-        app:layout_constraintHorizontal_bias="0.583"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.403" />
+        app:layout_constraintVertical_bias="0.438" />
 
-    <EditText
-        android:id="@+id/userProfileLastName"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:ems="10"
+    <TextView
+        android:id="@+id/userProfileFieldGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
+        android:text="@string/gender"
+        android:textColor="#212121"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintEnd_toStartOf="@+id/userProfileRadioG"
+        app:layout_constraintHorizontal_bias="0.807"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.298"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintVertical_bias="0.534" />
 
-    <EditText
-        android:id="@+id/userProfileEmail"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:fontFamily="@font/roboto_light"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/userProfileSaveButton"
+        android:layout_width="116dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="8dp"
+        android:width="275dp"
+        android:background="@drawable/button_gradient"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintHorizontal_bias="0.769"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileRadioG"
+        tools:ignore="TextContrastCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/userProfileChangePhotoButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="84dp"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:fabCustomSize="50dp"
+        app:layout_constraintStart_toStartOf="@+id/userProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/userProfileImage"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <RadioGroup
         android:id="@+id/userProfileRadioG"
-        android:layout_width="239dp"
-        android:layout_height="58dp"
+        android:layout_width="225dp"
+        android:layout_height="51dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.779"
+        app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499">
+        app:layout_constraintVertical_bias="0.529">
 
         <RadioButton
             android:id="@+id/userProfileGenderM"
@@ -209,30 +145,96 @@
 
     </RadioGroup>
 
-    <ImageView
+    <Button
+        android:id="@+id/userProfileChangePasswordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:width="275dp"
+        android:background="@drawable/button_gradient"
+        android:fontFamily="@font/roboto_family"
+        android:text="@string/change_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileSaveButton"
+        tools:ignore="TextContrastCheck" />
+
+    <EditText
+        android:id="@+id/userProfileLastName"
+        android:layout_width="200dp"
+        android:layout_height="51dp"
+        android:ems="10"
+        android:fontFamily="@font/roboto_light"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.335"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/userProfileEmail"
+        android:layout_width="200dp"
+        android:layout_height="51dp"
+        android:ems="10"
+        android:fontFamily="@font/roboto_light"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.436"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/userProfileFieldFirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/first_name"
+        android:textColor="#212121"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/userProfileLastName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.251" />
+
+
+    <Button
+        android:id="@+id/wallet_button"
+        android:layout_width="125dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="28dp"
+        android:width="275dp"
+        android:background="@drawable/button_shape"
+        android:fontFamily="@font/roboto_family"
+        android:text="Wallet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.961"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userProfileImage"
-        android:layout_width="121dp"
-        android:layout_height="113dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:clickable="false"
         android:src="@drawable/ic_baseline_account_circle_24"
+        app:civ_border_color="#000"
+        app:civ_border_width="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.025" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/userProfileChangePhotoButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="76dp"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_add_a_photo_24"
-        app:fabCustomSize="50dp"
-        app:layout_constraintStart_toStartOf="@+id/userProfileImage"
-        app:layout_constraintTop_toTopOf="@+id/userProfileImage"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintVertical_bias="0.026" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -82,6 +82,10 @@ public class ChatActivity extends AppCompatActivity {
             .add(message)
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+    }
+
+    private void addConvo(){
+
         if(conversionId != null){
             updateConversion(binding.inputMessage.getText().toString());
             binding.inputMessage.setText(null);
@@ -170,7 +174,11 @@ public class ChatActivity extends AppCompatActivity {
                 finish();
             }
         });
-        binding.sendButt.setOnClickListener(v -> sendMessage());
+        binding.sendButt.setOnClickListener(v -> {
+            sendMessage();
+            addConvo();
+            }
+        );
     }
 
     @NonNull

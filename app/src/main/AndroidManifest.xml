@@ -26,6 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HostMe"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.messages.CallActivity"
+            android:parentActivityName=".ui.messages.ChatActivity" />
         <activity
             android:name=".ui.messages.ChatActivity"
             android:exported="false"

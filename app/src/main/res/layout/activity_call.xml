@@ -8,7 +8,7 @@
 
     <FrameLayout
         android:id="@+id/bg_video_container"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:background="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,11 +33,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.821" />
 
+    <ImageView
+        android:id="@+id/joinBtn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_weight="20"
+        android:scaleType="centerInside"
+        android:src="@drawable/join_call"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:orientation="horizontal"
         android:gravity="center"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView

@@ -41,7 +41,7 @@ public class ChatActivity extends AppCompatActivity {
     private User receiverUser;
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
-    private ImageView joinButt;
+    private ImageView launchButt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +53,8 @@ public class ChatActivity extends AppCompatActivity {
         loadReceiverDetails();
         init();
         listenMessages();
-        joinButt = findViewById(R.id.joinBtn);
-        joinButt.setOnClickListener(v -> {
+        launchButt = findViewById(R.id.launchButt);
+        launchButt.setOnClickListener(v -> {
             Intent intent = new Intent(this, CallActivity.class);
             intent.putExtra("user", receiverUser);
             startActivity(intent);

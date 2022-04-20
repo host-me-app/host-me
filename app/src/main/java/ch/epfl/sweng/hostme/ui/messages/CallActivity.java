@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,15 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FieldValue;
-
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
-import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.users.User;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -40,10 +34,8 @@ public class CallActivity extends AppCompatActivity {
     private ImageView audioButt;
     private ImageView leaveButt;
     private ImageView videoButt;
+    private ImageView joinButt;
     private final static String currUserID = Auth.getUid();
-    private final CollectionReference reference = Database.getCollection("users");
-    private User receiverUser;
-    private FrameLayout bgContainer;
 
 
     @Override
@@ -55,22 +47,21 @@ public class CallActivity extends AppCompatActivity {
                 checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
             initAgoraEngine();
         }
-        onJoinChannelClicked();
-        bgContainer = findViewById(R.id.bg_video_container);
+        joinButt = findViewById(R.id.joinBtn);
+        joinButt.setOnClickListener(l -> onJoinChannelClicked());
         audioButt = findViewById(R.id.audioBtn);
+        audioButt.setVisibility(View.GONE);
         audioButt.setOnClickListener(l -> onAudioMuteClicked(audioButt));
         leaveButt = findViewById(R.id.leaveBtn);
+        leaveButt.setVisibility(View.GONE);
         leaveButt.setOnClickListener(l -> onLeaveChannelClicked());
         videoButt = findViewById(R.id.videoBtn);
+        videoButt.setVisibility(View.GONE);
         videoButt.setOnClickListener(l -> onVideoMuteClicked(videoButt));
-        receiverUser = (User) getIntent().getSerializableExtra("user");
     }
 
     public boolean checkSelfPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(this,
-                permission)
-                != PackageManager.PERMISSION_GRANTED) {
-
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     REQUESTED_PERMISSIONS,
                     requestCode);
@@ -176,18 +167,23 @@ public class CallActivity extends AppCompatActivity {
 
     public void onJoinChannelClicked() {
         String channelName = currUserID;
-        setupLocalVideoFeed();
         mRtcEngine.joinChannel(null, channelName, null, 0);
+        setupLocalVideoFeed();
+        joinButt.setVisibility(View.GONE); // set the join button hidden
+        audioButt.setVisibility(View.VISIBLE); // set the audio button hidden
+        leaveButt.setVisibility(View.VISIBLE); // set the leave button hidden
+        videoButt.setVisibility(View.VISIBLE); // set the video button hidden
+
     }
 
     public void onLeaveChannelClicked() {
         leaveChannel();
-        reference.document(receiverUser.id).update("roomName", FieldValue.arrayRemove(currUserID));
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
-        Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("user", receiverUser);
-        startActivity(intent);
+        joinButt.setVisibility(View.VISIBLE); // set the join button visible
+        audioButt.setVisibility(View.GONE); // set the audio button hidden
+        leaveButt.setVisibility(View.GONE); // set the leave button hidden
+        videoButt.setVisibility(View.GONE); // set the video button hidden
     }
 
     private void leaveChannel() {

@@ -82,10 +82,10 @@ public class ChatActivity extends AppCompatActivity {
             .add(message)
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+        addConvo();
     }
 
     private void addConvo(){
-
         if(conversionId != null){
             updateConversion(binding.inputMessage.getText().toString());
             binding.inputMessage.setText(null);
@@ -94,12 +94,9 @@ public class ChatActivity extends AppCompatActivity {
             Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
                     task -> {
                         if (task.isSuccessful()) {
-                            System.err.println("retrieve database");
                             dbProfile = task.getResult().toObject(Profile.class);
                             HashMap<String, Object> conversion = new HashMap<>();
                             conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
-                            System.err.println("get first name");
-
                             conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
                             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
                             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
@@ -109,7 +106,6 @@ public class ChatActivity extends AppCompatActivity {
                             binding.inputMessage.setText(null);
                         }
                         else{
-                            System.out.println("erreur in retrieve name");
                             System.out.println(task.getException().toString());
                         }
                     });
@@ -174,11 +170,7 @@ public class ChatActivity extends AppCompatActivity {
                 finish();
             }
         });
-        binding.sendButt.setOnClickListener(v -> {
-            sendMessage();
-            addConvo();
-            }
-        );
+        binding.sendButt.setOnClickListener(v -> sendMessage());
     }
 
     @NonNull

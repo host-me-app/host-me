@@ -96,4 +96,24 @@ public class MessagesFragmentTest {
         }
         Intents.release();
     }
+
+    @Test
+    public void CheckRecentConvDisplayed() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
+        Intents.init();
+        try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
+
+            String m = "Messages";
+            onView(withId(R.id.navigation_messages)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.FrameConv)).check(matches(isDisplayed()));
+            onView(withId(R.id.conversationRecycler)).check(matches(isDisplayed()));
+            Thread.sleep(1000);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
 }

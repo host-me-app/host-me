@@ -36,6 +36,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.FragmentAddBinding;
+import ch.epfl.sweng.hostme.utils.ListImage;
 import ch.epfl.sweng.hostme.utils.Listing;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
@@ -66,16 +67,20 @@ public class AddFragment extends Fragment {
         final ScrollView addForm = binding.addForm;
         formFields = new HashMap<>();
         dropDowns = new HashMap<>();
+        selectFurnished = binding.selectFurnished;
+        selectPets = binding.selectPets;
 
         init();
 
         final LinearLayout addButtons = binding.addButtons;
         enterImages = binding.enterImages;
-        enterImages.setOnClickListener(v -> {   // TODO: replace with image upload
-
-        });
         addSubmit = binding.addSubmit;
-        addViewModel.key(addSubmit);
+        enterImages.setOnClickListener(v -> {
+            addViewModel.formPath(formFields.get("proprietor"), formFields.get("name"),
+                    formFields.get("room"));
+            new ListImage(addViewModel.formPath().getValue(), this.getActivity(), this.getContext());
+            addViewModel.key(addSubmit);
+        });
         addSubmit.setOnClickListener(v -> {
             Listing latest = generateApartment(root);
         });
@@ -163,6 +168,7 @@ public class AddFragment extends Fragment {
             fields.put("kitchen", priv[dropDowns.get("kitchen").getSelectedItemPosition()]);
             fields.put("laundry", priv[dropDowns.get("laundry").getSelectedItemPosition()]);
             fields.put("pets", pet.getText().toString().equals("yes"));
+            fields.put("imageDir", addViewModel.formPath().getValue());
             fields.put("proprietor", formFields.get("proprietor").getText().toString());
             fields.put("uid", UID);
             fields.put("utilities", Integer.valueOf(formFields.get("utilities").getText().toString()));

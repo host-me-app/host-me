@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.databinding.ActivityMenu1Binding;
+import ch.epfl.sweng.hostme.utils.ListImage;
+
+import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -38,6 +42,15 @@ public class MenuActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_menu1);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (requestCode == REQ_IMAGE) {
+            ListImage.onAcceptImage(resultCode, intent.getData());
+        }
     }
 
 }

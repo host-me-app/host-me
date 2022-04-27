@@ -13,23 +13,36 @@ import androidx.lifecycle.ViewModel;
 import java.util.HashSet;
 import java.util.Set;
 
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+
 public class AddViewModel extends ViewModel implements AdapterView.OnItemSelectedListener {
 
     private final MutableLiveData<EditText> mField;
+    private final MutableLiveData<Button> action;
+    private final MutableLiveData<String> location;
     private final MutableLiveData<String> empty;
-    private Button submit;
 
     private Set<Integer> lock;
 
     public AddViewModel() {
         mField = new MutableLiveData<>();
+        action = new MutableLiveData<>();
+        location = new MutableLiveData<>();
         empty = new MutableLiveData<>();
         empty.setValue("You have no active listings");
         lock = new HashSet<>();
     }
 
     public void key(Button locked) {
-        submit = locked;
+        action.setValue(locked);
+        turn();
+    }
+    private void turn() {
+        if (!action.getValue().isEnabled() && lock.size() == 12) {
+            action.getValue().setEnabled(true);
+        } else if (action.getValue().isEnabled() && lock.size() < 12) {
+            action.getValue().setEnabled(false);
+        }
     }
     public void selectField(EditText f) {
         mField.setValue(f);
@@ -50,11 +63,14 @@ public class AddViewModel extends ViewModel implements AdapterView.OnItemSelecte
         } else {
             lock.remove(chk.getId());
         }
-        if (!submit.isEnabled() && lock.size() == 12) {
-            submit.setEnabled(true);
-        } else if (submit.isEnabled() && lock.size() < 12) {
-            submit.setEnabled(false);
-        }
+        turn();
+    }
+    public void formPath(EditText p, EditText b, EditText r) {
+        location.setValue(String.format("%s/%s_%s_%s", APARTMENTS, p.getText().toString().toLowerCase(),
+                b.getText().toString().toLowerCase(), r.getText().toString().toLowerCase()));
+    }
+    public LiveData<String> formPath() {
+        return location;
     }
 
     public LiveData<String> notOwner() {

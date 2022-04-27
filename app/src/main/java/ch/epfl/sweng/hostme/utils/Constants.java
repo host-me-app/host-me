@@ -27,4 +27,7 @@ public final class Constants {
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
 
+    // Response codes for all activities
+    public static final int REQ_IMAGE = 105;
+
 }

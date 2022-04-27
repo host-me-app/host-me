@@ -19,6 +19,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.FirebaseApp;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,12 @@ public class ChatActivityTest {
         Storage.setTest();
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
+    }
+
+    @AfterClass
+    public static void after_class()
+    {
+        Intents.release();
     }
 
     @Test
@@ -80,7 +87,7 @@ public class ChatActivityTest {
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
-            String user = "test chat";
+            String user = "Test Chat";
 
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
@@ -219,9 +226,6 @@ public class ChatActivityTest {
             onView(withId(R.id.sendButt)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.inputMessage)).equals("");
-            onView(withId(R.id.textMessage)).check(matches(isDisplayed()));
-            onView(withId(R.id.messageDate)).check(matches(isDisplayed()));
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

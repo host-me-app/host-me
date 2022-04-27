@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/street_view_panorama"
-        android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
+        android:name="com.google.android.gms.maps.SupportStreetViewPanoramaFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"

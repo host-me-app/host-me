@@ -51,7 +51,7 @@ public class Listing {
      * Constructor for Firebase class binding
      */
     public Listing () {
-        parseImages();
+        this.parseImages();
     }
 
     /**
@@ -90,8 +90,7 @@ public class Listing {
             this.available = true;
             this.currentLease = null;
 
-            // TODO: pull and parse image directory
-            parseImages();
+            this.parseImages();
         } catch (org.json.JSONException e) { throw new RuntimeException(e); }
         JSONObject extra = fields.optJSONObject("opt");
         if (extra != null) {
@@ -273,6 +272,16 @@ public class Listing {
         return this.opt;
     }
 
+    /**
+     * A JSON representation of a Listing that may be used to create identical objects or edit the
+     * fields of this Listing.
+     *
+     * @deprecated this was primarily used for local data validation when creating the workflow for
+     *  the upload of listings to the database.
+     *
+     * @return JSONObject holding approximate representations of all this Listing's fields
+     */
+    @Deprecated
     public JSONObject exportDoc() {
         JSONObject ret = new JSONObject();
         try {
@@ -296,7 +305,7 @@ public class Listing {
             ret.put("utilities", this.utilities);
             ret.put("deposit", this.deposit);
             ret.put("duration", this.duration);
-            ret.put("currentLease", this.currentLease);
+            ret.put("currentLease", this.currentLease); // potential error
 
             for (String it: opt.keySet()) {
                 ret.putOpt("opt." + it, opt.get(it));
@@ -306,19 +315,18 @@ public class Listing {
         return ret;
     }
 
+    @Override
+    public String toString() {
+        return this.exportDoc().toString();
+    }
+
     private void parseImages() {
         StorageReference imageDir = Storage.getStorageReferenceByChild(this.imagePath);
-        imageDir.listAll().addOnCompleteListener(list -> {
-            if (list.isSuccessful()) {
-                List<StorageReference> files = list.getResult().getItems();
-                for (StorageReference item: files) {
-                    item.getBytes(1000000).addOnCompleteListener(bytes -> {
-                        if (bytes.isSuccessful()) {
-                            byte[] res = bytes.getResult();
-                            images.add(BitmapFactory.decodeByteArray(res, 0, res.length));
-                        }
-                    });
-                }
+        imageDir.listAll().addOnSuccessListener(list -> {
+            for (StorageReference item: list.getItems()) {
+                item.getBytes(1000000).addOnSuccessListener(bytes -> {
+                    images.add(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                });
             }
         });
     }

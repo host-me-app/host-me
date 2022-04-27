@@ -191,7 +191,7 @@ public class ChatActivityTest {
     }
 
     @Test
-    public void MessageisDisplayedinChat() {
+    public void MessageIsDisplayedChat() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
@@ -219,6 +219,8 @@ public class ChatActivityTest {
             onView(withId(R.id.sendButt)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.inputMessage)).equals("");
+            onView(withId(R.id.textMessage)).check(matches(isDisplayed()));
+            onView(withId(R.id.messageDate)).check(matches(isDisplayed()));
 
         } catch (InterruptedException e) {
             e.printStackTrace();

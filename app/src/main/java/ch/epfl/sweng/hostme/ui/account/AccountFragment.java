@@ -60,6 +60,7 @@ public class AccountFragment extends Fragment {
     private Button logOutButton;
     private Button changePasswordButton;
     private Profile dbProfile;
+    private String school;
 
     private ImageView editProfilePicture;
     private FloatingActionButton changePictureButton;
@@ -335,6 +336,7 @@ public class AccountFragment extends Fragment {
         String dbLastName = userInDB.getLastName();
         String dbEmail = userInDB.getEmail();
         String dbGender = userInDB.getGender();
+        school = userInDB.getSchool();
 
         editFirstName.setText(dbFirstName);
         editLastName.setText(dbLastName);
@@ -358,7 +360,7 @@ public class AccountFragment extends Fragment {
         RadioButton selectedButton = view.findViewById(selectedGender);
         String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
 
-        return new Profile(firstName, lastName, email, gender);
+        return new Profile(firstName, lastName, email, gender, school);
 
     }
 

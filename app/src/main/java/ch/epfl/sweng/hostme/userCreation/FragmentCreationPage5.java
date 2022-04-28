@@ -1,97 +1,68 @@
 package ch.epfl.sweng.hostme.userCreation;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.database.Auth;
-import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.utils.PasswordValidator;
-import ch.epfl.sweng.hostme.utils.Profile;
+import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 
 public class FragmentCreationPage5 extends Fragment {
-    public final static Map<String, String> DATA = new HashMap<>();
+
+    public static final String MAIL = "Mail";
+    private EditText mail;
+    private Button nextMailButt;
+    private TextWatcher mailTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String mailText = mail.getText().toString().trim();
+            nextMailButt.setEnabled(EmailValidator.isValid(mailText));
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page5, container, false);
+        mail = view.findViewById(R.id.mail);
+        mail.addTextChangedListener(mailTextWatcher);
 
-        Button terminateButt = view.findViewById(R.id.terminateButton);
-        EditText pwd = view.findViewById(R.id.password);
-        EditText confirm_pwd = view.findViewById(R.id.confirm_pwd);
-
-        terminateButt.setOnClickListener(v -> {
-            String pwdText = pwd.getText().toString();
-            String confirm_pwdText = confirm_pwd.getText().toString();
-            if (pwdText.equals(confirm_pwdText) && PasswordValidator.isValid(pwdText)) {
-                createUser(DATA.get(FragmentCreationPage4.MAIL), pwdText);
-            }
+        nextMailButt = view.findViewById(R.id.nextButtonMail);
+        nextMailButt.setEnabled(false);
+        nextMailButt.setOnClickListener(v -> {
+            String mailText = mail.getText().toString();
+            FragmentCreationPage6.DATA.put(MAIL, mailText);
+            goToFragment6();
         });
 
         return view;
     }
 
     /**
-     * Go to menu activity
+     * Go to password fragment
      */
-    private void goToMenu() {
-        Intent intent = new Intent(getActivity(), MenuActivity.class);
-        startActivity(intent);
+    private void goToFragment6() {
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage6());
+        fragmentTransaction.commit();
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-    }
-
-    /**
-     * Create a user on firebase
-     *
-     * @param email
-     * @param password
-     */
-    private void createUser(String email, String password) {
-        Auth.createUser(email, password)
-                .addOnCompleteListener(
-                        task -> {
-                            if (task.isSuccessful()) {
-                                updateFireStoreDB();
-                                Toast.makeText(getActivity(), "Authentication successed.",
-                                        Toast.LENGTH_SHORT).show();
-                                goToMenu();
-                            } else {
-                                Toast.makeText(getActivity(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-    }
-
-    /**
-     * Update the database with user's attributes
-     */
-    private void updateFireStoreDB() {
-
-        Profile user = new Profile(
-                DATA.get(FragmentCreationPage2.FIRST_NAME),
-                DATA.get(FragmentCreationPage3.LAST_NAME),
-                DATA.get(FragmentCreationPage4.MAIL),
-                DATA.get(FragmentCreationPage1.GENDER)
-        );
-
-        Database.getCollection("users").document(Auth.getUid()).set(user);
-
-
     }
 
 }

@@ -8,7 +8,7 @@
     tools:context=".ui.messages.MessagesFragment">
 
     <ImageView
-        android:id="@+id/imageProfile"
+        android:id="@+id/imageProfileChat"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:width="275dp"
@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/contactButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageProfile" />
+        app:layout_constraintTop_toTopOf="@id/imageProfileChat" />
 
     <ImageButton
         android:id="@+id/contactButton"
@@ -49,5 +49,31 @@
         app:layout_constraintVertical_bias="0.021"
         app:srcCompat="@drawable/contacts_icon"
         app:tint="@color/black" />
+
+    <FrameLayout
+        android:id="@+id/FrameConv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/content_bottom_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageProfileChat">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/conversationRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:padding="20dp"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        <ProgressBar
+            android:id="@id/progressBar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

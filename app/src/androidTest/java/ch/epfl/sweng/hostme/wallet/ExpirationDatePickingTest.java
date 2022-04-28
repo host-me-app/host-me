@@ -9,10 +9,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.hamcrest.Matchers.allOf;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.widget.DatePicker;
 
@@ -31,15 +29,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.MainActivity;
 
 
 @RunWith(AndroidJUnit4.class)
 public class ExpirationDatePickingTest {
+
+    @Rule
+    public GrantPermissionRule internetRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
+    public GrantPermissionRule readRule = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @BeforeClass
     public static void setUp() {
@@ -52,7 +54,7 @@ public class ExpirationDatePickingTest {
 
 
     @Test
-    public void downloadResidencePermitFailedTest() {
+    public void expirationDatePickingTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
@@ -68,10 +70,14 @@ public class ExpirationDatePickingTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.buttonPickDate_ResidencePermit)).perform(click());
+            Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
                     .perform(PickerActions.setDate(2022, 3, 22));
+            Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2022"),
                     isDisplayed())));

@@ -1,57 +1,47 @@
 package ch.epfl.sweng.hostme.userCreation;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.HashMap;
+
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 
 public class FragmentCreationPage4 extends Fragment {
 
-    public static final String MAIL = "Mail";
-    private EditText mail;
-    private Button nextMailButt;
-    private TextWatcher mailTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String mailText = mail.getText().toString().trim();
-            nextMailButt.setEnabled(EmailValidator.isValid(mailText));
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
+    public static final String SCHOOL = "School";
+    String[] schools = {"EPFL", "EHL", "CHUV", "UNIL", "NONE"};
+    private Spinner spinner;
+    private Button nextButtonSchool;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page4, container, false);
-        mail = view.findViewById(R.id.mail);
-        mail.addTextChangedListener(mailTextWatcher);
+        nextButtonSchool = view.findViewById(R.id.nextButtonSchool);
 
-        nextMailButt = view.findViewById(R.id.nextButtonMail);
-        nextMailButt.setEnabled(false);
-        nextMailButt.setOnClickListener(v -> {
-            String mailText = mail.getText().toString();
-            FragmentCreationPage5.DATA.put(MAIL, mailText);
+        spinner = view.findViewById(R.id.school);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this.getContext(),
+                android.R.layout.simple_spinner_item,
+                schools);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+        nextButtonSchool.setOnClickListener(v -> {
+            FragmentCreationPage6.DATA.put(SCHOOL, spinner.getSelectedItem().toString());
             goToFragment5();
         });
-
         return view;
     }
 

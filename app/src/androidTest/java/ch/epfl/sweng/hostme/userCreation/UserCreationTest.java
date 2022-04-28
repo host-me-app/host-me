@@ -73,6 +73,8 @@ public class UserCreationTest {
             onView(withId(R.id.nextButtonLastName)).check(matches(isDisplayed()));
             onView(withId(R.id.nextButtonLastName)).perform(click());
 
+            onView(withId(R.id.nextButtonSchool)).perform(click());
+
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
             onView(withId(R.id.nextButtonMail)).check(matches(isDisplayed()));
             onView(withId(R.id.nextButtonMail)).perform(click());
@@ -101,6 +103,7 @@ public class UserCreationTest {
             onView(withId(R.id.genderNextButton)).perform(click());
             onView(withId(R.id.nextButtonFirstName)).perform(click());
             onView(withId(R.id.nextButtonLastName)).perform(click());
+            onView(withId(R.id.nextButtonSchool)).perform(click());
 
 
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());

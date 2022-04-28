@@ -122,6 +122,7 @@ public class DocumentUploader {
         this.checkImage.setVisibility(View.VISIBLE);
         this.expDateDescriptionText.setVisibility(View.VISIBLE);
         this.expDateText.setVisibility(View.VISIBLE);
+        expDateText.setText("None");
         this.expDatePickButton.setVisibility(View.VISIBLE);
     }
 }

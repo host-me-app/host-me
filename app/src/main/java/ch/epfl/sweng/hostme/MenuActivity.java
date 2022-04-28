@@ -1,9 +1,9 @@
 package ch.epfl.sweng.hostme;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,6 +17,7 @@ import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.ui.add.AddFragment;
 import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
+import ch.epfl.sweng.hostme.ui.messages.MessageService;
 import ch.epfl.sweng.hostme.ui.messages.MessagesFragment;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
 
@@ -126,4 +127,10 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startService(new Intent(this, MessageService.class));
+    }
 }

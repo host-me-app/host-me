@@ -42,10 +42,6 @@ public class JoinCall extends AppCompatActivity {
     private ImageView leaveButt;
     private ImageView videoButt;
     private final static CollectionReference reference = Database.getCollection("users");
-    private String roomName;
-
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,14 +52,6 @@ public class JoinCall extends AppCompatActivity {
                 checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
             initAgoraEngine();
         }
-        reference.document(Auth.getUid()).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    roomName = document.getString("roomName");
-                }
-            }
-        });
         audioButt = findViewById(R.id.audioBtn);
         audioButt.setOnClickListener(l -> onAudioMuteClicked(audioButt));
         leaveButt = findViewById(R.id.leaveBtn);
@@ -123,11 +111,19 @@ public class JoinCall extends AppCompatActivity {
     }
 
     public void joinChannel() {
-        mRtcEngine.joinChannel(null, roomName, null, 0);
-        setupLocalVideoFeed();
-        audioButt.setVisibility(View.VISIBLE);
-        leaveButt.setVisibility(View.VISIBLE);
-        videoButt.setVisibility(View.VISIBLE);
+        reference.document(Auth.getUid()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    String roomName = document.getString("roomName");
+                    mRtcEngine.joinChannel(null, roomName, null, 0);
+                    setupLocalVideoFeed();
+                    audioButt.setVisibility(View.VISIBLE);
+                    leaveButt.setVisibility(View.VISIBLE);
+                    videoButt.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setupRemoteVideoStream(int uid) {

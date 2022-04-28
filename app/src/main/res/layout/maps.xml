@@ -19,4 +19,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
+    <Button
+        android:id="@+id/daily_route_maps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Open daily route on Google Maps"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

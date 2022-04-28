@@ -214,8 +214,10 @@ public class ChatActivityTest {
             Thread.sleep(1000);
             onView(withId(R.id.contactButton)).perform(click());
             Thread.sleep(1000);
+            Thread.sleep(1000);
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            Thread.sleep(1000);
             onView(withId(R.id.layoutSend)).check(matches(isDisplayed()));
             onView(withId(R.id.sendButt)).check(matches(isDisplayed()));
             onView(withId(R.id.inputMessage)).check(matches(isDisplayed()));

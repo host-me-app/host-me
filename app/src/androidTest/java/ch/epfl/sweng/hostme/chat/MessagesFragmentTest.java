@@ -75,7 +75,7 @@ public class MessagesFragmentTest {
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.imageProfile)).check(matches(isDisplayed()));
+            onView(withId(R.id.imageProfileChat)).check(matches(isDisplayed()));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {

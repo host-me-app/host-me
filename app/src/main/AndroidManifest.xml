@@ -28,6 +28,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.messages.CallActivity"
             android:parentActivityName=".ui.messages.ChatActivity" />
+        <activity android:name=".ui.messages.JoinCall" />
         <activity
             android:name=".ui.messages.ChatActivity"
             android:parentActivityName=".ui.messages.UsersActivity"
@@ -80,6 +81,14 @@
 
         <service
             android:name=".ui.messages.MessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".ui.messages.CallService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

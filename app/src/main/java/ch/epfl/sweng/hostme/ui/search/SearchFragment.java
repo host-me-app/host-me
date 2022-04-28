@@ -38,7 +38,7 @@ public class SearchFragment extends Fragment {
     public static final String IS_FAVORITE = "isFavorite";
     public static final String FAVORITE_FRAGMENT = "FavoriteFragment";
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
-    private final CollectionReference favReference = Database.getCollection("favorite_apart");
+    private final static CollectionReference favReference = Database.getCollection("favorite_apart");
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;

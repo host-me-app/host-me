@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
@@ -44,7 +45,7 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
 
         return root;
     }
@@ -67,7 +68,7 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
                     .build();
             googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
-                    .title("Your futur home!"));
+                    .title("Your future home!"));
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
         } catch (IOException e) {
             e.printStackTrace();

@@ -15,19 +15,18 @@ import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 public class ListImage {
     private final static String SELECTION = "Select a display image";
     private final static String COMPLETE = "File upload complete";
-    private final static String PREVIEW = "preview";;
+    private final static String PREVIEW = "preview";
 
     private static String path;
     private static Activity activity;
     private static Context context;
     private static int ext;
 
-    public ListImage(String path, Activity activity, Context context) {
-        this.path = path;
-        this.activity = activity;
-        this.context = context;
-
-        acceptImage();
+    public static void init(String p, Activity a, Context c) {
+        path = p;
+        activity = a;
+        context = c;
+        ext = 0;
     }
 
     public static void onAcceptImage(int res, Uri image) {
@@ -36,7 +35,7 @@ public class ListImage {
         }
     }
 
-    private void acceptImage() {
+    public static void acceptImage() {
         Intent selectImage = new Intent(Intent.ACTION_GET_CONTENT);
         selectImage.setType("image/jpeg");
         selectImage = selectImage.createChooser(selectImage, SELECTION);
@@ -50,5 +49,9 @@ public class ListImage {
         target.putFile(image).addOnSuccessListener(done -> {
             Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    public static String getPath() {
+        return path;
     }
 }

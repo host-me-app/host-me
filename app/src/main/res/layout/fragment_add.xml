@@ -42,522 +42,592 @@
     <ScrollView
         android:id="@+id/add_form"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:visibility="gone"
+        android:layout_height="500dp"
         android:background="@color/purple_100"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add_new"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/add_new"
-        app:layout_constraintVertical_bias="0.2" >
+        app:layout_constraintVertical_bias="0.125">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:divider="@drawable/empty_divider"
             android:orientation="vertical"
             android:padding="6dp"
-            android:divider="@drawable/empty_divider"
-            android:showDividers="middle" >
+            android:showDividers="middle">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:showDividers="middle"
-                    app:divider="@drawable/empty_divider">
+                    app:divider="@drawable/empty_divider"
+                    app:showDividers="middle">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="What name would you like displayed as the owner of this residence?" />
+                        android:text="What name would you like displayed as the owner of this residence?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_proprietor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/enter_proprietor_hint"
                         android:inputType="textCapWords|text"
-                        android:hint="@string/enter_proprietor_hint" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:showDividers="middle"
-                    app:divider="@drawable/empty_divider">
+                    app:divider="@drawable/empty_divider"
+                    app:showDividers="middle">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="What is the name of the building in which the residence resides?" />
+                        android:text="What is the name of the building in which the residence resides?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/enter_name_hint"
                         android:inputType="textCapWords|text"
-                        android:hint="@string/enter_name_hint" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:showDividers="middle"
-                    app:divider="@drawable/empty_divider">
+                    app:divider="@drawable/empty_divider"
+                    app:showDividers="middle">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="What is number (or alternatively, name) of the room?" />
+                        android:text="What is number (or alternatively, name) of the room?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_room"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/enter_room_hint"
                         android:inputType="text"
-                        android:hint="@string/enter_room_hint" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:showDividers="middle"
-                    app:divider="@drawable/empty_divider">
+                    app:divider="@drawable/empty_divider"
+                    app:showDividers="middle">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="What is the postal address of the residence? (Vaud, CH is assumed)" />
+                        android:text="What is the postal address of the residence? (Vaud, CH is assumed)"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/enter_address_hint"
                         android:inputType="textPostalAddress|text"
-                        android:hint="@string/enter_address_hint" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
+
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        app:showDividers="middle"
-                        app:divider="@drawable/center_divider">
+                        app:divider="@drawable/center_divider"
+                        app:showDividers="middle">
+
                         <EditText
                             android:id="@+id/enter_npa"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:paddingHorizontal="4dp"
                             android:fontFamily="@font/roboto_light"
-                            android:textSize="16sp"
+                            android:hint="@string/enter_npa_hint"
                             android:inputType="number"
-                            android:hint="@string/enter_npa_hint"/>
+                            android:paddingHorizontal="4dp"
+                            android:textSize="16sp" />
+
                         <EditText
                             android:id="@+id/enter_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
                             android:background="@color/white"
-                            android:paddingHorizontal="4dp"
                             android:fontFamily="@font/roboto_light"
-                            android:textSize="16sp"
+                            android:hint="@string/enter_city_hint"
                             android:inputType="text"
-                            android:hint="@string/enter_city_hint"/>
+                            android:paddingHorizontal="4dp"
+                            android:textSize="16sp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="end" >
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="How much must a renter pay monthly for rent?" />
+                        android:text="How much must a renter pay monthly for rent?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_rent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/chf_per_month"
                         android:inputType="number"
-                        android:hint="@string/chf_per_month" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="How much, if any, must a renter pay monthly\nfor utility costs?" />
+                        android:text="How much, if any, must a renter pay monthly\nfor utility costs?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_utilities"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/chf_per_month"
                         android:inputType="number"
-                        android:hint="@string/chf_per_month" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="How much, if any, is the security deposit for a lease?" />
+                        android:text="How much, if any, is the security deposit for a lease?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_deposit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/chf_once"
                         android:inputType="number"
-                        android:hint="@string/chf_once" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="How many beds are there in the residence?" />
+                        android:text="How many beds are there in the residence?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_beds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="What is the approximate area of the residence?" />
+                        android:text="What is the approximate area of the residence?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/enter_area_hint"
                         android:inputType="number"
-                        android:hint="@string/enter_area_hint" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="What is the minimum duration of a lease?" />
+                        android:text="What is the minimum duration of a lease?"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/enter_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:paddingHorizontal="4dp"
                         android:fontFamily="@font/roboto_light"
-                        android:textSize="16sp"
+                        android:hint="@string/enter_duration_hint"
                         android:inputType="number"
-                        android:hint="@string/enter_duration_hint" />
+                        android:paddingHorizontal="4dp"
+                        android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="Is the residence already furnished?" />
+                        android:text="Is the residence already furnished?"
+                        android:textSize="12sp" />
+
                     <RadioGroup
                         android:id="@+id/select_furnished"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:showDividers="middle"
+                        android:checkedButton="@id/furnished_yes"
                         android:divider="@drawable/center_divider"
-                        android:checkedButton="@id/furnished_yes">
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:showDividers="middle">
+
                         <RadioButton
                             android:id="@+id/furnished_yes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
-                            android:textSize="16sp"
-                            android:text="@string/yes"/>
+                            android:text="@string/yes"
+                            android:textSize="16sp" />
+
                         <RadioButton
                             android:id="@+id/furnished_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
-                            android:textSize="16sp"
-                            android:text="@string/no"/>
+                            android:text="@string/no"
+                            android:textSize="16sp" />
                     </RadioGroup>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="Does the renter have a private or shared\nbathroom?" />
+                        android:text="Does the renter have a private or shared\nbathroom?"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/select_bath"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:entries="@array/privacy_enum"/>
+                        android:entries="@array/privacy_enum" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="Is the kitchen private or shared?" />
+                        android:text="Is the kitchen private or shared?"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/select_kitchen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:entries="@array/privacy_enum"/>
+                        android:entries="@array/privacy_enum" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="Is laundry equipment included? If so, where\nis it?" />
+                        android:text="Is laundry equipment included? If so, where\nis it?"
+                        android:textSize="12sp" />
+
                     <Spinner
                         android:id="@+id/select_laundry"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:entries="@array/privacy_enum"/>
+                        android:entries="@array/privacy_enum" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="6dp"
-                app:contentPadding="4dp"
-                app:cardBackgroundColor="@color/gray" >
+                app:contentPadding="4dp">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:textSize="12sp"
-                        android:text="Do you allow renters to have pets?" />
+                        android:text="Do you allow renters to have pets?"
+                        android:textSize="12sp" />
+
                     <RadioGroup
                         android:id="@+id/select_pets"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:showDividers="middle"
+                        android:checkedButton="@id/pets_no"
                         android:divider="@drawable/center_divider"
-                        android:checkedButton="@id/pets_no">
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:showDividers="middle">
+
                         <RadioButton
                             android:id="@+id/pets_yes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
-                            android:textSize="16sp"
-                            android:text="@string/yes"/>
+                            android:text="@string/yes"
+                            android:textSize="16sp" />
+
                         <RadioButton
                             android:id="@+id/pets_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
-                            android:textSize="16sp"
-                            android:text="@string/no"/>
+                            android:text="@string/no"
+                            android:textSize="16sp" />
                     </RadioGroup>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/add_buttons"
         android:layout_width="match_parent"

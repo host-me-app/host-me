@@ -1,25 +1,13 @@
 package ch.epfl.sweng.hostme.utils;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
 import com.google.firebase.Timestamp;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.text.ParsePosition;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import ch.epfl.sweng.hostme.database.Storage;
-
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
 public class Listing {
     private String name;
@@ -36,7 +24,6 @@ public class Listing {
     private String laundry;
     private boolean pets;
     private String imagePath;
-    private List<Bitmap> images;
     private boolean available;
     private String proprietor;
     private String uid;
@@ -45,13 +32,10 @@ public class Listing {
     private int duration;
     private Timestamp currentLease;
 
-    private Map<String, String> opt;
-
     /**
      * Constructor for Firebase class binding
      */
     public Listing () {
-        this.parseImages();
     }
 
     /**
@@ -63,8 +47,6 @@ public class Listing {
      * @throws JSONException when input data is malformed
      */
     public Listing (JSONObject fields) {
-        this.images = new ArrayList<>();
-        this.opt = new HashMap<>();
         try {
             this.name = fields.getString("name");
             this.room = fields.getString("room");
@@ -79,28 +61,16 @@ public class Listing {
             this.kitchen = fields.getString("kitchen");
             this.laundry = fields.getString("laundry");
             this.pets = fields.getBoolean("pets");
+            this.imagePath = fields.getString("imagePath");
             this.proprietor = fields.getString("proprietor");
             this.uid = fields.getString("uid");
             this.utilities = fields.getInt("utilities");
             this.deposit = fields.getInt("deposit");
             this.duration = fields.getInt("duration");
 
-            this.imagePath = String.format("%s/%s_%s_%s", APARTMENTS, this.proprietor.toLowerCase(),
-                    this.name.toLowerCase(), this.room.toLowerCase());
             this.available = true;
             this.currentLease = null;
-
-            this.parseImages();
         } catch (org.json.JSONException e) { throw new RuntimeException(e); }
-        JSONObject extra = fields.optJSONObject("opt");
-        if (extra != null) {
-            try {
-                for (Iterator<String> key = extra.keys(); key.hasNext();) {
-                    String it = key.next();
-                    this.opt.put(it, extra.getString(it));
-                }
-            } catch (JSONException e) { throw new RuntimeException(e); }
-        }
 
     }
 
@@ -264,24 +234,12 @@ public class Listing {
         this.currentLease = currentLease;
     }
 
-    public List<Bitmap> getImages() {
-        return this.images;
-    }
-
-    public Map<String, String> getOpt() {
-        return this.opt;
-    }
-
     /**
      * A JSON representation of a Listing that may be used to create identical objects or edit the
      * fields of this Listing.
      *
-     * @deprecated this was primarily used for local data validation when creating the workflow for
-     *  the upload of listings to the database.
-     *
      * @return JSONObject holding approximate representations of all this Listing's fields
      */
-    @Deprecated
     public JSONObject exportDoc() {
         JSONObject ret = new JSONObject();
         try {
@@ -306,10 +264,6 @@ public class Listing {
             ret.put("deposit", this.deposit);
             ret.put("duration", this.duration);
             ret.put("currentLease", this.currentLease); // potential error
-
-            for (String it: opt.keySet()) {
-                ret.putOpt("opt." + it, opt.get(it));
-            }
         } catch (JSONException e) { throw new RuntimeException(e); }
 
         return ret;
@@ -318,16 +272,5 @@ public class Listing {
     @Override
     public String toString() {
         return this.exportDoc().toString();
-    }
-
-    private void parseImages() {
-        StorageReference imageDir = Storage.getStorageReferenceByChild(this.imagePath);
-        imageDir.listAll().addOnSuccessListener(list -> {
-            for (StorageReference item: list.getItems()) {
-                item.getBytes(1000000).addOnSuccessListener(bytes -> {
-                    images.add(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
-                });
-            }
-        });
     }
 }

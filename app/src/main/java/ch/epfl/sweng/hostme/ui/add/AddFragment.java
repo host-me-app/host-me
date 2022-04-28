@@ -74,11 +74,15 @@ public class AddFragment extends Fragment {
 
         final LinearLayout addButtons = binding.addButtons;
         enterImages = binding.enterImages;
+        addViewModel.key(enterImages);
         addSubmit = binding.addSubmit;
         enterImages.setOnClickListener(v -> {
             addViewModel.formPath(formFields.get("proprietor"), formFields.get("name"),
                     formFields.get("room"));
-            new ListImage(addViewModel.formPath().getValue(), this.getActivity(), this.getContext());
+            if (ListImage.getPath() == null || !ListImage.getPath().equals(addViewModel.formPath())) {
+                ListImage.init(addViewModel.formPath().getValue(), this.getActivity(), this.getContext());
+            }
+            ListImage.acceptImage();
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
@@ -120,10 +124,9 @@ public class AddFragment extends Fragment {
 
         for (String it: formFields.keySet()) {
             EditText ref = formFields.get(it);
-            ref.setOnClickListener(v -> {
-                addViewModel.selectField(ref);
+            ref.setOnFocusChangeListener((v, focused) -> {
+                addViewModel.validate(ref);
             });
-            ref.addTextChangedListener(fieldWatcher);
         }
 
         dropDowns.put("bath", binding.selectBath);
@@ -168,7 +171,7 @@ public class AddFragment extends Fragment {
             fields.put("kitchen", priv[dropDowns.get("kitchen").getSelectedItemPosition()]);
             fields.put("laundry", priv[dropDowns.get("laundry").getSelectedItemPosition()]);
             fields.put("pets", pet.getText().toString().equals("yes"));
-            fields.put("imageDir", addViewModel.formPath().getValue());
+            fields.put("imagePath", addViewModel.formPath().getValue());
             fields.put("proprietor", formFields.get("proprietor").getText().toString());
             fields.put("uid", UID);
             fields.put("utilities", Integer.valueOf(formFields.get("utilities").getText().toString()));
@@ -184,22 +187,4 @@ public class AddFragment extends Fragment {
 
         return ret;
     }
-
-    private TextWatcher fieldWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            addViewModel.validate();
-        }
-    };
-
 }

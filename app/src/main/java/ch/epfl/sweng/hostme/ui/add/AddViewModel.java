@@ -17,7 +17,6 @@ import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
 public class AddViewModel extends ViewModel implements AdapterView.OnItemSelectedListener {
 
-    private final MutableLiveData<EditText> mField;
     private final MutableLiveData<Button> action;
     private final MutableLiveData<String> location;
     private final MutableLiveData<String> empty;
@@ -25,7 +24,6 @@ public class AddViewModel extends ViewModel implements AdapterView.OnItemSelecte
     private Set<Integer> lock;
 
     public AddViewModel() {
-        mField = new MutableLiveData<>();
         action = new MutableLiveData<>();
         location = new MutableLiveData<>();
         empty = new MutableLiveData<>();
@@ -44,21 +42,9 @@ public class AddViewModel extends ViewModel implements AdapterView.OnItemSelecte
             action.getValue().setEnabled(false);
         }
     }
-    public void selectField(EditText f) {
-        mField.setValue(f);
-    }
-    public void validate() {
-        EditText chk = mField.getValue();
+    public void validate(EditText chk) {
         String input = chk.getText().toString();
         if (!input.isEmpty()) {
-            if (chk.getInputType() == InputType.TYPE_CLASS_NUMBER) {
-                try {
-                    Integer.valueOf(input);
-                } catch (NumberFormatException no) {
-                    lock.remove(chk.getId());
-                    chk.setText(String.format("*%s - NaN", input));
-                }
-            }
             lock.add(chk.getId());
         } else {
             lock.remove(chk.getId());

@@ -1,7 +1,9 @@
 package ch.epfl.sweng.hostme.maps;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,10 +54,6 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
         }
 
         daily_route = root.findViewById(R.id.daily_route_maps);
-        daily_route.setOnClickListener( view -> {
-
-                }
-        );
 
         schools.put("EPFL", new LatLng(46.5197, 6.5657));
         schools.put("EHL", new LatLng(46.5604818, 6.6827063));
@@ -94,14 +92,19 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
                             .position(latlng)
                             .title("Your future home!"));
                     if (!school.equals("NONE")) {
+                        LatLng schoolCoordinates = schools.get(school);
                         googleMap.addMarker(new MarkerOptions()
-                                .position(schools.get(school))
+                                .position(schoolCoordinates)
                                 .title(school));
-                        daily_route.setOnClickListener( view -> {
-
-                        }
-                        );
                     }
+                    daily_route.setOnClickListener( view -> {
+                                String url = "geo:0,0?q=" + latlng.latitude + "," + latlng.longitude + "(Your future home)";
+                                Uri gmmIntentUri = Uri.parse(url);
+                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                mapIntent.setPackage("com.google.android.apps.maps");
+                                startActivity(mapIntent);
+                            }
+                    );
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
                 } catch (IOException e) {
                     e.printStackTrace();

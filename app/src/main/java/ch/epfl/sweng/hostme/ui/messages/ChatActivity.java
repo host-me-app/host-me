@@ -1,15 +1,24 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static java.sql.DriverManager.println;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +38,7 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
+import ch.epfl.sweng.hostme.utils.Profile;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -38,6 +48,8 @@ public class ChatActivity extends AppCompatActivity {
     private User receiverUser;
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
+    private String conversionId = null;
+    private Profile dbProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +82,34 @@ public class ChatActivity extends AppCompatActivity {
             .add(message)
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
-        binding.inputMessage.setText(null);
+        addConvo();
+    }
+
+    private void addConvo(){
+        if(conversionId != null){
+            updateConversion(binding.inputMessage.getText().toString());
+            binding.inputMessage.setText(null);
+        }else{
+            DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+            Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
+                    task -> {
+                        if (task.isSuccessful()) {
+                            dbProfile = task.getResult().toObject(Profile.class);
+                            HashMap<String, Object> conversion = new HashMap<>();
+                            conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
+                            conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
+                            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+                            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+                            conversion.put(Constants.KEY_TIMESTAMP, new Date());
+                            addConversion(conversion);
+                            binding.inputMessage.setText(null);
+                        }
+                        else{
+                            System.out.println(task.getException().toString());
+                        }
+                    });
+        }
     }
 
     private void listenMessages(){
@@ -111,6 +150,9 @@ public class ChatActivity extends AppCompatActivity {
             binding.chatRecyclerView.setVisibility(View.VISIBLE);
         }
         binding.progressBar.setVisibility(View.GONE);
+        if(conversionId == null){
+            checkForConversion();
+        }
     };
 
     private void loadReceiverDetails() {
@@ -135,4 +177,47 @@ public class ChatActivity extends AppCompatActivity {
     private String getReadableDataTime(Date date){
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
     }
+
+    private void addConversion(HashMap<String, Object> conversion){
+        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .add(conversion)
+                .addOnSuccessListener(documentReference -> conversionId = documentReference.getId());
+    }
+
+    private void updateConversion(String message){
+        DocumentReference documentReference =
+                Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
+        documentReference.update(
+                Constants.KEY_LAST_MESSAGE, message,
+                Constants.KEY_TIMESTAMP, new Date()
+        );
+    }
+
+    private void checkForConversion(){
+        if(chatMessages.size() != 0){
+            checkForConversionRemotely(
+                    Auth.getUid(),
+                    receiverUser.id
+            );
+            checkForConversionRemotely(
+                    receiverUser.id,
+                    Auth.getUid()
+            );
+        }
+    }
+
+    private void checkForConversionRemotely(String senderId, String receiverId){
+        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .get()
+                .addOnCompleteListener(conversionOnCompleteListener);
+    }
+
+    private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
+      if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
+          DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+          conversionId = documentSnapshot.getId();
+      }
+    };
 }

@@ -9,7 +9,7 @@ public class ProfileTest {
     @Test
     public void getFieldsTest() {
 
-        Profile user = new Profile("Joe", "Test", "joe@gmail.com", "Male");
+        Profile user = new Profile("Joe", "Test", "joe@gmail.com", "Male", "EPFL");
 
         assertEquals("Joe", user.getFirstName());
         assertEquals("Test", user.getLastName());
@@ -20,7 +20,7 @@ public class ProfileTest {
     @Test
     public void setFieldsTest() {
 
-        Profile user = new Profile("Joe", "Test", "joe@gmail.com", "Male");
+        Profile user = new Profile("Joe", "Test", "joe@gmail.com", "Male", "UNIL");
 
         assertEquals("Joe", user.getFirstName());
         assertEquals("Test", user.getLastName());

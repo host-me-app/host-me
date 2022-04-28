@@ -5,53 +5,34 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="343dp"
         android:layout_marginEnd="101dp"
         android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/roboto_light"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/confirm_pwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="101dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="@font/roboto_light"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
+        android:hint="@string/e_mail_address"
+        android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColor="@color/black"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/terminateButton"
+        android:id="@+id/nextButtonMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="126dp"
         android:fontFamily="@font/roboto_family"
-        android:text="@string/terminate"
+        android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_pwd" />
+        app:layout_constraintTop_toBottomOf="@+id/mail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,16 +8,18 @@ public class Profile {
     private String lastName;
     private String gender;
     private String email;
+    private String school;
 
     public Profile() {
 
     }
 
-    public Profile(String firstName, String lastName, String email, String gender) {
+    public Profile(String firstName, String lastName, String email, String gender, String school) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.email = email;
+        this.school = school;
     }
 
 
@@ -51,6 +53,14 @@ public class Profile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
     }
 
     @Override

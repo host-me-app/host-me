@@ -57,4 +57,6 @@
     <string name="filters_text">Filters</string>
     <string name="change_file">Change file</string>
     <string name="type_message">Type a Message</string>
+    <string name="daily_route">Daily route</string>
+    <string name="street_view">Street view</string>
 </resources>

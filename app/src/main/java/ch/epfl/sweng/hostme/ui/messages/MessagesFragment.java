@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.FragmentMessagesBinding;
@@ -30,10 +31,12 @@ public class MessagesFragment extends Fragment {
 
         binding = FragmentMessagesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        getActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
         ImageButton contactButt = binding.contactButton;
         contactButt.setOnClickListener(v -> {
             startActivity(new Intent(getActivity().getApplicationContext(), UsersActivity.class));
         });
+        getToken();
         return root;
     }
 

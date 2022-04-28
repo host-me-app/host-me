@@ -76,7 +76,8 @@ public class ApartmentTest {
         assertEquals("abcdefg", apartment.getUid());
         apartment.setUtilities(4);
         assertEquals(4, apartment.getUtilities());
-        Apartment apartment1 = new Apartment(apartment.getCity(), apartment.getNpa(), apartment.getAddress(),
+        Apartment apartment1 = new Apartment(false, null, apartment.getCity(),
+                apartment.getNpa(), apartment.getAddress(),
                 apartment.getArea(), apartment.isAvailable(), apartment.getCurrentLease(),
                 apartment.getBath(), apartment.getDeposit(), apartment.isFurnished(),
                 apartment.getImagePath(), apartment.getKitchen(), apartment.getLaundry(),

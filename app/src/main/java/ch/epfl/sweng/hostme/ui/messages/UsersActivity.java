@@ -55,6 +55,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                                     + " " + queryDocumentSnapshot.getString(Constants.KEY_LASTNAME);
                             user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.id = queryDocumentSnapshot.getId();
                             users.add(user);
                         }
                         if (users.size() > 0) {

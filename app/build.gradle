@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'jacoco'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-runtime:2.4.1'
     implementation 'com.google.firebase:firebase-messaging:23.0.2'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -62,6 +64,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core'
     implementation 'com.google.firebase:firebase-auth:21.0.3'
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
 
 tasks.withType(Test) {
@@ -79,11 +82,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             '**/R.class',
             '*/R$.class',
             '*/BuildConfig.',
-            '*/Manifest.*',
-            '*/*Test.*',
-            'android/*/.*',
+            '/Manifest.',
+            '/*Test.',
+            'android//.',
             // Exclude Hilt generated classes
-            '*/*Hilt.*',
+            '/*Hilt.',
             'hilt_aggregated_deps/**',
             '*/_Factory.class',
             '*/_MembersInjector.class'

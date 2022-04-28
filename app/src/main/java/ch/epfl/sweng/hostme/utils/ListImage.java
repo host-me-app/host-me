@@ -31,7 +31,7 @@ public class ListImage {
     }
 
     public static void onAcceptImage(int res, Uri image) {
-        if (res == Activity.RESULT_OK) {
+        if (res == Activity.RESULT_OK && image != null) {
             pushImage(image);
         }
     }

@@ -86,7 +86,7 @@ task grantPermissions(type: Exec, dependsOn: 'installDebugAndroidTest') {
                        'WRITE_EXTERNAL_STORAGE',
                        'READ_EXTERNAL_STORAGE']
     permissions.each {
-        commandLine "\$ANDROID_HOME/platform-tools/adb shell pm grant com.singlewire.cirrus android.permission.${it}".split(' ')
+        commandLine "\$System.env.ANDROID_HOME/platform-tools/adb shell pm grant com.singlewire.cirrus android.permission.${it}".split(' ')
     }}
 
 tasks.whenTaskAdded { task ->

@@ -75,25 +75,6 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.1'
 }
 
-task grantPermissions(type: Exec, dependsOn: 'installDebugAndroidTest') {
-    def permissions = ['INTERNET',
-                       'GET_ACCOUNTS',
-                       'WAKE_LOCK',
-                       'VIBRATE',
-                       'READ_CONTACTS',
-                       'RECORD_AUDIO',
-                       'CAMERA',
-                       'WRITE_EXTERNAL_STORAGE',
-                       'READ_EXTERNAL_STORAGE']
-    permissions.each {
-        commandLine "\$System.env.ANDROID_HOME/platform-tools/adb shell pm grant com.singlewire.cirrus android.permission.${it}".split(' ')
-    }}
-
-tasks.whenTaskAdded { task ->
-    if (task.name.startsWith('connectedDebugAndroidTest')) {
-        task.dependsOn grantPermissions
-    }
-}
 
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true

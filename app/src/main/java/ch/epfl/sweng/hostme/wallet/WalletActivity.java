@@ -28,8 +28,9 @@ public class WalletActivity extends AppCompatActivity {
         String uid = Auth.getUid();
         documentUploader = new ArrayList<>();
         for (Document doc : Document.values()) {
-            documentUploader.add(new DocumentUploader(doc, uid, this, this));
+            documentUploader.add(new DocumentUploader(doc, uid, this, this, DocumentExpirationDate.values()[doc.ordinal()]));
             new DocumentDownloader(doc, uid, this, this);
+            new ExpirationDatePicker(doc,uid,this,this, DocumentExpirationDate.values()[doc.ordinal()]);
         }
     }
 

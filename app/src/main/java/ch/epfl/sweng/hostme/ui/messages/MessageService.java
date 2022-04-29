@@ -20,6 +20,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MessageService extends FirebaseMessagingService {
+    public static final String FROM_NOTIF = "from_notif";
     NotificationManager mNotificationManager;
 
     @Override
@@ -45,7 +46,8 @@ public class MessageService extends FirebaseMessagingService {
         builder.setSmallIcon(resourceImage);
 
 
-        Intent resultIntent = new Intent(this, JoinCall.class);
+        Intent resultIntent = new Intent(this, CallActivity.class);
+        resultIntent.putExtra(FROM_NOTIF, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =

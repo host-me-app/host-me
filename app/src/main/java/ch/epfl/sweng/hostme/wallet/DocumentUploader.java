@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,21 +29,29 @@ public class DocumentUploader {
     private final Document document;
     private final String uid;
     private final Activity activity;
+    private DocumentExpirationDate expireDate;
     private final Context context;
     private final String titleChooser;
     private final Button buttonBrowse;
     private final Button buttonDownload;
     private final ImageView checkImage;
+    private final TextView expDateDescriptionText;
+    private TextView expDateText;
+    private Button expDatePickButton;
 
-    public DocumentUploader(Document document, String uid, Activity activity, Context context) {
+    public DocumentUploader(Document document, String uid, Activity activity, Context context, DocumentExpirationDate expireDate) {
         this.document = document;
         this.uid = uid + "/";
         this.activity = activity;
         this.context = context;
+        this.expireDate = expireDate;
         this.titleChooser = "Choose" + document.getDocumentName();
         this.buttonBrowse = activity.findViewById(document.getButtonBrowseId());
         this.buttonDownload = activity.findViewById(document.getButtonDownloadId());
         this.checkImage = activity.findViewById(document.getCheckImageId());
+        this.expDateDescriptionText = activity.findViewById(expireDate.getDescriptionFieldTextId());
+        this.expDateText = activity.findViewById(expireDate.getExpirationDateTextId());
+        this.expDatePickButton = activity.findViewById(expireDate.getPickDateButtonId());
         buttonBrowse.setOnClickListener(view -> askPermissionAndBrowseFile());
         this.checkFileUploaded();
     }
@@ -111,5 +120,9 @@ public class DocumentUploader {
         this.buttonBrowse.setText(R.string.change_file);
         this.buttonDownload.setVisibility(View.VISIBLE);
         this.checkImage.setVisibility(View.VISIBLE);
+        this.expDateDescriptionText.setVisibility(View.VISIBLE);
+        this.expDateText.setVisibility(View.VISIBLE);
+        expDateText.setText("None");
+        this.expDatePickButton.setVisibility(View.VISIBLE);
     }
 }

@@ -31,7 +31,7 @@ public class FragmentCreationPage1 extends Fragment {
             int selectedGender = radioGroup.getCheckedRadioButtonId();
             RadioButton selectedButton = view.findViewById(selectedGender);
             String gender = selectedButton.getText().toString();
-            FragmentCreationPage5.DATA.put(GENDER, gender);
+            FragmentCreationPage6.DATA.put(GENDER, gender);
             goToFragment2();
         });
 

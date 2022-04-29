@@ -2,6 +2,7 @@ package ch.epfl.sweng.hostme.ui.messages;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -12,24 +13,26 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.users.User;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
 import io.agora.rtc.video.VideoEncoderConfiguration;
 
-public class CallActivity extends AppCompatActivity {
+@RequiresApi(api = Build.VERSION_CODES.S)
+public class JoinCall extends AppCompatActivity {
 
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {Manifest.permission.RECORD_AUDIO,
@@ -38,12 +41,7 @@ public class CallActivity extends AppCompatActivity {
     private ImageView audioButt;
     private ImageView leaveButt;
     private ImageView videoButt;
-    private ImageView joinButt;
-    private User user;
-    private final static String currUserID = Auth.getUid();
     private final static CollectionReference reference = Database.getCollection("users");
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,28 +52,14 @@ public class CallActivity extends AppCompatActivity {
                 checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
             initAgoraEngine();
         }
-        joinButt = findViewById(R.id.joinBtn);
-        joinButt.setOnClickListener(l -> {
-            sendNotif();
-            onJoinChannelClicked();
-        });
         audioButt = findViewById(R.id.audioBtn);
-        audioButt.setVisibility(View.GONE);
         audioButt.setOnClickListener(l -> onAudioMuteClicked(audioButt));
         leaveButt = findViewById(R.id.leaveBtn);
-        leaveButt.setVisibility(View.GONE);
         leaveButt.setOnClickListener(l -> onLeaveChannelClicked());
         videoButt = findViewById(R.id.videoBtn);
-        videoButt.setVisibility(View.GONE);
         videoButt.setOnClickListener(l -> onVideoMuteClicked(videoButt));
-        user = (User) getIntent().getSerializableExtra("user");
-    }
-
-    private void sendNotif() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call from ",
-                "Click to answer", getApplicationContext(), CallActivity.this);
-        sender.sendNotifications();
-        reference.document(user.id).update("roomName", currUserID);
+        findViewById(R.id.joinBtn).setVisibility(View.GONE);
+        joinChannel();
     }
 
     public boolean checkSelfPermission(String permission, int requestCode) {
@@ -86,6 +70,14 @@ public class CallActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void setupLocalVideoFeed() {
+        FrameLayout videoContainer = findViewById(R.id.floating_video_container);
+        SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
+        videoSurface.setZOrderMediaOverlay(true);
+        videoContainer.addView(videoSurface);
+        mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 0));
     }
 
     @Override
@@ -118,12 +110,20 @@ public class CallActivity extends AppCompatActivity {
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
     }
 
-    private void setupLocalVideoFeed() {
-        FrameLayout videoContainer = findViewById(R.id.floating_video_container);
-        SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
-        videoSurface.setZOrderMediaOverlay(true);
-        videoContainer.addView(videoSurface);
-        mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 0));
+    public void joinChannel() {
+        reference.document(Auth.getUid()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    String roomName = document.getString("roomName");
+                    mRtcEngine.joinChannel(null, roomName, null, 0);
+                    setupLocalVideoFeed();
+                    audioButt.setVisibility(View.VISIBLE);
+                    leaveButt.setVisibility(View.VISIBLE);
+                    videoButt.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setupRemoteVideoStream(int uid) {
@@ -181,26 +181,13 @@ public class CallActivity extends AppCompatActivity {
     }
 
 
-    public void onJoinChannelClicked() {
-        String channelName = currUserID;
-        mRtcEngine.joinChannel(null, channelName, null, 0);
-        setupLocalVideoFeed();
-        joinButt.setVisibility(View.GONE);
-        audioButt.setVisibility(View.VISIBLE);
-        leaveButt.setVisibility(View.VISIBLE);
-        videoButt.setVisibility(View.VISIBLE);
-
-    }
-
     public void onLeaveChannelClicked() {
         leaveChannel();
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
-        joinButt.setVisibility(View.VISIBLE); // set the join button visible
         audioButt.setVisibility(View.GONE); // set the audio button hidden
         leaveButt.setVisibility(View.GONE); // set the leave button hidden
         videoButt.setVisibility(View.GONE); // set the video button hidden
-        reference.document(user.id).update("roomName", null);
     }
 
     private void leaveChannel() {

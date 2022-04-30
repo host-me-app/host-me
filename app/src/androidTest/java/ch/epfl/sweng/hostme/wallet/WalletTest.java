@@ -31,8 +31,10 @@ import ch.epfl.sweng.hostme.MainActivity;
 public class WalletTest {
 
     @Rule
-    public GrantPermissionRule internetRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
-    public GrantPermissionRule readRule = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+    public GrantPermissionRule internetRule = GrantPermissionRule.grant(
+            android.Manifest.permission.INTERNET,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+            );
 
     @BeforeClass
     public static void setUp() {

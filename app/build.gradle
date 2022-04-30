@@ -75,7 +75,6 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.1'
 }
 
-
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']

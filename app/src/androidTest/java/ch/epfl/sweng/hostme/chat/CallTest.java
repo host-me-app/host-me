@@ -62,7 +62,6 @@ public class CallTest {
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contactButton)).perform(click());
             Thread.sleep(1000);

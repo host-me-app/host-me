@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
+import java.util.HashMap;
+
 public final class Constants {
 
     private Constants() {
@@ -24,6 +26,10 @@ public final class Constants {
     public static final String KEY_LAST_MESSAGE = "lastMessage";
     public static final String KEY_TIMESTAMP = "timestamp";
     public static final String KEY_AVAILABLE = "available";
+    public static final String REMOTE_MSG_AUTH = "Authorization";
+    public static final String REMOTE_MSG_CONTENT_TYPE = "Content-Type";
+    public static final String REMOTE_MSG_DATA = "data";
+    public static final String REMOTE_MSG_REGISTRATION_IDS = "registration_ids";
     public static final String UID = "uid";
     public static final String ADDR = "addr";
     public static final String RENT = "rent";
@@ -37,5 +43,21 @@ public final class Constants {
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS_PATH = "apartments/";
     public static final String APARTMENTS = "apartments";
+
+    public static HashMap<String, String> remoteMsgHeaders = null;
+    public static HashMap<String,String> getRemoteMsgHeaders(){
+        if(remoteMsgHeaders == null){
+            remoteMsgHeaders = new HashMap<>();
+            remoteMsgHeaders.put(
+                    REMOTE_MSG_AUTH,
+                    "key=AAAAynpb0cU:APA91bE270JfYV-p1HuLo1nq-ENrwmk9ZZ0Qbj-D37jpVc9YGS2N-wWy-bYfmK12xOtsp5XmIiGgV1w7sxJxbeeS5TEDtrfHoztvH7F7pc7dyNwhr6sd-BXtUBWN9JqNtlXAfi1NSmHe"
+            );
+            remoteMsgHeaders.put(
+                    REMOTE_MSG_CONTENT_TYPE,
+                    "application/json"
+            );
+        }
+        return remoteMsgHeaders;
+    }
 
 }

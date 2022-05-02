@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'jacoco'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -34,15 +35,9 @@ android {
     buildFeatures {
         viewBinding true
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['Libs']
-        }
-    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
@@ -52,10 +47,10 @@ dependencies {
     implementation 'androidx.test.espresso:espresso-intents:3.4.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-fragment:2.4.2'
-    implementation 'androidx.navigation:navigation-ui:2.4.2'
-    implementation 'androidx.navigation:navigation-runtime:2.4.2'
-    implementation 'com.google.firebase:firebase-messaging:23.0.3'
+    implementation 'androidx.navigation:navigation-fragment:2.4.1'
+    implementation 'androidx.navigation:navigation-ui:2.4.1'
+    implementation 'androidx.navigation:navigation-runtime:2.4.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.2'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     testImplementation 'junit:junit:4.13.2'
@@ -71,6 +66,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'io.agora.rtc:full-sdk:3.5.0'
+    implementation 'com.android.volley:volley:1.2.1'
+
 }
 
 tasks.withType(Test) {
@@ -111,3 +108,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 connectedCheck {
     finalizedBy jacocoTestReport
 }
+
+
+

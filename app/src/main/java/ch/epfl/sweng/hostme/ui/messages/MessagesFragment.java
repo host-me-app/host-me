@@ -59,6 +59,11 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         conversations = new ArrayList<>();
         conversationAdapter = new RecentConversationAdapter(conversations, this);
         binding.conversationRecycler.setAdapter(conversationAdapter);
+        DocumentReference documentReference =
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+
+        documentReference.update(Constants.KEY_AVAILABLE, 1)
+                .addOnFailureListener(e -> showToast("Unable to be available"));
     }
 
     private void getToken() {
@@ -138,6 +143,12 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        DocumentReference documentReference =
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+
+        documentReference.update(Constants.KEY_AVAILABLE, 0)
+                .addOnFailureListener(e -> showToast("cannot be unavailable"));
         binding = null;
+
     }
 }

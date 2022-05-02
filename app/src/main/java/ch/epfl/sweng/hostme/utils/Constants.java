@@ -23,6 +23,7 @@ public final class Constants {
     public static final String KEY_RECEIVER_NAME = "receiverName";
     public static final String KEY_LAST_MESSAGE = "lastMessage";
     public static final String KEY_TIMESTAMP = "timestamp";
+    public static final String KEY_AVAILABLE = "available";
     public static final String UID = "uid";
     public static final String ADDR = "addr";
     public static final String RENT = "rent";

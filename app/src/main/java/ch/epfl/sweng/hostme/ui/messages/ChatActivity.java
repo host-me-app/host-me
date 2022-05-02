@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,7 +39,7 @@ import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.Profile;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
 
     private static final String TAG = "chatA";
     public static final String FROM = "from";
@@ -50,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private String conversionId = null;
     private Profile dbProfile;
+    private Boolean isReceiverAvailable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +110,23 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void listenAvailabilityOfReceiver(){
+        Database.getCollection(Constants.KEY_COLLECTION_USERS).document(receiverUser.id)
+                .addSnapshotListener(ChatActivity.this, (value, error) ->{
+                    if(error != null){
+                        return;
+                    }
+                    if(value != null){
+                        if(value.getLong(Constants.KEY_AVAILABLE) != null){
+                            int available = Objects.requireNonNull(
+                                    value.getLong(Constants.KEY_AVAILABLE)
+                            ).intValue();
+                            isReceiverAvailable = available == 1;
+                        }
+                    }
+                });
     }
 
     private void listenMessages(){
@@ -220,4 +237,10 @@ public class ChatActivity extends AppCompatActivity {
           conversionId = documentSnapshot.getId();
       }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listenAvailabilityOfReceiver();
+    }
 }

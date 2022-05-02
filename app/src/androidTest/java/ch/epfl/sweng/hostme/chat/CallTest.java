@@ -61,7 +61,7 @@ public class CallTest {
             onView(withId(R.id.logInButton)).perform(click());
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contactButton)).perform(click());
-            Thread.sleep(1000);
+            //Thread.sleep(1000);
             /*onView(withId(R.id.usersRecyclerView)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
@@ -71,8 +71,6 @@ public class CallTest {
             onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.leaveBtn)).perform(click());*/
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }

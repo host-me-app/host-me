@@ -87,7 +87,7 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void sendNotif() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call from ",
+        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
                 "Click to answer", getApplicationContext(), CallActivity.this);
         sender.sendNotifications();
         reference.document(user.id).update("roomName", currUserID);

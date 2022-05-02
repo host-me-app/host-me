@@ -34,7 +34,6 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.messages.CallActivity"
             android:parentActivityName=".ui.messages.ChatActivity" />
-        <activity android:name=".ui.messages.JoinCall" />
         <activity
             android:name=".ui.messages.ChatActivity"
             android:parentActivityName=".ui.messages.UsersActivity"

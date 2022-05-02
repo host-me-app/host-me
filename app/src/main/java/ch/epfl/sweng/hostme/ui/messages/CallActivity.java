@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,9 +18,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -42,7 +45,8 @@ public class CallActivity extends AppCompatActivity {
     private User user;
     private final static String currUserID = Auth.getUid();
     private final static CollectionReference reference = Database.getCollection("users");
-
+    public static final String FROM_NOTIF = "from_notif";
+    boolean isFromNotif;
 
 
     @Override
@@ -50,25 +54,36 @@ public class CallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
+        checkPermissionsAndInitEngine();
+        audioButt = findViewById(R.id.audioBtn);
+        audioButt.setOnClickListener(l -> onAudioMuteClicked(audioButt));
+        leaveButt = findViewById(R.id.leaveBtn);
+        leaveButt.setOnClickListener(l -> onLeaveChannelClicked());
+        videoButt = findViewById(R.id.videoBtn);
+        videoButt.setOnClickListener(l -> onVideoMuteClicked(videoButt));
+        joinButt = findViewById(R.id.joinBtn);
+        isFromNotif = getIntent().getBooleanExtra(FROM_NOTIF, false);
+        if (isFromNotif) {
+            joinButt.setVisibility(View.GONE);
+            checkPermissionsAndInitEngine();
+            joinChannel();
+        } else {
+            joinButt.setOnClickListener(l -> {
+                sendNotif();
+                onJoinChannelClicked();
+            });
+            audioButt.setVisibility(View.GONE);
+            leaveButt.setVisibility(View.GONE);
+            videoButt.setVisibility(View.GONE);
+            user = (User) getIntent().getSerializableExtra("user");
+        }
+    }
+
+    private void checkPermissionsAndInitEngine() {
         if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
                 checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
             initAgoraEngine();
         }
-        joinButt = findViewById(R.id.joinBtn);
-        joinButt.setOnClickListener(l -> {
-            sendNotif();
-            onJoinChannelClicked();
-        });
-        audioButt = findViewById(R.id.audioBtn);
-        audioButt.setVisibility(View.GONE);
-        audioButt.setOnClickListener(l -> onAudioMuteClicked(audioButt));
-        leaveButt = findViewById(R.id.leaveBtn);
-        leaveButt.setVisibility(View.GONE);
-        leaveButt.setOnClickListener(l -> onLeaveChannelClicked());
-        videoButt = findViewById(R.id.videoBtn);
-        videoButt.setVisibility(View.GONE);
-        videoButt.setOnClickListener(l -> onVideoMuteClicked(videoButt));
-        user = (User) getIntent().getSerializableExtra("user");
     }
 
     private void sendNotif() {
@@ -76,6 +91,27 @@ public class CallActivity extends AppCompatActivity {
                 "Click to answer", getApplicationContext(), CallActivity.this);
         sender.sendNotifications();
         reference.document(user.id).update("roomName", currUserID);
+    }
+
+    public void joinChannel() {
+        reference.document(Auth.getUid()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    String roomName = document.getString("roomName");
+                    if (roomName != null) {
+                        mRtcEngine.joinChannel(null, roomName, null, 0);
+                        setupLocalVideoFeed();
+                        audioButt.setVisibility(View.VISIBLE);
+                        leaveButt.setVisibility(View.VISIBLE);
+                        videoButt.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Your correspondent is no longer available",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
     }
 
     public boolean checkSelfPermission(String permission, int requestCode) {
@@ -200,7 +236,12 @@ public class CallActivity extends AppCompatActivity {
         audioButt.setVisibility(View.GONE); // set the audio button hidden
         leaveButt.setVisibility(View.GONE); // set the leave button hidden
         videoButt.setVisibility(View.GONE); // set the video button hidden
-        reference.document(user.id).update("roomName", null);
+        if (!isFromNotif) {
+            reference.document(user.id).update("roomName", null);
+        } else {
+            startActivity(new Intent(this, MenuActivity.class));
+            finish();
+        }
     }
 
     private void leaveChannel() {

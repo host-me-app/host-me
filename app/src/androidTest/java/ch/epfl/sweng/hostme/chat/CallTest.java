@@ -45,7 +45,6 @@ public class CallTest {
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA
-            //Manifest.permission.BLUETOOTH_CONNECT
     );
 
 

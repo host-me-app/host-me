@@ -136,18 +136,19 @@
         app:layout_constraintTop_toTopOf="@+id/layoutSend" />
 
 
-
     <ImageView
         android:id="@+id/launchButt"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_weight="20"
         android:scaleType="centerInside"
-        android:src="@drawable/join_call"
+        android:src="@drawable/video_call"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.09" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

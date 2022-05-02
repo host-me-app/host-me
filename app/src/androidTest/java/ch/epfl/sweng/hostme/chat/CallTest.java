@@ -6,7 +6,6 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import android.Manifest;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -40,7 +39,7 @@ public class CallTest {
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
             //Manifest.permission.RECORD_AUDIO
-            Manifest.permission.BLUETOOTH_CONNECT
+            //Manifest.permission.BLUETOOTH_CONNECT
             /*Manifest.permission.CAMERA,
             Manifest.permission.BLUETOOTH*/
     );

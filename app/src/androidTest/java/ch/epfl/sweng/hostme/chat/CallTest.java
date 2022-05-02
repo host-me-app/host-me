@@ -1,15 +1,16 @@
 package ch.epfl.sweng.hostme.chat;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import android.Manifest;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -33,12 +34,12 @@ public class CallTest {
         Database.setTest();
         Storage.setTest();
         FirebaseApp.clearInstancesForTest();
-        FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
+        FirebaseApp.initializeApp(getApplicationContext());
     }
 
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-            //Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO
             //Manifest.permission.BLUETOOTH_CONNECT
             /*Manifest.permission.CAMERA,
             Manifest.permission.BLUETOOTH*/
@@ -47,7 +48,7 @@ public class CallTest {
 
     @Test
     public void callUser() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         Intents.init();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";

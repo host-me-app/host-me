@@ -25,7 +25,7 @@ import ch.epfl.sweng.hostme.ui.search.SearchFragment;
 public class MenuActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
-    private static final String PREF_USER_NAME= "username";
+    private static final String PREF_USER_NAME = "username";
 
 
     @Override

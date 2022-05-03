@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.users.User;
+import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -155,17 +157,28 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void setupLocalVideoFeed() {
+        mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+        mRtcEngine.enableVideo();
+        VideoEncoderConfiguration mVEC = new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360,
+                VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
+                VideoEncoderConfiguration.STANDARD_BITRATE,
+                VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
+        mRtcEngine.setVideoEncoderConfiguration(mVEC);
+        mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
         FrameLayout videoContainer = findViewById(R.id.floating_video_container);
-        SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
+        SurfaceView videoSurface = RtcEngine.CreateRendererView(getApplicationContext());
         videoSurface.setZOrderMediaOverlay(true);
-        videoContainer.addView(videoSurface);
-        mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 0));
+        videoContainer.addView(videoSurface,  new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 1));
+        mRtcEngine.enableLocalVideo(false);
     }
 
     private void setupRemoteVideoStream(int uid) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
-        videoContainer.addView(videoSurface);
+        videoSurface.setZOrderOnTop(true);
+        videoSurface.setZOrderMediaOverlay(true);
+        videoContainer.addView(videoSurface, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRtcEngine.setupRemoteVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, uid));
         mRtcEngine.setRemoteSubscribeFallbackOption(io.agora.rtc.Constants.STREAM_FALLBACK_OPTION_AUDIO_ONLY);
     }
@@ -227,10 +240,10 @@ public class CallActivity extends AppCompatActivity {
         mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
-        joinButt.setVisibility(View.VISIBLE); // set the join button visible
-        audioButt.setVisibility(View.GONE); // set the audio button hidden
-        leaveButt.setVisibility(View.GONE); // set the leave button hidden
-        videoButt.setVisibility(View.GONE); // set the video button hidden
+        joinButt.setVisibility(View.VISIBLE);
+        audioButt.setVisibility(View.GONE);
+        leaveButt.setVisibility(View.GONE);
+        videoButt.setVisibility(View.GONE);
         if (!isFromNotif) {
             reference.document(user.id).update("roomName", null);
         } else {
@@ -251,9 +264,11 @@ public class CallActivity extends AppCompatActivity {
         if (btn.isSelected()) {
             btn.setSelected(false);
             btn.setImageResource(R.drawable.audio_toggle_btn);
+            mRtcEngine.enableAudio();
         } else {
             btn.setSelected(true);
             btn.setImageResource(R.drawable.audio_toggle_active_btn);
+            mRtcEngine.disableAudio();
         }
         mRtcEngine.muteLocalAudioStream(btn.isSelected());
     }
@@ -263,9 +278,11 @@ public class CallActivity extends AppCompatActivity {
         if (btn.isSelected()) {
             btn.setSelected(false);
             btn.setImageResource(R.drawable.video_toggle_btn);
+            mRtcEngine.enableVideo();
         } else {
             btn.setSelected(true);
             btn.setImageResource(R.drawable.video_toggle_active_btn);
+            mRtcEngine.disableVideo();
         }
         mRtcEngine.muteLocalVideoStream(btn.isSelected());
 

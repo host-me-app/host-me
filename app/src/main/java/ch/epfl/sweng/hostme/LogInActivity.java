@@ -20,7 +20,7 @@ import ch.epfl.sweng.hostme.userCreation.EnterMailChangePwd;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private static final String PREF_USER_NAME= "username";
+    private static final String PREF_USER_NAME = "username";
     private EditText userName;
     private EditText pwd;
     private Button logInButt;

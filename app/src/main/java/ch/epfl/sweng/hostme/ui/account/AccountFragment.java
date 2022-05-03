@@ -63,7 +63,7 @@ public class AccountFragment extends Fragment {
     private Button changePasswordButton;
     private Profile dbProfile;
     private String school;
-    private static final String PREF_USER_NAME= "username";
+    private static final String PREF_USER_NAME = "username";
 
 
     private ImageView editProfilePicture;

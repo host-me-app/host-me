@@ -136,6 +136,7 @@ public class AddFragment extends Fragment {
         for (String menu : dropDowns.keySet()) {
             dropDowns.get(menu).setAdapter(arr);
             dropDowns.get(menu).setOnItemSelectedListener(addViewModel);
+            dropDowns.get(menu).setSelection(1);
         }
     }
 

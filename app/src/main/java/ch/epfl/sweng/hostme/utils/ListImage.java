@@ -29,17 +29,17 @@ public class ListImage {
         ext = 0;
     }
 
-    public static void onAcceptImage(int res, Uri image) {
-        if (res == Activity.RESULT_OK && image != null) {
-            pushImage(image);
-        }
-    }
-
     public static void acceptImage() {
         Intent selectImage = new Intent(Intent.ACTION_GET_CONTENT);
         selectImage.setType("image/jpeg");
         selectImage = selectImage.createChooser(selectImage, SELECTION);
         activity.startActivityForResult(selectImage, REQ_IMAGE);
+    }
+
+    public static void onAcceptImage(int res, Uri image) {
+        if (res == Activity.RESULT_OK && image != null) {
+            pushImage(image);
+        }
     }
 
     private static void pushImage(Uri image) {

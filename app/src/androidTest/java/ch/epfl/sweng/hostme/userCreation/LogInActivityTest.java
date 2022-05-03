@@ -24,7 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -32,7 +32,7 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class LogInActivityTest {
 
     @BeforeClass
     public static void setUp() {
@@ -45,9 +45,9 @@ public class MainActivityTest {
 
     @Test
     public void checkLoginWithGoodValues() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String email = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
             onView(ViewMatchers.withId(R.id.userName)).check(matches(isDisplayed()));
@@ -70,9 +70,9 @@ public class MainActivityTest {
 
     @Test
     public void checkLoginWithFalseValues() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String email = "testlogin@gmail.com";
             String pwd = "fakepassword";
             onView(withId(R.id.userName)).check(matches(isDisplayed()));
@@ -95,9 +95,9 @@ public class MainActivityTest {
 
     @Test
     public void checkSignUpButton() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             onView(withId(R.id.signUpButton)).check(matches(isDisplayed()));
             onView(withId(R.id.signUpButton)).perform(click());
         }
@@ -106,9 +106,9 @@ public class MainActivityTest {
 
     @Test
     public void forgotPwdButtonTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             onView(withId(R.id.forgotPassword)).check(matches(isDisplayed()));
             onView(withId(R.id.forgotPassword)).perform(click());
         }

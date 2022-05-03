@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
@@ -64,7 +64,7 @@ public class EnterMailChangePwd extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(getApplicationContext(),
                                 "Reset password instructions sent to " + mailText, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(this, MainActivity.class);
+                        Intent intent = new Intent(this, LogInActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
                     } else {

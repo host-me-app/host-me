@@ -2,7 +2,6 @@ package ch.epfl.sweng.hostme;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -41,9 +40,9 @@ public class DisplayApartmentTest {
 
     @Test
     public void clickOnApartmentTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
@@ -70,9 +69,9 @@ public class DisplayApartmentTest {
 
     @Test
     public void filterApartmentsTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
             String location = "Lausanne";
@@ -92,9 +91,9 @@ public class DisplayApartmentTest {
 
     @Test
     public void openFilterAndCloseFilters() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 

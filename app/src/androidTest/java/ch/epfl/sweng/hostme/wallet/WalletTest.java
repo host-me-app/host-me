@@ -25,7 +25,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.LogInActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class WalletTest {
@@ -47,9 +47,9 @@ public class WalletTest {
 
     @Test
     public void downloadResidencePermitFailedTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
@@ -72,9 +72,9 @@ public class WalletTest {
 
     @Test
     public void uploadSalarySlipsTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 

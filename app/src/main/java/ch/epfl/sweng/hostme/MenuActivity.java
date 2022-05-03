@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import ch.epfl.sweng.hostme.ui.search.SearchFragment;
 public class MenuActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
+    private static final String PREF_USER_NAME= "username";
 
 
     @Override
@@ -32,24 +34,28 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu1);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        viewPager = findViewById(R.id.view_pager);
-        viewPager.setOffscreenPageLimit(5);
+        if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_USER_NAME, "").length() == 0) {
+            startActivity(new Intent(this, LogInActivity.class));
+        } else {
+            BottomNavigationView navView = findViewById(R.id.nav_view);
+            viewPager = findViewById(R.id.view_pager);
+            viewPager.setOffscreenPageLimit(5);
 
-        navView.setOnItemSelectedListener(item -> {
-            setCurrentItem(item);
-            return true;
-        });
+            navView.setOnItemSelectedListener(item -> {
+                setCurrentItem(item);
+                return true;
+            });
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                setCheckedItem(position, navView);
-            }
-        });
+            viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    setCheckedItem(position, navView);
+                }
+            });
 
-        setupViewPager(viewPager);
+            setupViewPager(viewPager);
+        }
 
     }
 

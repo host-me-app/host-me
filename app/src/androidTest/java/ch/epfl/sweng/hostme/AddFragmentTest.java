@@ -26,7 +26,8 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.Visibility;
@@ -62,6 +63,7 @@ public class AddFragmentTest {
             onView(withId(R.id.add_form)).check(matches(withEffectiveVisibility(Visibility.GONE)));
             onView(withId(R.id.add_buttons)).check(matches(withEffectiveVisibility(Visibility.GONE)));
         } catch (Exception e) {
+            Intents.release();
             e.printStackTrace();
         }
         Intents.release();
@@ -85,9 +87,10 @@ public class AddFragmentTest {
 
             onView(withId(R.id.add_form)).check(matches(isDisplayed()));
             onView(withId(R.id.add_buttons)).check(matches(isDisplayed()));
-            onView(withId(R.id.enter_images)).check(matches(isNotClickable()));
-            onView(withId(R.id.add_submit)).check(matches(isNotClickable()));
+            onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
+            onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
         } catch (Exception e) {
+            Intents.release();
             e.printStackTrace();
         }
         Intents.release();
@@ -122,9 +125,10 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
             onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
 
-            onView(withId(R.id.enter_images)).check(matches(isNotClickable()));
-            onView(withId(R.id.add_submit)).check(matches(isNotClickable()));
+            onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
+            onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
         } catch (Exception e) {
+            Intents.release();
             e.printStackTrace();
         }
         Intents.release();
@@ -160,13 +164,14 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
 
             onView(withId(R.id.pets_yes)).perform(click());
-            onView(withId(R.id.enter_images)).check(matches(isClickable()));
+            onView(withId(R.id.enter_images)).check(matches(isEnabled()));
 
             onView(withId(R.id.enter_images)).perform(click());
-            onView(withId(R.id.add_submit)).check(matches(isClickable()));
+            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
 
             onView(withId(R.id.add_submit)).perform(click());
         } catch (Exception e) {
+            Intents.release();
             e.printStackTrace();
         }
         Intents.release();

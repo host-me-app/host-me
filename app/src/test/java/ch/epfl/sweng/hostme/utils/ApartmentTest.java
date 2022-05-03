@@ -20,15 +20,6 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 public class ApartmentTest {
 
-    @BeforeClass
-    public static void setUp() {
-        Auth.setTest();
-        Database.setTest();
-        Storage.setTest();
-        FirebaseApp.clearInstancesForTest();
-        FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
-    }
-
     @Test
     public void checkGetterSetterApartment() {
         Apartment apartment = new Apartment();

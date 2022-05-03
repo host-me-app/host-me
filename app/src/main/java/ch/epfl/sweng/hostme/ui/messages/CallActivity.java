@@ -185,7 +185,7 @@ public class CallActivity extends AppCompatActivity {
 
         @Override
         public void onUserOffline(int uid, int reason) {
-            runOnUiThread(() -> onRemoteUserLeft());
+            runOnUiThread(() -> removeVideo(R.id.bg_video_container));
         }
 
         @Override
@@ -212,10 +212,6 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
-    private void onRemoteUserLeft() {
-        removeVideo(R.id.bg_video_container);
-    }
-
 
     public void onJoinChannelClicked() {
         String channelName = currUserID;
@@ -225,11 +221,10 @@ public class CallActivity extends AppCompatActivity {
         audioButt.setVisibility(View.VISIBLE);
         leaveButt.setVisibility(View.VISIBLE);
         videoButt.setVisibility(View.VISIBLE);
-
     }
 
     public void onLeaveChannelClicked() {
-        leaveChannel();
+        mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
         joinButt.setVisibility(View.VISIBLE); // set the join button visible
@@ -244,9 +239,6 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
-    private void leaveChannel() {
-        mRtcEngine.leaveChannel();
-    }
 
     private void removeVideo(int containerID) {
         FrameLayout videoContainer = findViewById(containerID);

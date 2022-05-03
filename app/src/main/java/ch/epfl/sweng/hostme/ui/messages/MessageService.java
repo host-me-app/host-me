@@ -32,39 +32,16 @@ public class MessageService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
-
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             r.setLooping(false);
         }
-        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
-        builder.setSmallIcon(resourceImage);
-
-
-        Intent resultIntent = new Intent(this, CallActivity.class);
-        resultIntent.putExtra(FROM_NOTIF, true);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0,
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
-
-        builder.setContentTitle(remoteMessage.getNotification().getTitle());
-        builder.setContentText(remoteMessage.getNotification().getBody());
-        builder.setContentIntent(resultPendingIntent);
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
-        builder.setAutoCancel(true);
-        builder.setPriority(Notification.PRIORITY_MAX);
-
+        NotificationCompat.Builder builder = createBuilder(remoteMessage);
         mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "Your_channel_id";
@@ -78,5 +55,28 @@ public class MessageService extends FirebaseMessagingService {
 
         mNotificationManager.notify(100, builder.build());
 
+    }
+
+    @NonNull
+    private NotificationCompat.Builder createBuilder(RemoteMessage remoteMessage) {
+        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
+        builder.setSmallIcon(resourceImage);
+
+        Intent resultIntent = new Intent(this, CallActivity.class);
+        resultIntent.putExtra(FROM_NOTIF, true);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        builder.setContentTitle(remoteMessage.getNotification().getTitle());
+        builder.setContentText(remoteMessage.getNotification().getBody());
+        builder.setContentIntent(resultPendingIntent);
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
+        builder.setAutoCancel(true);
+        builder.setPriority(Notification.PRIORITY_MAX);
+        return builder;
     }
 }

@@ -63,7 +63,6 @@ public class AddFragmentTest {
             onView(withId(R.id.add_form)).check(matches(withEffectiveVisibility(Visibility.GONE)));
             onView(withId(R.id.add_buttons)).check(matches(withEffectiveVisibility(Visibility.GONE)));
         } catch (Exception e) {
-            Intents.release();
             e.printStackTrace();
         }
         Intents.release();
@@ -90,7 +89,6 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
             onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
         } catch (Exception e) {
-            Intents.release();
             e.printStackTrace();
         }
         Intents.release();
@@ -128,7 +126,6 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
             onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
         } catch (Exception e) {
-            Intents.release();
             e.printStackTrace();
         }
         Intents.release();
@@ -171,7 +168,6 @@ public class AddFragmentTest {
 
             onView(withId(R.id.add_submit)).perform(click());
         } catch (Exception e) {
-            Intents.release();
             e.printStackTrace();
         }
         Intents.release();

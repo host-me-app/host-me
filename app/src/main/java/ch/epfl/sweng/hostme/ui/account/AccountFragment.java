@@ -45,6 +45,7 @@ import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
+import ch.epfl.sweng.hostme.utils.UserManager;
 import ch.epfl.sweng.hostme.wallet.WalletActivity;
 
 public class AccountFragment extends Fragment {
@@ -68,6 +69,8 @@ public class AccountFragment extends Fragment {
     public static boolean deletePic = false;
     public static boolean profilePicinDb=false;
     private AccountUtils accountUtils;
+
+    private UserManager userManager;
 
     private ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -171,7 +174,7 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         this.view = view;
         accountUtils = new AccountUtils(getActivity(),activityResultLauncherGallery,activityResultLauncherCamera,view);
-
+        userManager = new UserManager(getActivity().getApplicationContext());
 
         editFirstName = view.findViewById(R.id.userProfileFirstName);
         editLastName = view.findViewById(R.id.userProfileLastName);
@@ -300,6 +303,7 @@ public class AccountFragment extends Fragment {
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
             Auth.signOut();
+            userManager.clear();
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
             getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);

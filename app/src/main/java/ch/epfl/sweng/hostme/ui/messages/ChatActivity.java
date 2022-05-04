@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -45,6 +46,7 @@ import ch.epfl.sweng.hostme.network.ApiService;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.Profile;
+import ch.epfl.sweng.hostme.utils.UserManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,6 +62,7 @@ public class ChatActivity extends BaseActivity {
     private String conversionId = null;
     private Profile dbProfile;
     private Boolean isReceiverAvailable = false;
+    private UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class ChatActivity extends BaseActivity {
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
+        userManager = new UserManager(getApplicationContext());
         setListeners();
         loadReceiverDetails();
         init();
@@ -93,6 +97,8 @@ public class ChatActivity extends BaseActivity {
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         addConvo();
+        sendNotif();
+        binding.inputMessage.setText(null);
     }
 
     private void addConvo(){
@@ -108,17 +114,49 @@ public class ChatActivity extends BaseActivity {
                             HashMap<String, Object> conversion = new HashMap<>();
                             conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
                             conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
+                            userManager.putString(Constants.KEY_FIRSTNAME, dbProfile.getFirstName());
+                            userManager.putString(Constants.KEY_LASTNAME, dbProfile.getLastName());
+                            userManager.putString(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
                             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
                             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
                             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
                             conversion.put(Constants.KEY_TIMESTAMP, new Date());
                             addConversion(conversion);
-                            binding.inputMessage.setText(null);
                         }
                         else{
                             System.out.println(task.getException().toString());
                         }
                     });
+        }
+    }
+
+    /*private void sendNotif() {
+        FcmNotificationsSender receiver = new FcmNotificationsSender(receiverUser.token,"You have a new message",
+                "Click to see", getApplicationContext(), ChatActivity.this);
+        receiver.sendNotifications();
+    }*/
+
+    private void sendNotif() {
+
+        if(!isReceiverAvailable){
+            try{
+                JSONArray tokens = new JSONArray();
+                tokens.put(receiverUser.token);
+                JSONObject data = new JSONObject();
+                data.put(Constants.KEY_USER_ID, Auth.getUid());
+                data.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
+                data.put(Constants.KEY_FCM_TOKEN, userManager.getString(Constants.KEY_FCM_TOKEN));
+                data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+
+                JSONObject body = new JSONObject();
+                body.put(Constants.REMOTE_MSG_DATA, data);
+                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+
+                sendNotification(body.toString());
+
+            }catch (Exception exception){
+                showToast(exception.getMessage());
+            }
         }
     }
 
@@ -132,7 +170,7 @@ public class ChatActivity extends BaseActivity {
                 messageBody
         ).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.isSuccessful()){
                     try{
                         if(response.body() != null){

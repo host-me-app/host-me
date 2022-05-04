@@ -17,6 +17,7 @@ import java.util.Objects;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.userCreation.CreationContainer;
 import ch.epfl.sweng.hostme.userCreation.EnterMailChangePwd;
+import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
         userName = findViewById(R.id.userName);

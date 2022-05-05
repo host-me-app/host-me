@@ -110,7 +110,6 @@ public class CallActivity extends AppCompatActivity {
                 if (document.exists()) {
                     String roomName = document.getString("roomName");
                     if (roomName != null) {
-                        System.out.println("Je suis appele dans la room : " + roomName);
                         initToken(roomName);
                         mRtcEngine.joinChannel(result, roomName, null, 0);
                         setupLocalVideoFeed();
@@ -220,8 +219,6 @@ public class CallActivity extends AppCompatActivity {
     public void onJoinChannelClicked() {
         String channelName = currUserID;
         initToken(channelName);
-        System.out.println("rrrrr " + result);
-        System.out.println("aaaa " + channelName);
         mRtcEngine.joinChannel(result, channelName, null, 0);
         setupLocalVideoFeed();
     }
@@ -237,14 +234,11 @@ public class CallActivity extends AppCompatActivity {
         mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
-        startActivity(new Intent(this, MenuActivity.class));
-        finish();
         if (!isFromNotif) {
             reference.document(user.id).update("roomName", null);
-        } else {
-            startActivity(new Intent(this, MenuActivity.class));
-            finish();
         }
+        startActivity(new Intent(this, MenuActivity.class));
+        finish();
     }
 
 

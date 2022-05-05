@@ -70,4 +70,5 @@
 
     <string name="daily_route">Daily route</string>
     <string name="street_view">Street view</string>
+    <string name="radius_gps">RADIUS (km):</string>
 </resources>

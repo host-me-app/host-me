@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static android.content.Context.MODE_PRIVATE;
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -214,7 +213,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
      */
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
-        StorageReference storageReference = Storage.getStorageReferenceByChild(APARTMENTS_PATH + model.getImagePath() + PREVIEW_1_JPG);
+        StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)

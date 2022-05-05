@@ -90,24 +90,6 @@ public class ByteBuf {
         return bytes;
     }
 
-    public String readString() {
-        byte[] bytes = readBytes();
-        return new String(bytes);
-    }
-
-    public TreeMap readMap() {
-        TreeMap<Short, String> map = new TreeMap<>();
-
-        short length = readShort();
-
-        for (short i = 0; i < length; ++i) {
-            short k = readShort();
-            String v = readString();
-            map.put(k, v);
-        }
-
-        return map;
-    }
 
     public TreeMap<Short, Integer> readIntMap() {
         TreeMap<Short, Integer> map = new TreeMap<>();

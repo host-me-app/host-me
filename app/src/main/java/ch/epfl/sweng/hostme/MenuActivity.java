@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme;
 
+import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,12 +14,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.databinding.ActivityMenu1Binding;
+import ch.epfl.sweng.hostme.utils.ListImage;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.ui.add.AddFragment;
 import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
 import ch.epfl.sweng.hostme.ui.messages.MessagesFragment;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
+
+import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -123,6 +128,15 @@ public class MenuActivity extends AppCompatActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (requestCode == REQ_IMAGE) {
+            ListImage.onAcceptImage(resultCode, intent.getData());
         }
     }
 

@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import android.graphics.Bitmap;
-
 import com.google.firebase.Timestamp;
 
 import org.json.JSONException;
@@ -13,8 +11,6 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class ListingTest {
 
@@ -30,10 +26,11 @@ public class ListingTest {
         fields.put("beds", 0);
         fields.put("area", 0);
         fields.put("furnished", false);
-        fields.put("bath", "none");
-        fields.put("kitchen", "none");
-        fields.put("laundry", "none");
+        fields.put("bath", "");
+        fields.put("kitchen", "");
+        fields.put("laundry", "");
         fields.put("pets", false);
+        fields.put("imagePath", "imagePath");
         fields.put("proprietor", "");
         fields.put("uid", "uid");
         fields.put("utilities", 0);
@@ -41,7 +38,7 @@ public class ListingTest {
         fields.put("duration", 0);
 
         Listing lst = new Listing(fields);
-        lst.exportDoc();
+
         lst.setName("name");
         lst.setRoom("room");
         lst.setAddress("address");
@@ -52,24 +49,21 @@ public class ListingTest {
         lst.setArea(25);
         lst.toggleFurnished();
         lst.toggleFurnished();
-        lst.setBath(Privacy.PRIVATE);
-        lst.setKitchen(Privacy.SHARED);
-        lst.setLaundry(Privacy.SHARED);
+        lst.setBath("bath");
+        lst.setKitchen("kitchen");
+        lst.setLaundry("laundry");
         lst.togglePets();
         lst.togglePets();
         lst.toggleAvailable();
         lst.toggleAvailable();
-        lst.setProprietor("propietor");
-        lst.setUtilities(2);
+        lst.setProprietor("proprietor");
+        lst.setUtilities(200);
         lst.setDeposit(2000);
         lst.setDuration(6);
+
         Timestamp tmp = new Timestamp(new Date(5));
         lst.setCurrentLease(tmp);
-
         assertEquals(tmp, lst.getCurrentLease());
-        List<Bitmap> img = lst.getImages();
-        Map<String, String> opt = lst.getOpt();
-        String imgPath = lst.getImagePath();
 
         assertEquals("name", lst.getName());
         assertEquals("name", lst.getName());
@@ -81,16 +75,20 @@ public class ListingTest {
         assertEquals(1, lst.getBeds());
         assertEquals(25, lst.getArea());
         assertFalse(lst.isFurnished());
-        assertEquals("Private", lst.getBath());
-        assertEquals("Shared", lst.getKitchen());
-        assertEquals("Shared", lst.getLaundry());
+        assertEquals("bath", lst.getBath());
+        assertEquals("kitchen", lst.getKitchen());
+        assertEquals("laundry", lst.getLaundry());
         assertFalse(lst.isPets());
         assertTrue(lst.isAvailable());
+        assertEquals("imagePath", lst.getImagePath());
+        assertEquals("proprietor", lst.getProprietor());
         assertEquals("uid", lst.getUid());
-        assertEquals("propietor", lst.getProprietor());
-        assertEquals(2, lst.getUtilities());
+        assertEquals(200, lst.getUtilities());
         assertEquals(2000, lst.getDeposit());
         assertEquals(6, lst.getDuration());
+
+        JSONObject jlst = lst.exportDoc();
+        assertEquals(jlst.toString(), lst.toString());
     }
 
 }

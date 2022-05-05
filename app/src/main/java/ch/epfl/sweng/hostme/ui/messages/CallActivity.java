@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
@@ -49,7 +50,9 @@ public class CallActivity extends AppCompatActivity {
     private final static CollectionReference reference = Database.getCollection("users");
     public static final String FROM_NOTIF = "from_notif";
     boolean isFromNotif;
-    private int userRole;
+    private final static int expirationTimeInSeconds = 3600;
+    private String result;
+    private final static String CERTIF = "fd11cdf9c54d490c9756be9d087c5293";
 
 
     @Override
@@ -71,19 +74,18 @@ public class CallActivity extends AppCompatActivity {
         checkPermissionsAndInitEngine();
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        checkPermissionsAndInitEngine();
-    }*/
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mRtcEngine.leaveChannel();
         RtcEngine.destroy();
-        mRtcEngine = null;
     }
+
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        checkPermissionsAndInitEngine();
+    }*/
 
     private void checkPermissionsAndInitEngine() {
         if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED &&
@@ -103,36 +105,38 @@ public class CallActivity extends AppCompatActivity {
     }
 
     public void joinChannel() {
-        setupLocalVideoFeed(userRole);
-        mRtcEngine.joinChannel("aaa", "salut", null, 0);
-        /*reference.document(Auth.getUid()).get().addOnCompleteListener(task -> {
+        reference.document(Auth.getUid()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     String roomName = document.getString("roomName");
                     if (roomName != null) {
                         System.out.println("Je suis appele dans la room : " + roomName);
-                        mRtcEngine.joinChannel(null, roomName, null, 0);
+                        RtcTokenBuilder token = new RtcTokenBuilder();
+                        int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
+                        result = token.buildTokenWithUid(getString(R.string.agora_app_id), CERTIF,
+                                roomName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+                        mRtcEngine.joinChannel(result, roomName, null, 0);
                         setupLocalVideoFeed();
-                        audioButt.setVisibility(View.VISIBLE);
-                        leaveButt.setVisibility(View.VISIBLE);
-                        videoButt.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(getApplicationContext(), "Your correspondent is no longer available",
                                 Toast.LENGTH_LONG).show();
                     }
                 }
             }
-        });*/
+        });
     }
 
-    public void onJoinChannelClicked() {
-        String channelName = currUserID;
-        System.out.println("Je appelle la room : " + channelName);
-        mRtcEngine.joinChannel("bbb", "salut", null, 0);
-        setupLocalVideoFeed(userRole);
-    }
-
+    /*public boolean checkSelfPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    REQUESTED_PERMISSIONS,
+                    requestCode);
+            return false;
+        }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -149,16 +153,13 @@ public class CallActivity extends AppCompatActivity {
     private void initAgoraEngine() {
         try {
             mRtcEngine = RtcEngine.create(getApplicationContext(), getString(R.string.agora_app_id), mRtcEventHandler);
-            System.out.println("ENGINE " + mRtcEngine);
         } catch (Exception e) {
             throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
         }
-        //setupSession();
+        setupSession();
         if (isFromNotif) {
-            userRole = 0;
             joinChannel();
         } else {
-            userRole = 1;
             onJoinChannelClicked();
             sendNotif();
         }
@@ -173,15 +174,16 @@ public class CallActivity extends AppCompatActivity {
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
     }
 
-    private void setupLocalVideoFeed(int userRole) {
+    private void setupLocalVideoFeed() {
         mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+
         mRtcEngine.enableVideo();
         VideoEncoderConfiguration mVEC = new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360,
                 VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
                 VideoEncoderConfiguration.STANDARD_BITRATE,
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
         mRtcEngine.setVideoEncoderConfiguration(mVEC);
-        mRtcEngine.setClientRole(userRole);
+        mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
         FrameLayout videoContainer = findViewById(R.id.floating_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
         videoSurface.setZOrderMediaOverlay(true);
@@ -201,15 +203,18 @@ public class CallActivity extends AppCompatActivity {
 
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-            System.out.println("Je passsssse");
             runOnUiThread(() -> Toast.makeText(getApplicationContext(),
                     "Join channel success, uid: " + (uid & 0xFFFFFFFFL), Toast.LENGTH_SHORT).show());
         }
 
         @Override
         public void onUserJoined(final int uid, int elapsed) {
-            System.out.println("Je joiiiiiiiins");
-            runOnUiThread(() -> setupRemoteVideoStream(uid));
+
+            runOnUiThread(() -> {
+                setupRemoteVideoStream(uid);
+                Toast.makeText(getApplicationContext(),
+                        "Userrrr channel success, uid: " + (uid & 0xFFFFFFFFL), Toast.LENGTH_SHORT).show();
+            });
         }
 
         @Override
@@ -229,7 +234,7 @@ public class CallActivity extends AppCompatActivity {
         SurfaceView videoSurface = (SurfaceView) videoContainer.getChildAt(0);
         videoSurface.setVisibility(state == 0 ? View.GONE : View.VISIBLE);
 
-        if (state == 0) {
+        /*if (state == 0) {
             ImageView noCamera = new ImageView(this);
             noCamera.setImageResource(R.drawable.video_disabled);
             videoContainer.addView(noCamera);
@@ -238,7 +243,20 @@ public class CallActivity extends AppCompatActivity {
             if (noCamera != null) {
                 videoContainer.removeView(noCamera);
             }
-        }
+        }*/
+    }
+
+
+    public void onJoinChannelClicked() {
+        String channelName = currUserID;
+        RtcTokenBuilder token = new RtcTokenBuilder();
+        int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
+        result = token.buildTokenWithUid(getString(R.string.agora_app_id), CERTIF,
+                channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+        System.out.println("rrrrr " + result);
+        System.out.println("aaaa " + channelName);
+        mRtcEngine.joinChannel(result, channelName, null, 0);
+        setupLocalVideoFeed();
     }
 
     public void onLeaveChannelClicked() {
@@ -281,11 +299,9 @@ public class CallActivity extends AppCompatActivity {
         if (btn.isSelected()) {
             btn.setSelected(false);
             btn.setImageResource(R.drawable.video_toggle_btn);
-            mRtcEngine.enableVideo();
         } else {
             btn.setSelected(true);
             btn.setImageResource(R.drawable.video_toggle_active_btn);
-            mRtcEngine.disableVideo();
         }
         mRtcEngine.muteLocalVideoStream(btn.isSelected());
 

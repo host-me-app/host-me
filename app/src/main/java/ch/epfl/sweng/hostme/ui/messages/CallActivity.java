@@ -44,7 +44,7 @@ public class CallActivity extends AppCompatActivity {
     private ImageView audioButt;
     private ImageView leaveButt;
     private ImageView videoButt;
-    private ImageView joinButt;
+    private ImageView switchCamera;
     private User user;
     private static String currUserID;
     private final static CollectionReference reference = Database.getCollection("users");
@@ -68,10 +68,14 @@ public class CallActivity extends AppCompatActivity {
         leaveButt.setOnClickListener(l -> onLeaveChannelClicked());
         videoButt = findViewById(R.id.videoBtn);
         videoButt.setOnClickListener(l -> onVideoMuteClicked(videoButt));
-        joinButt = findViewById(R.id.joinBtn);
-        joinButt.setVisibility(View.GONE);
+        switchCamera = findViewById(R.id.switch_camera);
+        switchCamera.setOnClickListener(v -> onSwitchCamera());
         user = (User) getIntent().getSerializableExtra("user");
         checkPermissionsAndInitEngine();
+    }
+
+    private void onSwitchCamera() {
+        mRtcEngine.switchCamera();
     }
 
     @Override
@@ -81,11 +85,6 @@ public class CallActivity extends AppCompatActivity {
         RtcEngine.destroy();
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        checkPermissionsAndInitEngine();
-    }*/
 
     private void checkPermissionsAndInitEngine() {
         if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED &&
@@ -284,11 +283,11 @@ public class CallActivity extends AppCompatActivity {
         ImageView btn = (ImageView) view;
         if (btn.isSelected()) {
             btn.setSelected(false);
-            btn.setImageResource(R.drawable.audio_toggle_btn);
+            btn.setImageResource(R.drawable.btn_mute);
             mRtcEngine.enableAudio();
         } else {
             btn.setSelected(true);
-            btn.setImageResource(R.drawable.audio_toggle_active_btn);
+            btn.setImageResource(R.drawable.btn_unmute);
             mRtcEngine.disableAudio();
         }
         mRtcEngine.muteLocalAudioStream(btn.isSelected());

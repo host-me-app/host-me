@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme.wallet;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -100,7 +101,7 @@ public class ExpirationDatePickingTest {
 
             onView(withId(R.id.wallet_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.buttonPickDate_ResidencePermit)).perform(click());
+            onView(withId(R.id.buttonPickDate_ResidencePermit)).perform(scrollTo(),click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
                     .perform(PickerActions.setDate(2022, 3, 22));

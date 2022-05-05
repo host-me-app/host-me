@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recyclerViewLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,7 @@
 
     <SearchView
         android:id="@+id/search_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:queryHint="Search location (street, NPA, city)" />
@@ -18,6 +19,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <Switch
+            android:id="@+id/gpsSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GPS"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <LinearLayout
+            android:id="@+id/filter_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radius_gps" />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/range_bar_gps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:stepSize="1"
+                android:valueFrom="1"
+                android:valueTo="30" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/filter_price"
@@ -80,6 +112,7 @@
             android:layout_gravity="right"
             android:enabled="true"
             android:text="Clear filters" />
+
         <Button
             android:id="@+id/filters"
             android:layout_width="wrap_content"

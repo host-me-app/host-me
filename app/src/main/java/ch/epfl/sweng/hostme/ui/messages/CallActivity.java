@@ -126,17 +126,6 @@ public class CallActivity extends AppCompatActivity {
         });
     }
 
-    /*public boolean checkSelfPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    REQUESTED_PERMISSIONS,
-                    requestCode);
-            return false;
-        }
-    }*/
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -233,16 +222,6 @@ public class CallActivity extends AppCompatActivity {
         SurfaceView videoSurface = (SurfaceView) videoContainer.getChildAt(0);
         videoSurface.setVisibility(state == 0 ? View.GONE : View.VISIBLE);
 
-        /*if (state == 0) {
-            ImageView noCamera = new ImageView(this);
-            noCamera.setImageResource(R.drawable.video_disabled);
-            videoContainer.addView(noCamera);
-        } else {
-            ImageView noCamera = (ImageView) videoContainer.getChildAt(1);
-            if (noCamera != null) {
-                videoContainer.removeView(noCamera);
-            }
-        }*/
     }
 
 

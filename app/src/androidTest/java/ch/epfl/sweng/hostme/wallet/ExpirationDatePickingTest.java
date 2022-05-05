@@ -53,35 +53,6 @@ public class ExpirationDatePickingTest {
     }
 
 
-    @Test
-    public void NoExpirationDateOnDocumentTest() {
-
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
-        Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.wallet_button)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("None"),
-                    isDisplayed())));
-
-            Thread.sleep(5000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
 
     @Test
     public void expirationDatePickingTest() {
@@ -100,7 +71,6 @@ public class ExpirationDatePickingTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
-
             onView(withId(R.id.buttonPickDate_ResidencePermit)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))

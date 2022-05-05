@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -37,15 +36,17 @@ import io.agora.rtc.video.VideoEncoderConfiguration;
 public class CallActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQ_ID = 22;
-    private static final String[] REQUESTED_PERMISSIONS = {Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA, Manifest.permission.BLUETOOTH_CONNECT};
+    private static final String[] REQUESTED_PERMISSIONS = {
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA,
+            Manifest.permission.BLUETOOTH_CONNECT};
     private RtcEngine mRtcEngine;
     private ImageView audioButt;
     private ImageView leaveButt;
     private ImageView videoButt;
     private ImageView joinButt;
     private User user;
-    private final static String currUserID = Auth.getUid();
+    private static String currUserID;
     private final static CollectionReference reference = Database.getCollection("users");
     public static final String FROM_NOTIF = "from_notif";
     boolean isFromNotif;
@@ -56,7 +57,8 @@ public class CallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-        checkPermissionsAndInitEngine();
+        isFromNotif = getIntent().getBooleanExtra(FROM_NOTIF, false);
+        currUserID = Auth.getUid();
         audioButt = findViewById(R.id.audioBtn);
         audioButt.setOnClickListener(l -> onAudioMuteClicked(audioButt));
         leaveButt = findViewById(R.id.leaveBtn);
@@ -64,27 +66,24 @@ public class CallActivity extends AppCompatActivity {
         videoButt = findViewById(R.id.videoBtn);
         videoButt.setOnClickListener(l -> onVideoMuteClicked(videoButt));
         joinButt = findViewById(R.id.joinBtn);
-        isFromNotif = getIntent().getBooleanExtra(FROM_NOTIF, false);
-        if (isFromNotif) {
-            joinButt.setVisibility(View.GONE);
-            checkPermissionsAndInitEngine();
-            joinChannel();
-        } else {
-            joinButt.setOnClickListener(l -> {
-                sendNotif();
-                onJoinChannelClicked();
-            });
-            audioButt.setVisibility(View.GONE);
-            leaveButt.setVisibility(View.GONE);
-            videoButt.setVisibility(View.GONE);
-            user = (User) getIntent().getSerializableExtra("user");
-        }
+        joinButt.setVisibility(View.GONE);
+        user = (User) getIntent().getSerializableExtra("user");
+        checkPermissionsAndInitEngine();
     }
 
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        checkPermissionsAndInitEngine();
+    }*/
+
     private void checkPermissionsAndInitEngine() {
-        if (checkSelfPermission(REQUESTED_PERMISSIONS[0], PERMISSION_REQ_ID) &&
-                checkSelfPermission(REQUESTED_PERMISSIONS[1], PERMISSION_REQ_ID)) {
+        if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[1]) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[2]) == PackageManager.PERMISSION_GRANTED) {
             initAgoraEngine();
+        } else {
+            ActivityCompat.requestPermissions(this, REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);
         }
     }
 
@@ -102,6 +101,7 @@ public class CallActivity extends AppCompatActivity {
                 if (document.exists()) {
                     String roomName = document.getString("roomName");
                     if (roomName != null) {
+                        System.out.println("Je suis appele dans la room : " + roomName);
                         mRtcEngine.joinChannel(null, roomName, null, 0);
                         setupLocalVideoFeed();
                         audioButt.setVisibility(View.VISIBLE);
@@ -116,15 +116,16 @@ public class CallActivity extends AppCompatActivity {
         });
     }
 
-    public boolean checkSelfPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+    /*public boolean checkSelfPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
             ActivityCompat.requestPermissions(this,
                     REQUESTED_PERMISSIONS,
                     requestCode);
             return false;
         }
-        return true;
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -132,25 +133,32 @@ public class CallActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQ_ID) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                return;
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                checkPermissionsAndInitEngine();
             }
-            initAgoraEngine();
         }
     }
 
     private void initAgoraEngine() {
         try {
             mRtcEngine = RtcEngine.create(getApplicationContext(), getString(R.string.agora_app_id), mRtcEventHandler);
+            System.out.println("ENGINE " + mRtcEventHandler);
         } catch (Exception e) {
             throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
         }
         setupSession();
+        if (isFromNotif) {
+            joinChannel();
+        } else {
+            onJoinChannelClicked();
+            sendNotif();
+        }
     }
 
     private void setupSession() {
         mRtcEngine.setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION);
         mRtcEngine.enableVideo();
+        mRtcEngine.enableAudio();
         mRtcEngine.setVideoEncoderConfiguration(new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x480, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_30,
                 VideoEncoderConfiguration.STANDARD_BITRATE,
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
@@ -166,19 +174,16 @@ public class CallActivity extends AppCompatActivity {
         mRtcEngine.setVideoEncoderConfiguration(mVEC);
         mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
         FrameLayout videoContainer = findViewById(R.id.floating_video_container);
-        SurfaceView videoSurface = RtcEngine.CreateRendererView(getApplicationContext());
+        SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
         videoSurface.setZOrderMediaOverlay(true);
-        videoContainer.addView(videoSurface,  new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 1));
-        mRtcEngine.enableLocalVideo(false);
+        videoContainer.addView(videoSurface);
+        mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 0));
     }
 
     private void setupRemoteVideoStream(int uid) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
-        videoSurface.setZOrderOnTop(true);
-        videoSurface.setZOrderMediaOverlay(true);
-        videoContainer.addView(videoSurface, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        videoContainer.addView(videoSurface);
         mRtcEngine.setupRemoteVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, uid));
         mRtcEngine.setRemoteSubscribeFallbackOption(io.agora.rtc.Constants.STREAM_FALLBACK_OPTION_AUDIO_ONLY);
     }
@@ -187,12 +192,14 @@ public class CallActivity extends AppCompatActivity {
 
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+            System.out.println("Je passsssse");
             runOnUiThread(() -> Toast.makeText(getApplicationContext(),
                     "Join channel success, uid: " + (uid & 0xFFFFFFFFL), Toast.LENGTH_SHORT).show());
         }
 
         @Override
         public void onUserJoined(final int uid, int elapsed) {
+            System.out.println("Je joiiiiiiiins");
             runOnUiThread(() -> setupRemoteVideoStream(uid));
         }
 
@@ -228,22 +235,17 @@ public class CallActivity extends AppCompatActivity {
 
     public void onJoinChannelClicked() {
         String channelName = currUserID;
+        System.out.println("Je appelle la room : " + channelName);
         mRtcEngine.joinChannel(null, channelName, null, 0);
         setupLocalVideoFeed();
-        joinButt.setVisibility(View.GONE);
-        audioButt.setVisibility(View.VISIBLE);
-        leaveButt.setVisibility(View.VISIBLE);
-        videoButt.setVisibility(View.VISIBLE);
     }
 
     public void onLeaveChannelClicked() {
         mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
-        joinButt.setVisibility(View.VISIBLE);
-        audioButt.setVisibility(View.GONE);
-        leaveButt.setVisibility(View.GONE);
-        videoButt.setVisibility(View.GONE);
+        startActivity(new Intent(this, MenuActivity.class));
+        finish();
         if (!isFromNotif) {
             reference.document(user.id).update("roomName", null);
         } else {

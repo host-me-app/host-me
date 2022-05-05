@@ -1,5 +1,12 @@
 package ch.epfl.sweng.hostme.utils;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertEquals;
+
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -13,19 +20,11 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.MainActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
-import static org.junit.Assert.assertEquals;
 
 public class ListImageTest {
     @Rule
@@ -43,9 +42,9 @@ public class ListImageTest {
 
     @Test
     public void initializeTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 

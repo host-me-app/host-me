@@ -98,7 +98,6 @@ public class SearchFragment extends Fragment {
             } else {
                 radiusGpsLayout.setVisibility(View.GONE);
             }
-
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

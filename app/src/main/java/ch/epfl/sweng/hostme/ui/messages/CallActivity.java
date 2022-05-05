@@ -111,10 +111,7 @@ public class CallActivity extends AppCompatActivity {
                     String roomName = document.getString("roomName");
                     if (roomName != null) {
                         System.out.println("Je suis appele dans la room : " + roomName);
-                        RtcTokenBuilder token = new RtcTokenBuilder();
-                        int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
-                        result = token.buildTokenWithUid(getString(R.string.agora_app_id), CERTIF,
-                                roomName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+                        initToken(roomName);
                         mRtcEngine.joinChannel(result, roomName, null, 0);
                         setupLocalVideoFeed();
                     } else {
@@ -197,12 +194,7 @@ public class CallActivity extends AppCompatActivity {
 
         @Override
         public void onUserJoined(final int uid, int elapsed) {
-
-            runOnUiThread(() -> {
-                setupRemoteVideoStream(uid);
-                Toast.makeText(getApplicationContext(),
-                        "Userrrr channel success, uid: " + (uid & 0xFFFFFFFFL), Toast.LENGTH_SHORT).show();
-            });
+            runOnUiThread(() -> setupRemoteVideoStream(uid));
         }
 
         @Override
@@ -227,14 +219,18 @@ public class CallActivity extends AppCompatActivity {
 
     public void onJoinChannelClicked() {
         String channelName = currUserID;
-        RtcTokenBuilder token = new RtcTokenBuilder();
-        int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
-        result = token.buildTokenWithUid(getString(R.string.agora_app_id), CERTIF,
-                channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+        initToken(channelName);
         System.out.println("rrrrr " + result);
         System.out.println("aaaa " + channelName);
         mRtcEngine.joinChannel(result, channelName, null, 0);
         setupLocalVideoFeed();
+    }
+
+    private void initToken(String channelName) {
+        RtcTokenBuilder token = new RtcTokenBuilder();
+        int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
+        result = token.buildTokenWithUid(getString(R.string.agora_app_id), CERTIF,
+                channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
     }
 
     public void onLeaveChannelClicked() {
@@ -263,11 +259,9 @@ public class CallActivity extends AppCompatActivity {
         if (btn.isSelected()) {
             btn.setSelected(false);
             btn.setImageResource(R.drawable.btn_mute);
-            mRtcEngine.enableAudio();
         } else {
             btn.setSelected(true);
             btn.setImageResource(R.drawable.btn_unmute);
-            mRtcEngine.disableAudio();
         }
         mRtcEngine.muteLocalAudioStream(btn.isSelected());
     }

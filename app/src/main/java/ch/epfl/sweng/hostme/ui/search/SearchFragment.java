@@ -162,7 +162,6 @@ public class SearchFragment extends Fragment {
         } else {
             clearFilters.setVisibility(View.GONE);
             changeFilterVisibility(View.GONE);
-            getLastLocation();
             filterButt.setText(R.string.filters_text);
             filterIsClicked = false;
             if (gpsSwitch.isChecked()) {
@@ -239,10 +238,6 @@ public class SearchFragment extends Fragment {
     }
 
     private boolean checkPositionAroundLocation(String fullAddress, double latitude, double longitude, float radius) {
-        if (latitude == 1000) {
-            System.out.println("bbbb");
-            return true;
-        }
         float radiusMeters = radius * 1000;
         Geocoder coder = new Geocoder(this.getContext());
         List<Address> address;
@@ -287,15 +282,11 @@ public class SearchFragment extends Fragment {
             apartments.clear();
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();
-                double latitude;
-                double longitude;
+                double latitude = 0;
+                double longitude = 0;
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                } else {
-                    System.out.println("aaaa");
-                    latitude = 1000;
-                    longitude = 1000;
                 }
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
                     Apartment apartment = doc.toObject(Apartment.class);
@@ -306,11 +297,14 @@ public class SearchFragment extends Fragment {
                     Long npa = (Long) doc.get("npa");
                     String fullAddress = address + " " + city + " " + npa;
                     apartment.setDocID(doc.getId());
-                    if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2) && checkPositionAroundLocation(fullAddress, latitude, longitude, radius)) {
+                    if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
                         if ((searchText == null) || (String.valueOf(npa).toLowerCase().contains(searchText) ||
                                 address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText))) {
-                            if (apartments.size() < 10)
-                                apartments.add(apartment);
+                            if (location == null || checkPositionAroundLocation(fullAddress, latitude, longitude, radius)) {
+                                if (apartments.size() < 10) {
+                                    apartments.add(apartment);
+                                }
+                            }
                         }
                     }
                 }

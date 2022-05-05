@@ -18,6 +18,7 @@
 
     </FrameLayout>
 
+
     <FrameLayout
         android:id="@+id/floating_video_container"
         android:layout_width="108dp"

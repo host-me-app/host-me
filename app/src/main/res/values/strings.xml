@@ -42,16 +42,25 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="add_apt">create new listing</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string-array name="privacy_enum">
+        <item>None</item>
+        <item>Private</item>
+        <item>Shared</item>
+    </string-array>
     <string name="enter_name_hint">Building Name</string>
     <string name="enter_room_hint">#</string>
-    <string name="enter_address_hint">Street Address #\nNPA City</string>
+    <string name="enter_address_hint">Street Address #</string>
+    <string name="enter_npa_hint">NPA</string>
+    <string name="enter_city_hint">City</string>
     <string name="implied_location">, VD CH</string>
     <string name="chf_per_month">.-CHF/ month</string>
     <string name="chf_once">.-CHF</string>
-    <string name="enter_area_hint">m\u00B2</string>
+    <string name="enter_area_hint">in m\u00B2</string>
     <string name="enter_beds_"></string>
     <string name="enter_proprietor_hint">Your Name/ Organization</string>
-    <string name="enter_duration_hint">months</string>
+    <string name="enter_duration_hint">in months</string>
     <string name="upload_images">Upload Images</string>
     <string name="apply_filters">Apply Filters</string>
     <string name="filters_text">Filters</string>

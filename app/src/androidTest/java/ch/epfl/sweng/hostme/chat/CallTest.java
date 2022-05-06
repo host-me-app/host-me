@@ -11,6 +11,7 @@ import android.Manifest;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -38,7 +39,7 @@ public class CallTest {
         Database.setTest();
         Storage.setTest();
         FirebaseApp.clearInstancesForTest();
-        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
     @Rule

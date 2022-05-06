@@ -85,6 +85,10 @@ public class CallActivity extends AppCompatActivity {
         RtcEngine.destroy();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     private void checkPermissionsAndInitEngine() {
         if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED &&

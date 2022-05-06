@@ -37,7 +37,8 @@
         android:theme="@style/Theme.HostMe"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.messages.CallActivity"
-            android:parentActivityName=".ui.messages.ChatActivity" />
+            android:parentActivityName=".ui.messages.ChatActivity"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".ui.messages.ChatActivity"
             android:parentActivityName=".ui.messages.UsersActivity"
@@ -56,6 +57,7 @@
             tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".MenuActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">

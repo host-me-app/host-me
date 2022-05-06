@@ -63,7 +63,7 @@ public class CallTest {
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contactButton)).perform(click());
             onView(withId(R.id.usersRecyclerView)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                    RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
             onView(withId(R.id.launchButt)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());

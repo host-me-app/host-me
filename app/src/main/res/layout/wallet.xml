@@ -303,7 +303,7 @@
         android:layout_marginStart="64dp"
         android:layout_marginTop="120dp"
         android:text="None"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -314,7 +314,7 @@
         android:layout_marginTop="80dp"
         android:text="Pick Date"
         android:textSize="10sp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.812"

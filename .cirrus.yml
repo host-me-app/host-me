@@ -45,7 +45,7 @@ check_android_task:
     curl -Lo ./firebase_bin https://firebase.tools/bin/linux/latest
   build_script: |
     chmod +x gradlew
-    ./gradlew assembleDebugAndroidTest --no-parallel
+    ./gradlew assembleDebugAndroidTest
   wait_for_emulator_script: |
     adb wait-for-device
     adb shell input keyevent 82

@@ -31,7 +31,6 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
-    private static final String PREF_USER_NAME = "username";
 
     @BeforeClass
     public static void setUp() {

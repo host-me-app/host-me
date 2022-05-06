@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
-import ch.epfl.sweng.hostme.BuildConfig;
 import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -62,9 +60,6 @@ public class CallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-        if(BuildConfig.DEBUG){
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
         isFromNotif = getIntent().getBooleanExtra(FROM_NOTIF, false);
         currUserID = Auth.getUid();
         audioButt = findViewById(R.id.audioBtn);

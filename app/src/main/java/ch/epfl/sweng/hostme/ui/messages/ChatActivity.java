@@ -1,24 +1,20 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
-import static java.sql.DriverManager.println;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +27,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.MenuActivity;
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.chat.ChatAdapter;
 import ch.epfl.sweng.hostme.chat.ChatMessage;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -40,6 +37,7 @@ import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.Profile;
 
+
 public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "chatA";
@@ -48,6 +46,7 @@ public class ChatActivity extends AppCompatActivity {
     private User receiverUser;
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
+    private ImageView launchButt;
     private String conversionId = null;
     private Profile dbProfile;
 
@@ -61,6 +60,12 @@ public class ChatActivity extends AppCompatActivity {
         loadReceiverDetails();
         init();
         listenMessages();
+        launchButt = findViewById(R.id.launchButt);
+        launchButt.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CallActivity.class);
+            intent.putExtra("user", receiverUser);
+            startActivity(intent);
+        });
     }
 
     private void init(){
@@ -174,7 +179,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private String getReadableDataTime(Date date){
+    private String getReadableDataTime(Date date) {
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
     }
 
@@ -220,4 +225,5 @@ public class ChatActivity extends AppCompatActivity {
           conversionId = documentSnapshot.getId();
       }
     };
+
 }

@@ -2,12 +2,14 @@ package ch.epfl.sweng.hostme.ui.account;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,7 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 
-import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -61,6 +63,8 @@ public class AccountFragment extends Fragment {
     private Button changePasswordButton;
     private Profile dbProfile;
     private String school;
+    private static final String PREF_USER_NAME = "username";
+
 
     private ImageView editProfilePicture;
     private FloatingActionButton changePictureButton;
@@ -300,10 +304,17 @@ public class AccountFragment extends Fragment {
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
             Auth.signOut();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            resetSharedPref();
+            Intent intent = new Intent(getActivity(), LogInActivity.class);
             startActivity(intent);
             getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
         });
+    }
+
+    private void resetSharedPref() {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putString(PREF_USER_NAME, "");
+        editor.apply();
     }
 
     /**

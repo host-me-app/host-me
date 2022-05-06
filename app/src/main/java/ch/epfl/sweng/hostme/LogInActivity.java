@@ -2,7 +2,9 @@ package ch.epfl.sweng.hostme;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 //import com.google.firebase.database.FirebaseDatabase;
@@ -21,8 +24,9 @@ import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.userCreation.CreationContainer;
 import ch.epfl.sweng.hostme.userCreation.EnterMailChangePwd;
 
-public class MainActivity extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity {
 
+    private static final String PREF_USER_NAME = "username";
     private EditText userName;
     private EditText pwd;
     private Button logInButt;
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
      * Go to forgot password fragment
      */
     private void enterMailToChangePwd() {
-        Intent intent = new Intent(MainActivity.this, EnterMailChangePwd.class);
+        Intent intent = new Intent(LogInActivity.this, EnterMailChangePwd.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
      * Go to menu activity
      */
     private void welcome() {
-        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+        Intent intent = new Intent(LogInActivity.this, MenuActivity.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
      * Start user account creation fragment
      */
     private void askUserQuestion() {
-        Intent intent = new Intent(MainActivity.this, CreationContainer.class);
+        Intent intent = new Intent(LogInActivity.this, CreationContainer.class);
         startActivity(intent);
         overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
@@ -133,14 +137,22 @@ public class MainActivity extends AppCompatActivity {
         Auth.loginUserWithEmail(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        setSharedPref(email);
                         welcome();
-                        Toast.makeText(MainActivity.this, "Authentication succeed.",
+                        Toast.makeText(LogInActivity.this, "Authentication succeed.",
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                        Toast.makeText(LogInActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void setSharedPref(String email) {
+        SharedPreferences.Editor editor = PreferenceManager.
+                getDefaultSharedPreferences(this).edit();
+        editor.putString(PREF_USER_NAME, email);
+        editor.apply();
     }
 
 }

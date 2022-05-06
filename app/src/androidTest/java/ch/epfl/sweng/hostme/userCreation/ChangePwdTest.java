@@ -23,7 +23,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -46,7 +46,7 @@ public class ChangePwdTest {
     public void enterWrongMail() {
         Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String wrongMail = "host.me@gmail.com";
             onView(withId(R.id.mailForgotPwd)).perform(typeText(wrongMail), closeSoftKeyboard());
             onView(withId(R.id.nextButtonMail2)).check(matches(isDisplayed()));
@@ -62,7 +62,7 @@ public class ChangePwdTest {
     public void enterValidMail() {
         Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String validMail = "testlogin@gmail.com";
             onView(withId(R.id.mailForgotPwd)).perform(typeText(validMail), closeSoftKeyboard());
             onView(withId(R.id.nextButtonMail2)).check(matches(isDisplayed()));

@@ -24,12 +24,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 import ch.epfl.sweng.hostme.ui.messages.UsersActivity;
 
 @RunWith(AndroidJUnit4.class)
@@ -52,7 +51,7 @@ public class ChatActivityTest {
 
     @Test
     public void buttonBackDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
@@ -82,7 +81,7 @@ public class ChatActivityTest {
 
     @Test
     public void nameChatDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
@@ -111,7 +110,7 @@ public class ChatActivityTest {
 
     @Test
     public void chatInfoDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
@@ -139,7 +138,7 @@ public class ChatActivityTest {
 
     @Test
     public void chatBackgroundDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
@@ -167,7 +166,7 @@ public class ChatActivityTest {
 
     @Test
     public void sendLayoutDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
@@ -197,7 +196,7 @@ public class ChatActivityTest {
 
     @Test
     public void MessageIsDisplayedChat() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";

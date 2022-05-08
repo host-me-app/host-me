@@ -40,6 +40,7 @@ public class MenuActivity extends AppCompatActivity {
         if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_USER_NAME, "").length() == 0) {
             startActivity(new Intent(this, LogInActivity.class));
         } else {
+
             BottomNavigationView navView = findViewById(R.id.nav_view);
             viewPager = findViewById(R.id.view_pager);
             viewPager.setOffscreenPageLimit(5);
@@ -58,6 +59,7 @@ public class MenuActivity extends AppCompatActivity {
             });
 
             setupViewPager(viewPager);
+
         }
 
     }

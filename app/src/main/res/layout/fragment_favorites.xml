@@ -23,6 +23,6 @@
         android:textSize="20dp"
         android:fontFamily="@font/roboto_family"
         android:gravity="center"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </LinearLayout>

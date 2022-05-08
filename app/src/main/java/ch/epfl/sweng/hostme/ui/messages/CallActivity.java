@@ -74,6 +74,9 @@ public class CallActivity extends AppCompatActivity {
         checkPermissionsAndInitEngine();
     }
 
+    /**
+     * switch the camera
+     */
     private void onSwitchCamera() {
         mRtcEngine.switchCamera();
     }
@@ -95,6 +98,9 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * send notification to the callee
+     */
     private void sendNotif() {
         FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
                 "Click to answer", getApplicationContext(), CallActivity.this);

@@ -72,7 +72,7 @@ public class ExpirationDatePickingTest {
                     .perform(PickerActions.setDate(2022, 3, 22));
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
-            Thread.sleep(1000);
+            //Thread.sleep(1000);
 
             //onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2022"),
             //        isDisplayed())));

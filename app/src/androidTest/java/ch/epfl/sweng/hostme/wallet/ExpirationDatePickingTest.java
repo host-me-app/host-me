@@ -61,7 +61,7 @@ public class ExpirationDatePickingTest {
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.wallet_button)).perform(click());
+            //onView(withId(R.id.wallet_button)).perform(click());
             /*onView(withId(R.id.buttonPickDate_ResidencePermit)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))

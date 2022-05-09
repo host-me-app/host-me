@@ -106,13 +106,13 @@ public class CallActivity extends AppCompatActivity {
                         FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
                                 "Click to answer", getApplicationContext(), CallActivity.this);
                         sender.sendNotifications();
+                        reference.document(user.id).update("roomName", currUserID);
                     }
                     else{
                         System.out.println(task.getException().toString());
                     }
                 });
 
-        reference.document(user.id).update("roomName", currUserID);
     }
 
     public void joinChannel() {

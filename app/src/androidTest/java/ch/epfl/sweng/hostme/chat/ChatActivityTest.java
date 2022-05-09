@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme.chat;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -9,7 +8,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import android.Manifest;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -17,13 +15,11 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -45,12 +41,6 @@ public class ChatActivityTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
-
-    @Rule
-    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA
-    );
 
     @AfterClass
     public static void after_class()
@@ -237,40 +227,4 @@ public class ChatActivityTest {
         Intents.release();
     }
 
-
-    @Test
-    public void callUser() {
-        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
-            onView(withId(R.id.usersRecyclerView)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-            onView(withId(R.id.launchButt)).perform(click());
-            /*Thread.sleep(2000);
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.videoBtn)).perform(click());
-            onView(withId(R.id.videoBtn)).perform(click());
-            onView(withId(R.id.switch_camera)).perform(click());
-            onView(withId(R.id.switch_camera)).perform(click());
-            Thread.sleep(500);*/
-            //onView(withId(R.id.leaveBtn)).perform(click());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
 }

@@ -43,7 +43,8 @@ public class CallTest {
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.BLUETOOTH_CONNECT
     );
 
 
@@ -64,6 +65,7 @@ public class CallTest {
             onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
+            Thread.sleep(500);
             onView(withId(R.id.leaveBtn)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();

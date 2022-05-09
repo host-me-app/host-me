@@ -74,7 +74,7 @@ public class CallTest {
             onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
-            onView(withId(R.id.leaveBtn)).perform(click());
+            //onView(withId(R.id.leaveBtn)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

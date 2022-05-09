@@ -49,26 +49,6 @@ public class CallTest {
 
     @Test
     public void callUser() {
-        Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
-        Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-            Thread.sleep(2000);
-            onView(withId(R.id.usersRecyclerView)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            onView(withId(R.id.launchButt)).perform(click());
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.videoBtn)).perform(click());
-            onView(withId(R.id.videoBtn)).perform(click());
-            onView(withId(R.id.switch_camera)).perform(click());
-            onView(withId(R.id.switch_camera)).perform(click());
-            Thread.sleep(500);
-            onView(withId(R.id.leaveBtn)).perform(click());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
     }
 }

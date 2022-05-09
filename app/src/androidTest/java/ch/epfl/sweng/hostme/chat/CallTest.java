@@ -69,11 +69,11 @@ public class CallTest {
                     RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
             onView(withId(R.id.launchButt)).perform(click());
-            /*Thread.sleep(2000);
+            Thread.sleep(2000);
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.videoBtn)).perform(click());
+            /*onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());

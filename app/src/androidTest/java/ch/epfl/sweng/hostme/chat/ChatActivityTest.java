@@ -9,6 +9,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import android.Manifest;
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -16,11 +17,13 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,6 +45,12 @@ public class ChatActivityTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
+
+    @Rule
+    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
+    );
 
     @AfterClass
     public static void after_class()

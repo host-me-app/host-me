@@ -77,8 +77,6 @@ public class ExpirationDatePickingTest {
             //onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2022"),
             //        isDisplayed())));
 
-            Thread.sleep(5000);
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

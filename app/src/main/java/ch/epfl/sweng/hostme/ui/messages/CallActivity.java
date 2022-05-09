@@ -243,7 +243,7 @@ public class CallActivity extends AppCompatActivity {
             reference.document(user.id).update("roomName", null);
         }
         startActivity(new Intent(this, MenuActivity.class));
-        finish();
+        //finish();
     }
 
 

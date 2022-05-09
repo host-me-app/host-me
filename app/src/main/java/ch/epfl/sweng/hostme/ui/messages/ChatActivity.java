@@ -172,7 +172,7 @@ public class ChatActivity extends AppCompatActivity {
             } else if (getIntent().getStringExtra(FROM).equals("apartment")) {
                 Intent intent = new Intent(this, MenuActivity.class);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
         binding.sendButt.setOnClickListener(v -> sendMessage());

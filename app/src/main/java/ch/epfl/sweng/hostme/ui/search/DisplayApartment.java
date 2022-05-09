@@ -141,7 +141,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
                         newIntent.putExtra(Constants.KEY_USER, user);
                         newIntent.putExtra(FROM, "apartment");
                         startActivity(newIntent);
-                        getActivity().finish();
+                        //getActivity().finish();
                     }
                 }
             }

@@ -257,8 +257,8 @@ public class ChatActivityTest {
             onView(withId(R.id.usersRecyclerView)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            /*onView(withId(R.id.launchButt)).perform(click());
-            Thread.sleep(2000);
+            onView(withId(R.id.launchButt)).perform(click());
+            /*Thread.sleep(2000);
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());

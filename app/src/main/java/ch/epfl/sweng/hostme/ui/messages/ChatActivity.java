@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,7 +88,7 @@ public class ChatActivity extends AppCompatActivity {
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         addConvo();
-        sendNotif();
+        sendNotification();
         binding.inputMessage.setText(null);
     }
 
@@ -108,6 +109,7 @@ public class ChatActivity extends AppCompatActivity {
                             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
                             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
                             conversion.put(Constants.KEY_TIMESTAMP, new Date());
+
                             addConversion(conversion);
                         }
                         else{
@@ -226,10 +228,27 @@ public class ChatActivity extends AppCompatActivity {
       }
     };
 
-    private void sendNotif() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token,"New Message From :",
-                binding.inputMessage.toString(), getApplicationContext(), ChatActivity.this);
-        sender.sendNotifications();
+    private void sendNotification() {
+        DocumentReference docRef =
+                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(receiverUser.id);
+        Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        receiverUser.token = task.getResult().getString(Constants.KEY_FCM_TOKEN);
+                        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :",
+                                binding.inputMessage.toString(), getApplicationContext(), ChatActivity.this);
+                        sender.sendNotifications();
+                        showToast("notification send");
+                    }
+                    else{
+                        System.out.println(task.getException().toString());
+                    }
+                });
     }
+
+    private void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

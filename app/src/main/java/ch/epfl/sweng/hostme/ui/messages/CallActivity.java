@@ -17,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
@@ -33,6 +35,7 @@ import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
 import io.agora.rtc.video.VideoEncoderConfiguration;
 
+
 public class CallActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQ_ID = 22;
@@ -47,7 +50,7 @@ public class CallActivity extends AppCompatActivity {
     private ImageView switchCamera;
     private User user;
     private static String currUserID;
-    private final static CollectionReference reference = Database.getCollection("users");
+    private final static CollectionReference reference = Database.getCollection(ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS);
     public static final String FROM_NOTIF = "from_notif";
     boolean isFromNotif;
     private final static int expirationTimeInSeconds = 3600;
@@ -96,9 +99,19 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void sendNotif() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
-                "Click to answer", getApplicationContext(), CallActivity.this);
-        sender.sendNotifications();
+        Task<DocumentSnapshot> t = reference.document(user.id).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        user.token = task.getResult().getString(ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN);
+                        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
+                                "Click to answer", getApplicationContext(), CallActivity.this);
+                        sender.sendNotifications();
+                    }
+                    else{
+                        System.out.println(task.getException().toString());
+                    }
+                });
+
         reference.document(user.id).update("roomName", currUserID);
     }
 

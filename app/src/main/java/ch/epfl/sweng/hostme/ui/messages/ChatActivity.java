@@ -236,7 +236,7 @@ public class ChatActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         receiverUser.token = task.getResult().getString(Constants.KEY_FCM_TOKEN);
                         FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :",
-                                binding.inputMessage.toString(), getApplicationContext(), ChatActivity.this);
+                                binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
                         sender.sendNotifications();
                         showToast("notification send");
                     }

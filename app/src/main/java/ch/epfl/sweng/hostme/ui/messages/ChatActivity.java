@@ -37,7 +37,6 @@ import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.Profile;
 
-
 public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "chatA";
@@ -88,6 +87,8 @@ public class ChatActivity extends AppCompatActivity {
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         addConvo();
+        sendNotif();
+        binding.inputMessage.setText(null);
     }
 
     private void addConvo(){
@@ -108,7 +109,6 @@ public class ChatActivity extends AppCompatActivity {
                             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
                             conversion.put(Constants.KEY_TIMESTAMP, new Date());
                             addConversion(conversion);
-                            binding.inputMessage.setText(null);
                         }
                         else{
                             System.out.println(task.getException().toString());
@@ -225,5 +225,11 @@ public class ChatActivity extends AppCompatActivity {
           conversionId = documentSnapshot.getId();
       }
     };
+
+    private void sendNotif() {
+        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token,"New Message From :",
+                binding.inputMessage.toString(), getApplicationContext(), ChatActivity.this);
+        sender.sendNotifications();
+    }
 
 }

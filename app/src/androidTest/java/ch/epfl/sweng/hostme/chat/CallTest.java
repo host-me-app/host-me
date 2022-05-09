@@ -69,14 +69,14 @@ public class CallTest {
 
             onView(withId(R.id.launchButt)).perform(click());
             Thread.sleep(2000);
-            onView(withId(R.id.audioBtn)).perform(click());
+            /*onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
-            Thread.sleep(500);
+            Thread.sleep(500);*/
             //onView(withId(R.id.leaveBtn)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();

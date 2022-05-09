@@ -7,7 +7,6 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Intent;
 
@@ -222,6 +221,42 @@ public class ChatActivityTest {
             /*onView(withId(R.id.sendButt)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.inputMessage)).equals("");*/
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void callIsWorking() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.navigation_messages)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.usersRecyclerView))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            Thread.sleep(500);
+            onView(withId(R.id.launchButt)).perform(click());
+            onView(withId(R.id.audioBtn)).perform(click());
+            onView(withId(R.id.audioBtn)).perform(click());
+            onView(withId(R.id.audioBtn)).perform(click());
+            Thread.sleep(500);
+            onView(withId(R.id.videoBtn)).perform(click());
+            onView(withId(R.id.videoBtn)).perform(click());
+            Thread.sleep(500);
+            onView(withId(R.id.switch_camera)).perform(click());
+            onView(withId(R.id.switch_camera)).perform(click());
+            Thread.sleep(500);
+            onView(withId(R.id.leaveBtn)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -97,7 +97,7 @@ public class ChatActivity extends BaseActivity {
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         addConvo();
-        sendNotif();
+        sendNotification();
         binding.inputMessage.setText(null);
     }
 
@@ -130,11 +130,16 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
-    /*private void sendNotif() {
-        FcmNotificationsSender receiver = new FcmNotificationsSender(receiverUser.token,"You have a new message",
+    private void sendNotification() {
+        FcmNotificationsSender receiver = new FcmNotificationsSender(
+                receiverUser.token,
+                Auth.getUid(),
+                userManager.getString(Constants.KEY_SENDER_NAME),
+                userManager.getString(Constants.KEY_FCM_TOKEN),
+                "You have a new message",
                 "Click to see", getApplicationContext(), ChatActivity.this);
         receiver.sendNotifications();
-    }*/
+    }
 
     private void sendNotif() {
 

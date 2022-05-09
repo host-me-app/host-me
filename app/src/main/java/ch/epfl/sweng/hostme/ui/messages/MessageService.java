@@ -48,7 +48,7 @@ public class MessageService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        User user = new User();
+        user = new User();
         user.id = remoteMessage.getData().get(Constants.KEY_USER_ID);
         user.name = remoteMessage.getData().get(Constants.KEY_SENDER_NAME);
         user.token = remoteMessage.getData().get(Constants.KEY_FCM_TOKEN);

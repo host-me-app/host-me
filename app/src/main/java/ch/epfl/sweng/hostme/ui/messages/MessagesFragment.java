@@ -32,18 +32,21 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.FragmentMessagesBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
+import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class MessagesFragment extends Fragment implements ConversionListener {
 
     private FragmentMessagesBinding binding;
     private List<ChatMessage> conversations;
     private RecentConversationAdapter conversationAdapter;
+    private UserManager userManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentMessagesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        userManager = new UserManager(getActivity().getApplicationContext());
         init();
         getActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
         ImageButton contactButt = binding.contactButton;
@@ -66,6 +69,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     }
 
     private void updateToken(String token) {
+        userManager.putString(Constants.KEY_FCM_TOKEN, token);
         DocumentReference documentReference =
                 Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 

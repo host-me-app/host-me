@@ -18,9 +18,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -72,10 +69,10 @@ public class CallTest {
             onView(withId(R.id.contact_user_button)).perform(click());
 
             onView(withId(R.id.launchButt)).perform(click());
-            Thread.sleep(1000);
+            /*Thread.sleep(1000);
             UiObject allowPermissions = device.findObject(new UiSelector().text("Allow"));
             allowPermissions.click();
-
+*/
             /*Thread.sleep(1000);
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
@@ -86,7 +83,7 @@ public class CallTest {
             onView(withId(R.id.switch_camera)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.leaveBtn)).perform(click());*/
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException  e) {
             e.printStackTrace();
         }
         Intents.release();

@@ -5,7 +5,6 @@ import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,9 +36,9 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu1);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_USER_NAME, "").length() == 0) {
+        /*if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_USER_NAME, "").length() == 0) {
             startActivity(new Intent(this, LogInActivity.class));
-        } else {
+        } else {*/
 
             BottomNavigationView navView = findViewById(R.id.nav_view);
             viewPager = findViewById(R.id.view_pager);
@@ -60,7 +59,7 @@ public class MenuActivity extends AppCompatActivity {
 
             setupViewPager(viewPager);
 
-        }
+        //}
 
     }
 

@@ -3,6 +3,8 @@ package ch.epfl.sweng.hostme.chat;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.Manifest;
@@ -22,11 +24,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.ui.messages.UsersActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
@@ -43,15 +45,16 @@ public class CallTest {
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.BLUETOOTH_CONNECT
     );
 
     @Test
     public void callUser() {
-        Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-            /*String mail = "testlogin@gmail.com";
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
@@ -59,11 +62,10 @@ public class CallTest {
             onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());*/
-            onView(withId(R.id.usersRecyclerView)).perform(
+            onView(withId(R.id.recyclerView)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            Thread.sleep(500);
+            onView(withId(R.id.contact_user_button)).perform(click());
 
             onView(withId(R.id.launchButt)).perform(click());
             Thread.sleep(1000);

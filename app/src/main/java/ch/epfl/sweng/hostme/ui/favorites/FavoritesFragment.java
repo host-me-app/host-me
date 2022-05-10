@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class FavoritesFragment extends Fragment {
 
+    private static final String NBR = "nbr";
     private View root;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -37,14 +39,26 @@ public class FavoritesFragment extends Fragment {
     private static final String FAVORITES = "favorites";
     private TextView noFavMessage;
     List<Apartment> apartments = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
+    private int nbrApart;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_favorites, container, false);
-
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
         noFavMessage = root.findViewById(R.id.no_fav_message);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if (sharedPreferences.getInt(NBR, 0) != 0) {
+            for (int i = 1; i <= sharedPreferences.getInt(NBR, 0); i++) {
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString(FAVORITES + i, "");
+                Apartment apart = gson.fromJson(json, Apartment.class);
+                apartments.add(apart);
+            }
+            setUpRecyclerView(apartments);
+        }
         reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
                 setUpRecyclerView(apartments);
@@ -59,11 +73,21 @@ public class FavoritesFragment extends Fragment {
      * Save the apartments in shared preferences for offline mode
      */
     private void changePref() {
-        SharedPreferences.Editor editor = PreferenceManager.
-                getDefaultSharedPreferences(getContext()).edit();
-        editor.remove(FAVORITES).apply();
-        editor.putStringSet(FAVORITES, new HashSet<Apartment>(apartments));
-        editor.apply();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int i = 1; i <= sharedPreferences.getInt(NBR, 0); i++) {
+            editor.remove(FAVORITES + i).apply();
+        }
+        editor.remove(NBR).apply();
+        nbrApart = 0;
+        for (Apartment apart : apartments) {
+            nbrApart += 1;
+            Gson gson = new Gson();
+            String json = gson.toJson(apart);
+            editor.putString(FAVORITES + nbrApart, json);
+            editor.apply();
+            editor.putInt(NBR, nbrApart);
+            editor.apply();
+        }
     }
 
     /**
@@ -114,7 +138,7 @@ public class FavoritesFragment extends Fragment {
     }
 
     /**
-     * prepare the layout and set the adapter to disokay the recyclerView
+     * prepare the layout and set the adapter to display the recyclerView
      *
      * @param apartments
      */

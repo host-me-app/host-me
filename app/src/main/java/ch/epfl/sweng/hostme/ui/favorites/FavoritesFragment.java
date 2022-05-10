@@ -1,6 +1,8 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ public class FavoritesFragment extends Fragment {
     private ApartmentAdapter recyclerAdapter;
     private static final String FAVORITES = "favorites";
     private TextView noFavMessage;
+    List<Apartment> apartments = new ArrayList<>();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -42,14 +45,25 @@ public class FavoritesFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
         noFavMessage = root.findViewById(R.id.no_fav_message);
-        List<Apartment> apartments = new ArrayList<>();
         reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
                 setUpRecyclerView(apartments);
+                changePref();
             }
         });
 
         return root;
+    }
+
+    /**
+     * Save the apartments in shared preferences for offline mode
+     */
+    private void changePref() {
+        SharedPreferences.Editor editor = PreferenceManager.
+                getDefaultSharedPreferences(getContext()).edit();
+        editor.remove(FAVORITES).apply();
+        editor.putStringSet(FAVORITES, new HashSet<Apartment>(apartments));
+        editor.apply();
     }
 
     /**

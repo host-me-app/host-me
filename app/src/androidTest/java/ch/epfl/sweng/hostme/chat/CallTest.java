@@ -1,3 +1,4 @@
+/*
 package ch.epfl.sweng.hostme.chat;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
@@ -99,4 +100,4 @@ public class CallTest {
         Intents.release();
     }
 
-} 
+} */

@@ -1,4 +1,3 @@
-/*
 package ch.epfl.sweng.hostme.chat;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -8,7 +7,6 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Intent;
 
@@ -220,15 +218,12 @@ public class ChatActivityTest {
             onView(withId(R.id.inputMessage)).perform(typeText(message), closeSoftKeyboard());
             Thread.sleep(1000);
             Thread.sleep(1000);
-            */
-/*onView(withId(R.id.sendButt)).perform(click());
+            /*onView(withId(R.id.sendButt)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.inputMessage)).equals("");*//*
-
+            onView(withId(R.id.inputMessage)).equals("");*/
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
     }
 }
-*/

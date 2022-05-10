@@ -74,10 +74,9 @@ public class CallTest {
             onView(withId(R.id.launchButt)).perform(click());
             Thread.sleep(1000);
             UiObject allowPermissions = device.findObject(new UiSelector().text("Allow"));
-            if (allowPermissions.exists()) {
-                allowPermissions.click();
-            }
-            Thread.sleep(1000);
+            allowPermissions.click();
+
+            /*Thread.sleep(1000);
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
@@ -86,7 +85,7 @@ public class CallTest {
             onView(withId(R.id.switch_camera)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.leaveBtn)).perform(click());
+            onView(withId(R.id.leaveBtn)).perform(click());*/
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }

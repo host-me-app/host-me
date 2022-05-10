@@ -89,7 +89,6 @@ public class ChatActivity extends AppCompatActivity {
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         addConvo();
         sendNotification();
-        binding.inputMessage.setText(null);
     }
 
     private void addConvo(){
@@ -239,6 +238,7 @@ public class ChatActivity extends AppCompatActivity {
                                 binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
                         sender.sendNotifications();
                         showToast("notification send");
+                        binding.inputMessage.setText(null);
                     }
                     else{
                         System.out.println(task.getException().toString());

@@ -14,6 +14,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -47,6 +48,9 @@ public class CallTest {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA
     );
+
+    @Rule
+    public ActivityScenarioRule<LogInActivity> rule = new ActivityScenarioRule<>(LogInActivity.class);
 
     @Test
     public void callUser() {

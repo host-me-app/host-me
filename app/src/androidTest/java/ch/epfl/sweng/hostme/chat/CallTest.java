@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
@@ -25,7 +26,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
+import ch.epfl.sweng.hostme.ui.messages.UsersActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
@@ -47,9 +48,9 @@ public class CallTest {
 
     @Test
     public void callUser() {
-        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
         Intents.init();
-        try (ActivityScenario<ChatActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             /*String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
@@ -60,9 +61,9 @@ public class CallTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contactButton)).perform(click());*/
             onView(withId(R.id.usersRecyclerView)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, click()));*/
+                    RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
             onView(withId(R.id.launchButt)).perform(click());
             Thread.sleep(1000);

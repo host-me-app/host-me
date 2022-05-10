@@ -1,4 +1,4 @@
-/*
+
 package ch.epfl.sweng.hostme.chat;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -71,7 +71,6 @@ public class ChatActivityTest {
 
             onView(withId(R.id.imageBack)).check(matches(isDisplayed()));
             onView(withId(R.id.imageBack)).perform(click());
-            Thread.sleep(1000);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -100,7 +99,6 @@ public class ChatActivityTest {
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
             onView(withId(R.id.textName)).check(matches(isDisplayed()));
-            Thread.sleep(1000);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -128,7 +126,6 @@ public class ChatActivityTest {
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.chatInfo)).check(matches(isDisplayed()));
-            Thread.sleep(1000);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -156,7 +153,6 @@ public class ChatActivityTest {
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.viewBackground)).check(matches(isDisplayed()));
-            Thread.sleep(1000);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -186,7 +182,6 @@ public class ChatActivityTest {
             onView(withId(R.id.layoutSend)).check(matches(isDisplayed()));
             onView(withId(R.id.sendButt)).check(matches(isDisplayed()));
             onView(withId(R.id.inputMessage)).check(matches(isDisplayed()));
-            Thread.sleep(1000);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -217,12 +212,10 @@ public class ChatActivityTest {
             Thread.sleep(1000);
             String message = "hello";
             onView(withId(R.id.inputMessage)).perform(typeText(message), closeSoftKeyboard());
-            Thread.sleep(1000);
-            Thread.sleep(1000);
-*/
+
 /*onView(withId(R.id.sendButt)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.inputMessage)).equals("");*//*
+            onView(withId(R.id.inputMessage)).equals("");*/
 
 
         } catch (InterruptedException e) {
@@ -233,4 +226,4 @@ public class ChatActivityTest {
 
 }
 
-*/
+

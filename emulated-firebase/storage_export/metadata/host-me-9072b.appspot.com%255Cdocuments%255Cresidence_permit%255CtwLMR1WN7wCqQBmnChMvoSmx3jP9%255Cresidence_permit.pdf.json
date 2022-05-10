@@ -1,0 +1,20 @@
+{
+  "name": "documents/residence_permit/twLMR1WN7wCqQBmnChMvoSmx3jP9/residence_permit.pdf",
+  "bucket": "host-me-9072b.appspot.com",
+  "contentType": "application/pdf",
+  "metageneration": 1,
+  "generation": 1651173147530,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d35f5ff7-5460-4138-b6eb-7ed71fd7adde"
+  ],
+  "etag": "BXmLzPUq1eRqeY+UIIUF7yffQ98",
+  "timeCreated": "2022-04-28T19:12:27.530Z",
+  "updated": "2022-04-28T19:12:27.530Z",
+  "size": 4911,
+  "md5Hash": "HDLXhTmOOn6qsOm4dpA8xg==",
+  "crc32c": "3733755105"
+}

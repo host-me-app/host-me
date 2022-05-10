@@ -68,8 +68,8 @@ public class CallTest {
             Thread.sleep(1000);
             onView(withId(R.id.contact_user_button)).perform(click());
 
-            onView(withId(R.id.launchButt)).perform(click());
-            /*Thread.sleep(1000);
+            /*onView(withId(R.id.launchButt)).perform(click());
+            Thread.sleep(1000);
             UiObject allowPermissions = device.findObject(new UiSelector().text("Allow"));
             allowPermissions.click();
 */
@@ -83,7 +83,7 @@ public class CallTest {
             onView(withId(R.id.switch_camera)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.leaveBtn)).perform(click());*/
-        } catch (InterruptedException  e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

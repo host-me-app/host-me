@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.Manifest;
 
@@ -13,6 +14,10 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -29,6 +34,7 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
+    private static UiDevice device;
 
     @BeforeClass
     public static void setUp() {
@@ -37,6 +43,7 @@ public class CallTest {
         Storage.setTest();
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
+        device = UiDevice.getInstance(getInstrumentation());
     }
 
     @Rule
@@ -46,7 +53,7 @@ public class CallTest {
     public ActivityTestRule<LogInActivity> rule = new ActivityTestRule<>(LogInActivity.class, true, true);
 
     @Test
-    public void callUser() throws InterruptedException {
+    public void callUser() throws InterruptedException, UiObjectNotFoundException {
 
         String mail = "testlogin@gmail.com";
         String password = "fakePassword1!";
@@ -62,6 +69,9 @@ public class CallTest {
         onView(withId(R.id.contact_user_button)).perform(click());
 
         onView(withId(R.id.launchButt)).perform(click());
+        Thread.sleep(1000);
+        UiObject allowPermissions = device.findObject(new UiSelector().text("Allow"));
+        allowPermissions.click();
         Thread.sleep(1000);
         onView(withId(R.id.audioBtn)).perform(click());
         onView(withId(R.id.audioBtn)).perform(click());

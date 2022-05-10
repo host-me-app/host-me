@@ -8,6 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.Manifest;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -16,6 +17,7 @@ import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,6 +32,12 @@ import ch.epfl.sweng.hostme.database.Storage;
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
 
+    private ActivityScenario<LogInActivity> scenario;
+
+    @Before
+    public void setActivity() {
+        scenario = rule.getScenario();
+    }
     @BeforeClass
     public static void setUp() {
         Auth.setTest();
@@ -40,10 +48,7 @@ public class CallTest {
     }
 
     @Rule
-    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA
-    );
+    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA);
 
     @Rule
     public ActivityScenarioRule<LogInActivity> rule = new ActivityScenarioRule<>(LogInActivity.class);

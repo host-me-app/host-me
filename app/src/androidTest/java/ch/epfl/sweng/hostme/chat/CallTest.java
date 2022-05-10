@@ -3,8 +3,6 @@ package ch.epfl.sweng.hostme.chat;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.Manifest;
@@ -12,7 +10,6 @@ import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
@@ -24,11 +21,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
+import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
@@ -50,10 +47,10 @@ public class CallTest {
 
     @Test
     public void callUser() {
-        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
         Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
+        try (ActivityScenario<ChatActivity> scenario = ActivityScenario.launch(intent)) {
+            /*String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
@@ -65,7 +62,7 @@ public class CallTest {
             Thread.sleep(1000);
             onView(withId(R.id.contactButton)).perform(click());
             onView(withId(R.id.usersRecyclerView)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                    RecyclerViewActions.actionOnItemAtPosition(0, click()));*/
 
             onView(withId(R.id.launchButt)).perform(click());
             Thread.sleep(1000);

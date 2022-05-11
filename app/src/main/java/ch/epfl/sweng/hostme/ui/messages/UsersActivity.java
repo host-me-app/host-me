@@ -31,11 +31,6 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
         getUsers();
-        setListeners();
-    }
-
-    private void setListeners() {
-        binding.buttonBackUser.setOnClickListener(v -> onBackPressed());
     }
 
     private void getUsers() {
@@ -90,5 +85,10 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, ChatActivity.class));
     }
 }

@@ -165,17 +165,16 @@ public class ChatActivity extends AppCompatActivity {
         binding.textName.setText(receiverUser.name);
     }
 
+
     private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> {
-            if (getIntent().getStringExtra(FROM) == null) {
-                onBackPressed();
-            } else if (getIntent().getStringExtra(FROM).equals("apartment")) {
-                Intent intent = new Intent(this, MenuActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
         binding.sendButt.setOnClickListener(v -> sendMessage());
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @NonNull

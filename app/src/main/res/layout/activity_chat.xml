@@ -20,20 +20,6 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageBack"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/arrow_circle_left"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022"
-        app:tint="@color/purple_700" />
-
-
-    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chatInfo"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -48,10 +34,11 @@
 
     <TextView
         android:id="@+id/textName"
-        android:layout_width="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="130dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
@@ -61,14 +48,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageBack"
         app:layout_constraintEnd_toStartOf="@+id/chatInfo"
         app:layout_constraintStart_toEndOf="@+id/imageBack"
-        app:layout_constraintTop_toTopOf="@+id/imageBack" />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/viewSupporter"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/purple_700"
         android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/imageBack"/>
+        app:layout_constraintTop_toBottomOf="@id/chatInfo"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"

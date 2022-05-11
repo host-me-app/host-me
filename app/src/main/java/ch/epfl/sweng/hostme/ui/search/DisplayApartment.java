@@ -26,9 +26,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
@@ -46,7 +44,7 @@ import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends Fragment implements IOnBackPressed  {
 
-    public static final String FROM = "from";
+    private static final String FROM = "from";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
     private View root;
     private BottomNavigationView bottomNav;

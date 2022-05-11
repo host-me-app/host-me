@@ -149,7 +149,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     /**
-     * CHange the preferences to keep user loged in
+     * Change the preferences to keep user loged in
      * @param email
      */
     private void setSharedPref(String email) {

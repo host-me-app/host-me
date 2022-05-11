@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityUsersBinding;
@@ -23,6 +24,8 @@ import ch.epfl.sweng.hostme.utils.Constants;
 public class UsersActivity extends AppCompatActivity implements UserListener {
 
     private ActivityUsersBinding binding;
+    private static final String FROM = "from";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,10 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ChatActivity.class));
+        if (getIntent().getStringExtra(FROM).equals("apartments")) {
+            startActivity(new Intent(this, MenuActivity.class));
+        } else {
+            super.onBackPressed();
+        }
     }
 }

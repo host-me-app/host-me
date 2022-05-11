@@ -127,7 +127,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
 
     private void goToAddFragment(View view) {
         Bundle bundle = new Bundle();
-        Fragment fragment = new GradeAppartment();
+        Fragment fragment = new GradeApartment();
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);

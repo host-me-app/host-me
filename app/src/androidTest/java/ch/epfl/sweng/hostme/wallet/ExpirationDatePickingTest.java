@@ -65,7 +65,7 @@ public class ExpirationDatePickingTest {
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.wallet_button)).perform(click());
+            /*onView(withId(R.id.wallet_button)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.buttonPickDate_ResidencePermit)).perform(click());
             Thread.sleep(1000);
@@ -75,10 +75,10 @@ public class ExpirationDatePickingTest {
             onView(withId(android.R.id.button1)).perform(click());
             Thread.sleep(1000);
 
-            //onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2022"),
-            //        isDisplayed())));
+            onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2022"),
+                    isDisplayed())));
 
-            Thread.sleep(5000);
+            Thread.sleep(5000);*/
 
         } catch (InterruptedException e) {
             e.printStackTrace();

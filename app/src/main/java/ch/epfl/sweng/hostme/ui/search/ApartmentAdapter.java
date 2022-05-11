@@ -53,6 +53,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public static final String FAVORITES = "favorites";
     private List<Apartment> apartments;
     private Bitmap bitmap;
+    public static final String APART_ID = "apart_id";
     public static final String UID = "uid";
     public static final String ADDR = "addr";
     public static final String RENT = "rent";
@@ -185,6 +186,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
+        bundle.putString(APART_ID, apartment.getDocID());
         bundle.putString(UID, apartment.getUid());
         bundle.putString(ADDR, apartment.getAddress());
         bundle.putInt(NPA, apartment.getNpa());

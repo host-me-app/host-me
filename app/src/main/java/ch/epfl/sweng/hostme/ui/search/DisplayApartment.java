@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
@@ -27,9 +28,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
@@ -52,6 +51,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
     private View root;
     private BottomNavigationView bottomNav;
     private String fullAddress;
+    private String apartID;
 
     public DisplayApartment() {
     }
@@ -60,6 +60,8 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.display_apartment, container, false);
 
+        Button grade_button = root.findViewById(R.id.grade_button);
+        grade_button.setOnClickListener(this::goToAddFragment);
         Button maps_button = root.findViewById(R.id.maps_button);
         maps_button.setOnClickListener(this::goToMapsFragment);
         Button street_view_button = root.findViewById(R.id.street_view_button);
@@ -69,6 +71,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
         if (bundle != null) {
             bottomNav = getActivity().findViewById(R.id.nav_view);
             bottomNav.setVisibility(View.GONE);
+            apartID = bundle.getString(APART_ID);
             String addr = bundle.getString(ADDR);
             int area = bundle.getInt(AREA, 0);
             int rent = bundle.getInt(RENT, 0);
@@ -118,6 +121,18 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         bundle.putString("address", this.fullAddress);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void goToAddFragment(View view) {
+        Bundle bundle = new Bundle();
+        Fragment fragment = new GradeApartment();
+        FragmentTransaction fragmentTransaction =
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        bundle.putString(APART_ID, this.apartID);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();

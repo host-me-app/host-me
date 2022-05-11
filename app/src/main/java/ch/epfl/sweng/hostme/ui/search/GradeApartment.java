@@ -25,17 +25,16 @@ import ch.epfl.sweng.hostme.database.Database;
 
 public class GradeApartment extends Fragment {
 
-    private View root;
     private RatingBar[] ratingBars;
     private String apartID;
-    private DocumentReference reference = Database.getCollection("rating").document(Auth.getUid());
+    private final DocumentReference reference = Database.getCollection("rating").document(Auth.getUid());
 
     public GradeApartment() {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.grade_apartment, container, false);
+        View root = inflater.inflate(R.layout.grade_apartment, container, false);
 
         RatingBar kitchenRatingBar = root.findViewById(R.id.kitchenRatingBar);
         RatingBar loungeRatingBar = root.findViewById(R.id.loungeRatingBar);

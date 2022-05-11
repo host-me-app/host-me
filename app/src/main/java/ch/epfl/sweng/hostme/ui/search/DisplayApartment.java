@@ -59,8 +59,8 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.display_apartment, container, false);
 
-        Button note_button = root.findViewById(R.id.note_button);
-        note_button.setOnClickListener(this::goToAddFragment);
+        Button grade_button = root.findViewById(R.id.grade_button);
+        grade_button.setOnClickListener(this::goToAddFragment);
         Button maps_button = root.findViewById(R.id.maps_button);
         maps_button.setOnClickListener(this::goToMapsFragment);
         Button street_view_button = root.findViewById(R.id.street_view_button);

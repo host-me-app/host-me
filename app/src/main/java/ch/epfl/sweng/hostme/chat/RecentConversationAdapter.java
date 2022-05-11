@@ -48,8 +48,12 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
 
     @Override
     public int getItemCount() {
-
-        return chatMessages.size();
+        if(chatMessages != null) {
+            return chatMessages.size();
+        }
+        else{
+            return 0;
+        }
     }
 
     class ConversionViewHolder extends RecyclerView.ViewHolder{

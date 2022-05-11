@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -122,9 +121,11 @@ public class MessagesFragment extends Fragment implements ConversionListener {
           }
           Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
           conversationAdapter.notifyDataSetChanged();
-          binding.conversationRecycler.smoothScrollToPosition(0);
-          binding.conversationRecycler.setVisibility(View.VISIBLE);
-          binding.progressBar.setVisibility(View.GONE);
+          if(binding != null) {
+              binding.conversationRecycler.smoothScrollToPosition(0);
+              binding.conversationRecycler.setVisibility(View.VISIBLE);
+              binding.progressBar.setVisibility(View.GONE);
+          }
        }
     };
 

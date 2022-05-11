@@ -27,9 +27,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
@@ -129,7 +127,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
 
     private void goToAddFragment(View view) {
         Bundle bundle = new Bundle();
-        Fragment fragment = new NoteAppartment();
+        Fragment fragment = new GradeAppartment();
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);

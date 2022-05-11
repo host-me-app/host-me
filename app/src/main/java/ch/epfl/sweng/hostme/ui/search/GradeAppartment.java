@@ -16,8 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,26 +23,19 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 
-public class NoteAppartment extends Fragment {
+public class GradeAppartment extends Fragment {
 
     private View root;
     private RatingBar[] ratingBars;
-    private RatingBar kitchenRatingBar;
-    private RatingBar loungeRatingBar;
-    private RatingBar bedRoomRatingBar;
-    private RatingBar bathRoomRatingBar;
-    private RatingBar gardenRatingBar;
-    private RatingBar utilityRatingBar;
-    private RatingBar overallRatingBar;
     private String apartID;
     private DocumentReference reference = Database.getCollection("rating").document(Auth.getUid());
 
-    public NoteAppartment() {
+    public GradeAppartment() {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.note_appartment, container, false);
+        root = inflater.inflate(R.layout.grade_appartment, container, false);
 
         RatingBar kitchenRatingBar = root.findViewById(R.id.kitchenRatingBar);
         RatingBar loungeRatingBar = root.findViewById(R.id.loungeRatingBar);
@@ -53,7 +44,7 @@ public class NoteAppartment extends Fragment {
         RatingBar gardenRatingBar = root.findViewById(R.id.gardenRatingBar);
         RatingBar utilityRatingBar = root.findViewById(R.id.utilityRatingBar);
         RatingBar overallRatingBar = root.findViewById(R.id.overallRatingBar);
-        ratingBars = new RatingBar[] {kitchenRatingBar, loungeRatingBar, bedRoomRatingBar, bathRoomRatingBar, gardenRatingBar, utilityRatingBar, overallRatingBar};
+        ratingBars = new RatingBar[]{kitchenRatingBar, loungeRatingBar, bedRoomRatingBar, bathRoomRatingBar, gardenRatingBar, utilityRatingBar, overallRatingBar};
         Button saveRatingButton = root.findViewById(R.id.saveRating);
         saveRatingButton.setOnClickListener(this::saveRatingInfo);
 
@@ -62,16 +53,7 @@ public class NoteAppartment extends Fragment {
             apartID = bundle.getString(APART_ID);
         }
 
-        reference.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                ArrayList<Double> grades = (ArrayList<Double>) documentSnapshot.get(apartID);
-                if (grades != null) {
-                    for(int i=0; i < ratingBars.length; ++i) {
-                        ratingBars[i].setRating(grades.get(i).floatValue());
-                    }
-                }
-            }
-        });
+        retrieveGradesFromDB();
 
         return root;
     }
@@ -91,6 +73,19 @@ public class NoteAppartment extends Fragment {
                 reference.set(data);
             }
             Toast.makeText(view.getContext(), "Grades saved!", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void retrieveGradesFromDB() {
+        reference.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                ArrayList<Double> grades = (ArrayList<Double>) documentSnapshot.get(apartID);
+                if (grades != null) {
+                    for (int i = 0; i < ratingBars.length; ++i) {
+                        ratingBars[i].setRating(grades.get(i).floatValue());
+                    }
+                }
+            }
         });
     }
 }

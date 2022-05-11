@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,6 +88,7 @@ public class ChatActivity extends AppCompatActivity {
             .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
             .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         addConvo();
+        sendNotification();
     }
 
     private void addConvo(){
@@ -106,9 +108,8 @@ public class ChatActivity extends AppCompatActivity {
                             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
                             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
                             conversion.put(Constants.KEY_TIMESTAMP, new Date());
-                            addConversion(conversion);
 
-                            binding.inputMessage.setText(null);
+                            addConversion(conversion);
                         }
                         else{
                             System.out.println(task.getException().toString());
@@ -225,5 +226,18 @@ public class ChatActivity extends AppCompatActivity {
           conversionId = documentSnapshot.getId();
       }
     };
+
+    private void sendNotification() {
+        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :",
+                binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
+        sender.sendNotifications();
+        showToast("notification send");
+        binding.inputMessage.setText(null);
+    }
+
+    private void showToast(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

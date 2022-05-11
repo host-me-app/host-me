@@ -189,9 +189,9 @@ public class ChatActivityTest {
             onView(withId(R.id.inputMessage)).perform(typeText(message), closeSoftKeyboard());
             Thread.sleep(1000);
             Thread.sleep(1000);
-            /*onView(withId(R.id.sendButt)).perform(click());
+            onView(withId(R.id.sendButt)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.inputMessage)).equals("");*/
+            onView(withId(R.id.inputMessage)).equals("");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

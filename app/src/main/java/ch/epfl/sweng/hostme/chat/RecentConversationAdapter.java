@@ -6,10 +6,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.util.List;
 
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ItemContainerRecentConvoBinding;
+import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
+import ch.epfl.sweng.hostme.ui.messages.FcmNotificationsSender;
 import ch.epfl.sweng.hostme.users.User;
+import ch.epfl.sweng.hostme.utils.Constants;
 
 public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConversationAdapter.ConversionViewHolder> {
 
@@ -60,12 +68,23 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
         void setData(@NonNull ChatMessage chatMessage){
             binding.textName.setText(chatMessage.conversionName);
             binding.textRecentMessage.setText(chatMessage.message);
-            binding.getRoot().setOnClickListener(v -> {
-                User user = new User();
-                user.id = chatMessage.conversionId;
-                user.name = chatMessage.conversionName;
-                conversionListener.onConversionClicked(user);
-            });
+            DocumentReference docRef =
+                    Database.getCollection(Constants.KEY_COLLECTION_USERS).document(chatMessage.conversionId);
+            Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
+                    task -> {
+                        if (task.isSuccessful()) {
+                            binding.getRoot().setOnClickListener(v -> {
+                                User user = new User();
+                                user.id = chatMessage.conversionId;
+                                user.name = chatMessage.conversionName;
+                                user.token = task.getResult().getString(Constants.KEY_FCM_TOKEN);
+                                conversionListener.onConversionClicked(user);
+                            });
+                        }
+                        else{
+                            System.out.println(task.getException().toString());
+                        }
+                    });
         }
     }
 

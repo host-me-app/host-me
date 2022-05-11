@@ -1,7 +1,9 @@
 package ch.epfl.sweng.hostme.userCreation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import ch.epfl.sweng.hostme.utils.Profile;
 
 public class FragmentCreationPage6 extends Fragment {
     public final static Map<String, String> DATA = new HashMap<>();
+    private static final String PREF_USER_NAME = "username";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +69,7 @@ public class FragmentCreationPage6 extends Fragment {
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
+                                setSharedPref(email);
                                 updateFireStoreDB();
                                 Toast.makeText(getActivity(), "Authentication successed.",
                                         Toast.LENGTH_SHORT).show();
@@ -75,6 +80,17 @@ public class FragmentCreationPage6 extends Fragment {
                             }
                         }
                 );
+    }
+
+    /**
+     * Change the sharedPreferences to keep the user logged in
+     * @param email
+     */
+    private void setSharedPref(String email) {
+        SharedPreferences.Editor editor = PreferenceManager.
+                getDefaultSharedPreferences(getContext()).edit();
+        editor.putString(PREF_USER_NAME, email);
+        editor.apply();
     }
 
     /**

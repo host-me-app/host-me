@@ -240,6 +240,10 @@ public class CallActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        onLeaveChannelClicked();
+    }
 
     private void removeVideo(int containerID) {
         FrameLayout videoContainer = findViewById(containerID);

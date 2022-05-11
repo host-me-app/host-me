@@ -42,25 +42,9 @@ public class UsersActivityTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
-
     @AfterClass
-    public static void after_class() {
-        Intents.release();
-    }
-
-    @Test
-    public void buttonBackUserDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UsersActivity.class);
-        Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-
-            onView(withId(R.id.buttonBackUser)).check(matches(isDisplayed()));
-            onView(withId(R.id.buttonBackUser)).perform(click());
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static void after_class()
+    {
         Intents.release();
     }
 
@@ -103,7 +87,6 @@ public class UsersActivityTest {
             onView(withId(R.id.usersRecyclerView)).check(matches(isDisplayed()));
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.imageBack)).perform(click());
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {

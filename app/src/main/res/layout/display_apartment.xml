@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/display_apart_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,6 +13,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/grade_button"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add note" />
 
         <ImageView
             android:id="@+id/apart_image"
@@ -207,34 +215,35 @@
             android:scaleType="fitEnd"
             android:text="Contact user"
             android:textSize="11sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/maps_button"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:scaleType="fitEnd"
-            android:text="@string/daily_route"
-            android:textSize="11sp" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/street_view_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:scaleType="fitEnd"
-            android:text="@string/street_view"
-            android:textSize="11sp" />
+            <Button
+                android:id="@+id/maps_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:scaleType="fitEnd"
+                android:text="@string/daily_route"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/street_view_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:scaleType="fitEnd"
+                android:text="@string/street_view"
+                android:textSize="11sp" />
+        </LinearLayout>
     </LinearLayout>
+
+
 
 
 </androidx.cardview.widget.CardView>

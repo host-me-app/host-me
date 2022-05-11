@@ -9,18 +9,6 @@
     android:background="@color/purple_200"
     tools:context=".ui.messages.UsersActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/buttonBackUser"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/background_icon"
-        android:src="@drawable/arrow_circle_left"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
-
     <TextView
         android:id="@+id/textUser"
         android:layout_width="wrap_content"
@@ -29,18 +17,17 @@
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonBackUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonBackUser" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"
         android:background="@drawable/content_bottom_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBackUser">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/usersRecyclerView"

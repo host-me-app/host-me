@@ -1,40 +1,33 @@
-package ch.epfl.sweng.hostme.wallet;
+package ch.epfl.sweng.hostme;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.hostme.LogInActivity;
-import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 
 @RunWith(AndroidJUnit4.class)
-public class WalletTest {
-
-    @Rule
-    public GrantPermissionRule internetRule = GrantPermissionRule.grant(
-            android.Manifest.permission.INTERNET,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-    );
+public class GradeApartmentTest {
 
     @BeforeClass
     public static void setUp() {
@@ -46,7 +39,7 @@ public class WalletTest {
     }
 
     @Test
-    public void downloadResidencePermitFailedTest() {
+    public void saveRatingOnApartmentTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
@@ -58,37 +51,18 @@ public class WalletTest {
             onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.navigation_account)).perform(click());
+            onView(withId(R.id.recyclerView))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
-
-            onView(withId(R.id.wallet_button)).perform(click());
+            onView(withId(R.id.grade_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.button_download_residence_permit)).perform(click());
+            onView(withId(R.id.saveRating)).perform(click());
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
-    public void uploadSalarySlipsTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(isRoot()).perform(ViewActions.pressBack());
             Thread.sleep(1000);
-
-            onView(withId(R.id.navigation_account)).perform(click());
+            onView(withId(R.id.grade_button)).perform(click());
             Thread.sleep(1000);
-
-            onView(withId(R.id.wallet_button)).perform(click());
-            onView(withId(R.id.button_browse_salary_slips)).perform(click());
+            onView(withId(R.id.saveRating)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();

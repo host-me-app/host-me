@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityUsersBinding;
@@ -90,12 +89,4 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getIntent().getStringExtra(FROM).equals("apartments")) {
-            startActivity(new Intent(this, MenuActivity.class));
-        } else {
-            super.onBackPressed();
-        }
-    }
 }

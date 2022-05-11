@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.chat.ChatAdapter;
 import ch.epfl.sweng.hostme.chat.ChatMessage;
@@ -171,10 +172,14 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, UsersActivity.class);
-        intent.putExtra(FROM, getIntent().getStringExtra(FROM));
-        startActivity(intent);
-        finish();
+        if (getIntent().getStringExtra(FROM) != null) {
+            startActivity(new Intent(this, MenuActivity.class));
+        } else {
+            Intent intent = new Intent(this, UsersActivity.class);
+            intent.putExtra(FROM, getIntent().getStringExtra(FROM));
+            startActivity(intent);
+            finish();
+        }
     }
 
     @NonNull

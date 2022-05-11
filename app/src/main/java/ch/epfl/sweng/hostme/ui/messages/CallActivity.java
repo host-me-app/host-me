@@ -99,20 +99,10 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void sendNotif() {
-        Task<DocumentSnapshot> t = reference.document(user.id).get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        user.token = task.getResult().getString(ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN);
-                        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
-                                "Click to answer", getApplicationContext(), CallActivity.this);
-                        sender.sendNotifications();
-                        reference.document(user.id).update("roomName", currUserID);
-                    }
-                    else{
-                        System.out.println(task.getException().toString());
-                    }
-                });
-
+        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
+                "Click to answer", getApplicationContext(), CallActivity.this);
+        sender.sendNotifications();
+        reference.document(user.id).update("roomName", currUserID);
     }
 
     public void joinChannel() {

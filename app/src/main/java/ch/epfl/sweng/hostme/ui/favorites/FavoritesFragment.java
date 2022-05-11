@@ -100,7 +100,7 @@ public class FavoritesFragment extends Fragment {
     }
 
     /**
-     * prepare the layout and set the adapter to disokay the recyclerView
+     * prepare the layout and set the adapter to display the recyclerView
      *
      * @param apartments
      */

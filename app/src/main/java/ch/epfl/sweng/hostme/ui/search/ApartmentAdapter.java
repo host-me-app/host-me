@@ -1,9 +1,14 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static android.content.Context.MODE_PRIVATE;
+import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
+import static ch.epfl.sweng.hostme.utils.Constants.UID;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -53,12 +58,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public static final String FAVORITES = "favorites";
     private List<Apartment> apartments;
     private Bitmap bitmap;
-    public static final String UID = "uid";
-    public static final String ADDR = "addr";
-    public static final String RENT = "rent";
-    public static final String AREA = "area";
-    public static final String PREVIEW_1_JPG = "/preview1.jpg";
-    public static final String LID = "lid";
     private View view;
     private final CollectionReference reference = Database.getCollection("favorite_apart");
     private boolean isFavFragment;
@@ -83,7 +82,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.npa.setText(String.valueOf(apartment.getNpa()));
         holder.city.setText(apartment.getCity());
         holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
-        holder.area.setText(String.format("%s m²", apartment.getArea()));
+        holder.area.setText(String.format("%s m\u00B2", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
         SharedPreferences pref = holder.itemView.getContext()
@@ -163,7 +162,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     }
 
     /**
-     * Create animation for the Tuggle button
+     * Create animation for the Toggle button
      */
     private ScaleAnimation createToggleAnimation() {
         ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
@@ -191,7 +190,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         bundle.putString(CITY, apartment.getCity());
         bundle.putInt(RENT, apartment.getRent());
         bundle.putInt(AREA, apartment.getArea());
-        bundle.putString(LID, apartment.getLid());
         bundle.putString(PROPRIETOR, apartment.getProprietor());
         bundle.putParcelable(BITMAP, bitmap);
         fragment.setArguments(bundle);

@@ -19,15 +19,12 @@ public class AddViewModel extends ViewModel implements AdapterView.OnItemSelecte
 
     private final MutableLiveData<Button> action;
     private final MutableLiveData<String> location;
-    private final MutableLiveData<String> empty;
 
     private Set<Integer> lock;
 
     public AddViewModel() {
         action = new MutableLiveData<>();
         location = new MutableLiveData<>();
-        empty = new MutableLiveData<>();
-        empty.setValue("You have no active listings");
         lock = new HashSet<>();
     }
 
@@ -57,10 +54,6 @@ public class AddViewModel extends ViewModel implements AdapterView.OnItemSelecte
     }
     public LiveData<String> formPath() {
         return location;
-    }
-
-    public LiveData<String> notOwner() {
-        return empty;
     }
 
     @Override

@@ -6,6 +6,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -114,11 +115,14 @@ public class UserCreationTest {
             onView(withId(R.id.password)).perform(typeText("!"), closeSoftKeyboard());
             onView(withId(R.id.confirm_pwd)).perform(typeText("!Hostme"), closeSoftKeyboard());
             onView(withId(R.id.terminateButton)).perform(click());
+            onView(withId(R.id.password)).check(matches(hasErrorText("The password must be " +
+                    "at least 8 characters and contains at least 1 uppercase character and 1 special character")));
 
             onView(withId(R.id.password)).perform(typeText("Hostme"), closeSoftKeyboard());
             onView(withId(R.id.terminateButton)).perform(click());
             onView(withId(R.id.password)).perform(typeText("2022"), closeSoftKeyboard());
             onView(withId(R.id.terminateButton)).perform(click());
+            onView(withId(R.id.confirm_pwd)).check(matches(hasErrorText("The passwords should be identical")));
             onView(withId(R.id.confirm_pwd)).perform(typeText("2022"), closeSoftKeyboard());
 
             onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
@@ -156,6 +160,24 @@ public class UserCreationTest {
             mDevice.pressBack();
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
             mDevice.pressBack();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void wrongMail() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainer.class);
+        Intents.init();
+        try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
+            String email = "host";
+            onView(withId(R.id.genderNextButton)).perform(click());
+            onView(withId(R.id.nextButtonFirstName)).perform(click());
+            onView(withId(R.id.nextButtonLastName)).perform(click());
+            onView(withId(R.id.nextButtonSchool)).perform(click());
+
+            onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
+            onView(withId(R.id.mail)).check(matches(hasErrorText("You should enter a valid mail address")));
+
         }
         Intents.release();
     }

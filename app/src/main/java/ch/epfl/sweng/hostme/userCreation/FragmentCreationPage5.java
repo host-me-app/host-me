@@ -30,6 +30,11 @@ public class FragmentCreationPage5 extends Fragment implements IOnBackPressed {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String mailText = mail.getText().toString().trim();
+            if (!EmailValidator.isValid(mailText)) {
+                mail.setError("You should enter a valid mail address");
+            } else {
+                mail.setError(null);
+            }
             nextMailButt.setEnabled(EmailValidator.isValid(mailText));
         }
 

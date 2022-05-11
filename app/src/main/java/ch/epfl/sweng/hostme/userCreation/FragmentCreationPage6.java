@@ -43,8 +43,15 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
         terminateButt.setOnClickListener(v -> {
             String pwdText = pwd.getText().toString();
             String confirm_pwdText = confirm_pwd.getText().toString();
-            if (pwdText.equals(confirm_pwdText) && PasswordValidator.isValid(pwdText)) {
-                createUser(DATA.get(FragmentCreationPage5.MAIL), pwdText);
+            if (PasswordValidator.isValid(pwdText)) {
+                if (pwdText.equals(confirm_pwdText)) {
+                    createUser(DATA.get(FragmentCreationPage5.MAIL), pwdText);
+                } else {
+                    confirm_pwd.setError("The passwords should be identical");
+                }
+            } else {
+                pwd.setError("The password must be at least 8 characters and contains at " +
+                        "least 1 uppercase character and 1 special character");
             }
         });
 

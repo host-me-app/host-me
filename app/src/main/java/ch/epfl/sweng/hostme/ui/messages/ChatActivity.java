@@ -228,22 +228,11 @@ public class ChatActivity extends AppCompatActivity {
     };
 
     private void sendNotification() {
-        DocumentReference docRef =
-                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(receiverUser.id);
-        Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        receiverUser.token = task.getResult().getString(Constants.KEY_FCM_TOKEN);
-                        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :",
-                                binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
-                        sender.sendNotifications();
-                        showToast("notification send");
-                        binding.inputMessage.setText(null);
-                    }
-                    else{
-                        System.out.println(task.getException().toString());
-                    }
-                });
+        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :",
+                binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
+        sender.sendNotifications();
+        showToast("notification send");
+        binding.inputMessage.setText(null);
     }
 
     private void showToast(String message){

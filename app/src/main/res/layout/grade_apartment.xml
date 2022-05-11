@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/note_apartment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/kitchenRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kitchen rating : "
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/kitchenRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/loungeRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lounge rating : "
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/loungeRatingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bedRoomsRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bedroom rating : "
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/bedRoomRatingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bathRoomRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bathroom rating : "
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/bathRoomRatingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/gardenRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Garden rating : "
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/gardenRatingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/utilityRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Utility rating : "
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/utilityRatingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/separator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="=========="
+                android:layout_gravity="center_vertical"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/overallRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Overall rating : "
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp" />
+
+            <RatingBar
+                android:id="@+id/overallRatingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/saveRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVE" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

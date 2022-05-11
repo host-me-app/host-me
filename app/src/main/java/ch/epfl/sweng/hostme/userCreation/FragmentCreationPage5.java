@@ -13,10 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
 
-public class FragmentCreationPage5 extends Fragment {
+public class FragmentCreationPage5 extends Fragment implements IOnBackPressed {
 
     public static final String MAIL = "Mail";
     private EditText mail;
@@ -59,8 +60,22 @@ public class FragmentCreationPage5 extends Fragment {
      * Go to password fragment
      */
     private void goToFragment6() {
+        changeFragment(new FragmentCreationPage6());
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        changeFragment(new FragmentCreationPage4());
+        return true;
+    }
+
+    /**
+     * Change the fragment (next or previous)
+     * @param fragment
+     */
+    private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage6());
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

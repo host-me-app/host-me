@@ -87,7 +87,6 @@ public class UsersActivityTest {
             onView(withId(R.id.usersRecyclerView)).check(matches(isDisplayed()));
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.imageBack)).perform(click());
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {

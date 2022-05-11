@@ -11,9 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 
 
-public class FragmentCreationPage3 extends Fragment {
+public class FragmentCreationPage3 extends Fragment implements IOnBackPressed {
     public final static String LAST_NAME = "lastName";
 
     @Override
@@ -37,8 +38,22 @@ public class FragmentCreationPage3 extends Fragment {
      * Go to email fragment
      */
     private void goToFragment4() {
+        changeFragment(new FragmentCreationPage4());
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        changeFragment(new FragmentCreationPage2());
+        return true;
+    }
+
+    /**
+     * Change the fragment (next or previous)
+     * @param fragment
+     */
+    private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage4());
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

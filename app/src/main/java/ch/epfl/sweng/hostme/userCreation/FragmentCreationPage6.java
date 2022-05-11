@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,11 +21,12 @@ import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 
 
-public class FragmentCreationPage6 extends Fragment {
+public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
     public final static Map<String, String> DATA = new HashMap<>();
     private static final String PREF_USER_NAME = "username";
 
@@ -108,7 +110,15 @@ public class FragmentCreationPage6 extends Fragment {
 
         Database.getCollection("users").document(Auth.getUid()).set(user);
 
+    }
 
+    @Override
+    public boolean onBackPressed() {
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage5());
+        fragmentTransaction.commit();
+        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        return true;
     }
 
 }

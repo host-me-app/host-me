@@ -68,12 +68,13 @@
             android:overScrollMode="never"
             android:padding="20dp"
             android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
         <ProgressBar
             android:id="@id/progressBar"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,13 +26,13 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class FavoritesFragment extends Fragment {
 
+    private static final String FAVORITES = "favorites";
+    private final CollectionReference reference = Database.getCollection("favorite_apart");
+    private final CollectionReference apartReference = Database.getCollection("apartments");
     private View root;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private final CollectionReference reference = Database.getCollection("favorite_apart");
-    private final CollectionReference apartReference = Database.getCollection("apartments");
     private ApartmentAdapter recyclerAdapter;
-    private static final String FAVORITES = "favorites";
     private TextView noFavMessage;
 
 
@@ -59,22 +59,20 @@ public class FavoritesFragment extends Fragment {
         String uid = Auth.getUid();
         reference.document(uid)
                 .get()
-                .addOnCompleteListener(task -> {
+                .addOnSuccessListener(result -> {
                     apartments.clear();
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot doc = task.getResult();
-                        List<String> apartIDs = (List<String>) doc.get(FAVORITES);
-                        assert apartIDs != null;
-                        if (apartIDs.isEmpty()) {
-                            apartments.clear();
-                            noFavMessage.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        } else {
-                            noFavMessage.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            for (String apartID : apartIDs) {
-                                getCorrespondingApartAndDisplay(apartID, apartments);
-                            }
+                    DocumentSnapshot doc = result;
+                    List<String> apartIDs = (List<String>) doc.get(FAVORITES);
+                    assert apartIDs != null;
+                    if (apartIDs.isEmpty()) {
+                        apartments.clear();
+                        noFavMessage.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        noFavMessage.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        for (String apartID : apartIDs) {
+                            getCorrespondingApartAndDisplay(apartID, apartments);
                         }
                     }
                 });
@@ -82,6 +80,7 @@ public class FavoritesFragment extends Fragment {
 
     /**
      * get the apart corresponding to the ID in Firestore and display it
+     *
      * @param apartID
      * @param apartments
      */

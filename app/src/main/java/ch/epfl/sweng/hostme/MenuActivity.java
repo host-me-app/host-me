@@ -26,9 +26,8 @@ import ch.epfl.sweng.hostme.utils.ListImage;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private ViewPager2 viewPager;
     private static final String PREF_USER_NAME = "username";
-
+    private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,30 +38,31 @@ public class MenuActivity extends AppCompatActivity {
         /*if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_USER_NAME, "").length() == 0) {
             startActivity(new Intent(this, LogInActivity.class));
         } else {*/
-            BottomNavigationView navView = findViewById(R.id.nav_view);
-            viewPager = findViewById(R.id.view_pager);
-            viewPager.setOffscreenPageLimit(5);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        viewPager = findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(5);
 
-            navView.setOnItemSelectedListener(item -> {
-                setCurrentItem(item);
-                return true;
-            });
+        navView.setOnItemSelectedListener(item -> {
+            setCurrentItem(item);
+            return true;
+        });
 
-            viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                @Override
-                public void onPageSelected(int position) {
-                    super.onPageSelected(position);
-                    setCheckedItem(position, navView);
-                }
-            });
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                setCheckedItem(position, navView);
+            }
+        });
 
-            setupViewPager(viewPager);
+        setupViewPager(viewPager);
         //}
 
     }
 
     /**
      * Set the corresponding Item to checked
+     *
      * @param position
      * @param navView
      */
@@ -88,6 +88,7 @@ public class MenuActivity extends AppCompatActivity {
 
     /**
      * set the current item
+     *
      * @param item
      */
     @SuppressLint("NonConstantResourceId")
@@ -113,6 +114,7 @@ public class MenuActivity extends AppCompatActivity {
 
     /**
      * set up the viewPage
+     *
      * @param viewPager
      */
     private void setupViewPager(ViewPager2 viewPager) {

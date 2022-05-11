@@ -7,7 +7,6 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Intent;
 
@@ -44,8 +43,7 @@ public class ChatActivityTest {
     }
 
     @AfterClass
-    public static void after_class()
-    {
+    public static void after_class() {
         Intents.release();
     }
 

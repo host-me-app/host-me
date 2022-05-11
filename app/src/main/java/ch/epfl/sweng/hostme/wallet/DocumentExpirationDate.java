@@ -12,10 +12,10 @@ public enum DocumentExpirationDate {
     private final int expirationDateTextId;
     private final int pickDateButtonId;
 
-    DocumentExpirationDate(int descriptionFieldTextId, int expirationDateTextId, int pickDateButtonId){
-        this.descriptionFieldTextId= descriptionFieldTextId;
-        this.expirationDateTextId= expirationDateTextId;
-        this.pickDateButtonId= pickDateButtonId;
+    DocumentExpirationDate(int descriptionFieldTextId, int expirationDateTextId, int pickDateButtonId) {
+        this.descriptionFieldTextId = descriptionFieldTextId;
+        this.expirationDateTextId = expirationDateTextId;
+        this.pickDateButtonId = pickDateButtonId;
 
     }
 

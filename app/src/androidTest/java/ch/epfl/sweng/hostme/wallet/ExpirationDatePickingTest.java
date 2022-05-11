@@ -48,7 +48,6 @@ public class ExpirationDatePickingTest {
     }
 
 
-
     @Test
     public void expirationDatePickingTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);

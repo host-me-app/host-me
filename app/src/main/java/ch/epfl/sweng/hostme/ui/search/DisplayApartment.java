@@ -27,9 +27,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
@@ -45,7 +43,7 @@ import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
-public class DisplayApartment extends Fragment implements IOnBackPressed  {
+public class DisplayApartment extends Fragment implements IOnBackPressed {
 
     public static final String FROM = "from";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
@@ -130,20 +128,18 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
      * @param uid
      */
     private void chatWithUser(String uid) {
-        reference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot snapshot = task.getResult();
-                for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                    if (doc.getId().equals(uid)) {
-                        User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
-                                doc.getString(KEY_LASTNAME),
-                                null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
-                        Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
-                        newIntent.putExtra(Constants.KEY_USER, user);
-                        newIntent.putExtra(FROM, "apartment");
-                        startActivity(newIntent);
-                        getActivity().finish();
-                    }
+        reference.get().addOnSuccessListener(result -> {
+            QuerySnapshot snapshot = result;
+            for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                if (doc.getId().equals(uid)) {
+                    User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
+                            doc.getString(KEY_LASTNAME),
+                            null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
+                    Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+                    newIntent.putExtra(Constants.KEY_USER, user);
+                    newIntent.putExtra(FROM, "apartment");
+                    startActivity(newIntent);
+                    getActivity().finish();
                 }
             }
         });

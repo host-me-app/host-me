@@ -1,7 +1,5 @@
 package ch.epfl.sweng.hostme.utils;
 
-import java.util.Objects;
-
 public class Profile {
 
     private String firstName;

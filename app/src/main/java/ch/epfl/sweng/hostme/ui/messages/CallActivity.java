@@ -17,9 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
@@ -38,25 +36,47 @@ import io.agora.rtc.video.VideoEncoderConfiguration;
 
 public class CallActivity extends AppCompatActivity {
 
+    public static final String FROM_NOTIF = "from_notif";
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA,
             Manifest.permission.BLUETOOTH_CONNECT};
+    private final static CollectionReference reference = Database.getCollection(ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS);
+    private final static int expirationTimeInSeconds = 3600;
+    private final static String CERTIF = "fd11cdf9c54d490c9756be9d087c5293";
+    private static String currUserID;
+    boolean isFromNotif;
     private RtcEngine mRtcEngine;
+    private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
+
+        @Override
+        public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
+            runOnUiThread(() -> Toast.makeText(getApplicationContext(),
+                    "Join channel success, uid: " + (uid & 0xFFFFFFFFL), Toast.LENGTH_SHORT).show());
+        }
+
+        @Override
+        public void onUserJoined(final int uid, int elapsed) {
+            runOnUiThread(() -> setupRemoteVideoStream(uid));
+        }
+
+        @Override
+        public void onUserOffline(int uid, int reason) {
+            runOnUiThread(() -> removeVideo(R.id.bg_video_container));
+        }
+
+        @Override
+        public void onRemoteVideoStateChanged(final int uid, final int state, int reason, int elapsed) {
+            runOnUiThread(() -> onRemoteUserVideoToggle(state));
+        }
+    };
     private ImageView audioButt;
     private ImageView leaveButt;
     private ImageView videoButt;
     private ImageView switchCamera;
     private User user;
-    private static String currUserID;
-    private final static CollectionReference reference = Database.getCollection(ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS);
-    public static final String FROM_NOTIF = "from_notif";
-    boolean isFromNotif;
-    private final static int expirationTimeInSeconds = 3600;
     private String result;
-    private final static String CERTIF = "fd11cdf9c54d490c9756be9d087c5293";
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,28 +119,27 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void sendNotif() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(user.token,"Call",
+        FcmNotificationsSender sender = new FcmNotificationsSender(user.token, "Call",
                 "Click to answer", getApplicationContext(), CallActivity.this);
         sender.sendNotifications();
         reference.document(user.id).update("roomName", currUserID);
     }
 
     public void joinChannel() {
-        reference.document(Auth.getUid()).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    String roomName = document.getString("roomName");
-                    if (roomName != null) {
-                        initToken(roomName);
-                        mRtcEngine.joinChannel(result, roomName, null, 0);
-                        setupLocalVideoFeed();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Your correspondent is no longer available",
-                                Toast.LENGTH_LONG).show();
-                    }
+        reference.document(Auth.getUid()).get().addOnSuccessListener(res -> {
+            DocumentSnapshot document = res;
+            if (document.exists()) {
+                String roomName = document.getString("roomName");
+                if (roomName != null) {
+                    initToken(roomName);
+                    mRtcEngine.joinChannel(result, roomName, null, 0);
+                    setupLocalVideoFeed();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Your correspondent is no longer available",
+                            Toast.LENGTH_LONG).show();
                 }
             }
+
         });
     }
 
@@ -184,30 +203,6 @@ public class CallActivity extends AppCompatActivity {
         mRtcEngine.setupRemoteVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, uid));
         mRtcEngine.setRemoteSubscribeFallbackOption(io.agora.rtc.Constants.STREAM_FALLBACK_OPTION_AUDIO_ONLY);
     }
-
-    private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
-
-        @Override
-        public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-            runOnUiThread(() -> Toast.makeText(getApplicationContext(),
-                    "Join channel success, uid: " + (uid & 0xFFFFFFFFL), Toast.LENGTH_SHORT).show());
-        }
-
-        @Override
-        public void onUserJoined(final int uid, int elapsed) {
-            runOnUiThread(() -> setupRemoteVideoStream(uid));
-        }
-
-        @Override
-        public void onUserOffline(int uid, int reason) {
-            runOnUiThread(() -> removeVideo(R.id.bg_video_container));
-        }
-
-        @Override
-        public void onRemoteVideoStateChanged(final int uid, final int state, int reason, int elapsed) {
-            runOnUiThread(() -> onRemoteUserVideoToggle(state));
-        }
-    };
 
     private void onRemoteUserVideoToggle(int state) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);

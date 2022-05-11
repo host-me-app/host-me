@@ -12,11 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-//import com.google.firebase.database.FirebaseDatabase;
-//import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 
 import java.util.Objects;
 
@@ -78,7 +75,6 @@ public class LogInActivity extends AppCompatActivity {
 
 
     }
-
 
 
     @SuppressLint("MissingPermission")

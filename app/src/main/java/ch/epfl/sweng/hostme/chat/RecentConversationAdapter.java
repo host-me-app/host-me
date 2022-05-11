@@ -14,8 +14,6 @@ import java.util.List;
 
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ItemContainerRecentConvoBinding;
-import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
-import ch.epfl.sweng.hostme.ui.messages.FcmNotificationsSender;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
@@ -48,24 +46,23 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
 
     @Override
     public int getItemCount() {
-        if(chatMessages != null) {
+        if (chatMessages != null) {
             return chatMessages.size();
-        }
-        else{
+        } else {
             return 0;
         }
     }
 
-    class ConversionViewHolder extends RecyclerView.ViewHolder{
+    class ConversionViewHolder extends RecyclerView.ViewHolder {
 
         ItemContainerRecentConvoBinding binding;
 
-        ConversionViewHolder(ItemContainerRecentConvoBinding itemContainerRecentConvoBinding){
+        ConversionViewHolder(ItemContainerRecentConvoBinding itemContainerRecentConvoBinding) {
             super(itemContainerRecentConvoBinding.getRoot());
             binding = itemContainerRecentConvoBinding;
         }
 
-        void setData(@NonNull ChatMessage chatMessage){
+        void setData(@NonNull ChatMessage chatMessage) {
             binding.textName.setText(chatMessage.conversionName);
             binding.textRecentMessage.setText(chatMessage.message);
             DocumentReference docRef =
@@ -80,8 +77,7 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
                                 user.token = task.getResult().getString(Constants.KEY_FCM_TOKEN);
                                 conversionListener.onConversionClicked(user);
                             });
-                        }
-                        else{
+                        } else {
                             System.out.println(task.getException().toString());
                         }
                     });

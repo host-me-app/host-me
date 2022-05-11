@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme.chat;
 
-import static androidx.test.core.app.ActivityScenario.launch;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -43,11 +42,12 @@ public class UsersActivityTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
+
     @AfterClass
-    public static void after_class()
-    {
+    public static void after_class() {
         Intents.release();
     }
+
     @Test
     public void buttonBackUserDisplayed() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UsersActivity.class);

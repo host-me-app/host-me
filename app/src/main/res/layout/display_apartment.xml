@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/display_apart_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -221,19 +220,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:scaleType="fitEnd"
             android:text="@string/daily_route"
-            android:textSize="11sp"
-            android:layout_margin="10dp"/>
+            android:textSize="11sp" />
+
         <Button
             android:id="@+id/street_view_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:scaleType="fitEnd"
             android:text="@string/street_view"
-            android:textSize="11sp"
-            android:layout_margin="10dp"/>
+            android:textSize="11sp" />
     </LinearLayout>
 
 

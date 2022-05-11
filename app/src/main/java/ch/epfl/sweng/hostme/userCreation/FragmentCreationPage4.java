@@ -11,10 +11,6 @@ import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.HashMap;
-
 import ch.epfl.sweng.hostme.R;
 
 

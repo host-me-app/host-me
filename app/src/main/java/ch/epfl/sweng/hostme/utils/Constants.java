@@ -2,10 +2,6 @@ package ch.epfl.sweng.hostme.utils;
 
 public final class Constants {
 
-    private Constants() {
-
-    }
-
     public static final String KEY_COLLECTION_USERS = "users";
     public static final String KEY_FIRSTNAME = "firstName";
     public static final String KEY_LASTNAME = "lastName";
@@ -35,8 +31,11 @@ public final class Constants {
     public static final String PROPRIETOR = "proprietor";
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
-
     // Response codes for all activities
     public static final int REQ_IMAGE = 105;
+
+    private Constants() {
+
+    }
 
 }

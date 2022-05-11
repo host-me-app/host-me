@@ -62,7 +62,8 @@ public class WalletTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
-            //onView(withId(R.id.button_download_residence_permit)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.button_download_residence_permit)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();

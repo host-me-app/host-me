@@ -6,6 +6,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
@@ -151,7 +152,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed  {
                     if (doc.getId().equals(uid)) {
                         User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
                                 doc.getString(KEY_LASTNAME),
-                                null, doc.getString(KEY_EMAIL), null, uid);
+                                null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
                         Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
                         newIntent.putExtra(Constants.KEY_USER, user);
                         newIntent.putExtra(FROM, "apartment");

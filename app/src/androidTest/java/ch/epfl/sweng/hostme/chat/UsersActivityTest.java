@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme.chat;
 
-import static androidx.test.core.app.ActivityScenario.launch;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -46,21 +45,6 @@ public class UsersActivityTest {
     @AfterClass
     public static void after_class()
     {
-        Intents.release();
-    }
-    @Test
-    public void buttonBackUserDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UsersActivity.class);
-        Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-
-            onView(withId(R.id.buttonBackUser)).check(matches(isDisplayed()));
-            onView(withId(R.id.buttonBackUser)).perform(click());
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         Intents.release();
     }
 

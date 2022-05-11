@@ -12,17 +12,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-//import com.google.firebase.database.FirebaseDatabase;
-//import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.userCreation.CreationContainer;
 import ch.epfl.sweng.hostme.userCreation.EnterMailChangePwd;
+
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -148,6 +148,10 @@ public class LogInActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Change the preferences to keep user loged in
+     * @param email
+     */
     private void setSharedPref(String email) {
         SharedPreferences.Editor editor = PreferenceManager.
                 getDefaultSharedPreferences(this).edit();

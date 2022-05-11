@@ -46,7 +46,7 @@ import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends Fragment implements IOnBackPressed  {
 
-    public static final String FROM = "from";
+    private static final String FROM = "from";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
     private View root;
     private BottomNavigationView bottomNav;

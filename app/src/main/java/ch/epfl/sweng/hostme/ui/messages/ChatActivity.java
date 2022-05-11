@@ -166,17 +166,21 @@ public class ChatActivity extends AppCompatActivity {
         binding.textName.setText(receiverUser.name);
     }
 
+
     private void setListeners() {
-        binding.imageBack.setOnClickListener(v -> {
-            if (getIntent().getStringExtra(FROM) == null) {
-                onBackPressed();
-            } else if (getIntent().getStringExtra(FROM).equals("apartment")) {
-                Intent intent = new Intent(this, MenuActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
         binding.sendButt.setOnClickListener(v -> sendMessage());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent().getStringExtra(FROM) != null) {
+            startActivity(new Intent(this, MenuActivity.class));
+        } else {
+            Intent intent = new Intent(this, UsersActivity.class);
+            intent.putExtra(FROM, getIntent().getStringExtra(FROM));
+            startActivity(intent);
+            finish();
+        }
     }
 
     @NonNull
@@ -238,6 +242,7 @@ public class ChatActivity extends AppCompatActivity {
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
 
 
 }

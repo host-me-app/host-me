@@ -16,6 +16,8 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.uiautomator.UiDevice;
 
 import com.google.firebase.FirebaseApp;
 
@@ -124,6 +126,36 @@ public class UserCreationTest {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void createAndGobackButton() {
+        Intent intent = new Intent(getApplicationContext(), CreationContainer.class);
+        Intents.init();
+        try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
+            String email = "host.me.test2022@gmail.com";
+            String pwd = "fakePassword1!";
+
+            UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            onView(withId(R.id.genderNextButton)).perform(click());
+            mDevice.pressBack();
+            onView(withId(R.id.genderNextButton)).perform(click());
+            onView(withId(R.id.nextButtonFirstName)).perform(click());
+            mDevice.pressBack();
+            onView(withId(R.id.nextButtonFirstName)).perform(click());
+            onView(withId(R.id.nextButtonLastName)).perform(click());
+            mDevice.pressBack();
+            onView(withId(R.id.nextButtonLastName)).perform(click());
+            onView(withId(R.id.nextButtonSchool)).perform(click());
+            mDevice.pressBack();
+            onView(withId(R.id.nextButtonSchool)).perform(click());
+            onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
+            onView(withId(R.id.nextButtonMail)).perform(click());
+            mDevice.pressBack();
+            onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
+            mDevice.pressBack();
         }
         Intents.release();
     }

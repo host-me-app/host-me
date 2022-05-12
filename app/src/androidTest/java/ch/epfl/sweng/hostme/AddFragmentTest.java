@@ -180,7 +180,7 @@ public class AddFragmentTest {
             String pwd = "fakePassword1!";
 
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());
@@ -202,7 +202,7 @@ public class AddFragmentTest {
             String pwd = "Hostme@2022";
 
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());

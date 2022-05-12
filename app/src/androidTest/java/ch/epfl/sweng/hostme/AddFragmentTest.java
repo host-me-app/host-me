@@ -55,14 +55,14 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.add_new)).check(matches(isDisplayed()));
             onView(withId(R.id.add_new)).check(matches(isClickable()));
             onView(withId(R.id.add_form)).check(matches(withEffectiveVisibility(Visibility.GONE)));
             onView(withId(R.id.add_buttons)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -79,16 +79,16 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.add_new)).perform((click()));
 
             onView(withId(R.id.add_form)).check(matches(isDisplayed()));
             onView(withId(R.id.add_buttons)).check(matches(isDisplayed()));
             onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
             onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -105,9 +105,9 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.add_new)).perform((click()));
 
             onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
@@ -125,7 +125,7 @@ public class AddFragmentTest {
 
             onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
             onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -142,9 +142,9 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.add_new)).perform((click()));
 
             onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
@@ -167,7 +167,49 @@ public class AddFragmentTest {
             onView(withId(R.id.add_submit)).check(matches(isEnabled()));
 
             onView(withId(R.id.add_submit)).perform(click());
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void listingOwnedTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            String usr = "";
+            String pwd = "";
+
+            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.navigation_add)).perform(click());
+            Thread.sleep(1000);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void notOwnerTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            String usr = "";
+            String pwd = "";
+
+            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.navigation_add)).perform(click());
+            Thread.sleep(1000);
+
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

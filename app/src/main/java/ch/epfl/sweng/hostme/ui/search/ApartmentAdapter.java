@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static android.content.Context.MODE_PRIVATE;
+import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -185,6 +186,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
+        bundle.putString(APART_ID, apartment.getDocID());
         bundle.putString(UID, apartment.getUid());
         bundle.putString(ADDR, apartment.getAddress());
         bundle.putInt(NPA, apartment.getNpa());

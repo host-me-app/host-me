@@ -48,6 +48,7 @@ import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 import ch.epfl.sweng.hostme.wallet.WalletActivity;
+import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class AccountFragment extends Fragment {
 
@@ -96,6 +97,9 @@ public class AccountFragment extends Fragment {
     private ImageView editProfilePicture;
     private FloatingActionButton changePictureButton;
     private AccountUtils accountUtils;
+
+    private UserManager userManager;
+
     private ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -170,6 +174,7 @@ public class AccountFragment extends Fragment {
         this.view = view;
         accountUtils = new AccountUtils(getActivity(), activityResultLauncherGallery, activityResultLauncherCamera, view);
 
+        userManager = new UserManager(getActivity().getApplicationContext());
 
         editFirstName = view.findViewById(R.id.userProfileFirstName);
         editLastName = view.findViewById(R.id.userProfileLastName);
@@ -296,6 +301,7 @@ public class AccountFragment extends Fragment {
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
             Auth.signOut();
+            userManager.clear();
             resetSharedPref();
             Intent intent = new Intent(getActivity(), LogInActivity.class);
             startActivity(intent);
@@ -346,6 +352,11 @@ public class AccountFragment extends Fragment {
         editEmail.setText(dbEmail);
         RadioButton selectButton = dbGender.equals("Male") ? buttonM : buttonF;
         selectButton.setChecked(true);
+
+        // put names on userManager
+        userManager.putString(Constants.KEY_FIRSTNAME, dbProfile.getFirstName());
+        userManager.putString(Constants.KEY_LASTNAME, dbProfile.getLastName());
+        userManager.putString(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
     }
 
     /**
@@ -444,6 +455,7 @@ public class AccountFragment extends Fragment {
                         }
                 );
     }
+
 
 
 }

@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -40,6 +41,50 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     private RecentConversationAdapter conversationAdapter;
     private UserManager userManager;
 
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                    String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                    String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                    ChatMessage chatMessage = new ChatMessage();
+                    chatMessage.senderId = senderId;
+                    chatMessage.receiverId = receiverId;
+                    if (Auth.getUid().equals(senderId)) {
+                        chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                        chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
+                    } else {
+                        chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                        chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
+                    }
+                    chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                    chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    conversations.add(chatMessage);
+                } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
+                    for (int i = 0; i < conversations.size(); i++) {
+                        String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                        String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                        if (conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)) {
+                            conversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                            conversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                            break;
+                        }
+                    }
+                }
+            }
+            Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+            conversationAdapter.notifyDataSetChanged();
+            if (binding != null) {
+                binding.conversationRecycler.smoothScrollToPosition(0);
+                binding.conversationRecycler.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+            }
+        }
+    };
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,7 +102,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         return root;
     }
 
-    private void init(){
+    private void init() {
         conversations = new ArrayList<>();
         conversationAdapter = new RecentConversationAdapter(conversations, this);
         binding.conversationRecycler.setAdapter(conversationAdapter);
@@ -80,7 +125,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void listenConversations(){
+    private void listenConversations() {
         Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, Auth.getUid())
                 .addSnapshotListener(eventListener);
@@ -88,50 +133,6 @@ public class MessagesFragment extends Fragment implements ConversionListener {
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, Auth.getUid())
                 .addSnapshotListener(eventListener);
     }
-
-    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
-       if(error != null){
-           return;
-       }
-       if(value != null){
-          for(DocumentChange documentChange : value.getDocumentChanges()){
-              if(documentChange.getType() == DocumentChange.Type.ADDED){
-                  String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
-                  String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                  ChatMessage chatMessage = new ChatMessage();
-                  chatMessage.senderId = senderId;
-                  chatMessage.receiverId = receiverId;
-                  if(Auth.getUid().equals(senderId)){
-                      chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                      chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
-                  }else{
-                      chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
-                      chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
-                  }
-                  chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
-                  chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-                  conversations.add(chatMessage);
-              } else if (documentChange.getType() == DocumentChange.Type.MODIFIED){
-                  for(int i = 0; i < conversations.size(); i++){
-                      String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
-                      String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                      if(conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)){
-                          conversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
-                          conversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-                          break;
-                      }
-                  }
-              }
-          }
-          Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
-          conversationAdapter.notifyDataSetChanged();
-          if(binding != null) {
-              binding.conversationRecycler.smoothScrollToPosition(0);
-              binding.conversationRecycler.setVisibility(View.VISIBLE);
-              binding.progressBar.setVisibility(View.GONE);
-          }
-       }
-    };
 
     @Override
     public void onConversionClicked(User user) {

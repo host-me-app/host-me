@@ -1,7 +1,9 @@
 package ch.epfl.sweng.hostme.userCreation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +21,15 @@ import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.utils.PasswordValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 
 
-public class FragmentCreationPage6 extends Fragment {
+public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
     public final static Map<String, String> DATA = new HashMap<>();
+    private static final String PREF_USER_NAME = "username";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,8 +43,15 @@ public class FragmentCreationPage6 extends Fragment {
         terminateButt.setOnClickListener(v -> {
             String pwdText = pwd.getText().toString();
             String confirm_pwdText = confirm_pwd.getText().toString();
-            if (pwdText.equals(confirm_pwdText) && PasswordValidator.isValid(pwdText)) {
-                createUser(DATA.get(FragmentCreationPage5.MAIL), pwdText);
+            if (PasswordValidator.isValid(pwdText)) {
+                if (pwdText.equals(confirm_pwdText)) {
+                    createUser(DATA.get(FragmentCreationPage5.MAIL), pwdText);
+                } else {
+                    confirm_pwd.setError("The passwords should be identical");
+                }
+            } else {
+                pwd.setError("The password must be at least 8 characters and contains at " +
+                        "least 1 uppercase character and 1 special character");
             }
         });
 
@@ -65,6 +78,7 @@ public class FragmentCreationPage6 extends Fragment {
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
+                                setSharedPref(email);
                                 updateFireStoreDB();
                                 Toast.makeText(getActivity(), "Authentication successed.",
                                         Toast.LENGTH_SHORT).show();
@@ -75,6 +89,17 @@ public class FragmentCreationPage6 extends Fragment {
                             }
                         }
                 );
+    }
+
+    /**
+     * Change the sharedPreferences to keep the user logged in
+     * @param email
+     */
+    private void setSharedPref(String email) {
+        SharedPreferences.Editor editor = PreferenceManager.
+                getDefaultSharedPreferences(getContext()).edit();
+        editor.putString(PREF_USER_NAME, email);
+        editor.apply();
     }
 
     /**
@@ -92,7 +117,15 @@ public class FragmentCreationPage6 extends Fragment {
 
         Database.getCollection("users").document(Auth.getUid()).set(user);
 
+    }
 
+    @Override
+    public boolean onBackPressed() {
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage5());
+        fragmentTransaction.commit();
+        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        return true;
     }
 
 }

@@ -18,14 +18,14 @@ import ch.epfl.sweng.hostme.R;
 
 public class FcmNotificationsSender {
 
+    private final String postUrl = "https://fcm.googleapis.com/fcm/send";
+    private final String fcmServerKey = "AAAAynpb0cU:APA91bE270JfYV-p1HuLo1nq-ENrwmk9ZZ0Qbj-D37jpVc9YGS2N-wWy-bYfmK12xOtsp5XmIiGgV1w7sxJxbeeS5TEDtrfHoztvH7F7pc7dyNwhr6sd-BXtUBWN9JqNtlXAfi1NSmHe";
     String userFcmToken;
     String title;
     String body;
     Context mContext;
     Activity mActivity;
     private RequestQueue requestQueue;
-    private final String postUrl = "https://fcm.googleapis.com/fcm/send";
-    private final String fcmServerKey = "AAAAynpb0cU:APA91bE270JfYV-p1HuLo1nq-ENrwmk9ZZ0Qbj-D37jpVc9YGS2N-wWy-bYfmK12xOtsp5XmIiGgV1w7sxJxbeeS5TEDtrfHoztvH7F7pc7dyNwhr6sd-BXtUBWN9JqNtlXAfi1NSmHe";
 
     public FcmNotificationsSender(String userFcmToken, String title, String body, Context mContext, Activity mActivity) {
         this.userFcmToken = userFcmToken;
@@ -49,7 +49,8 @@ public class FcmNotificationsSender {
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
 
-            }, error -> {}) {
+            }, error -> {
+            }) {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> header = new HashMap<>();

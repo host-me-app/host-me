@@ -3,7 +3,6 @@ package ch.epfl.sweng.hostme.wallet;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.provider.CalendarContract;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,16 +20,15 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener {
 
+    private static final String KEY_CUSTOM_METADATA_EXPIRATION_DATE = "Expiration date";
     private final Document document;
     private final String uid;
     private final Activity activity;
     private final Context context;
-    private DocumentExpirationDate expireDate;
     private final TextView expDateDescriptionText;
+    private DocumentExpirationDate expireDate;
     private TextView expDateText;
     private Button expDatePickButton;
-
-    private static final String KEY_CUSTOM_METADATA_EXPIRATION_DATE = "Expiration date";
 
     public ExpirationDatePicker(Document document, String uid, Activity activity, Context context, DocumentExpirationDate expireDate) {
 
@@ -43,7 +41,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         this.expDateText = activity.findViewById(expireDate.getExpirationDateTextId());
         this.expDatePickButton = activity.findViewById(expireDate.getPickDateButtonId());
 
-        expDatePickButton.setOnClickListener( l -> {
+        expDatePickButton.setOnClickListener(l -> {
             showDatePickerDialog();
         });
         checkExpirationDateAlreadySet();
@@ -63,7 +61,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                 //Check if there is already a field "Expiration date" (which implies there is surely an expiration date)
                 if (date != null) {
                     expDateText.setText(date);
-                }else{
+                } else {
                     //No field "Expiration date" found
                     String noExpDate = "None";
                     expDateText.setText(noExpDate);
@@ -76,7 +74,6 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                 //No File
             }
         });
-
 
 
     }
@@ -97,7 +94,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         Calendar today = Calendar.getInstance();
         view.getDayOfMonth();
-        String date = dayOfMonth + "/" + (month+1) + "/" + year;
+        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
         updateFileMetadata(date);
 
     }

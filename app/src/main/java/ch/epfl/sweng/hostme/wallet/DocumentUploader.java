@@ -29,13 +29,13 @@ public class DocumentUploader {
     private final Document document;
     private final String uid;
     private final Activity activity;
-    private DocumentExpirationDate expireDate;
     private final Context context;
     private final String titleChooser;
     private final Button buttonBrowse;
     private final Button buttonDownload;
     private final ImageView checkImage;
     private final TextView expDateDescriptionText;
+    private DocumentExpirationDate expireDate;
     private TextView expDateText;
     private Button expDatePickButton;
 

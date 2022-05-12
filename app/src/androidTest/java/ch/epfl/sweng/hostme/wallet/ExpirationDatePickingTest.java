@@ -48,7 +48,6 @@ public class ExpirationDatePickingTest {
     }
 
 
-
     @Test
     public void expirationDatePickingTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
@@ -66,15 +65,16 @@ public class ExpirationDatePickingTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.buttonPickDate_ResidencePermit)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
-                    .perform(PickerActions.setDate(2022, 3, 22));
+                    .perform(PickerActions.setDate(2025, 3, 22));
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
             Thread.sleep(1000);
 
-            //onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2022"),
+            //onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2025"),
             //        isDisplayed())));
 
             Thread.sleep(5000);

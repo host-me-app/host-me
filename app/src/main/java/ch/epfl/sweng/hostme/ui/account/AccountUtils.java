@@ -5,32 +5,19 @@ import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.firebase.storage.StorageReference;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -47,11 +34,11 @@ public class AccountUtils {
     private View view;
 
 
-    public AccountUtils(Activity act,ActivityResultLauncher<Intent> rl1, ActivityResultLauncher<Intent> rl2, View vw){
+    public AccountUtils(Activity act, ActivityResultLauncher<Intent> rl1, ActivityResultLauncher<Intent> rl2, View vw) {
         activityResultLauncherGallery = rl1;
         activityResultLauncherCamera = rl2;
         activity = act;
-        view =vw;
+        view = vw;
     }
 
 
@@ -60,7 +47,7 @@ public class AccountUtils {
      * the Gallery or the Camera
      */
     public void showImagePickDialog() {
-        String options[] = {"Pick from Camera", "Pick from Gallery","Delete"};
+        String options[] = {"Pick from Camera", "Pick from Gallery", "Delete"};
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Profile Picture");
         builder.setItems(options, (dialog, which) -> {
@@ -69,7 +56,7 @@ public class AccountUtils {
                         pickFromCamera();
                     } else if (which == 1) {
                         pickFromGallery();
-                    }else if(which==2){
+                    } else if (which == 2) {
                         deleteProfilePicture();
                     }
                 }
@@ -102,13 +89,13 @@ public class AccountUtils {
     /**
      * Delete Profile Picture
      */
-    private void deleteProfilePicture(){
+    private void deleteProfilePicture() {
         AccountFragment.uri_to_save = null;
-        String pathString = "profilePicture/"+ Auth.getUid() +"/profile.jpg";
+        String pathString = "profilePicture/" + Auth.getUid() + "/profile.jpg";
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
         ImageView editProfilePicture = view.findViewById(R.id.userProfileImage);
         editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
-        if(AccountFragment.profilePicinDb) {
+        if (AccountFragment.profilePicinDb) {
             AccountFragment.deletePic = true;
             Button saveButton = view.findViewById(R.id.userProfileSaveButton);
             saveButton.setEnabled(true);
@@ -123,7 +110,6 @@ public class AccountUtils {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         activityResultLauncherCamera.launch(cameraIntent);
     }
-
 
 
 }

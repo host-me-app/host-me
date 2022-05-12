@@ -41,11 +41,9 @@
         android:theme="@style/Theme.HostMe"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.messages.CallActivity"
-            android:parentActivityName=".ui.messages.ChatActivity"
             tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".ui.messages.ChatActivity"
-            android:parentActivityName=".ui.messages.UsersActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
@@ -60,7 +58,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
         <activity
-            android:name=".LogInActivity"
+            android:name=".MenuActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -72,7 +70,6 @@
         </activity>
         <activity
             android:name=".userCreation.CreationContainer"
-            android:parentActivityName=".LogInActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
         <activity
@@ -81,13 +78,12 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
         <activity
-            android:name=".MenuActivity"
+            android:name=".LogInActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".wallet.WalletActivity"
-            android:parentActivityName=".MenuActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
 

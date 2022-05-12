@@ -11,8 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 
-public class FragmentCreationPage2 extends Fragment {
+public class FragmentCreationPage2 extends Fragment implements IOnBackPressed {
     public final static String FIRST_NAME = "firstName";
 
     @Override
@@ -33,8 +34,22 @@ public class FragmentCreationPage2 extends Fragment {
      * Go to last name fragment
      */
     private void goToFragment3() {
+        changeFragment(new FragmentCreationPage3());
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        changeFragment(new FragmentCreationPage1());
+        return true;
+    }
+
+    /**
+     * Change the fragment (next or previous)
+     * @param fragment
+     */
+    private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage3());
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

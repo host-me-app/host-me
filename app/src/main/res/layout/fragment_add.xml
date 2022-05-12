@@ -17,13 +17,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:visibility="gone"
         android:textAlignment="center"
+        android:gravity="center"
         android:textSize="20sp"
+        android:text="@string/not_owner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--Open form button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_new"
         android:layout_width="wrap_content"
@@ -39,6 +43,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <!--Owner view -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/owner_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scrollbars="vertical" />
+
+    <!--Add form -->
     <ScrollView
         android:id="@+id/add_form"
         android:layout_width="match_parent"

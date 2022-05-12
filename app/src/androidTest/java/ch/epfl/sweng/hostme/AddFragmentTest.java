@@ -19,10 +19,12 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,6 +34,10 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 @RunWith(AndroidJUnit4.class)
 public class AddFragmentTest {
+
+    @Rule
+    GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @BeforeClass
     public static void setUp() {

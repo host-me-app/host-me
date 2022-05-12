@@ -37,6 +37,7 @@ import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.Profile;
+import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -49,6 +50,7 @@ public class ChatActivity extends AppCompatActivity {
     private ImageView launchButt;
     private String conversionId = null;
     private Profile dbProfile;
+    private UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
+        userManager = new UserManager(getApplicationContext());
         setListeners();
         loadReceiverDetails();
         init();
@@ -96,25 +99,25 @@ public class ChatActivity extends AppCompatActivity {
             updateConversion(binding.inputMessage.getText().toString());
             binding.inputMessage.setText(null);
         }else{
-            DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+            /*DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
             Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
                     task -> {
                         if (task.isSuccessful()) {
-                            dbProfile = task.getResult().toObject(Profile.class);
+                            dbProfile = task.getResult().toObject(Profile.class);*/
                             HashMap<String, Object> conversion = new HashMap<>();
                             conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
-                            conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
+                            conversion.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
                             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
                             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
                             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
                             conversion.put(Constants.KEY_TIMESTAMP, new Date());
 
                             addConversion(conversion);
-                        }
+                        /*}
                         else{
                             System.out.println(task.getException().toString());
                         }
-                    });
+                    });*/
         }
     }
 
@@ -228,7 +231,7 @@ public class ChatActivity extends AppCompatActivity {
     };
 
     private void sendNotification() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :",
+        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :" + userManager.getString(Constants.KEY_SENDER_NAME),
                 binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
         sender.sendNotifications();
         showToast("notification send");

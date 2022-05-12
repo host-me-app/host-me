@@ -19,10 +19,12 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,6 +34,10 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 @RunWith(AndroidJUnit4.class)
 public class AddFragmentTest {
+
+    @Rule
+    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @BeforeClass
     public static void setUp() {
@@ -165,6 +171,50 @@ public class AddFragmentTest {
             onView(withId(R.id.add_submit)).check(matches(isEnabled()));
 
             onView(withId(R.id.add_submit)).perform(click());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void listingOwnedTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            String usr = "testlogin@gmail.com";
+            String pwd = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+
+            onView(withId(R.id.navigation_add)).perform(click());
+
+            onView(withId(R.id.owner_view)).check(matches(isDisplayed()));
+            onView(withId(R.id.add_first)).check(matches(withEffectiveVisibility(Visibility.GONE)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void notOwnerTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            String usr = "testchat@gmail.com";
+            String pwd = "Hostme@2022";
+
+            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+
+            onView(withId(R.id.navigation_add)).perform(click());
+
+            onView(withId(R.id.add_first)).check(matches(isDisplayed()));
+            onView(withId(R.id.owner_view)).check(matches(withEffectiveVisibility(Visibility.GONE)));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,7 +35,7 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
-import ch.epfl.sweng.hostme.utils.Profile;
+import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -48,12 +47,15 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private ImageView launchButt;
     private String conversionId = null;
+    private UserManager userManager;
+
     private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
             conversionId = documentSnapshot.getId();
         }
     };
+
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -85,7 +87,6 @@ public class ChatActivity extends AppCompatActivity {
             checkForConversion();
         }
     };
-    private Profile dbProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class ChatActivity extends AppCompatActivity {
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
+        userManager = new UserManager(getApplicationContext());
         setListeners();
         loadReceiverDetails();
         init();
@@ -132,25 +134,16 @@ public class ChatActivity extends AppCompatActivity {
         if (conversionId != null) {
             updateConversion(binding.inputMessage.getText().toString());
             binding.inputMessage.setText(null);
-        } else {
-            DocumentReference docRef = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
-            Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
-                    task -> {
-                        if (task.isSuccessful()) {
-                            dbProfile = task.getResult().toObject(Profile.class);
-                            HashMap<String, Object> conversion = new HashMap<>();
-                            conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
-                            conversion.put(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
-                            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-                            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
-                            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
-                            conversion.put(Constants.KEY_TIMESTAMP, new Date());
+        }else{
+            HashMap<String, Object> conversion = new HashMap<>();
+            conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
+            conversion.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
+            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+            conversion.put(Constants.KEY_TIMESTAMP, new Date());
 
-                            addConversion(conversion);
-                        } else {
-                            System.out.println(task.getException().toString());
-                        }
-                    });
+            addConversion(conversion);
         }
     }
 
@@ -169,7 +162,6 @@ public class ChatActivity extends AppCompatActivity {
         receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.textName.setText(receiverUser.name);
     }
-
 
     private void setListeners() {
         binding.sendButt.setOnClickListener(v -> sendMessage());
@@ -229,7 +221,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendNotification() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :",
+        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :" + userManager.getString(Constants.KEY_SENDER_NAME),
                 binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
         sender.sendNotifications();
         showToast("notification send");

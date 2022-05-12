@@ -196,4 +196,38 @@ public class ChatActivityTest {
         }
         Intents.release();
     }
+
+    @Test
+    public void SendMessageNewConvo() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.navigation_messages)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.contactButton)).perform(click());
+            Thread.sleep(1000);
+            Thread.sleep(1000);
+            onView(withId(R.id.usersRecyclerView))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+            Thread.sleep(1000);
+            String message = "test convo";
+            onView(withId(R.id.inputMessage)).perform(typeText(message), closeSoftKeyboard());
+            Thread.sleep(1000);
+            Thread.sleep(1000);
+            onView(withId(R.id.sendButt)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.inputMessage)).equals("");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
 }

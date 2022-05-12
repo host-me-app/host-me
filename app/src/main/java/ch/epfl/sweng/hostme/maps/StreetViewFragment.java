@@ -45,6 +45,7 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.street_view, container, false);
 
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             this.fullAddress = bundle.getString("address");

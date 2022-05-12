@@ -176,8 +176,8 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "";
-            String pwd = "";
+            String usr = "testlogin@gmail.com";
+            String pwd = "fakePassword1!";
 
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(usr), closeSoftKeyboard());
@@ -185,7 +185,8 @@ public class AddFragmentTest {
             Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());
             Thread.sleep(1000);
-
+            onView(withId(R.id.owner_view)).check(matches(isDisplayed()));
+            onView(withId(R.id.add_first)).check(matches(withEffectiveVisibility(Visibility.GONE)));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -197,8 +198,8 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "";
-            String pwd = "";
+            String usr = "testchat@gmail.com";
+            String pwd = "Hostme@2022";
 
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(usr), closeSoftKeyboard());
@@ -206,7 +207,8 @@ public class AddFragmentTest {
             Thread.sleep(1000);
             onView(withId(R.id.navigation_add)).perform(click());
             Thread.sleep(1000);
-
+            onView(withId(R.id.add_first)).check(matches(isDisplayed()));
+            onView(withId(R.id.owner_view)).check(matches(withEffectiveVisibility(Visibility.GONE)));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

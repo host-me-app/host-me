@@ -59,14 +59,14 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_add)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.add_new)).check(matches(isDisplayed()));
             onView(withId(R.id.add_new)).check(matches(isClickable()));
             onView(withId(R.id.add_form)).check(matches(withEffectiveVisibility(Visibility.GONE)));
             onView(withId(R.id.add_buttons)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -83,16 +83,16 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_add)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.add_new)).perform((click()));
 
             onView(withId(R.id.add_form)).check(matches(isDisplayed()));
             onView(withId(R.id.add_buttons)).check(matches(isDisplayed()));
             onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
             onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -109,9 +109,9 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_add)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.add_new)).perform((click()));
 
             onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
@@ -129,7 +129,7 @@ public class AddFragmentTest {
 
             onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
             onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -146,9 +146,9 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_add)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.add_new)).perform((click()));
 
             onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
@@ -171,7 +171,7 @@ public class AddFragmentTest {
             onView(withId(R.id.add_submit)).check(matches(isEnabled()));
 
             onView(withId(R.id.add_submit)).perform(click());
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -188,12 +188,12 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_add)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.owner_view)).check(matches(isDisplayed()));
             onView(withId(R.id.add_first)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -210,12 +210,12 @@ public class AddFragmentTest {
             onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_add)).perform(click());
-            Thread.sleep(1000);
+
             onView(withId(R.id.add_first)).check(matches(isDisplayed()));
             onView(withId(R.id.owner_view)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();

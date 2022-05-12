@@ -36,7 +36,7 @@ import ch.epfl.sweng.hostme.database.Storage;
 public class AddFragmentTest {
 
     @Rule
-    GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET,
+    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET,
             android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @BeforeClass

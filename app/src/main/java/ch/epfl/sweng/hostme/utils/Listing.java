@@ -2,10 +2,6 @@ package ch.epfl.sweng.hostme.utils;
 
 import com.google.firebase.Timestamp;
 
-import java.text.SimpleDateFormat;
-import java.text.ParsePosition;
-import java.util.Iterator;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +31,7 @@ public class Listing {
     /**
      * Constructor for Firebase class binding
      */
-    public Listing () {
+    public Listing() {
     }
 
     /**
@@ -46,7 +42,7 @@ public class Listing {
      *               containing some additional fields
      * @throws JSONException when input data is malformed
      */
-    public Listing (JSONObject fields) {
+    public Listing(JSONObject fields) {
         try {
             this.name = fields.getString("name");
             this.room = fields.getString("room");
@@ -70,7 +66,9 @@ public class Listing {
 
             this.available = true;
             this.currentLease = null;
-        } catch (org.json.JSONException e) { throw new RuntimeException(e); }
+        } catch (org.json.JSONException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -122,12 +120,12 @@ public class Listing {
         this.rent = rent;
     }
 
-    public void setBeds(int beds) {
-        this.beds = beds;
-    }
-
     public int getBeds() {
         return this.beds;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
     }
 
     public int getArea() {
@@ -264,7 +262,9 @@ public class Listing {
             ret.put("deposit", this.deposit);
             ret.put("duration", this.duration);
             ret.put("currentLease", this.currentLease); // potential error
-        } catch (JSONException e) { throw new RuntimeException(e); }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
         return ret;
     }

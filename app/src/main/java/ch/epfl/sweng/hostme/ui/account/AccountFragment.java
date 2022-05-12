@@ -2,12 +2,14 @@ package ch.epfl.sweng.hostme.ui.account;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,7 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 
-import ch.epfl.sweng.hostme.MainActivity;
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -49,6 +51,10 @@ import ch.epfl.sweng.hostme.wallet.WalletActivity;
 
 public class AccountFragment extends Fragment {
 
+    private static final String PREF_USER_NAME = "username";
+    public static Uri uri_to_save = null;
+    public static boolean deletePic = false;
+    public static boolean profilePicinDb = false;
     private View view;
     private EditText editFirstName;
     private EditText editLastName;
@@ -61,64 +67,6 @@ public class AccountFragment extends Fragment {
     private Button changePasswordButton;
     private Profile dbProfile;
     private String school;
-
-    private ImageView editProfilePicture;
-    private FloatingActionButton changePictureButton;
-    public static Uri uri_to_save = null;
-    public static boolean deletePic = false;
-    public static boolean profilePicinDb=false;
-    private AccountUtils accountUtils;
-
-    private ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                if (result.getData() != null) {
-                    Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
-                    editProfilePicture.setImageBitmap(imageBitmap);
-                    Bitmap bit = imageBitmap;
-
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                    String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), imageBitmap, "Title", null);
-                    uri_to_save = Uri.parse(path);
-                    deletePic=false;
-                    saveButton.setEnabled(true);
-
-                }
-            }
-        }
-    });
-
-    private ActivityResultLauncher<Intent> activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                if (result.getData() != null) {
-
-                    Uri selectedImage = result.getData().getData();
-                    String[] filePath = {MediaStore.Images.Media.DATA};
-                    Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex = c.getColumnIndex(filePath[0]);
-                    String picturePath = c.getString(columnIndex);
-                    c.close();
-                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                    editProfilePicture.setImageBitmap(thumbnail);
-                    uri_to_save = selectedImage;
-                    deletePic=false;
-                    saveButton.setEnabled(true);
-
-                }
-            }
-        }
-    });
-
-
-
     /**
      * Watcher for any modifications of the text in the fields of the profile
      */
@@ -126,6 +74,7 @@ public class AccountFragment extends Fragment {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
+
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -139,11 +88,60 @@ public class AccountFragment extends Fragment {
             }
 
         }
+
         @Override
         public void afterTextChanged(Editable editable) {
         }
     };
+    private ImageView editProfilePicture;
+    private FloatingActionButton changePictureButton;
+    private AccountUtils accountUtils;
+    private ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
 
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        if (result.getData() != null) {
+                            Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
+                            editProfilePicture.setImageBitmap(imageBitmap);
+                            Bitmap bit = imageBitmap;
+
+                            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                            String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), imageBitmap, "Title", null);
+                            uri_to_save = Uri.parse(path);
+                            deletePic = false;
+                            saveButton.setEnabled(true);
+
+                        }
+                    }
+                }
+            });
+    private ActivityResultLauncher<Intent> activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        if (result.getData() != null) {
+
+                            Uri selectedImage = result.getData().getData();
+                            String[] filePath = {MediaStore.Images.Media.DATA};
+                            Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
+                            c.moveToFirst();
+                            int columnIndex = c.getColumnIndex(filePath[0]);
+                            String picturePath = c.getString(columnIndex);
+                            c.close();
+                            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                            editProfilePicture.setImageBitmap(thumbnail);
+                            uri_to_save = selectedImage;
+                            deletePic = false;
+                            saveButton.setEnabled(true);
+
+                        }
+                    }
+                }
+            });
     /**
      * Watcher for any modifications of the gender button that is checked
      */
@@ -170,7 +168,7 @@ public class AccountFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         this.view = view;
-        accountUtils = new AccountUtils(getActivity(),activityResultLauncherGallery,activityResultLauncherCamera,view);
+        accountUtils = new AccountUtils(getActivity(), activityResultLauncherGallery, activityResultLauncherCamera, view);
 
 
         editFirstName = view.findViewById(R.id.userProfileFirstName);
@@ -189,8 +187,8 @@ public class AccountFragment extends Fragment {
         editProfilePicture = view.findViewById(R.id.userProfileImage);
         editProfilePicture.setImageBitmap(null);
         deletePic = false;
-        profilePicinDb=false;
-        uri_to_save= null;
+        profilePicinDb = false;
+        uri_to_save = null;
 
         editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
         changePictureButton = view.findViewById(R.id.userProfileChangePhotoButton);
@@ -218,9 +216,9 @@ public class AccountFragment extends Fragment {
     }
 
 
-    private void loadProfilePictureDB(){
+    private void loadProfilePictureDB() {
         //Load user profile picture from database
-        String pathString = "profilePicture/"+ Auth.getUid() +"/profile.jpg";
+        String pathString = "profilePicture/" + Auth.getUid() + "/profile.jpg";
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
         try {
             final File localFile = File.createTempFile("profile", "jpg");
@@ -229,10 +227,10 @@ public class AccountFragment extends Fragment {
                         if (task.isSuccessful()) {
                             Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                             editProfilePicture.setImageBitmap(bitmap);
-                            profilePicinDb=true;
+                            profilePicinDb = true;
 
-                        }else{
-                            profilePicinDb=false;
+                        } else {
+                            profilePicinDb = false;
                             editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
                         }
                     });
@@ -243,27 +241,25 @@ public class AccountFragment extends Fragment {
     }
 
 
-    private void loadProfileFieldsDB(){
+    private void loadProfileFieldsDB() {
         //Load user profile fields from database
         DocumentReference docRef = Database.getCollection("users")
                 .document(Auth.getUid());
 
-        docRef.get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
+        docRef.get().addOnSuccessListener(
+                result -> {
 
-                        dbProfile = task.getResult().toObject(Profile.class);
-                        displayUIFromDB(dbProfile);
+                    dbProfile = result.toObject(Profile.class);
+                    displayUIFromDB(dbProfile);
 
-                        editFirstName.addTextChangedListener(SaveProfileWatcher);
-                        editLastName.addTextChangedListener(SaveProfileWatcher);
-                        editEmail.addTextChangedListener(SaveProfileWatcher);
-                        editGender.setOnCheckedChangeListener(SaveProfileCheckWatcher);
+                    editFirstName.addTextChangedListener(SaveProfileWatcher);
+                    editLastName.addTextChangedListener(SaveProfileWatcher);
+                    editEmail.addTextChangedListener(SaveProfileWatcher);
+                    editGender.setOnCheckedChangeListener(SaveProfileCheckWatcher);
 
-                        addListenerToSaveButton();
+                    addListenerToSaveButton();
 
 
-                    }
                 }
         );
     }
@@ -300,10 +296,17 @@ public class AccountFragment extends Fragment {
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         documentReference.update(updates).addOnSuccessListener(unused -> {
             Auth.signOut();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            resetSharedPref();
+            Intent intent = new Intent(getActivity(), LogInActivity.class);
             startActivity(intent);
             getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
         });
+    }
+
+    private void resetSharedPref() {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putString(PREF_USER_NAME, "");
+        editor.apply();
     }
 
     /**
@@ -411,26 +414,26 @@ public class AccountFragment extends Fragment {
                                         }
                                 );
 
-                                String pathString = "profilePicture/"+ Auth.getUid() +"/" + "profile.jpg";
+                                String pathString = "profilePicture/" + Auth.getUid() + "/" + "profile.jpg";
                                 StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
 
-                                if (deletePic && uri_to_save == null&&profilePicinDb){
+                                if (deletePic && uri_to_save == null && profilePicinDb) {
                                     fileRef.delete()
                                             .addOnSuccessListener(taskSnapshot -> {
                                                 Toast.makeText(getActivity(), "Profile Pic Deleted", Toast.LENGTH_SHORT).show();
                                                 uri_to_save = null;
-                                                deletePic =false;
-                                                profilePicinDb=false;
+                                                deletePic = false;
+                                                profilePicinDb = false;
                                             }).addOnFailureListener(exception -> Toast.makeText(getActivity(), "Failed to Delete Profile Pic", Toast.LENGTH_SHORT).show());
                                 }
 
-                                if (uri_to_save != null && deletePic==false) {
+                                if (uri_to_save != null && deletePic == false) {
                                     fileRef.putFile(uri_to_save)
                                             .addOnSuccessListener(taskSnapshot -> {
                                                 Toast.makeText(getActivity(), "Profile Pic Updated", Toast.LENGTH_SHORT).show();
-                                                uri_to_save =null;
-                                                deletePic=false;
-                                                profilePicinDb=true;
+                                                uri_to_save = null;
+                                                deletePic = false;
+                                                profilePicinDb = true;
                                             }).addOnFailureListener(exception -> Toast.makeText(getActivity(), "Failed to update Profile Pic", Toast.LENGTH_SHORT).show());
                                 }
 
@@ -441,7 +444,6 @@ public class AccountFragment extends Fragment {
                         }
                 );
     }
-
 
 
 }

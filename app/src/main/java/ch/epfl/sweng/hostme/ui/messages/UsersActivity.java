@@ -23,6 +23,8 @@ import ch.epfl.sweng.hostme.utils.Constants;
 public class UsersActivity extends AppCompatActivity implements UserListener {
 
     private ActivityUsersBinding binding;
+    private static final String FROM = "from";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +33,6 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
         getUsers();
-        setListeners();
-    }
-
-    private void setListeners() {
-        binding.buttonBackUser.setOnClickListener(v -> onBackPressed());
     }
 
     private void getUsers() {
@@ -91,4 +88,5 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         startActivity(intent);
         finish();
     }
+
 }

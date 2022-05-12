@@ -2,6 +2,7 @@ package ch.epfl.sweng.hostme.ui.search;
 
 import static android.content.Context.MODE_PRIVATE;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -56,10 +57,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     public static final String BITMAP = "bitmap";
     public static final String FAVORITES = "favorites";
+    private final CollectionReference reference = Database.getCollection("favorite_apart");
     private List<Apartment> apartments;
     private Bitmap bitmap;
     private View view;
-    private final CollectionReference reference = Database.getCollection("favorite_apart");
     private boolean isFavFragment;
     private Context context;
 
@@ -98,7 +99,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             updateApartDB(holder.itemView.getContext(), apartment, compoundButton.isChecked(), isFavFragment);
         });
     }
-
 
 
     /**
@@ -145,6 +145,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Change the preference to know if we are in the favorite fragment or not,
      * if we are we will load the data but if we are in the main recyclerview we will not
+     *
      * @param context
      * @param isFavFragment
      */
@@ -184,6 +185,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
+        bundle.putString(APART_ID, apartment.getDocID());
         bundle.putString(UID, apartment.getUid());
         bundle.putString(ADDR, apartment.getAddress());
         bundle.putInt(NPA, apartment.getNpa());
@@ -215,12 +217,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            loadingBar.setVisibility(View.GONE);
-                            bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                            holder.image.setImageBitmap(bitmap);
-                        }
+                    .addOnSuccessListener(result -> {
+                        loadingBar.setVisibility(View.GONE);
+                        bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        holder.image.setImageBitmap(bitmap);
                     });
         } catch (IOException e) {
             e.printStackTrace();
@@ -234,6 +234,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Set the apartments list
+     *
      * @param apartments
      */
     public void setApartments(List<Apartment> apartments) {

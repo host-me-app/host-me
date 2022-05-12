@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.ui.add;
 
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,20 +22,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.Timestamp;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -49,7 +48,8 @@ import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
 public class AddFragment extends Fragment {
     private static final String ADDED = "Listing created !";
-
+    private final CollectionReference DB = Database.getCollection(APARTMENTS);
+    private final String USR = Auth.getUid();
     private FragmentAddBinding binding;
     private AddViewModel addViewModel;
     private Map<String, EditText> formFields;
@@ -61,9 +61,6 @@ public class AddFragment extends Fragment {
     private RecyclerView ownerView;
     private List<Apartment> myListings;
     private TextView notOwner;
-
-    private final CollectionReference DB = Database.getCollection(APARTMENTS);
-    private final String USR = Auth.getUid();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -135,7 +132,7 @@ public class AddFragment extends Fragment {
         formFields.put("area", binding.enterArea);
         formFields.put("duration", binding.enterDuration);
 
-        for (String it: formFields.keySet()) {
+        for (String it : formFields.keySet()) {
             EditText ref = formFields.get(it);
             ref.setOnFocusChangeListener((v, focused) -> {
                 addViewModel.validate(ref);
@@ -149,7 +146,7 @@ public class AddFragment extends Fragment {
         dropDowns.put("laundry", binding.selectLaundry);
 
         ArrayAdapter<CharSequence> arr = ArrayAdapter.createFromResource(this.getContext(),
-                R.array.privacy_enum , android.R.layout.simple_spinner_item);
+                R.array.privacy_enum, android.R.layout.simple_spinner_item);
         arr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (String menu : dropDowns.keySet()) {
             dropDowns.get(menu).setAdapter(arr);
@@ -173,7 +170,7 @@ public class AddFragment extends Fragment {
         String[] priv = getResources().getStringArray(R.array.privacy_enum);
         Button furn = root.findViewById(selectFurnished.getCheckedRadioButtonId());
         Button pet = root.findViewById(selectPets.getCheckedRadioButtonId());
-        try{
+        try {
             fields.put("name", formFields.get("name").getText().toString());
             fields.put("room", formFields.get("room").getText().toString());
             fields.put("address", formFields.get("address").getText().toString());
@@ -193,7 +190,9 @@ public class AddFragment extends Fragment {
             fields.put("utilities", Integer.valueOf(formFields.get("utilities").getText().toString()));
             fields.put("deposit", Integer.valueOf(formFields.get("deposit").getText().toString()));
             fields.put("duration", formFields.get("duration").getText().toString());
-        } catch (JSONException e) { throw new RuntimeException(e); }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
         Listing ret = new Listing(fields);
 

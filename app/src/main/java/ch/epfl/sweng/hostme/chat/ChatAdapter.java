@@ -11,13 +11,12 @@ import java.util.List;
 import ch.epfl.sweng.hostme.databinding.ItemContainerReceivedMessageBinding;
 import ch.epfl.sweng.hostme.databinding.ItemContainerSentMessageBinding;
 
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-
-    private final List<ChatMessage> chatMessages;
-    private final String senderId;
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;
+    private final List<ChatMessage> chatMessages;
+    private final String senderId;
 
     public ChatAdapter(List<ChatMessage> chatMessages, String senderId) {
         this.chatMessages = chatMessages;
@@ -27,7 +26,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == VIEW_TYPE_SENT){
+        if (viewType == VIEW_TYPE_SENT) {
             return new SentMessageViewHolder(
                     ItemContainerSentMessageBinding.inflate(
                             LayoutInflater.from(parent.getContext()),
@@ -35,7 +34,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                             false
                     )
             );
-        }else{
+        } else {
             return new ReceivedMessageViewHolder(
                     ItemContainerReceivedMessageBinding.inflate(
                             LayoutInflater.from(parent.getContext()),
@@ -49,9 +48,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(getItemViewType(position) == VIEW_TYPE_SENT){
+        if (getItemViewType(position) == VIEW_TYPE_SENT) {
             ((SentMessageViewHolder) holder).setData(chatMessages.get(position));
-        }else{
+        } else {
             ((ReceivedMessageViewHolder) holder).setData(chatMessages.get(position));
         }
     }
@@ -63,38 +62,38 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
-        if(chatMessages.get(position).senderId.equals(senderId)){
+        if (chatMessages.get(position).senderId.equals(senderId)) {
             return VIEW_TYPE_SENT;
-        }else {
+        } else {
             return VIEW_TYPE_RECEIVED;
         }
     }
 
-    static class SentMessageViewHolder extends RecyclerView.ViewHolder{
+    static class SentMessageViewHolder extends RecyclerView.ViewHolder {
 
         private final ItemContainerSentMessageBinding binding;
 
-        SentMessageViewHolder(ItemContainerSentMessageBinding itemContainerSentMessageBinding){
+        SentMessageViewHolder(ItemContainerSentMessageBinding itemContainerSentMessageBinding) {
             super(itemContainerSentMessageBinding.getRoot());
             binding = itemContainerSentMessageBinding;
         }
 
-        void setData(ChatMessage chatMessage){
+        void setData(ChatMessage chatMessage) {
             binding.textMessage.setText(chatMessage.message);
             binding.messageDate.setText(chatMessage.dateTime);
         }
     }
 
-    static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder{
+    static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
 
         private final ItemContainerReceivedMessageBinding binding;
 
-        ReceivedMessageViewHolder(ItemContainerReceivedMessageBinding itemContainerReceivedMessageBinding){
+        ReceivedMessageViewHolder(ItemContainerReceivedMessageBinding itemContainerReceivedMessageBinding) {
             super(itemContainerReceivedMessageBinding.getRoot());
             binding = itemContainerReceivedMessageBinding;
         }
 
-        void setData(ChatMessage chatMessage){
+        void setData(ChatMessage chatMessage) {
             binding.textMessage.setText(chatMessage.message);
             binding.messageDate.setText(chatMessage.dateTime);
         }

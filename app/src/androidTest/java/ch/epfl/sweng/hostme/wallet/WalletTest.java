@@ -21,18 +21,20 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.MainActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class WalletTest {
 
     @Rule
-    public GrantPermissionRule internetRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
-    public GrantPermissionRule readRule = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+    public GrantPermissionRule internetRule = GrantPermissionRule.grant(
+            android.Manifest.permission.INTERNET,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+    );
 
     @BeforeClass
     public static void setUp() {
@@ -45,9 +47,9 @@ public class WalletTest {
 
     @Test
     public void downloadResidencePermitFailedTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
@@ -60,6 +62,7 @@ public class WalletTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.button_download_residence_permit)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -70,9 +73,9 @@ public class WalletTest {
 
     @Test
     public void uploadSalarySlipsTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 

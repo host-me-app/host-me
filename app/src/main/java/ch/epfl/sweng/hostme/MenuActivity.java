@@ -1,10 +1,12 @@
 package ch.epfl.sweng.hostme;
 
-import android.content.Intent;
+import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
+
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,20 +16,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
-import ch.epfl.sweng.hostme.databinding.ActivityMenu1Binding;
-import ch.epfl.sweng.hostme.utils.ListImage;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.ui.add.AddFragment;
 import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
+import ch.epfl.sweng.hostme.ui.messages.MessageService;
 import ch.epfl.sweng.hostme.ui.messages.MessagesFragment;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
-
-import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
+import ch.epfl.sweng.hostme.utils.ListImage;
 
 public class MenuActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
+    private static final String PREF_USER_NAME = "username";
 
 
     @Override
@@ -36,24 +37,28 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu1);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        viewPager = findViewById(R.id.view_pager);
-        viewPager.setOffscreenPageLimit(5);
+        if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_USER_NAME, "").length() == 0) {
+            startActivity(new Intent(this, LogInActivity.class));
+        } else {
+            BottomNavigationView navView = findViewById(R.id.nav_view);
+            viewPager = findViewById(R.id.view_pager);
+            viewPager.setOffscreenPageLimit(5);
 
-        navView.setOnItemSelectedListener(item -> {
-            setCurrentItem(item);
-            return true;
-        });
+            navView.setOnItemSelectedListener(item -> {
+                setCurrentItem(item);
+                return true;
+            });
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                setCheckedItem(position, navView);
-            }
-        });
+            viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    setCheckedItem(position, navView);
+                }
+            });
 
-        setupViewPager(viewPager);
+            setupViewPager(viewPager);
+        }
 
     }
 
@@ -140,4 +145,10 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startService(new Intent(this, MessageService.class));
+    }
 }

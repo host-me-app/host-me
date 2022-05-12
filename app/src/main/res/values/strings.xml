@@ -67,6 +67,9 @@
     <string name="filters_text">Filters</string>
     <string name="change_file">Change file</string>
     <string name="type_message">Type a Message</string>
+    <string name="agora_app_id">1e2e55c0fb1a47a6b39114a961df8573</string>
+
     <string name="daily_route">Daily route</string>
     <string name="street_view">Street view</string>
+    <string name="radius_gps">RADIUS (km):</string>
 </resources>

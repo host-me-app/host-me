@@ -36,6 +36,7 @@ public class Apartment {
 
     /**
      * Constructor of a an apartment
+     *
      * @param docID
      * @param city
      * @param npa

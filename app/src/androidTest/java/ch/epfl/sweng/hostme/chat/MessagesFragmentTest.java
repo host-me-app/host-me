@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme.chat;
 
-import static androidx.test.core.app.ActivityScenario.launch;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -46,8 +45,7 @@ public class MessagesFragmentTest {
     }
 
     @AfterClass
-    public static void after_class()
-    {
+    public static void after_class() {
         Intents.release();
     }
 

@@ -80,7 +80,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
-
     @SuppressLint("MissingPermission")
     private void checkReminders() {
 

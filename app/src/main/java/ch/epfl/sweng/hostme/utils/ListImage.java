@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
+import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +11,6 @@ import android.widget.Toast;
 import com.google.firebase.storage.StorageReference;
 
 import ch.epfl.sweng.hostme.database.Storage;
-
-import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
 public class ListImage {
     private final static String SELECTION = "Select a display image";

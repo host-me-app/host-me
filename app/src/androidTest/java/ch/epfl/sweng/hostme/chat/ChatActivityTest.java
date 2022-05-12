@@ -43,8 +43,7 @@ public class ChatActivityTest {
     }
 
     @AfterClass
-    public static void after_class()
-    {
+    public static void after_class() {
         Intents.release();
     }
 

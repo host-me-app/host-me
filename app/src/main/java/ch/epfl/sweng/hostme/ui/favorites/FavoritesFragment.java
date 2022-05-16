@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +44,20 @@ public class FavoritesFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
         noFavMessage = root.findViewById(R.id.no_fav_message);
-        List<Apartment> apartments = new ArrayList<>();
-        reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
-            if (value != null && value.exists()) {
-                setUpRecyclerView(apartments);
-            }
-        });
+        // cache data with shared pref
+        /*if (PreferenceManager.getDefaultSharedPreferences(getContext()).getString("fav" +
+                Auth.getUid(), "").length() != 0) {
+
+        } else {*/
+            SharedPreferences preferences = getContext().getSharedPreferences("fav" + Auth.getUid(),
+                    Context.MODE_PRIVATE);
+            List<Apartment> apartments = new ArrayList<>();
+            reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
+                if (value != null && value.exists()) {
+                    setUpRecyclerView(apartments);
+                }
+            });
+       // }
 
         return root;
     }
@@ -94,8 +104,8 @@ public class FavoritesFragment extends Fragment {
                         apartment.setDocID(doc1.getId());
                         apartments.add(apartment);
                     }
-                    displayRecycler(apartments);
                 });
+        displayRecycler(apartments);
     }
 
     /**

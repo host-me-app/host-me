@@ -104,6 +104,7 @@ public class ChatActivity extends AppCompatActivity {
         init();
         listenMessages();
         launchButt = findViewById(R.id.launchButt);
+        launchButt.setImageResource(isNetworkAvailable() ? R.drawable.video_call : R.drawable.no_video);
         launchButt.setOnClickListener(v -> {
             if (!isNetworkAvailable()) {
                 showToast("You have no Internet connexion");
@@ -120,10 +121,11 @@ public class ChatActivity extends AppCompatActivity {
      *
      * @return true if user has connexion, false otherwise
      */
+    @SuppressLint("MissingPermission")
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        @SuppressLint("MissingPermission") NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 

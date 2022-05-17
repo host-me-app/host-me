@@ -96,7 +96,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             Button contactUser = root.findViewById(R.id.contact_user_button);
             contactUser.setOnClickListener(view -> chatWithUser(uid));
         }
-
         return root;
     }
 

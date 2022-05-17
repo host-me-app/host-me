@@ -107,7 +107,7 @@ public class ChatActivity extends AppCompatActivity {
         launchButt.setImageResource(isNetworkAvailable() ? R.drawable.video_call : R.drawable.no_video);
         launchButt.setOnClickListener(v -> {
             if (!isNetworkAvailable()) {
-                showToast("You have no Internet connexion");
+                showToast("You have no Internet connection");
             } else {
                 Intent intent = new Intent(this, CallActivity.class);
                 intent.putExtra("user", receiverUser);
@@ -117,9 +117,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     /**
-     * Check if the user has Internet connexion
+     * Check if the user has Internet connection
      *
-     * @return true if user has connexion, false otherwise
+     * @return true if user has connection, false otherwise
      */
     @SuppressLint("MissingPermission")
     private boolean isNetworkAvailable() {

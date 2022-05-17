@@ -52,8 +52,6 @@ public class CallActivity extends AppCompatActivity {
 
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-            runOnUiThread(() -> Toast.makeText(getApplicationContext(),
-                    "Join channel success, uid: " + (uid & 0xFFFFFFFFL), Toast.LENGTH_SHORT).show());
         }
 
         @Override

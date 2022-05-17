@@ -69,16 +69,18 @@ public class LogInActivity extends AppCompatActivity {
             String pwdText = pwd.getText().toString();
             loginUser(mailText, pwdText);
         });
-
         Button signUp = findViewById(R.id.signUpButton);
         signUp.setOnClickListener(view -> askUserQuestion());
 
         Button forgotPwd = findViewById(R.id.forgotPassword);
         forgotPwd.setOnClickListener(view -> enterMailToChangePwd());
-
-
     }
 
+    /**
+     * Disable the back press button
+     */
+    @Override
+    public void onBackPressed() {}
 
     @SuppressLint("MissingPermission")
     private void checkReminders() {

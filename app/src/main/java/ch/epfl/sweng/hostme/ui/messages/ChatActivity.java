@@ -1,6 +1,10 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -100,11 +104,29 @@ public class ChatActivity extends AppCompatActivity {
         init();
         listenMessages();
         launchButt = findViewById(R.id.launchButt);
+        launchButt.setImageResource(isNetworkAvailable() ? R.drawable.video_call : R.drawable.no_video);
         launchButt.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CallActivity.class);
-            intent.putExtra("user", receiverUser);
-            startActivity(intent);
+            if (!isNetworkAvailable()) {
+                showToast("You have no Internet connection");
+            } else {
+                Intent intent = new Intent(this, CallActivity.class);
+                intent.putExtra("user", receiverUser);
+                startActivity(intent);
+            }
         });
+    }
+
+    /**
+     * Check if the user has Internet connection
+     *
+     * @return true if user has connection, false otherwise
+     */
+    @SuppressLint("MissingPermission")
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void init() {

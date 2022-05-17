@@ -6,6 +6,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.FirebaseApp;
@@ -63,7 +65,7 @@ public class MenuFragmentTest {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_add)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_add)).perform(click());
-            onView(withId(R.id.add_first)).check(matches(isDisplayed()));
+            onView(withId(R.id.add_first)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         }
         Intents.release();
     }

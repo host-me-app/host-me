@@ -10,19 +10,19 @@
         android:id="@+id/favorites_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:paddingBottom="50dp"
         android:clipToPadding="false"
+        android:paddingBottom="50dp"
+        android:scrollbars="vertical"
         tools:context=".ui.search.SearchFragment" />
 
     <TextView
         android:id="@+id/no_fav_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="You have no favorite apartments"
-        android:textSize="20dp"
         android:fontFamily="@font/roboto_family"
         android:gravity="center"
-        android:visibility="gone"/>
+        android:text="You have no favorite apartments"
+        android:textSize="20dp"
+        android:visibility="gone" />
 
 </LinearLayout>

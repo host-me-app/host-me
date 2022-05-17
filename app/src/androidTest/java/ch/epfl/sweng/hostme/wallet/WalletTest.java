@@ -21,11 +21,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.LogInActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class WalletTest {
@@ -34,7 +34,7 @@ public class WalletTest {
     public GrantPermissionRule internetRule = GrantPermissionRule.grant(
             android.Manifest.permission.INTERNET,
             android.Manifest.permission.READ_EXTERNAL_STORAGE
-            );
+    );
 
     @BeforeClass
     public static void setUp() {
@@ -62,6 +62,7 @@ public class WalletTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.button_download_residence_permit)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {

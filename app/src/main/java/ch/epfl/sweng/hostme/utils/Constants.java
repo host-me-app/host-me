@@ -2,16 +2,13 @@ package ch.epfl.sweng.hostme.utils;
 
 public final class Constants {
 
-    private Constants() {
-
-    }
-
     public static final String KEY_COLLECTION_USERS = "users";
     public static final String KEY_FIRSTNAME = "firstName";
     public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_USER_ID = "userID";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_PREFERENCE_NAME = "chatAppPreference";
     public static final String KEY_FCM_TOKEN = "fcmToken";
     public static final String KEY_USER = "user";
     public static final String KEY_COLLECTION_CHAT = "chat";
@@ -27,6 +24,7 @@ public final class Constants {
     public static final String ADDR = "addr";
     public static final String RENT = "rent";
     public static final String AREA = "area";
+    public static final String APART_ID = "apart_id";
     public static final String PATH = "imagePath";
     public static final String LEASE = "lease";
     public static final String NPA = "npa";
@@ -35,8 +33,11 @@ public final class Constants {
     public static final String PROPRIETOR = "proprietor";
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
-
     // Response codes for all activities
     public static final int REQ_IMAGE = 105;
+
+    private Constants() {
+
+    }
 
 }

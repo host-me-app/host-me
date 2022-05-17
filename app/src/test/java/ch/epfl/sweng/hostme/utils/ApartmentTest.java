@@ -4,19 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import androidx.test.core.app.ApplicationProvider;
-
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.Timestamp;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Date;
-
-import ch.epfl.sweng.hostme.database.Auth;
-import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.database.Storage;
 
 public class ApartmentTest {
 

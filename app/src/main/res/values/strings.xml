@@ -62,6 +62,7 @@
     <string name="enter_proprietor_hint">Your Name/ Organization</string>
     <string name="enter_duration_hint">in months</string>
     <string name="upload_images">Upload Images</string>
+    <string name="not_owner">You have no active listings</string>
     <string name="apply_filters">Apply Filters</string>
     <string name="filters_text">Filters</string>
     <string name="change_file">Change file</string>

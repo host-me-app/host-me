@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -54,8 +55,8 @@ public class SearchFragment extends Fragment {
     public static final float MAX_PRICE = 5000f;
     public static final String IS_FAVORITE = "isFavorite";
     public static final String FAVORITE_FRAGMENT = "FavoriteFragment";
-    private final CollectionReference reference = Database.getCollection(APARTMENTS);
     private final static CollectionReference favReference = Database.getCollection("favorite_apart");
+    private final CollectionReference reference = Database.getCollection(APARTMENTS);
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;
@@ -67,6 +68,13 @@ public class SearchFragment extends Fragment {
     private LinearLayout filters;
     private ArrayList<Apartment> apartments;
     private String searchText;
+    private final LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(@NonNull LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            filterLocation(mLastLocation);
+        }
+    };
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private View root;
@@ -223,14 +231,6 @@ public class SearchFragment extends Fragment {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    private final LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(@NonNull LocationResult locationResult) {
-            Location mLastLocation = locationResult.getLastLocation();
-            filterLocation(mLastLocation);
-        }
-    };
-
     private void filterLocation(Location location) {
         updateRecyclerView(location, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
                 rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
@@ -245,13 +245,13 @@ public class SearchFragment extends Fragment {
             Address location = address.get(0);
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
             double earthRadius = 6371000;
-            double phyLoc = latitude * Math.PI/180;
-            double phyApa = latlng.latitude * Math.PI/180;
-            double deltaPhy = (latlng.latitude - latitude) * Math.PI/180;
-            double deltaLambda = (latlng.longitude - longitude) * Math.PI/180;
+            double phyLoc = latitude * Math.PI / 180;
+            double phyApa = latlng.latitude * Math.PI / 180;
+            double deltaPhy = (latlng.latitude - latitude) * Math.PI / 180;
+            double deltaLambda = (latlng.longitude - longitude) * Math.PI / 180;
 
-            double sinDeltaPhy = Math.sin(deltaPhy/2);
-            double sinDeltaLambda = Math.sin(deltaLambda/2);
+            double sinDeltaPhy = Math.sin(deltaPhy / 2);
+            double sinDeltaLambda = Math.sin(deltaLambda / 2);
             double a = sinDeltaPhy * sinDeltaPhy + Math.cos(phyLoc) * Math.cos(phyApa) * sinDeltaLambda * sinDeltaLambda;
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             double dist = earthRadius * c;
@@ -277,10 +277,10 @@ public class SearchFragment extends Fragment {
      */
     private void updateRecyclerView(Location location, float radius, float min, float max, float min2, float max2) {
         apartments = new ArrayList<>();
-        reference.get().addOnCompleteListener(task -> {
-            apartments.clear();
-            if (task.isSuccessful()) {
-                QuerySnapshot snapshot = task.getResult();
+        try {
+            reference.get().addOnSuccessListener(result -> {
+                apartments.clear();
+                QuerySnapshot snapshot = result;
                 double latitude = 0;
                 double longitude = 0;
                 if (location != null) {
@@ -310,10 +310,14 @@ public class SearchFragment extends Fragment {
                 List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
                 recyclerAdapter.setApartments(apartmentsWithoutDuplicate);
                 recyclerAdapter.notifyDataSetChanged();
-            }
-        });
 
+            });
+        } catch (Exception e) {
+            System.out.println("BBBBBBBBBBBBBBB");
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
+
 
 
     /**
@@ -321,10 +325,10 @@ public class SearchFragment extends Fragment {
      */
     private void setUpRecyclerView() {
         apartments = new ArrayList<>();
-        reference.get().addOnCompleteListener(task -> {
-            apartments.clear();
-            if (task.isSuccessful()) {
-                QuerySnapshot snapshot = task.getResult();
+        try {
+            reference.get().addOnSuccessListener(result -> {
+                apartments.clear();
+                QuerySnapshot snapshot = result;
                 for (DocumentSnapshot doc : snapshot.getDocuments()) {
                     if (apartments.size() < 10) {
                         Apartment apartment = doc.toObject(Apartment.class);
@@ -341,8 +345,11 @@ public class SearchFragment extends Fragment {
                 recyclerView.setDrawingCacheEnabled(true);
                 recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                 recyclerView.setAdapter(recyclerAdapter);
-            }
-        });
+            });
+        } catch (Exception e) {
+            System.out.println("BBBBBBBBBBBBBBB");
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

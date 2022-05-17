@@ -2,7 +2,6 @@ package ch.epfl.sweng.hostme.wallet;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.R;
@@ -39,7 +38,6 @@ public class DocumentExpirationDateTest {
     public void SalaryPickDateButtonIdIsSame() {
         assertEquals(R.id.buttonPickDate_SalarySlips, DocumentExpirationDate.SALARY_SLIPS.getPickDateButtonId());
     }
-
 
 
     @Test

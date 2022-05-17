@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,13 +31,13 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 public class FavoritesFragment extends Fragment {
 
     private static final String NBR = "nbr";
+    private static final String FAVORITES = "favorites";
+    private final CollectionReference reference = Database.getCollection("favorite_apart");
+    private final CollectionReference apartReference = Database.getCollection("apartments");
     private View root;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private final CollectionReference reference = Database.getCollection("favorite_apart");
-    private final CollectionReference apartReference = Database.getCollection("apartments");
     private ApartmentAdapter recyclerAdapter;
-    private static final String FAVORITES = "favorites";
     private TextView noFavMessage;
     List<Apartment> apartments = new ArrayList<>();
     private SharedPreferences sharedPreferences;
@@ -95,12 +96,12 @@ public class FavoritesFragment extends Fragment {
      */
     private void setUpRecyclerView(List<Apartment> apartments) {
         String uid = Auth.getUid();
-        reference.document(uid)
-                .get()
-                .addOnCompleteListener(task -> {
-                    apartments.clear();
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot doc = task.getResult();
+        try {
+            reference.document(uid)
+                    .get()
+                    .addOnSuccessListener(result -> {
+                        apartments.clear();
+                        DocumentSnapshot doc = result;
                         List<String> apartIDs = (List<String>) doc.get(FAVORITES);
                         assert apartIDs != null;
                         if (apartIDs.isEmpty()) {
@@ -114,12 +115,15 @@ public class FavoritesFragment extends Fragment {
                                 getCorrespondingApartAndDisplay(apartID, apartments);
                             }
                         }
-                    }
-                });
+                    });
+        } catch (Exception e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
      * get the apart corresponding to the ID in Firestore and display it
+     *
      * @param apartID
      * @param apartments
      */

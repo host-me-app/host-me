@@ -1,9 +1,15 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static android.content.Context.MODE_PRIVATE;
+import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
+import static ch.epfl.sweng.hostme.utils.Constants.UID;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -51,16 +57,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     public static final String BITMAP = "bitmap";
     public static final String FAVORITES = "favorites";
+    private final CollectionReference reference = Database.getCollection("favorite_apart");
     private List<Apartment> apartments;
     private Bitmap bitmap;
-    public static final String UID = "uid";
-    public static final String ADDR = "addr";
-    public static final String RENT = "rent";
-    public static final String AREA = "area";
-    public static final String PREVIEW_1_JPG = "/preview1.jpg";
-    public static final String LID = "lid";
     private View view;
-    private final CollectionReference reference = Database.getCollection("favorite_apart");
     private boolean isFavFragment;
     private Context context;
 
@@ -83,7 +83,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.npa.setText(String.valueOf(apartment.getNpa()));
         holder.city.setText(apartment.getCity());
         holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
-        holder.area.setText(String.format("%s m²", apartment.getArea()));
+        holder.area.setText(String.format("%s m\u00B2", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
         SharedPreferences pref = holder.itemView.getContext()
@@ -99,7 +99,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             updateApartDB(holder.itemView.getContext(), apartment, compoundButton.isChecked(), isFavFragment);
         });
     }
-
 
 
     /**
@@ -146,6 +145,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Change the preference to know if we are in the favorite fragment or not,
      * if we are we will load the data but if we are in the main recyclerview we will not
+     *
      * @param context
      * @param isFavFragment
      */
@@ -163,7 +163,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     }
 
     /**
-     * Create animation for the Tuggle button
+     * Create animation for the Toggle button
      */
     private ScaleAnimation createToggleAnimation() {
         ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
@@ -185,13 +185,13 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
+        bundle.putString(APART_ID, apartment.getDocID());
         bundle.putString(UID, apartment.getUid());
         bundle.putString(ADDR, apartment.getAddress());
         bundle.putInt(NPA, apartment.getNpa());
         bundle.putString(CITY, apartment.getCity());
         bundle.putInt(RENT, apartment.getRent());
         bundle.putInt(AREA, apartment.getArea());
-        bundle.putString(LID, apartment.getLid());
         bundle.putString(PROPRIETOR, apartment.getProprietor());
         bundle.putParcelable(BITMAP, bitmap);
         fragment.setArguments(bundle);
@@ -217,12 +217,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         try {
             final File localFile = File.createTempFile("preview1", "jpg");
             storageReference.getFile(localFile)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            loadingBar.setVisibility(View.GONE);
-                            bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                            holder.image.setImageBitmap(bitmap);
-                        }
+                    .addOnSuccessListener(result -> {
+                        loadingBar.setVisibility(View.GONE);
+                        bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        holder.image.setImageBitmap(bitmap);
                     });
         } catch (IOException e) {
             e.printStackTrace();
@@ -236,6 +234,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Set the apartments list
+     *
      * @param apartments
      */
     public void setApartments(List<Apartment> apartments) {

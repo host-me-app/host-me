@@ -63,6 +63,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private View view;
     private boolean isFavFragment;
     private Context context;
+    private HashMap<String, Boolean> favMap = new HashMap<>();
 
     public ApartmentAdapter(List<Apartment> apartments, Context context) {
         this.context = context;
@@ -112,6 +113,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         SharedPreferences.Editor editor = context.
                 getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE).edit();
         if (isAdded) {
+            favMap.put(apartment.getDocID(), true);
             editor.putString(apartment.getDocID() + "pressed", "yes");
             editor.apply();
             documentRef.get()
@@ -129,6 +131,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                 Toast.LENGTH_SHORT).show();
                     });
         } else {
+            favMap.put(apartment.getDocID(), false);
             editor.putString(apartment.getDocID() + "pressed", "no");
             editor.apply();
             documentRef.get()

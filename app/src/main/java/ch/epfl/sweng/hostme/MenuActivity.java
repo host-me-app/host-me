@@ -139,6 +139,8 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+
+
         if (requestCode == REQ_IMAGE) {
             ListImage.onAcceptImage(resultCode, intent.getData());
         }

@@ -22,8 +22,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
@@ -50,7 +53,7 @@ public class AddFragmentTestGeneration {
             android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @Rule
-    public IntentsTestRule<LogInActivity> activityRule = new IntentsTestRule<>(LogInActivity.class);
+    public ActivityTestRule<LogInActivity> activityRule = new ActivityTestRule<>(LogInActivity.class);
 
     @Before
     public void setUp() {
@@ -60,11 +63,15 @@ public class AddFragmentTestGeneration {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
         savePickedImage();
-        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
     }
 
     @Test
     public void generateApartmentTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        activityRule.launchActivity(intent);
+
+        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
         String usr = "testlogin@gmail.com";
         String pwd = "fakePassword1!";
 
@@ -93,6 +100,7 @@ public class AddFragmentTestGeneration {
         onView(withId(R.id.enter_images)).check(matches(isEnabled()));
         onView(withId(R.id.enter_images)).perform(click());
         onView(withId(R.id.add_submit)).perform(click());
+        Intents.release();
     }
 
     private Instrumentation.ActivityResult getImageResult() {

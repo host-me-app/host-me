@@ -136,48 +136,6 @@ public class AddFragmentTest {
     }
 
     @Test
-    public void generateApartmentTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.add_new)).perform((click()));
-
-            onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
-            onView(withId(R.id.enter_name)).perform(typeText("b"), closeSoftKeyboard());
-            onView(withId(R.id.enter_room)).perform(typeText("c"), closeSoftKeyboard());
-            onView(withId(R.id.enter_address)).perform(typeText("d"), closeSoftKeyboard());
-            onView(withId(R.id.enter_npa)).perform(typeText("1"), closeSoftKeyboard());
-            onView(withId(R.id.enter_city)).perform(typeText("e"), closeSoftKeyboard());
-            onView(withId(R.id.enter_rent)).perform(typeText("2"), closeSoftKeyboard());
-            onView(withId(R.id.enter_utilities)).perform(typeText("3"), closeSoftKeyboard());
-            onView(withId(R.id.enter_deposit)).perform(typeText("4"), closeSoftKeyboard());
-            onView(withId(R.id.enter_beds)).perform(typeText("5"), closeSoftKeyboard());
-            onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-            onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
-
-            onView(withId(R.id.pets_yes)).perform(click());
-            onView(withId(R.id.enter_images)).check(matches(isEnabled()));
-
-            onView(withId(R.id.enter_images)).perform(click());
-            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
-
-            onView(withId(R.id.add_submit)).perform(click());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
     public void listingOwnedTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();

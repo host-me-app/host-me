@@ -313,7 +313,6 @@ public class SearchFragment extends Fragment {
 
             });
         } catch (Exception e) {
-            System.out.println("BBBBBBBBBBBBBBB");
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
@@ -347,7 +346,6 @@ public class SearchFragment extends Fragment {
                 recyclerView.setAdapter(recyclerAdapter);
             });
         } catch (Exception e) {
-            System.out.println("BBBBBBBBBBBBBBB");
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }

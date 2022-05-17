@@ -82,7 +82,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             fullAddress = addr + " " + city + " " + npa;
             ImageView image = root.findViewById(R.id.apart_image);
             Bitmap bitmap = bundle.getParcelable(BITMAP);
-            System.out.println("BBBBBB : " + bitmap);
             image.setImageBitmap(bitmap);
 
             changeText(String.valueOf(npa), R.id.npa);

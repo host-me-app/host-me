@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme.ui.search;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
@@ -46,7 +47,6 @@ import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends Fragment implements IOnBackPressed {
 
-    private static final String FROM = "from";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_USERS);
     private View root;
     private BottomNavigationView bottomNav;
@@ -81,7 +81,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             int npa = bundle.getInt(NPA, 0);
             fullAddress = addr + " " + city + " " + npa;
             ImageView image = root.findViewById(R.id.apart_image);
-            Bitmap bitmap = bundle.getParcelable(ApartmentAdapter.BITMAP);
+            Bitmap bitmap = bundle.getParcelable(BITMAP);
             image.setImageBitmap(bitmap);
 
             changeText(String.valueOf(npa), R.id.npa);
@@ -94,11 +94,8 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
 
             String uid = bundle.getString(UID);
             Button contactUser = root.findViewById(R.id.contact_user_button);
-            contactUser.setOnClickListener(view -> {
-                chatWithUser(uid);
-            });
+            contactUser.setOnClickListener(view -> chatWithUser(uid));
         }
-
         return root;
     }
 
@@ -154,7 +151,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
                     Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
                     newIntent.putExtra(Constants.KEY_USER, user);
-                    newIntent.putExtra(FROM, "apartment");
+                    newIntent.putExtra(Constants.FROM, "apartment");
                     startActivity(newIntent);
                     getActivity().finish();
                 }

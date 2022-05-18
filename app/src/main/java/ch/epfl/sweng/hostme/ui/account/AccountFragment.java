@@ -37,6 +37,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import ch.epfl.sweng.hostme.LogInActivity;
@@ -122,26 +123,24 @@ public class AccountFragment extends Fragment {
                     }
                 }
             });
+
     private ActivityResultLauncher<Intent> activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         if (result.getData() != null) {
-
                             Uri selectedImage = result.getData().getData();
-                            String[] filePath = {MediaStore.Images.Media.DATA};
-                            Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
-                            c.moveToFirst();
-                            int columnIndex = c.getColumnIndex(filePath[0]);
-                            String picturePath = c.getString(columnIndex);
-                            c.close();
-                            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                            Bitmap thumbnail = null;
+                            try {
+                                thumbnail = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             editProfilePicture.setImageBitmap(thumbnail);
                             uri_to_save = selectedImage;
                             deletePic = false;
                             saveButton.setEnabled(true);
-
                         }
                     }
                 }

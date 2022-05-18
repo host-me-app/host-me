@@ -6,23 +6,44 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
+import static org.junit.Assert.assertNotNull;
+
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -195,6 +216,77 @@ public class UserProfileUITest {
             e.printStackTrace();
         }
         Intents.release();
+    }
+
+    @Test
+    public void uploadProfilePictureFromGallery() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            savePickedImage();
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageResult());
+            String mail = "testlogin@gmail.com";
+            String originalPassword = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
+            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
+            pick.click();
+            intended(hasAction(Intent.ACTION_PICK));
+        } catch (InterruptedException | UiObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+
+    private Instrumentation.ActivityResult getImageResult() {
+        Intent resultData = new Intent();
+        File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
+        File file = new File(dir.getPath(), "pickImageResult.jpeg");
+        Uri uri = Uri.fromFile(file);
+        resultData.setData(uri);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+    }
+
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
+    private void savePickedImage() {
+        Drawable d = ApplicationProvider.getApplicationContext().getResources().getDrawable(R.drawable.add_icon);
+        Bitmap bm = drawableToBitmap(d);
+        assertNotNull(bm);
+        File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
+        File file = new File(dir.getPath(), "pickImageResult.jpeg");
+        FileOutputStream outStream = null;
+        try{
+            outStream  = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

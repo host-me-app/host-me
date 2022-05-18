@@ -122,6 +122,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                editor.putBoolean(IS_FROM_FILTERS, true).apply();
                 searchText = s.toLowerCase();
                 if (gpsSwitch.isChecked()) {
                     getLastLocation();
@@ -129,8 +130,7 @@ public class SearchFragment extends Fragment {
                     updateRecyclerView(null, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
                             rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
                 }
-                editor.putBoolean(IS_FROM_FILTERS, false);
-                editor.apply();
+                editor.putBoolean(IS_FROM_FILTERS, false).apply();
                 return true;
             }
         });

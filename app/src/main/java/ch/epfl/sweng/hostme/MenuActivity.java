@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
@@ -60,9 +61,12 @@ public class MenuActivity extends AppCompatActivity {
 
             setupViewPager(viewPager);
 
-            boolean notif = (boolean) getIntent().getSerializableExtra(Constants.FROM_NOTIF);
-            if(notif){
-                viewPager.setCurrentItem(3, false); // go to message part
+            Serializable notif = getIntent().getSerializableExtra(Constants.FROM_NOTIF);
+            if(notif != null){
+                boolean fromNotif = (boolean) notif;
+                if(fromNotif){
+                    viewPager.setCurrentItem(3, false); // go to message part
+                }
             }
         }
 

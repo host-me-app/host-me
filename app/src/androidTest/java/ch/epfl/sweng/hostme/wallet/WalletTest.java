@@ -120,13 +120,13 @@ public class WalletTest {
             Thread.sleep(1000);
             onView(withId(R.id.button_download_salary_slips)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.buttonPickDate_SalarySlips)).perform(click());
+            /*onView(withId(R.id.buttonPickDate_SalarySlips)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
                     .perform(PickerActions.setDate(2025, 3, 22));
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
-            Thread.sleep(1000);
+            Thread.sleep(1000);*/
          } catch (InterruptedException e) {
             e.printStackTrace();
         }

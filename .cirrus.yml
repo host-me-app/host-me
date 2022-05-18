@@ -42,7 +42,9 @@ check_android_task:
     path: storage.rules
     variable_name: STORAGE_RULES
   setup_firebase_script: |
-    curl -Lo ./firebase_bin https://firebase.tools/bin/linux/latest
+    sudo apt install nodejs
+    sudo apt install npm
+    sudo npm install -g firebase-tools
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest
@@ -58,8 +60,8 @@ check_android_task:
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
   check_script: |
-    chmod +x ./firebase_bin
-    ./firebase_bin emulators:exec --import=./emulated-firebase './gradlew check connectedCheck'
+    chmod +x firebase
+    firebase emulators:exec --import=./emulated-firebase './gradlew check connectedCheck'
   report_codeclimate_script: |
     export JACOCO_SOURCE_PATH=app/src/main/java/
     ./cc-test-reporter format-coverage ./app/build/reports/coverage/androidTest/debug/report.xml --input-type jacoco

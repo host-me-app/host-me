@@ -105,7 +105,6 @@ public class AccountFragment extends Fragment {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         if (result.getData() != null) {
                             Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");

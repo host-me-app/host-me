@@ -44,8 +44,7 @@ public class CallTest {
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA,
-            Manifest.permission.BLUETOOTH_ADMIN
+            Manifest.permission.CAMERA
     );
 
     @Test

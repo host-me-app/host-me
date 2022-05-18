@@ -40,8 +40,7 @@ public class CallActivity extends AppCompatActivity {
     private static final int PERMISSION_REQ_ID = 22;
     private static final String[] REQUESTED_PERMISSIONS = {
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA,
-            Manifest.permission.BLUETOOTH_CONNECT};
+            Manifest.permission.CAMERA};
     private final static CollectionReference reference = Database.getCollection(ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS);
     private final static int expirationTimeInSeconds = 3600;
     private final static String CERTIF = "fd11cdf9c54d490c9756be9d087c5293";
@@ -108,8 +107,7 @@ public class CallActivity extends AppCompatActivity {
 
     private void checkPermissionsAndInitEngine() {
         if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[1]) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[2]) == PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[1]) == PackageManager.PERMISSION_GRANTED) {
             initAgoraEngine();
         } else {
             ActivityCompat.requestPermissions(this, REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);

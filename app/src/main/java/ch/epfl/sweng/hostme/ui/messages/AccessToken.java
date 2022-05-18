@@ -18,7 +18,6 @@ public class AccessToken {
     public int crcChannelName;
     public int crcUid;
     public PrivilegeMessage message;
-    public int expireTimestamp;
     public AccessToken(String appId, String appCertificate, String channelName, String uid) {
         this.appId = appId;
         this.appCertificate = appCertificate;

@@ -7,6 +7,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -58,6 +59,7 @@ public class CallTest {
             BluetoothManager bluetoothManager = ApplicationProvider.getApplicationContext().getSystemService(BluetoothManager.class);
             BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
             assertNotNull(bluetoothAdapter);
+            assertTrue(bluetoothAdapter.isEnabled());
         }
         Intents.release();
     }

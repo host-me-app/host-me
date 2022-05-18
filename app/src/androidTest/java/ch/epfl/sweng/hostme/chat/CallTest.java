@@ -51,7 +51,6 @@ public class CallTest {
         Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
@@ -64,6 +63,16 @@ public class CallTest {
             onView(withId(R.id.contact_user_button)).perform(click());
             onView(withId(R.id.launchButt)).perform(click());
             Thread.sleep(1000);
+            Thread.sleep(1000);
+            onView(withId(R.id.audioBtn)).perform(click());
+            onView(withId(R.id.audioBtn)).perform(click());
+            onView(withId(R.id.audioBtn)).perform(click());
+            onView(withId(R.id.videoBtn)).perform(click());
+            onView(withId(R.id.videoBtn)).perform(click());
+            onView(withId(R.id.switch_camera)).perform(click());
+            onView(withId(R.id.switch_camera)).perform(click());
+            Thread.sleep(500);
+            onView(withId(R.id.leaveBtn)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

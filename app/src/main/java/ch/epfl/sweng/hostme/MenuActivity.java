@@ -23,6 +23,7 @@ import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
 import ch.epfl.sweng.hostme.ui.messages.MessageService;
 import ch.epfl.sweng.hostme.ui.messages.MessagesFragment;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
+import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.ListImage;
 
 public class MenuActivity extends AppCompatActivity {
@@ -58,6 +59,11 @@ public class MenuActivity extends AppCompatActivity {
             });
 
             setupViewPager(viewPager);
+
+            boolean notif = (boolean) getIntent().getSerializableExtra(Constants.FROM_NOTIF);
+            if(notif){
+                viewPager.setCurrentItem(3, false); // go to message part
+            }
         }
 
     }

@@ -19,8 +19,10 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import ch.epfl.sweng.hostme.MenuActivity;
+import ch.epfl.sweng.hostme.utils.Constants;
+
 public class MessageService extends FirebaseMessagingService {
-    public static final String FROM_NOTIF = "from_notif";
     NotificationManager mNotificationManager;
 
     @Override
@@ -62,9 +64,16 @@ public class MessageService extends FirebaseMessagingService {
         int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(resourceImage);
+        Intent resultIntent = null;
+        if(remoteMessage.getData().get("title") == "New Message"){
+            resultIntent = new Intent(this, MenuActivity.class);
+            resultIntent.putExtra(Constants.FROM_NOTIF, true);
+        }
+        else {
+            resultIntent = new Intent(this, CallActivity.class);
+            resultIntent.putExtra(Constants.FROM_NOTIF, true);
+        }
 
-        Intent resultIntent = new Intent(this, CallActivity.class);
-        resultIntent.putExtra(FROM_NOTIF, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =

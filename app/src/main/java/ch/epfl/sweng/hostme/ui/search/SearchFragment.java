@@ -118,7 +118,6 @@ public class SearchFragment extends Fragment {
                 if (gpsSwitch.isChecked()) {
                     getLastLocation();
                 } else {
-
                     updateRecyclerView(null, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
                             rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
                 }

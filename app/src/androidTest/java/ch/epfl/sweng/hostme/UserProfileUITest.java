@@ -6,7 +6,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -21,7 +20,6 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -275,7 +273,6 @@ public class UserProfileUITest {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
-            intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.userProfileSaveButton)).perform(click());
         } catch (InterruptedException | UiObjectNotFoundException e) {
@@ -307,7 +304,6 @@ public class UserProfileUITest {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
-            intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.userProfileSaveButton)).perform(click());
             Thread.sleep(1000);
@@ -315,7 +311,6 @@ public class UserProfileUITest {
 
             UiObject pick2 = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick2.click();
-            intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.userProfileSaveButton)).perform(click());
 
@@ -348,7 +343,6 @@ public class UserProfileUITest {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
-            intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.userProfileSaveButton)).perform(click());
             Thread.sleep(1000);

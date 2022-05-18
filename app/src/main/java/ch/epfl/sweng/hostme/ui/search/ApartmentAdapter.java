@@ -3,13 +3,15 @@ package ch.epfl.sweng.hostme.ui.search;
 import static android.content.Context.MODE_PRIVATE;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
-import static ch.epfl.sweng.hostme.utils.Constants.CITY;
-import static ch.epfl.sweng.hostme.utils.Constants.NPA;
-import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
-import static ch.epfl.sweng.hostme.utils.Constants.UID;
-import static ch.epfl.sweng.hostme.utils.Constants.RENT;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
+import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
+import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
+import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -55,11 +57,9 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
-    public static final String BITMAP = "bitmap";
-    public static final String FAVORITES = "favorites";
     private final CollectionReference reference = Database.getCollection("favorite_apart");
     private List<Apartment> apartments;
-    private Bitmap bitmap;
+    private HashMap<String, Bitmap> hashMap = new HashMap<>();
     private View view;
     private boolean isFavFragment;
     private Context context;
@@ -193,7 +193,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         bundle.putInt(RENT, apartment.getRent());
         bundle.putInt(AREA, apartment.getArea());
         bundle.putString(PROPRIETOR, apartment.getProprietor());
-        bundle.putParcelable(BITMAP, bitmap);
+        bundle.putParcelable(BITMAP, hashMap.get(apartment.getDocID()));
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
@@ -219,7 +219,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             storageReference.getFile(localFile)
                     .addOnSuccessListener(result -> {
                         loadingBar.setVisibility(View.GONE);
-                        bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        hashMap.put(model.getDocID(), bitmap);
                         holder.image.setImageBitmap(bitmap);
                     });
         } catch (IOException e) {

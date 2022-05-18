@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme.ui.messages;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.MenuActivity;
@@ -38,9 +40,6 @@ public class CallActivity extends AppCompatActivity {
 
     public static final String FROM_NOTIF = "from_notif";
     private static final int PERMISSION_REQ_ID = 22;
-    private static final String[] REQUESTED_PERMISSIONS = {
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA};
     private final static CollectionReference reference = Database.getCollection(ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS);
     private final static int expirationTimeInSeconds = 3600;
     private final static String CERTIF = "fd11cdf9c54d490c9756be9d087c5293";
@@ -106,11 +105,17 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void checkPermissionsAndInitEngine() {
-        if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[1]) == PackageManager.PERMISSION_GRANTED) {
+        ArrayList<String> REQUESTED_PERMISSIONS = new ArrayList<>();
+        REQUESTED_PERMISSIONS.add(Manifest.permission.RECORD_AUDIO);
+        REQUESTED_PERMISSIONS.add(Manifest.permission.CAMERA);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            REQUESTED_PERMISSIONS.add(Manifest.permission.BLUETOOTH_CONNECT);
+        }
+        if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS.get(0)) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS.get(1)) == PackageManager.PERMISSION_GRANTED) {
             initAgoraEngine();
         } else {
-            ActivityCompat.requestPermissions(this, REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);
+            ActivityCompat.requestPermissions(this, (String[]) REQUESTED_PERMISSIONS.toArray(), PERMISSION_REQ_ID);
         }
     }
 
@@ -123,9 +128,8 @@ public class CallActivity extends AppCompatActivity {
 
     public void joinChannel() {
         reference.document(Auth.getUid()).get().addOnSuccessListener(res -> {
-            DocumentSnapshot document = res;
-            if (document.exists()) {
-                String roomName = document.getString("roomName");
+            if (res.exists()) {
+                String roomName = res.getString("roomName");
                 if (roomName != null) {
                     initToken(roomName);
                     mRtcEngine.joinChannel(result, roomName, null, 0);

@@ -146,9 +146,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                 Toast.makeText(view.getContext(), "Apartment removed from your favorites",
                         Toast.LENGTH_SHORT).show();
             }
-        } else {
+        } /*else {
             preferences.edit().putBoolean(IS_FROM_FILTERS, false).apply();
-        }
+        }*/
     }
 
     /**

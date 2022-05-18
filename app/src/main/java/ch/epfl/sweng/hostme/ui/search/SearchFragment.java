@@ -102,6 +102,10 @@ public class SearchFragment extends Fragment {
         clearFilters = root.findViewById(R.id.clear_filters);
         clearFilters.setVisibility(View.GONE);
 
+        apartments = new ArrayList<>();
+        editor = getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
+        setUpRecyclerView();
+
         gpsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 radiusGpsLayout.setVisibility(View.VISIBLE);
@@ -113,6 +117,11 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
                 searchText = s.toLowerCase();
                 if (gpsSwitch.isChecked()) {
                     getLastLocation();
@@ -124,11 +133,6 @@ public class SearchFragment extends Fragment {
                 editor.apply();
                 return true;
             }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
         });
 
         filterIsClicked = false;
@@ -137,8 +141,6 @@ public class SearchFragment extends Fragment {
 
         changeFilterVisibility(View.GONE);
         setRangeBar();
-        apartments = new ArrayList<>();
-        setUpRecyclerView();
 
         favReference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             SharedPreferences pref = root.getContext().getSharedPreferences(FAVORITE_FRAGMENT, Context.MODE_PRIVATE);
@@ -146,8 +148,6 @@ public class SearchFragment extends Fragment {
                 setUpRecyclerView();
             }
         });
-         editor = getContext()
-                .getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
         return root;
     }
 
@@ -179,13 +179,88 @@ public class SearchFragment extends Fragment {
             if (gpsSwitch.isChecked()) {
                 getLastLocation();
             } else {
+                editor.putBoolean(IS_FROM_FILTERS, true).apply();
                 updateRecyclerView(null, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
                         rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
+                editor.putBoolean(IS_FROM_FILTERS, false).apply();
             }
-            editor.putBoolean(IS_FROM_FILTERS, false);
-            editor.apply();
         }
     }
+
+    /**
+     * set up or update the recycler view
+     */
+    private void updateRecyclerView(Location location, float radius, float min, float max, float min2, float max2) {
+        apartments = new ArrayList<>();
+        reference.get().addOnSuccessListener(result -> {
+            apartments.clear();
+            QuerySnapshot snapshot = result;
+            double latitude = 0;
+            double longitude = 0;
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+            for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                Apartment apartment = doc.toObject(Apartment.class);
+                Long rent = (Long) doc.get("rent");
+                Long area = (Long) doc.get("area");
+                String city = (String) doc.get("city");
+                String address = (String) doc.get("address");
+                Long npa = (Long) doc.get("npa");
+                String fullAddress = address + " " + city + " " + npa;
+                apartment.setDocID(doc.getId());
+                if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
+                    if ((searchText == null) || (String.valueOf(npa).toLowerCase().contains(searchText) ||
+                            address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText))) {
+                        if (location == null || checkPositionAroundLocation(fullAddress, latitude, longitude, radius)) {
+                            if (apartments.size() < 10) {
+                                apartments.add(apartment);
+                            }
+                        }
+                    }
+                }
+            }
+            displayRecycler();
+        });
+    }
+
+    /**
+     * Initialize the recycler view with no filtered apartments
+     */
+    private void setUpRecyclerView() {
+        editor.putBoolean(IS_FROM_FILTERS, false);
+        editor.apply();
+        apartments = new ArrayList<>();
+        reference.get().addOnSuccessListener(result -> {
+            apartments.clear();
+            QuerySnapshot snapshot = result;
+            for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                if (apartments.size() < 10) {
+                    Apartment apartment = doc.toObject(Apartment.class);
+                    apartment.setDocID(doc.getId());
+                    apartments.add(apartment);
+                }
+            }
+            displayRecycler();
+        });
+    }
+
+    /**
+     * Set up and display the recycler view with the apartments
+     */
+    private void displayRecycler() {
+        List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
+        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
+        recyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        recyclerView.setAdapter(recyclerAdapter);
+    }
+
 
     private boolean checkPermissions() {
         return ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
@@ -278,79 +353,6 @@ public class SearchFragment extends Fragment {
         filters.setVisibility(visible);
     }
 
-    /**
-     * set up or update the recycler view
-     */
-    private void updateRecyclerView(Location location, float radius, float min, float max, float min2, float max2) {
-        apartments = new ArrayList<>();
-        reference.get().addOnSuccessListener(result -> {
-            editor.putBoolean(IS_FROM_FILTERS, true);
-            editor.apply();
-            apartments.clear();
-            QuerySnapshot snapshot = result;
-            double latitude = 0;
-            double longitude = 0;
-            if (location != null) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-            }
-            for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                Apartment apartment = doc.toObject(Apartment.class);
-                Long rent = (Long) doc.get("rent");
-                Long area = (Long) doc.get("area");
-                String city = (String) doc.get("city");
-                String address = (String) doc.get("address");
-                Long npa = (Long) doc.get("npa");
-                String fullAddress = address + " " + city + " " + npa;
-                apartment.setDocID(doc.getId());
-                if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
-                    if ((searchText == null) || (String.valueOf(npa).toLowerCase().contains(searchText) ||
-                            address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText))) {
-                        if (location == null || checkPositionAroundLocation(fullAddress, latitude, longitude, radius)) {
-                            if (apartments.size() < 10) {
-                                apartments.add(apartment);
-                            }
-                        }
-                    }
-                }
-            }
-            List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-            recyclerAdapter.setApartments(apartmentsWithoutDuplicate);
-            recyclerAdapter.notifyDataSetChanged();
-        });
-    }
-
-
-
-
-    /**
-     * Initialize the recycler view with no filtered apartments
-     */
-    private void setUpRecyclerView() {
-        apartments = new ArrayList<>();
-        reference.get().addOnSuccessListener(result -> {
-            apartments.clear();
-            QuerySnapshot snapshot = result;
-            for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                if (apartments.size() < 10) {
-                    Apartment apartment = doc.toObject(Apartment.class);
-                    apartment.setDocID(doc.getId());
-                    apartments.add(apartment);
-                }
-            }
-            List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-            recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
-            recyclerView.setHasFixedSize(true);
-            linearLayoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setItemViewCacheSize(20);
-            recyclerView.setDrawingCacheEnabled(true);
-            recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-            recyclerView.setAdapter(recyclerAdapter);
-            editor.putBoolean(IS_FROM_FILTERS, false);
-            editor.apply();
-        });
-    }
 
     @Override
     public void onResume() {

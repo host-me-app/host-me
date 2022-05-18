@@ -139,7 +139,6 @@ public class CallActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
             }
-
         });
     }
 

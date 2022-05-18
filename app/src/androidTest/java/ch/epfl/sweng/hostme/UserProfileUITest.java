@@ -242,6 +242,7 @@ public class UserProfileUITest {
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
             intended(hasAction(Intent.ACTION_PICK));
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }

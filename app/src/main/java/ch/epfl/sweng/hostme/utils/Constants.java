@@ -33,6 +33,9 @@ public final class Constants {
     public static final String PROPRIETOR = "proprietor";
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
+    public static final String FROM = "from";
+    public static final String BITMAP = "bitmap";
+    public static final String FAVORITES = "favorites";
     // Response codes for all activities
     public static final int REQ_IMAGE = 105;
 

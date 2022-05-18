@@ -105,17 +105,19 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void checkPermissionsAndInitEngine() {
-        ArrayList<String> REQUESTED_PERMISSIONS = new ArrayList<>();
-        REQUESTED_PERMISSIONS.add(Manifest.permission.RECORD_AUDIO);
-        REQUESTED_PERMISSIONS.add(Manifest.permission.CAMERA);
+        ArrayList<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.RECORD_AUDIO);
+        permissions.add(Manifest.permission.CAMERA);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            REQUESTED_PERMISSIONS.add(Manifest.permission.BLUETOOTH_CONNECT);
+            permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
         }
-        if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS.get(0)) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS.get(1)) == PackageManager.PERMISSION_GRANTED) {
+        String[] REQUESTED_PERMISSIONS = new String[permissions.size()];
+        REQUESTED_PERMISSIONS = permissions.toArray(REQUESTED_PERMISSIONS);
+        if (ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, REQUESTED_PERMISSIONS[1]) == PackageManager.PERMISSION_GRANTED) {
             initAgoraEngine();
         } else {
-            ActivityCompat.requestPermissions(this, (String[]) REQUESTED_PERMISSIONS.toArray(), PERMISSION_REQ_ID);
+            ActivityCompat.requestPermissions(this, REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);
         }
     }
 

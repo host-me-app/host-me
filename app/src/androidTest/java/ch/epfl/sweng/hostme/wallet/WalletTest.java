@@ -4,11 +4,16 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
@@ -20,15 +25,18 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.widget.DatePicker;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
+import org.hamcrest.Matchers;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -111,6 +119,15 @@ public class WalletTest {
             onView(withId(R.id.button_browse_salary_slips)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.button_download_salary_slips)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.buttonPickDate_SalarySlips)).perform(click());
+            Thread.sleep(1000);
+            onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
+                    .perform(PickerActions.setDate(2025, 3, 22));
+            Thread.sleep(1000);
+            onView(withId(android.R.id.button1)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2025"), isDisplayed())));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

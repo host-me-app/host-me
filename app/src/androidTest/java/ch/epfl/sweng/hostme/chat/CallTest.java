@@ -1,14 +1,14 @@
 package ch.epfl.sweng.hostme.chat;
+
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+
 import android.Manifest;
 import android.content.Intent;
-import android.os.Build;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
@@ -16,21 +16,20 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
+
 import com.google.firebase.FirebaseApp;
-import org.junit.Before;
+
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
+
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
 
@@ -65,11 +64,6 @@ public class CallTest {
             Thread.sleep(500);
             onView(withId(R.id.contact_user_button)).perform(click());
             onView(withId(R.id.launchButt)).perform(click());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                UiDevice device = UiDevice.getInstance(getInstrumentation());
-                UiObject allowPermissions = device.findObject(new UiSelector().text("Allow"));
-                allowPermissions.click();
-            }
             Thread.sleep(1000);
             onView(withId(R.id.audioBtn)).perform(click());
             Thread.sleep(1000);
@@ -84,7 +78,7 @@ public class CallTest {
             Thread.sleep(500);
             onView(withId(R.id.leaveBtn)).perform(click());
             Thread.sleep(1000);
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

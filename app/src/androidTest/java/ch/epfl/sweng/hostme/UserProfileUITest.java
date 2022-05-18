@@ -244,7 +244,8 @@ public class UserProfileUITest {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Camera"));
             pick.click();
-            Thread.sleep(2000);
+            Thread.sleep(3000);
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }
@@ -274,6 +275,46 @@ public class UserProfileUITest {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
+            intended(hasAction(Intent.ACTION_PICK));
+            Thread.sleep(1000);
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
+        } catch (InterruptedException | UiObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void updateProfilePictureFromGallery() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            savePickedImage();
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageUriResult());
+            String mail = "testlogin@gmail.com";
+            String originalPassword = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
+            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
+            pick.click();
+            intended(hasAction(Intent.ACTION_PICK));
+            Thread.sleep(1000);
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+
+            UiObject pick2 = device.findObject(new UiSelector().text("Pick from Gallery"));
+            pick2.click();
             intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.userProfileSaveButton)).perform(click());

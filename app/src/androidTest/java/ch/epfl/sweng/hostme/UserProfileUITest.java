@@ -244,9 +244,7 @@ public class UserProfileUITest {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Camera"));
             pick.click();
-            intended(hasAction(MediaStore.ACTION_IMAGE_CAPTURE));
-            Thread.sleep(1000);
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            Thread.sleep(2000);
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }

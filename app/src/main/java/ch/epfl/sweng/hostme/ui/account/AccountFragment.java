@@ -110,15 +110,12 @@ public class AccountFragment extends Fragment {
                         if (result.getData() != null) {
                             Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get("data");
                             editProfilePicture.setImageBitmap(imageBitmap);
-                            Bitmap bit = imageBitmap;
-
                             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                             String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), imageBitmap, "Title", null);
                             uri_to_save = Uri.parse(path);
                             deletePic = false;
                             saveButton.setEnabled(true);
-
                         }
                     }
                 }

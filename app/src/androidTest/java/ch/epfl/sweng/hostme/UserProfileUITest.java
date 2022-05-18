@@ -21,10 +21,13 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
@@ -219,12 +222,44 @@ public class UserProfileUITest {
     }
 
     @Test
+    public void uploadProfilePictureFromCamera() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(getImageResult());
+
+            String mail = "testlogin@gmail.com";
+            String originalPassword = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
+            UiObject pick = device.findObject(new UiSelector().text("Pick from Camera"));
+            pick.click();
+            intended(hasAction(MediaStore.ACTION_IMAGE_CAPTURE));
+            Thread.sleep(1000);
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
+        } catch (InterruptedException | UiObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
     public void uploadProfilePictureFromGallery() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             savePickedImage();
-            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageResult());
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageUriResult());
             String mail = "testlogin@gmail.com";
             String originalPassword = "fakePassword1!";
 
@@ -242,6 +277,7 @@ public class UserProfileUITest {
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
             intended(hasAction(Intent.ACTION_PICK));
+            Thread.sleep(1000);
             onView(withId(R.id.userProfileSaveButton)).perform(click());
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
@@ -249,8 +285,56 @@ public class UserProfileUITest {
         Intents.release();
     }
 
+    @Test
+    public void uploadProfilePictureAndDelete() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            savePickedImage();
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageUriResult());
+            String mail = "testlogin@gmail.com";
+            String originalPassword = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
+            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
+            pick.click();
+            intended(hasAction(Intent.ACTION_PICK));
+            Thread.sleep(1000);
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+            UiObject delete = device.findObject(new UiSelector().text("Delete"));
+            delete.click();
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
+        } catch (InterruptedException | UiObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
 
     private Instrumentation.ActivityResult getImageResult() {
+        Bundle bundle = new Bundle();
+        Drawable d = ApplicationProvider.getApplicationContext().getResources().getDrawable(R.drawable.add_icon);
+        Bitmap bm = drawableToBitmap(d);
+        bundle.putParcelable("data", bm);
+        Intent resultData = new Intent();
+        resultData.putExtras(bundle);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+    }
+
+
+    private Instrumentation.ActivityResult getImageUriResult() {
         Intent resultData = new Intent();
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult.jpeg");

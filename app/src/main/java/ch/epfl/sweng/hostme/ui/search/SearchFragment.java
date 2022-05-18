@@ -114,19 +114,22 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
                 searchText = s.toLowerCase();
                 if (gpsSwitch.isChecked()) {
                     getLastLocation();
                 } else {
+
                     updateRecyclerView(null, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
                             rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
                 }
+                editor.putBoolean(IS_FROM_FILTERS, false);
+                editor.apply();
                 return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
 
@@ -181,7 +184,8 @@ public class SearchFragment extends Fragment {
                 updateRecyclerView(null, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
                         rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
             }
-
+            editor.putBoolean(IS_FROM_FILTERS, false);
+            editor.apply();
         }
     }
 
@@ -283,6 +287,8 @@ public class SearchFragment extends Fragment {
         apartments = new ArrayList<>();
         try {
             reference.get().addOnSuccessListener(result -> {
+                editor.putBoolean(IS_FROM_FILTERS, true);
+                editor.apply();
                 apartments.clear();
                 QuerySnapshot snapshot = result;
                 double latitude = 0;
@@ -314,8 +320,6 @@ public class SearchFragment extends Fragment {
                 List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
                 recyclerAdapter.setApartments(apartmentsWithoutDuplicate);
                 recyclerAdapter.notifyDataSetChanged();
-                editor.putBoolean(IS_FROM_FILTERS, true);
-                editor.apply();
             });
         } catch (Exception e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();

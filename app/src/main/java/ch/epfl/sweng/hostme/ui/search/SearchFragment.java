@@ -1,6 +1,8 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -57,6 +59,7 @@ public class SearchFragment extends Fragment {
     public static final String FAVORITE_FRAGMENT = "FavoriteFragment";
     private final static CollectionReference favReference = Database.getCollection("favorite_apart");
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
+    private SharedPreferences.Editor editor;
     private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;
@@ -142,7 +145,8 @@ public class SearchFragment extends Fragment {
                 setUpRecyclerView();
             }
         });
-
+         editor = getContext()
+                .getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
         return root;
     }
 
@@ -310,7 +314,8 @@ public class SearchFragment extends Fragment {
                 List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
                 recyclerAdapter.setApartments(apartmentsWithoutDuplicate);
                 recyclerAdapter.notifyDataSetChanged();
-
+                editor.putBoolean(IS_FROM_FILTERS, true);
+                editor.apply();
             });
         } catch (Exception e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -344,6 +349,8 @@ public class SearchFragment extends Fragment {
                 recyclerView.setDrawingCacheEnabled(true);
                 recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                 recyclerView.setAdapter(recyclerAdapter);
+                editor.putBoolean(IS_FROM_FILTERS, false);
+                editor.apply();
             });
         } catch (Exception e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();

@@ -327,6 +327,7 @@ public class SearchFragment extends Fragment {
 
 
 
+
     /**
      * Initialize the recycler view with no filtered apartments
      */

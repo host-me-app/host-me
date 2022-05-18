@@ -72,14 +72,18 @@ public class CallTest {
             }
             Thread.sleep(1000);
             onView(withId(R.id.audioBtn)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.audioBtn)).perform(click());
             onView(withId(R.id.videoBtn)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.videoBtn)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.switch_camera)).perform(click());
             Thread.sleep(500);
             onView(withId(R.id.leaveBtn)).perform(click());
+            Thread.sleep(1000);
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }

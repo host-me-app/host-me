@@ -127,8 +127,7 @@ public class WalletTest {
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.textExpirationDate_ResidencePermit)).check(matches(allOf(withText("22/3/2025"), isDisplayed())));
-        } catch (InterruptedException e) {
+         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

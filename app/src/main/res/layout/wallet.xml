@@ -21,8 +21,8 @@
 
     <Button
         android:id="@+id/buttonPickDate_ExecOffice"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
+        android:layout_width="119dp"
+        android:layout_height="46dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="74dp"
         android:text="Pick Date"
@@ -44,8 +44,8 @@
 
     <Button
         android:id="@+id/buttonPickDate_SalarySlips"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
+        android:layout_width="117dp"
+        android:layout_height="49dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="74dp"
         android:text="Pick Date"

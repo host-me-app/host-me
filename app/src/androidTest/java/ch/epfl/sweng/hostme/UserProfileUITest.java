@@ -318,6 +318,7 @@ public class UserProfileUITest {
             intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.userProfileSaveButton)).perform(click());
+
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }

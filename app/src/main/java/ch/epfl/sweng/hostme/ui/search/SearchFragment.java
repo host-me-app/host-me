@@ -79,7 +79,7 @@ public class SearchFragment extends Fragment {
     private View root;
     private Button clearFilters;
     private FusedLocationProviderClient mFusedLocationClient;
-    private int PERMISSION_ID = 44;
+    private final static int PERMISSION_ID = 44;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

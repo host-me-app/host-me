@@ -62,11 +62,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private Bitmap bitmap;
     private View view;
     private boolean isFavFragment;
-    private Context context;
     private HashMap<String, Boolean> favMap = new HashMap<>();
 
     public ApartmentAdapter(List<Apartment> apartments, Context context) {
-        this.context = context;
         this.apartments = apartments;
     }
 

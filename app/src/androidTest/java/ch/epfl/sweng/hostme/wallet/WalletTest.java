@@ -119,7 +119,7 @@ public class WalletTest {
             onView(withId(R.id.button_browse_salary_slips)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.button_download_salary_slips)).perform(click());
-            Thread.sleep(5000);
+            Thread.sleep(1000);
             onView(withId(R.id.buttonPickDate_SalarySlips)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))

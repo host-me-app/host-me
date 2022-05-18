@@ -44,15 +44,19 @@
 
     <Button
         android:id="@+id/buttonPickDate_SalarySlips"
-        android:layout_width="117dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="74dp"
+        android:layout_width="143dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="70dp"
         android:text="Pick Date"
         android:textSize="11sp"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toEndOf="@+id/textExpirationDate_SalarySlips"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textExpirationDate2"
@@ -62,7 +66,7 @@
         android:text="Expiration Date :"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -164,8 +168,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="6dp"
         android:text="Dowload File"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPickDate_SalarySlips"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.029"
         app:layout_constraintStart_toEndOf="@+id/button_browse_residence_permit"

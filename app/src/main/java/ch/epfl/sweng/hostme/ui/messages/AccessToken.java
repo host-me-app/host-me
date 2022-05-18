@@ -72,28 +72,6 @@ public class AccessToken {
         message.messages.put(privilege.intValue, expireTimestamp);
     }
 
-    public boolean fromString(String token) {
-        if (!getVersion().equals(token.substring(0, Utils.VERSION_LENGTH))) {
-            return false;
-        }
-
-        try {
-            appId = token.substring(Utils.VERSION_LENGTH, Utils.VERSION_LENGTH + Utils.APP_ID_LENGTH);
-            PackContent packContent = new PackContent();
-            Utils.unpack(Utils.base64Decode(token.substring(Utils.VERSION_LENGTH + Utils.APP_ID_LENGTH, token.length())), packContent);
-            signature = packContent.signature;
-            crcChannelName = packContent.crcChannelName;
-            crcUid = packContent.crcUid;
-            messageRawContent = packContent.rawMessage;
-            Utils.unpack(messageRawContent, message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
-    }
-
     public enum Privileges {
         kJoinChannel(1),
         kPublishAudioStream(2),
@@ -128,9 +106,7 @@ public class AccessToken {
 
         @Override
         public void unmarshal(ByteBuf in) {
-            salt = in.readInt();
-            ts = in.readInt();
-            messages = in.readIntMap();
+
         }
     }
 
@@ -158,10 +134,7 @@ public class AccessToken {
 
         @Override
         public void unmarshal(ByteBuf in) {
-            signature = in.readBytes();
-            crcChannelName = in.readInt();
-            crcUid = in.readInt();
-            rawMessage = in.readBytes();
+
         }
     }
 }

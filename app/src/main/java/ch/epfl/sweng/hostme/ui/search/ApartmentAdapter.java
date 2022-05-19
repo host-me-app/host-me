@@ -7,6 +7,8 @@ import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
+import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -62,10 +64,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private HashMap<String, Bitmap> hashMap = new HashMap<>();
     private View view;
     private boolean isFavFragment;
-    private Context context;
+    private HashMap<String, Boolean> favMap = new HashMap<>();
+    private SharedPreferences preferences;
 
     public ApartmentAdapter(List<Apartment> apartments, Context context) {
-        this.context = context;
         this.apartments = apartments;
     }
 
@@ -73,6 +75,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        preferences = view.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE);
         return new ViewHolder(view);
     }
 
@@ -111,35 +114,41 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         setPreferences(context, isFavFragment);
         SharedPreferences.Editor editor = context.
                 getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE).edit();
-        if (isAdded) {
-            editor.putString(apartment.getDocID() + "pressed", "yes");
-            editor.apply();
-            documentRef.get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocID()));
-                        } else {
-                            Map<String, ArrayList> mapData = new HashMap<>();
-                            ArrayList<String> favorites = new ArrayList<>();
-                            favorites.add(apartment.getDocID());
-                            mapData.put(FAVORITES, favorites);
-                            documentRef.set(mapData);
-                        }
-                        Toast.makeText(view.getContext(), "Apartment added to your favorites",
-                                Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            editor.putString(apartment.getDocID() + "pressed", "no");
-            editor.apply();
-            documentRef.get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
-                        }
-                    });
-            Toast.makeText(view.getContext(), "Apartment removed from your favorites",
-                    Toast.LENGTH_SHORT).show();
-        }
+        if (!preferences.getBoolean(IS_FROM_FILTERS, true)) {
+            if (isAdded) {
+                favMap.put(apartment.getDocID(), true);
+                editor.putString(apartment.getDocID() + "pressed", "yes");
+                editor.apply();
+                documentRef.get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocID()));
+                            } else {
+                                Map<String, ArrayList> mapData = new HashMap<>();
+                                ArrayList<String> favorites = new ArrayList<>();
+                                favorites.add(apartment.getDocID());
+                                mapData.put(FAVORITES, favorites);
+                                documentRef.set(mapData);
+                            }
+                            Toast.makeText(view.getContext(), "Apartment added to your favorites",
+                                    Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                favMap.put(apartment.getDocID(), false);
+                editor.putString(apartment.getDocID() + "pressed", "no");
+                editor.apply();
+                documentRef.get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
+                            }
+                        });
+                Toast.makeText(view.getContext(), "Apartment removed from your favorites",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } /*else {
+            preferences.edit().putBoolean(IS_FROM_FILTERS, false).apply();
+        }*/
     }
 
     /**
@@ -223,8 +232,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                         hashMap.put(model.getDocID(), bitmap);
                         holder.image.setImageBitmap(bitmap);
                     });
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 

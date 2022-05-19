@@ -118,11 +118,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
                 Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnFailureListener(e -> showToast("Unable to update token"));
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Unable to update token", Toast.LENGTH_SHORT).show());
     }
 
     private void listenConversations() {
@@ -135,8 +131,9 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     }
 
     @Override
-    public void onConversionClicked(User user) {
+    public void onConversionClicked(User user, String apartId) {
         Intent intent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.FROM, apartId);
         intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
     }

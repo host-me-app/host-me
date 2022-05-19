@@ -75,10 +75,8 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
                                 user.id = chatMessage.conversionId;
                                 user.name = chatMessage.conversionName;
                                 user.token = task.getResult().getString(Constants.KEY_FCM_TOKEN);
-                                conversionListener.onConversionClicked(user);
+                                conversionListener.onConversionClicked(user, chatMessage.apartId);
                             });
-                        } else {
-                            System.out.println(task.getException().toString());
                         }
                     });
         }

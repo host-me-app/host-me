@@ -93,7 +93,7 @@ public class AddFragment extends Fragment {
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
-            Listing latest = generateApartment(root);
+            generateApartment(root);
         });
 
         final FloatingActionButton addNew = binding.addNew;
@@ -190,8 +190,7 @@ public class AddFragment extends Fragment {
             fields.put("utilities", Integer.valueOf(formFields.get("utilities").getText().toString()));
             fields.put("deposit", Integer.valueOf(formFields.get("deposit").getText().toString()));
             fields.put("duration", formFields.get("duration").getText().toString());
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+        } catch (Exception ignored) {
         }
 
         Listing ret = new Listing(fields);

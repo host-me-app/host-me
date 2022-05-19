@@ -35,6 +35,8 @@ public final class Constants {
     public static final String APARTMENTS = "apartments";
     public static final String FROM = "from";
     public static final String BITMAP = "bitmap";
+    public static final String FILTERS = "filters";
+    public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";
     public static final String FROM_NOTIF = "from_notif";
     // Response codes for all activities

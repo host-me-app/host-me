@@ -14,10 +14,6 @@ public class ByteBuf {
     public ByteBuf() {
     }
 
-    public ByteBuf(byte[] bytes) {
-        this.buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
-    }
-
     public byte[] asBytes() {
         byte[] out = new byte[buffer.position()];
         buffer.rewind();
@@ -43,26 +39,6 @@ public class ByteBuf {
         return this;
     }
 
-    public ByteBuf put(long v) {
-        buffer.putLong(v);
-        return this;
-    }
-
-    public ByteBuf put(String v) {
-        return put(v.getBytes());
-    }
-
-    public ByteBuf put(TreeMap<Short, String> extra) {
-        put((short) extra.size());
-
-        for (Map.Entry<Short, String> pair : extra.entrySet()) {
-            put(pair.getKey());
-            put(pair.getValue());
-        }
-
-        return this;
-    }
-
     public ByteBuf putIntMap(TreeMap<Short, Integer> extra) {
         put((short) extra.size());
 
@@ -72,36 +48,5 @@ public class ByteBuf {
         }
 
         return this;
-    }
-
-    public short readShort() {
-        return buffer.getShort();
-    }
-
-
-    public int readInt() {
-        return buffer.getInt();
-    }
-
-    public byte[] readBytes() {
-        short length = readShort();
-        byte[] bytes = new byte[length];
-        buffer.get(bytes);
-        return bytes;
-    }
-
-
-    public TreeMap<Short, Integer> readIntMap() {
-        TreeMap<Short, Integer> map = new TreeMap<>();
-
-        short length = readShort();
-
-        for (short i = 0; i < length; ++i) {
-            short k = readShort();
-            Integer v = readInt();
-            map.put(k, v);
-        }
-
-        return map;
     }
 }

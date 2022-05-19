@@ -129,11 +129,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                     public void onSuccess(StorageMetadata storageMetadata) {
                         // Updated metadata is in storageMetadata
                         expDateText.setText(date);
-                        clearPreviouslyScheduledNotif();
-                        createNotificationChannel();
-                        Calendar datePicked = Calendar.getInstance();
-                        datePicked.set(year, month, dayOfMonth);
-                        scheduleNotification(datePicked);
+                        notif(year,dayOfMonth, month);
                         Toast.makeText(context, "Expiration date Update Succeeded", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -143,6 +139,15 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                         Toast.makeText(context, "Uh-oh, an error occurred!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void notif(int year, int dayOfMonth, int month) {
+        clearPreviouslyScheduledNotif();
+        createNotificationChannel();
+        Calendar datePicked = Calendar.getInstance();
+        datePicked.set(year, month, dayOfMonth);
+        scheduleNotification(datePicked);
     }
 
 

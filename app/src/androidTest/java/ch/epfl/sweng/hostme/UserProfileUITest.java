@@ -156,6 +156,35 @@ public class UserProfileUITest {
     }
 
     @Test
+    public void saveProfileButtonDisabledTest() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
+
+            String firstname = "test modified";
+            onView(withId(R.id.userProfileFirstName)).perform(clearText())
+                    .perform(typeText(firstname), closeSoftKeyboard());
+            onView(withId(R.id.userProfileSaveButton)).check(matches(isEnabled()));
+            onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));
+            onView(withId(R.id.userProfileGenderF)).perform(click());
+            onView(withId(R.id.userProfileGenderM)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
     public void checkButtonWalletWorks() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();

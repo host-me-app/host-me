@@ -14,10 +14,6 @@ public class ByteBuf {
     public ByteBuf() {
     }
 
-    public ByteBuf(byte[] bytes) {
-        this.buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
-    }
-
     public byte[] asBytes() {
         byte[] out = new byte[buffer.position()];
         buffer.rewind();

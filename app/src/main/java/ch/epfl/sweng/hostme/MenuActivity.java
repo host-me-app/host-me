@@ -62,12 +62,12 @@ public class MenuActivity extends AppCompatActivity {
 
             setupViewPager(viewPager);
 
-            isFromNotif = getIntent().getBooleanExtra(Constants.FROM_NOTIF, false);
+            /*isFromNotif = getIntent().getBooleanExtra(Constants.FROM_NOTIF, false);
             if(isFromNotif){
                 View view = navView.findViewById(R.id.navigation_messages);
                 view.performClick();
                 System.out.println("NOTIF");
-            }
+            }*/
         }
 
     }

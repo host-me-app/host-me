@@ -31,7 +31,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
     private static final String PREF_USER_NAME = "username";
-
+    boolean isFromNotif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +61,11 @@ public class MenuActivity extends AppCompatActivity {
 
             setupViewPager(viewPager);
 
-            Serializable notif = getIntent().getSerializableExtra(Constants.FROM_NOTIF);
-            if(notif != null){
-                boolean fromNotif = (boolean) notif;
-                if(fromNotif){
-                    viewPager.setCurrentItem(3, false); // go to message part
-                }
+            isFromNotif = getIntent().getBooleanExtra(Constants.FROM_NOTIF, false);
+            if(isFromNotif){
+                viewPager.setCurrentItem(3, false); // go to message part
             }
+
         }
 
     }

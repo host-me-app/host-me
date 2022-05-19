@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -63,7 +64,8 @@ public class MenuActivity extends AppCompatActivity {
 
             isFromNotif = getIntent().getBooleanExtra(Constants.FROM_NOTIF, false);
             if(isFromNotif){
-                navView.setSelectedItemId(R.id.navigation_messages);
+                View view = navView.findViewById(R.id.navigation_messages);
+                view.performClick();
                 System.out.println("NOTIF");
             }
         }

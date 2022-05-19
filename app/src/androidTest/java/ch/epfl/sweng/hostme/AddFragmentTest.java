@@ -16,6 +16,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import static org.hamcrest.Matchers.anyOf;
 import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
@@ -26,6 +27,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
@@ -182,8 +184,6 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
 
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
@@ -223,7 +223,7 @@ public class AddFragmentTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
+            intending(anyOf(hasAction(MediaStore.ACTION_IMAGE_CAPTURE), hasAction(Intent.ACTION_PICK), hasAction(Intent.ACTION_CHOOSER))).respondWith(getImageResult());
 
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
@@ -249,9 +249,11 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
             onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-
+            Thread.sleep(3000);
             onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(click());
+            Thread.sleep(3000);
+            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(click());
         } catch (Exception e) {
             e.printStackTrace();

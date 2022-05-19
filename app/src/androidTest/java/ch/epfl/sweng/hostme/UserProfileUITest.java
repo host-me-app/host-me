@@ -14,6 +14,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
+import static org.hamcrest.Matchers.anyOf;
 import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
@@ -256,7 +257,7 @@ public class UserProfileUITest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(getImageResult());
+            intending(anyOf(hasAction(MediaStore.ACTION_IMAGE_CAPTURE), hasAction(Intent.ACTION_PICK), hasAction(Intent.ACTION_CHOOSER))).respondWith(getImageResult());
 
             String mail = "testlogin@gmail.com";
             String originalPassword = "fakePassword1!";
@@ -274,7 +275,8 @@ public class UserProfileUITest {
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Camera"));
             pick.click();
-            Thread.sleep(1000);
+            Thread.sleep(3000);
+            onView(withId(R.id.userProfileSaveButton)).perform(click());
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }

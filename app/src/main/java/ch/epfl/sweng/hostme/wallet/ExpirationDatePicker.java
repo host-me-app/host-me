@@ -118,14 +118,11 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         String pathString = document.getPath() + uid + document.getFileName() + document.getFileExtension();
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
         String date = dayOfMonth + "/" + (month + 1) + "/" + year;
-        // Create file metadata including the content type
-        StorageMetadata metadata = new StorageMetadata.Builder()
+        StorageMetadata metadata = new StorageMetadata.Builder() // Create file metadata including the content type
                 .setContentType("document/pdf")
                 .setCustomMetadata(KEY_CUSTOM_METADATA_EXPIRATION_DATE, date)
                 .build();
-
-        // Update metadata properties
-        fileRef.updateMetadata(metadata)
+        fileRef.updateMetadata(metadata) // Update metadata properties
                 .addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
@@ -135,7 +132,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                         clearPreviouslyScheduledNotif();
                         createNotificationChannel();
                         Calendar datePicked = Calendar.getInstance();
-                        datePicked.set(year,month,dayOfMonth);
+                        datePicked.set(year, month, dayOfMonth);
                         scheduleNotification(datePicked);
                         Toast.makeText(context, "Expiration date Update Succeeded", Toast.LENGTH_SHORT).show();
                     }
@@ -176,13 +173,13 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
         for (int i = 0; i < all_reminders_size; ++i) {
 
-            intent.putExtra(notification_ID_Extra, document.ordinal()* all_reminders_size +i);
+            intent.putExtra(notification_ID_Extra, document.ordinal() * all_reminders_size + i);
             String title = "Document expiration reminder";
-            String message = "Your " + document.getDocumentName().toLowerCase() + " will expire "+ RemindersDate.values()[i].message;
+            String message = "Your " + document.getDocumentName().toLowerCase() + " will expire " + RemindersDate.values()[i].message;
 
             PendingIntent pend = PendingIntent.getBroadcast(
                     context.getApplicationContext(),
-                    document.ordinal()* all_reminders_size + i,
+                    document.ordinal() * all_reminders_size + i,
                     intent,
                     PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
             );
@@ -191,14 +188,13 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         }
 
 
-
-
     }
+
     private void scheduleNotification(Calendar date) {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        ArrayList<Long> scheduledTime =  new ArrayList<Long>();
-        ArrayList<String> scheduledMessage =  new ArrayList<String>();
+        ArrayList<Long> scheduledTime = new ArrayList<Long>();
+        ArrayList<String> scheduledMessage = new ArrayList<String>();
         modifyScheduledArray(date, scheduledTime, scheduledMessage);
 
         int all_reminders_size = RemindersDate.values().length;
@@ -206,9 +202,9 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
             Intent intent = new Intent(context, ReminderNotification.class);
             String title = "Document expiration reminder";
-            String message = "Your " + document.getDocumentName().toLowerCase() + " will expire "+ scheduledMessage.get(i);
+            String message = "Your " + document.getDocumentName().toLowerCase() + " will expire " + scheduledMessage.get(i);
 
-            intent.putExtra(notification_ID_Extra, document.ordinal()* all_reminders_size +i); //same document notifications goes to a different notification
+            intent.putExtra(notification_ID_Extra, document.ordinal() * all_reminders_size + i); //same document notifications goes to a different notification
 
             intent.putExtra(titleExtra, title);
             intent.putExtra(messageExtra, message);
@@ -216,7 +212,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
             PendingIntent pend = PendingIntent.getBroadcast(
                     context.getApplicationContext(),
-                    document.ordinal()* all_reminders_size + i, //PendingIntent a un requestCode different sinon ça override la même PendingIntent.
+                    document.ordinal() * all_reminders_size + i, //PendingIntent a un requestCode different sinon ça override la même PendingIntent.
                     intent,
                     PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
             );
@@ -244,7 +240,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         }
 
         Calendar nowTestDemo = Calendar.getInstance();
-        nowTestDemo.add(Calendar.SECOND,20);
+        nowTestDemo.add(Calendar.SECOND, 20);
         scheduledTime.add(nowTestDemo.getTimeInMillis());
         scheduledMessage.add("in 2 days");
     }

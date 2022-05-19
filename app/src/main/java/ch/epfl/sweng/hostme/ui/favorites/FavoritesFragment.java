@@ -115,8 +115,7 @@ public class FavoritesFragment extends Fragment {
                             }
                         }
                     });
-        } catch (Exception e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (Exception ignored) {
         }
     }
 

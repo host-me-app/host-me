@@ -24,7 +24,6 @@ public class RtcTokenBuilder {
         try {
             return builder.build();
         } catch (Exception e) {
-            e.printStackTrace();
             return "";
         }
     }

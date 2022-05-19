@@ -232,8 +232,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                         hashMap.put(model.getDocID(), bitmap);
                         holder.image.setImageBitmap(bitmap);
                     });
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 

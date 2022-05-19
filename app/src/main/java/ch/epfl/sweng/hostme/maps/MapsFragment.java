@@ -104,8 +104,7 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
                         }
                 );
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
 
         });

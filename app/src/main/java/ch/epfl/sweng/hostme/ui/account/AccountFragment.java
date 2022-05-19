@@ -130,8 +130,7 @@ public class AccountFragment extends Fragment {
                             Bitmap thumbnail = null;
                             try {
                                 thumbnail = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                            } catch (Exception ignored) {
                             }
                             editProfilePicture.setImageBitmap(thumbnail);
                             uri_to_save = selectedImage;
@@ -235,8 +234,7 @@ public class AccountFragment extends Fragment {
                         }
                     });
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 

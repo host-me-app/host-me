@@ -60,8 +60,7 @@ public class FcmNotificationsSender {
                 }
             };
             requestQueue.add(request);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
 
     }

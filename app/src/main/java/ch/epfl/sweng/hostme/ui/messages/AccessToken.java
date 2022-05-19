@@ -41,8 +41,7 @@ public class AccessToken {
             baos.write(channelName.getBytes());
             baos.write(uid.getBytes());
             baos.write(message);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return Utils.hmacSign(appCertificate, baos.toByteArray());
     }

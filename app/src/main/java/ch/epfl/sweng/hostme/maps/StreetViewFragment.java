@@ -115,8 +115,7 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
             streetViewPan.setPosition(latlng, StreetViewSource.OUTDOOR);
             streetViewPan.setZoomGesturesEnabled(false);
             streetViewPan.setPanningGesturesEnabled(false);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 }

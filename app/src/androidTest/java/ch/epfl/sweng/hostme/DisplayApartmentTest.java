@@ -123,26 +123,4 @@ public class DisplayApartmentTest {
         Intents.release();
     }
 
-    @Test
-    public void filterWithGPS() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.filters)).perform(click());
-            onView(withId(R.id.gpsSwitch)).perform(click());
-            onView(withId(R.id.filters)).perform(click());
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
 }

@@ -159,8 +159,7 @@ public class CallActivity extends AppCompatActivity {
     private void initAgoraEngine() {
         try {
             mRtcEngine = RtcEngine.create(getApplicationContext(), getString(R.string.agora_app_id), mRtcEventHandler);
-        } catch (Exception e) {
-            throw new RuntimeException("NEED TO check rtc sdk init fatal error\n" + Log.getStackTraceString(e));
+        } catch (Exception ignored) {
         }
         setupSession();
         if (isFromNotif) {

@@ -50,9 +50,11 @@ public class MessagesFragment extends Fragment implements ConversionListener {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
                     String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                    String apart_id = documentChange.getDocument().getString(Constants.APART_ID);
                     ChatMessage chatMessage = new ChatMessage();
                     chatMessage.senderId = senderId;
                     chatMessage.receiverId = receiverId;
+                    chatMessage.apartId = apart_id;
                     if (Auth.getUid().equals(senderId)) {
                         chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
                         chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);

@@ -56,6 +56,7 @@ public class ListImageTest {
             scenario.onActivity(activity -> {
                 ListImage.init(path, activity, ApplicationProvider.getApplicationContext());
                 assertEquals(path, ListImage.getPath());
+
             });
 
         } catch (Exception e) {

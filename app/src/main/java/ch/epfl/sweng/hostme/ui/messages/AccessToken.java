@@ -18,7 +18,6 @@ public class AccessToken {
     public int crcChannelName;
     public int crcUid;
     public PrivilegeMessage message;
-    public int expireTimestamp;
     public AccessToken(String appId, String appCertificate, String channelName, String uid) {
         this.appId = appId;
         this.appCertificate = appCertificate;
@@ -42,8 +41,7 @@ public class AccessToken {
             baos.write(channelName.getBytes());
             baos.write(uid.getBytes());
             baos.write(message);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return Utils.hmacSign(appCertificate, baos.toByteArray());
     }
@@ -70,28 +68,6 @@ public class AccessToken {
 
     public void addPrivilege(Privileges privilege, int expireTimestamp) {
         message.messages.put(privilege.intValue, expireTimestamp);
-    }
-
-    public boolean fromString(String token) {
-        if (!getVersion().equals(token.substring(0, Utils.VERSION_LENGTH))) {
-            return false;
-        }
-
-        try {
-            appId = token.substring(Utils.VERSION_LENGTH, Utils.VERSION_LENGTH + Utils.APP_ID_LENGTH);
-            PackContent packContent = new PackContent();
-            Utils.unpack(Utils.base64Decode(token.substring(Utils.VERSION_LENGTH + Utils.APP_ID_LENGTH, token.length())), packContent);
-            signature = packContent.signature;
-            crcChannelName = packContent.crcChannelName;
-            crcUid = packContent.crcUid;
-            messageRawContent = packContent.rawMessage;
-            Utils.unpack(messageRawContent, message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
     }
 
     public enum Privileges {
@@ -128,9 +104,7 @@ public class AccessToken {
 
         @Override
         public void unmarshal(ByteBuf in) {
-            salt = in.readInt();
-            ts = in.readInt();
-            messages = in.readIntMap();
+
         }
     }
 
@@ -158,10 +132,7 @@ public class AccessToken {
 
         @Override
         public void unmarshal(ByteBuf in) {
-            signature = in.readBytes();
-            crcChannelName = in.readInt();
-            crcUid = in.readInt();
-            rawMessage = in.readBytes();
+
         }
     }
 }

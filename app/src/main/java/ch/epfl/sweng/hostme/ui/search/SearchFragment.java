@@ -337,8 +337,7 @@ public class SearchFragment extends Fragment {
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             double dist = earthRadius * c;
             return radiusMeters >= dist;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return false;
     }

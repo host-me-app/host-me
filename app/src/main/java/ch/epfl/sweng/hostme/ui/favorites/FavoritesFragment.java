@@ -103,7 +103,6 @@ public class FavoritesFragment extends Fragment {
                         apartments.clear();
                         DocumentSnapshot doc = result;
                         List<String> apartIDs = (List<String>) doc.get(FAVORITES);
-                        assert apartIDs != null;
                         if (apartIDs.isEmpty()) {
                             apartments.clear();
                             noFavMessage.setVisibility(View.VISIBLE);
@@ -116,8 +115,7 @@ public class FavoritesFragment extends Fragment {
                             }
                         }
                     });
-        } catch (Exception e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (Exception ignored) {
         }
     }
 
@@ -130,13 +128,10 @@ public class FavoritesFragment extends Fragment {
     private void getCorrespondingApartAndDisplay(String apartID, List<Apartment> apartments) {
         apartReference.document(apartID)
                 .get()
-                .addOnCompleteListener(task1 -> {
-                    if (task1.isSuccessful()) {
-                        DocumentSnapshot doc1 = task1.getResult();
-                        Apartment apartment = doc1.toObject(Apartment.class);
-                        apartment.setDocID(doc1.getId());
-                        apartments.add(apartment);
-                    }
+                .addOnSuccessListener(result -> {
+                    Apartment apartment = result.toObject(Apartment.class);
+                    apartment.setDocID(result.getId());
+                    apartments.add(apartment);
                     displayRecycler(apartments);
                 });
     }

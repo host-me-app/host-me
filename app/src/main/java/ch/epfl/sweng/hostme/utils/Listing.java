@@ -66,8 +66,7 @@ public class Listing {
 
             this.available = true;
             this.currentLease = null;
-        } catch (org.json.JSONException e) {
-            throw new RuntimeException(e);
+        } catch (Exception ignored) {
         }
 
     }
@@ -262,8 +261,7 @@ public class Listing {
             ret.put("deposit", this.deposit);
             ret.put("duration", this.duration);
             ret.put("currentLease", this.currentLease); // potential error
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+        } catch (Exception ignored) {
         }
 
         return ret;

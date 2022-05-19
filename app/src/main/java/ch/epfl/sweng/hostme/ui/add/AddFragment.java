@@ -2,6 +2,7 @@ package ch.epfl.sweng.hostme.ui.add;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.FragmentAddBinding;
 import ch.epfl.sweng.hostme.ui.search.ApartmentAdapter;
 import ch.epfl.sweng.hostme.utils.Apartment;
+import ch.epfl.sweng.hostme.utils.Connection;
 import ch.epfl.sweng.hostme.utils.ListImage;
 import ch.epfl.sweng.hostme.utils.Listing;
 
@@ -56,8 +58,6 @@ public class AddFragment extends Fragment {
     private Map<String, Spinner> dropDowns;
     private RadioGroup selectFurnished;
     private RadioGroup selectPets;
-    private Button enterImages;
-    private Button addSubmit;
     private RecyclerView ownerView;
     private List<Apartment> myListings;
     private TextView notOwner;
@@ -80,9 +80,9 @@ public class AddFragment extends Fragment {
         spinUp();
 
         final LinearLayout addButtons = binding.addButtons;
-        enterImages = binding.enterImages;
+        final Button enterImages = binding.enterImages;
         addViewModel.key(enterImages);
-        addSubmit = binding.addSubmit;
+        final Button addSubmit = binding.addSubmit;
         enterImages.setOnClickListener(v -> {
             addViewModel.formPath(formFields.get("proprietor"), formFields.get("name"),
                     formFields.get("room"));
@@ -93,21 +93,28 @@ public class AddFragment extends Fragment {
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
-            generateApartment(root);
+            if (generateApartment(root) != null) {
+                checkBin();
+            }
         });
 
         final FloatingActionButton addNew = binding.addNew;
+        if (Connection.online(this.getActivity())) {
+            addNew.setBackgroundTintList(ColorStateList.valueOf(
+                    getResources().getColor(R.color.purple_100)));
+        } else {
+            addNew.setBackgroundTintList(ColorStateList.valueOf(
+                    getResources().getColor(R.color.grey)));
+            addNew.setEnabled(false);
+        }
         addNew.setOnClickListener(v -> {
             formTransition(addForm, addButtons);
         });
 
         ownerView = binding.ownerView;
         notOwner = binding.addFirst;
-        myListings = checkBin();
-        /* if (!myListings.isEmpty()) {
-            System.out.println("Not displaying ?");
-            recycle();
-        } */
+        myListings = new ArrayList<>();
+        checkBin();
 
         return root;
     }
@@ -202,22 +209,21 @@ public class AddFragment extends Fragment {
         return ret;
     }
 
-    private List<Apartment> checkBin() {
-        List<Apartment> ret = new ArrayList<>();
+    private void checkBin() {
+        myListings.clear();
         DB.whereEqualTo(UID, USR).get().addOnSuccessListener(q -> {
             if (q.isEmpty()) {
                 ownerView.setVisibility(View.GONE);
                 notOwner.setVisibility(View.VISIBLE);
             } else {
                 for (DocumentSnapshot it: q.getDocuments()) {
-                    ret.add(it.toObject(Apartment.class));
+                    myListings.add(it.toObject(Apartment.class));
                 }
                 notOwner.setVisibility(View.GONE);
                 ownerView.setVisibility(View.VISIBLE);
                 recycle();
             }
         });
-        return ret;
     }
 
     private void recycle() {

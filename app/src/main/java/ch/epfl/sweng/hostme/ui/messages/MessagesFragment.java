@@ -135,8 +135,9 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     }
 
     @Override
-    public void onConversionClicked(User user) {
+    public void onConversionClicked(User user, String apartId) {
         Intent intent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.FROM, apartId);
         intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
     }

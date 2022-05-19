@@ -109,6 +109,9 @@ public class UserProfileUITest {
 
             onView(withId(R.id.userProfilelogOutButton)).perform(click());
             Thread.sleep(1000);
+
+            Intent intent2 = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
+            ActivityScenario<MenuActivity> scenario2 = ActivityScenario.launch(intent2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

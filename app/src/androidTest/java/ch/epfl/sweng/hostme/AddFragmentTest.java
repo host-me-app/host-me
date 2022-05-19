@@ -151,6 +151,32 @@ public class AddFragmentTest {
     }
 
     @Test
+    public void openAndCloseForm() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
+        Intents.init();
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            savePickedImage();
+            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
+
+            String usr = "testlogin@gmail.com";
+            String pwd = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+
+            onView(withId(R.id.navigation_add)).perform(click());
+
+            onView(withId(R.id.add_new)).perform((click()));
+            onView(withId(R.id.add_new)).perform((click()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
     public void generateApartmentTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();

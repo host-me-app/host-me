@@ -44,10 +44,7 @@ public final class Auth {
     private static FirebaseAuth getExactInstance() {
         if (test) {
             FirebaseAuth fb = FirebaseAuth.getInstance();
-            try {
-                fb.useEmulator("10.0.2.2", 9099);
-            } catch (Exception ignored) {
-            }
+            fb.useEmulator("10.0.2.2", 9099);
             return fb;
         } else {
             return FirebaseAuth.getInstance();

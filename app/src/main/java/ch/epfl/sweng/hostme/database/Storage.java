@@ -18,10 +18,7 @@ public final class Storage {
     private static FirebaseStorage getExactInstance() {
         if (test) {
             FirebaseStorage fb = FirebaseStorage.getInstance();
-            try {
-                fb.useEmulator("10.0.2.2", 9199);
-            } catch (Exception ignored) {
-            }
+            fb.useEmulator("10.0.2.2", 9199);
             return fb;
         } else {
             return FirebaseStorage.getInstance();

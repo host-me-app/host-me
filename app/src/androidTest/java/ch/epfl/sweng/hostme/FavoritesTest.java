@@ -57,7 +57,7 @@ public class FavoritesTest {
     }
 
     @Test
-    public void clickOnFavoriteButtonWithFavoritesDisplayed() {
+    public void removeFavFromRecyclerView() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
@@ -75,6 +75,27 @@ public class FavoritesTest {
             onView(withId(R.id.favorites_recyclerView)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intents.release();
+    }
+
+    @Test
+    public void clickOnFavoriteButtonWithFavoritesDisplayed() {
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
+        Intents.init();
+        try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
+
+            onView(withId(R.id.recyclerView)).perform(
+                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
+
+            Thread.sleep(1000);
+
+            onView(withId(R.id.navigation_favorites))
+                    .perform(click());
+
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

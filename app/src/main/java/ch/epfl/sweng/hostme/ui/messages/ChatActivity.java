@@ -47,6 +47,7 @@ public class ChatActivity extends AppCompatActivity {
     private static final String TAG = "chatA";
     private ActivityChatBinding binding;
     private User receiverUser;
+    private String apartId;
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
     private ImageView launchButt;
@@ -74,6 +75,7 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
                     chatMessage.dateTime = getReadableDataTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    chatMessage.apartId = documentChange.getDocument().getString(Constants.APART_ID);
                     chatMessages.add(chatMessage);
                 }
             }
@@ -145,6 +147,7 @@ public class ChatActivity extends AppCompatActivity {
             message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
             message.put(Constants.KEY_TIMESTAMP, new Date());
+            message.put(Constants.APART_ID, apartId);
             Database.getCollection(Constants.KEY_COLLECTION_CHAT)
                     .add(message)
                     .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
@@ -166,6 +169,7 @@ public class ChatActivity extends AppCompatActivity {
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
+            conversion.put(Constants.APART_ID, apartId);
 
             addConversion(conversion);
         }
@@ -175,15 +179,18 @@ public class ChatActivity extends AppCompatActivity {
         Database.getCollection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, Auth.getUid())
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
+                .whereEqualTo(Constants.APART_ID, apartId)
                 .addSnapshotListener(eventListener);
         Database.getCollection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, Auth.getUid())
+                .whereEqualTo(Constants.APART_ID, apartId)
                 .addSnapshotListener(eventListener);
     }
 
     private void loadReceiverDetails() {
         receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
+        apartId = (String) getIntent().getSerializableExtra(Constants.FROM);
         binding.textName.setText(receiverUser.name);
     }
 
@@ -240,6 +247,7 @@ public class ChatActivity extends AppCompatActivity {
         Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .whereEqualTo(Constants.APART_ID, apartId)
                 .get()
                 .addOnCompleteListener(conversionOnCompleteListener);
     }

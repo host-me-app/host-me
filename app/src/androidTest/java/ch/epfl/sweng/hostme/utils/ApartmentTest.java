@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.firebase.Timestamp;
 
-import org.json.JSONException;
 import org.junit.Test;
 
 public class ApartmentTest {
@@ -13,7 +12,7 @@ public class ApartmentTest {
     @Test
     public void testApartment()  {
         Timestamp time = new Timestamp(0,0);
-        Apartment apart = new Apartment(false, "a", "b", 1, "c", 2, false, new Timestamp(3, 4), "d", 5, false, "e", "f", "g", "h", "i",  6, false, "k", 7, "l", 8, "m");
+        Apartment apart = new Apartment(null, false, "a", "b", 1, "c", 2, false, new Timestamp(3, 4), "d", 5, false, "e", "f", "g", "h", "i",  6, false, "k", 7, "l", 8, "m");
         apart.setAddress("address");
         apart.setAvailable(true);
         apart.setCurrentLease(time);

@@ -1,13 +1,14 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
+import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
+
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -50,46 +50,16 @@ public class FavoritesFragment extends Fragment {
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
         noFavMessage = root.findViewById(R.id.no_fav_message);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        if (sharedPreferences.getInt(NBR, 0) != 0) {
-            for (int i = 1; i <= sharedPreferences.getInt(NBR, 0); i++) {
-                Gson gson = new Gson();
-                String json = sharedPreferences.getString(FAVORITES + i, "");
-                Apartment apart = gson.fromJson(json, Apartment.class);
-                apartments.add(apart);
-            }
-            setUpRecyclerView(apartments);
-        }
+        sharedPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
         reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
                 setUpRecyclerView(apartments);
-                changePref();
             }
         });
 
         return root;
     }
 
-    /**
-     * Save the apartments in shared preferences for offline mode
-     */
-    private void changePref() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        for (int i = 1; i <= sharedPreferences.getInt(NBR, 0); i++) {
-            editor.remove(FAVORITES + i).apply();
-        }
-        editor.remove(NBR).apply();
-        nbrApart = 0;
-        for (Apartment apart : apartments) {
-            nbrApart += 1;
-            Gson gson = new Gson();
-            String json = gson.toJson(apart);
-            editor.putString(FAVORITES + nbrApart, json);
-            editor.apply();
-            editor.putInt(NBR, nbrApart);
-            editor.apply();
-        }
-    }
 
     /**
      * Set up the page with all the favorite apartments of the user
@@ -142,6 +112,15 @@ public class FavoritesFragment extends Fragment {
      * @param apartments
      */
     private void displayRecycler(List<Apartment> apartments) {
+        /*if (sharedPreferences.getInt(NBR, 0) != 0) {
+            for (int i = 1; i <= sharedPreferences.getInt(NBR, 0); i++) {
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString(FAVORITES + i, "");
+                Apartment apart = gson.fromJson(json, Apartment.class);
+                apartments.add(apart);
+            }
+            setUpRecyclerView(apartments);
+        }*/
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
         recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
         recyclerAdapter.setFavFragment();

@@ -45,7 +45,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -229,6 +228,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                     .addOnSuccessListener(result -> {
                         loadingBar.setVisibility(View.GONE);
                         Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        model.setBitmap(bitmap);
                         hashMap.put(model.getDocID(), bitmap);
                         holder.image.setImageBitmap(bitmap);
                     });

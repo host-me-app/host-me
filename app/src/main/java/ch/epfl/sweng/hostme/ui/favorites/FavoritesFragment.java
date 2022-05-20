@@ -1,6 +1,6 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
-import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_FAV;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,10 +28,10 @@ import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.ui.search.ApartmentAdapter;
 import ch.epfl.sweng.hostme.utils.Apartment;
+import ch.epfl.sweng.hostme.utils.Connection;
 
 public class FavoritesFragment extends Fragment {
 
-    private static final String NBR = "nbr";
     private static final String FAVORITES = "favorites";
     private final CollectionReference reference = Database.getCollection("favorite_apart");
     private final CollectionReference apartReference = Database.getCollection("apartments");
@@ -50,12 +51,23 @@ public class FavoritesFragment extends Fragment {
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
         noFavMessage = root.findViewById(R.id.no_fav_message);
 
-        sharedPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
-        reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
-            if (value != null && value.exists()) {
-                setUpRecyclerView(apartments);
+        sharedPreferences = getContext().getSharedPreferences(APARTMENTS_FAV, Context.MODE_PRIVATE);
+
+        if (!Connection.online(getActivity())) {
+            for (int i = 0; i < sharedPreferences.getInt("nbr", 0); i++) {
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString("Favorite number " + i, "");
+                Apartment apartment = gson.fromJson(json, Apartment.class);
+                apartments.add(apartment);
             }
-        });
+            displayOfflineRecycler(apartments);
+        } else {
+            reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
+                if (value != null && value.exists()) {
+                    setUpRecyclerView(apartments);
+                }
+            });
+        }
 
         return root;
     }
@@ -112,15 +124,23 @@ public class FavoritesFragment extends Fragment {
      * @param apartments
      */
     private void displayRecycler(List<Apartment> apartments) {
-        /*if (sharedPreferences.getInt(NBR, 0) != 0) {
-            for (int i = 1; i <= sharedPreferences.getInt(NBR, 0); i++) {
-                Gson gson = new Gson();
-                String json = sharedPreferences.getString(FAVORITES + i, "");
-                Apartment apart = gson.fromJson(json, Apartment.class);
-                apartments.add(apart);
-            }
-            setUpRecyclerView(apartments);
-        }*/
+        List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
+        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
+        recyclerAdapter.setFavFragment();
+        recyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(recyclerAdapter);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear().apply();
+        editor.putInt("nbr", apartmentsWithoutDuplicate.size()).apply();
+        for (int i = 0; i < apartmentsWithoutDuplicate.size(); i++) {
+            Gson gson = new Gson();
+            String json = gson.toJson(apartmentsWithoutDuplicate.get(i));
+            editor.putString("Favorite number " + i, json).apply();
+        }
+    }
+    private void displayOfflineRecycler(List<Apartment> apartments) {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
         recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
         recyclerAdapter.setFavFragment();
@@ -129,6 +149,7 @@ public class FavoritesFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapter);
     }
+
 
     @Override
     public void onDestroyView() {

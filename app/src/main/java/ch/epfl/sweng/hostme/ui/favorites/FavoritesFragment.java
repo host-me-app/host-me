@@ -59,6 +59,7 @@ public class FavoritesFragment extends Fragment {
                 String json = sharedPreferences.getString("Favorite number " + i, "");
                 Apartment apartment = gson.fromJson(json, Apartment.class);
                 apartments.add(apartment);
+                System.out.println("bitmap :" + apartment.getBitmap());
             }
             displayOfflineRecycler(apartments);
         } else {
@@ -134,6 +135,7 @@ public class FavoritesFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
         editor.putInt("nbr", apartmentsWithoutDuplicate.size()).apply();
+        System.out.println("Number of apart : " + sharedPreferences.getInt("nbr", 0));
         for (int i = 0; i < apartmentsWithoutDuplicate.size(); i++) {
             Gson gson = new Gson();
             String json = gson.toJson(apartmentsWithoutDuplicate.get(i));

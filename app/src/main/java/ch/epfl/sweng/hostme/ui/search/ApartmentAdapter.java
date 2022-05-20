@@ -222,17 +222,21 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
-        try {
-            final File localFile = File.createTempFile("preview1", "jpg");
-            storageReference.getFile(localFile)
-                    .addOnSuccessListener(result -> {
-                        loadingBar.setVisibility(View.GONE);
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        model.setBitmap(bitmap);
-                        hashMap.put(model.getDocID(), bitmap);
-                        holder.image.setImageBitmap(bitmap);
-                    });
-        } catch (Exception ignored) {
+        if (model.getBitmap() != null) {
+            holder.image.setImageBitmap(model.getBitmap());
+        } else {
+            try {
+                final File localFile = File.createTempFile("preview1", "jpg");
+                storageReference.getFile(localFile)
+                        .addOnSuccessListener(result -> {
+                            loadingBar.setVisibility(View.GONE);
+                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            model.setBitmap(bitmap);
+                            hashMap.put(model.getDocID(), bitmap);
+                            holder.image.setImageBitmap(bitmap);
+                        });
+            } catch (Exception ignored) {
+            }
         }
     }
 

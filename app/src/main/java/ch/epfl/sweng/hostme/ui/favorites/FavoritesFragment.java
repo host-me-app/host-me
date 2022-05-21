@@ -50,15 +50,11 @@ public class FavoritesFragment extends Fragment {
 
         bitmapPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
 
-        /*if (!Connection.online(getActivity())) {
-
-        } else {*/
-            reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
-                if (value != null && value.exists()) {
-                    setUpRecyclerView(apartments);
-                }
-            });
-        //}
+        reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
+            if (value != null && value.exists()) {
+                setUpRecyclerView(apartments);
+            }
+        });
 
         return root;
     }

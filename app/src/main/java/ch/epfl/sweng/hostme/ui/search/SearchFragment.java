@@ -40,7 +40,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -137,7 +136,11 @@ public class SearchFragment extends Fragment {
 
         filterIsClicked = false;
         filterButt.setOnClickListener(view -> changeFiltersViewAndUpdate());
-        clearFilters.setOnClickListener(view -> setRangeBar());
+        clearFilters.setOnClickListener(view -> {
+            searchView.setQuery("", false);
+            searchView.clearFocus();
+            setRangeBar();
+        });
 
         changeFilterVisibility(View.GONE);
         setRangeBar();

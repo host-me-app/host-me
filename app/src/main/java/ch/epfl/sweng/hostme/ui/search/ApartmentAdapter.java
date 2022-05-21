@@ -226,12 +226,13 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
         if (!bitmapPreferences.getString(model.getDocID(), "").equals("")) {
-            String encodedImage = bitmapPreferences.getString(model.getDocID(),null);
+            String encodedImage = bitmapPreferences.getString(model.getDocID(), "");
             byte[] b = Base64.decode(encodedImage, Base64.DEFAULT);
             Bitmap bitmapImage = BitmapFactory.decodeByteArray(b, 0, b.length);
             holder.image.setImageBitmap(bitmapImage);
             System.out.println("c'est fait");
             loadingBar.setVisibility(View.GONE);
+            hashMap.put(model.getDocID(), bitmapImage);
         } else {
             try {
                 final File localFile = File.createTempFile("preview1", "jpg");
@@ -239,13 +240,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                         .addOnSuccessListener(result -> {
                             loadingBar.setVisibility(View.GONE);
                             Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                            // ----
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                            byte[] compressImage = baos.toByteArray();
-                            String sEncodedImage = Base64.encodeToString(compressImage, Base64.DEFAULT);
-                            bitmapPreferences.edit().putString(model.getDocID(), sEncodedImage).apply();
-                            // ----
+                            if (isFavFragment) {
+                                saveBitmap(model, bitmap);
+                            }
                             model.setBitmap(bitmap);
                             hashMap.put(model.getDocID(), bitmap);
                             holder.image.setImageBitmap(bitmap);
@@ -253,6 +250,20 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             } catch (Exception ignored) {
             }
         }
+    }
+
+    /**
+     * Save the bitmap in shared preferences for caching the favorites apartments
+     *
+     * @param model
+     * @param bitmap
+     */
+    private void saveBitmap(@NonNull Apartment model, Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] compressImage = baos.toByteArray();
+        String sEncodedImage = Base64.encodeToString(compressImage, Base64.DEFAULT);
+        bitmapPreferences.edit().putString(model.getDocID(), sEncodedImage).apply();
     }
 
     @Override

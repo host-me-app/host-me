@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 
 import android.content.Context;
@@ -40,8 +39,7 @@ public class FavoritesFragment extends Fragment {
     private ApartmentAdapter recyclerAdapter;
     private TextView noFavMessage;
     List<Apartment> apartments = new ArrayList<>();
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences favSharedPreferences;
+    private SharedPreferences bitmapPreferences;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,8 +48,7 @@ public class FavoritesFragment extends Fragment {
         recyclerView = root.findViewById(R.id.favorites_recyclerView);
         noFavMessage = root.findViewById(R.id.no_fav_message);
 
-        sharedPreferences = getContext().getSharedPreferences(APARTMENTS_FAV, Context.MODE_PRIVATE);
-        favSharedPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
+        bitmapPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
 
         /*if (!Connection.online(getActivity())) {
 
@@ -79,6 +76,7 @@ public class FavoritesFragment extends Fragment {
                     DocumentSnapshot doc = result;
                     List<String> apartIDs = (List<String>) doc.get(FAVORITES);
                     if (apartIDs.isEmpty()) {
+                        bitmapPreferences.edit().clear().apply();
                         apartments.clear();
                         noFavMessage.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
@@ -115,9 +113,6 @@ public class FavoritesFragment extends Fragment {
      * @param apartments
      */
     private void displayRecycler(List<Apartment> apartments) {
-        System.out.println("je passe ");
-        SharedPreferences bitmapPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
-
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
         recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
         recyclerAdapter.setFavFragment();
@@ -125,15 +120,6 @@ public class FavoritesFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapter);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear().apply();
-        editor.putInt("nbr", apartmentsWithoutDuplicate.size()).apply();
-        System.out.println("Number of apart : " + sharedPreferences.getInt("nbr", 0));
-        /*for (int i = 0; i < apartmentsWithoutDuplicate.size(); i++) {
-            Gson gson = new Gson();
-            String json = gson.toJson(apartmentsWithoutDuplicate.get(i));
-            editor.putString("Favorite number " + i, json).apply();
-        }*/
     }
 
 

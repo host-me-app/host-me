@@ -36,6 +36,7 @@ public final class Constants {
     public static final String APARTMENTS_FAV = "apartmentsFav";
     public static final String FROM = "from";
     public static final String BITMAP = "bitmap";
+    public static final String BITMAP_FAV = "bitmapFav";
     public static final String FILTERS = "filters";
     public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";

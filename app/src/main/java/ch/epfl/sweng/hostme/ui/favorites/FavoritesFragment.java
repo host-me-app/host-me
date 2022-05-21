@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS_FAV;
+import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,7 +28,6 @@ import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.ui.search.ApartmentAdapter;
 import ch.epfl.sweng.hostme.utils.Apartment;
-import ch.epfl.sweng.hostme.utils.Connection;
 
 public class FavoritesFragment extends Fragment {
 
@@ -42,7 +41,7 @@ public class FavoritesFragment extends Fragment {
     private TextView noFavMessage;
     List<Apartment> apartments = new ArrayList<>();
     private SharedPreferences sharedPreferences;
-    private int nbrApart;
+    private SharedPreferences favSharedPreferences;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,23 +51,17 @@ public class FavoritesFragment extends Fragment {
         noFavMessage = root.findViewById(R.id.no_fav_message);
 
         sharedPreferences = getContext().getSharedPreferences(APARTMENTS_FAV, Context.MODE_PRIVATE);
+        favSharedPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
 
-        if (!Connection.online(getActivity())) {
-            for (int i = 0; i < sharedPreferences.getInt("nbr", 0); i++) {
-                Gson gson = new Gson();
-                String json = sharedPreferences.getString("Favorite number " + i, "");
-                Apartment apartment = gson.fromJson(json, Apartment.class);
-                apartments.add(apartment);
-                System.out.println("bitmap :" + apartment.getBitmap());
-            }
-            displayOfflineRecycler(apartments);
-        } else {
+        /*if (!Connection.online(getActivity())) {
+
+        } else {*/
             reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
                 if (value != null && value.exists()) {
                     setUpRecyclerView(apartments);
                 }
             });
-        }
+        //}
 
         return root;
     }
@@ -79,27 +72,24 @@ public class FavoritesFragment extends Fragment {
      */
     private void setUpRecyclerView(List<Apartment> apartments) {
         String uid = Auth.getUid();
-        try {
-            reference.document(uid)
-                    .get()
-                    .addOnSuccessListener(result -> {
+        reference.document(uid)
+                .get()
+                .addOnSuccessListener(result -> {
+                    apartments.clear();
+                    DocumentSnapshot doc = result;
+                    List<String> apartIDs = (List<String>) doc.get(FAVORITES);
+                    if (apartIDs.isEmpty()) {
                         apartments.clear();
-                        DocumentSnapshot doc = result;
-                        List<String> apartIDs = (List<String>) doc.get(FAVORITES);
-                        if (apartIDs.isEmpty()) {
-                            apartments.clear();
-                            noFavMessage.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        } else {
-                            noFavMessage.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            for (String apartID : apartIDs) {
-                                getCorrespondingApartAndDisplay(apartID, apartments);
-                            }
+                        noFavMessage.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        noFavMessage.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        for (String apartID : apartIDs) {
+                            getCorrespondingApartAndDisplay(apartID, apartments);
                         }
-                    });
-        } catch (Exception ignored) {
-        }
+                    }
+                });
     }
 
     /**
@@ -125,6 +115,9 @@ public class FavoritesFragment extends Fragment {
      * @param apartments
      */
     private void displayRecycler(List<Apartment> apartments) {
+        System.out.println("je passe ");
+        SharedPreferences bitmapPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
+
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
         recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
         recyclerAdapter.setFavFragment();
@@ -136,20 +129,11 @@ public class FavoritesFragment extends Fragment {
         editor.clear().apply();
         editor.putInt("nbr", apartmentsWithoutDuplicate.size()).apply();
         System.out.println("Number of apart : " + sharedPreferences.getInt("nbr", 0));
-        for (int i = 0; i < apartmentsWithoutDuplicate.size(); i++) {
+        /*for (int i = 0; i < apartmentsWithoutDuplicate.size(); i++) {
             Gson gson = new Gson();
             String json = gson.toJson(apartmentsWithoutDuplicate.get(i));
             editor.putString("Favorite number " + i, json).apply();
-        }
-    }
-    private void displayOfflineRecycler(List<Apartment> apartments) {
-        List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
-        recyclerAdapter.setFavFragment();
-        recyclerView.setHasFixedSize(true);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(recyclerAdapter);
+        }*/
     }
 
 

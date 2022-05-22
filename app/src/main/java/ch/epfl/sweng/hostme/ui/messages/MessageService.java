@@ -64,15 +64,13 @@ public class MessageService extends FirebaseMessagingService {
         int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(resourceImage);
-        Intent resultIntent = null;
-        if(remoteMessage.getData().get("title") == "New Message"){
+        Intent resultIntent = new Intent(this, CallActivity.class);
+
+        /*if(remoteMessage.getData().get("title").contentEquals("New Message")){
             resultIntent = new Intent(this, MenuActivity.class);
-            resultIntent.putExtra(Constants.FROM_NOTIF, true);
-        }
-        else {
-            resultIntent = new Intent(this, CallActivity.class);
-            resultIntent.putExtra(Constants.FROM_NOTIF, true);
-        }
+        }*/
+
+        resultIntent.putExtra(Constants.FROM_NOTIF, true);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntent(resultIntent);

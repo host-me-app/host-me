@@ -1,9 +1,6 @@
 package ch.epfl.sweng.hostme;
 
-import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,7 +21,6 @@ import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
 import ch.epfl.sweng.hostme.ui.messages.MessageService;
 import ch.epfl.sweng.hostme.ui.messages.MessagesFragment;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
-import ch.epfl.sweng.hostme.utils.ListImage;
 
 public class MenuActivity extends AppCompatActivity {
 

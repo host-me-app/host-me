@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.utils;
 
 import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-import static androidx.core.app.ActivityCompat.startActivityForResult;
 import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
 import android.annotation.SuppressLint;

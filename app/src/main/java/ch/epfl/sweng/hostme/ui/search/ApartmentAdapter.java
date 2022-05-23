@@ -226,11 +226,11 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
         if (!bitmapPreferences.getString(model.getDocID(), "").equals("")) {
+            System.out.println("Je passe ");
             String encodedImage = bitmapPreferences.getString(model.getDocID(), "");
             byte[] b = Base64.decode(encodedImage, Base64.DEFAULT);
             Bitmap bitmapImage = BitmapFactory.decodeByteArray(b, 0, b.length);
             holder.image.setImageBitmap(bitmapImage);
-            System.out.println("c'est fait");
             loadingBar.setVisibility(View.GONE);
             hashMap.put(model.getDocID(), bitmapImage);
         } else {

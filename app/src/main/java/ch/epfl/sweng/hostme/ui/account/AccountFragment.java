@@ -79,9 +79,7 @@ public class AccountFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            Profile local = getProfileFromUI();
-            boolean allTheSame = local.equals(dbProfile);
-            saveButton.setEnabled(!allTheSame && EmailValidator.isValid(local.getEmail()));
+            checkIfProfileIsModified();
         }
 
         @Override
@@ -131,14 +129,7 @@ public class AccountFragment extends Fragment {
     /**
      * Watcher for any modifications of the gender button that is checked
      */
-    private final RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            Profile local = getProfileFromUI();
-            boolean allTheSame = local.equals(dbProfile);
-            saveButton.setEnabled(!allTheSame && EmailValidator.isValid(local.getEmail()));
-        }
-    };
+    private final RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher = (group, checkedId) -> checkIfProfileIsModified();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -205,7 +196,6 @@ public class AccountFragment extends Fragment {
                             editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
                         }
                     });
-
         } catch (Exception ignored) {
         }
     }
@@ -257,8 +247,7 @@ public class AccountFragment extends Fragment {
      */
     private void logUserOut() {
         // delete token for messaging part
-        DocumentReference documentReference =
-                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
+        DocumentReference documentReference = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
 
         HashMap<String, Object> updates = new HashMap<>();
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
@@ -328,7 +317,6 @@ public class AccountFragment extends Fragment {
      * @return Profile
      */
     private Profile getProfileFromUI() {
-
         String firstName = editFirstName.getText().toString().trim();
         String lastName = editLastName.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
@@ -338,25 +326,25 @@ public class AccountFragment extends Fragment {
         String gender = selectedButton.getText().toString().equals("Male") ? "Male" : "Female";
 
         return new Profile(firstName, lastName, email, gender, school);
+    }
 
+    private void checkIfProfileIsModified() {
+        Profile local = getProfileFromUI();
+        boolean allTheSame = local.equals(dbProfile);
+        saveButton.setEnabled(!allTheSame && EmailValidator.isValid(local.getEmail()));
     }
 
     /**
      * Add a listener to the button Save
      */
     private void addListenerToSaveButton() {
-
         saveButton.setOnClickListener(v -> {
-
             Profile toUpdateUser = getProfileFromUI();
-
             if (EmailValidator.isValid(toUpdateUser.getEmail())) {
                 saveUserProperties(toUpdateUser);
             }
             saveButton.setEnabled(false);
-
         });
-
     }
 
     /**
@@ -374,23 +362,18 @@ public class AccountFragment extends Fragment {
                                 dbProfile.setLastName(toUpdateUser.getLastName());
                                 dbProfile.setEmail(toUpdateUser.getEmail());
                                 dbProfile.setGender(toUpdateUser.getGender());
-
                                 Auth.updateEmail(toUpdateUser.getEmail()).addOnCompleteListener(
                                         task2 -> {
                                             if (task2.isSuccessful()) {
                                                 dbProfile.setEmail(toUpdateUser.getEmail());
-                                                Toast.makeText(requireContext(), "Profile's update succeeded.",
-                                                        Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(requireContext(), "Profile's update succeeded.", Toast.LENGTH_SHORT).show();
                                             } else {
-                                                Toast.makeText(requireContext(), "Profile's update failed.",
-                                                        Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(requireContext(), "Profile's update failed.", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                 );
-
                                 String pathString = "profilePicture/" + Auth.getUid() + "/" + "profile.jpg";
                                 StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
-
                                 if (deletePic && uri_to_save == null && profilePicInDB) {
                                     fileRef.delete()
                                             .addOnSuccessListener(taskSnapshot -> {
@@ -400,7 +383,6 @@ public class AccountFragment extends Fragment {
                                                 profilePicInDB = false;
                                             }).addOnFailureListener(exception -> Toast.makeText(requireContext(), "Failed to Delete Profile Pic", Toast.LENGTH_SHORT).show());
                                 }
-
                                 if (uri_to_save != null && !deletePic) {
                                     fileRef.putFile(uri_to_save)
                                             .addOnSuccessListener(taskSnapshot -> {
@@ -410,15 +392,10 @@ public class AccountFragment extends Fragment {
                                                 profilePicInDB = true;
                                             }).addOnFailureListener(exception -> Toast.makeText(requireContext(), "Failed to update Profile Pic", Toast.LENGTH_SHORT).show());
                                 }
-
                             } else {
-                                Toast.makeText(requireContext(), "Profile's update failed.",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Profile's update failed.", Toast.LENGTH_SHORT).show();
                             }
                         }
                 );
     }
-
-
-
 }

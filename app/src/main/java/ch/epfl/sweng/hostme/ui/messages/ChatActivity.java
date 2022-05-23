@@ -184,7 +184,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+
         binding.sendButt.setOnClickListener(v -> sendMessage());
+        binding.chatInfo.setOnClickListener( v -> onInfoPressed());
     }
 
     @Override
@@ -253,6 +255,12 @@ public class ChatActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    private void onInfoPressed(){
+        /*Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+        intent.putExtra(Constants.FROM, apartId);
+        startActivity(intent);*/
+        startActivity(new Intent(getApplicationContext(), UsersActivity.class));
+    }
 
 
 }

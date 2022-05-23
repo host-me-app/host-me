@@ -15,9 +15,12 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Random;
 
 import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.utils.Constants;
@@ -41,7 +44,7 @@ public class MessageService extends FirebaseMessagingService {
             r.setLooping(false);
         }
 
-        NotificationCompat.Builder builder = createBuilder(remoteMessage);
+        /*NotificationCompat.Builder builder = createBuilder(remoteMessage);
         mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -55,20 +58,51 @@ public class MessageService extends FirebaseMessagingService {
             builder.setChannelId(channelId);
         }
 
-        mNotificationManager.notify(100, builder.build());
+        mNotificationManager.notify(100, builder.build());*/
+
+        int notificationId = new Random().nextInt();
+        String channelId = "Your_channel_id";
+
+        Intent intent = new Intent(this, CallActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Constants.FROM_NOTIF, true);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
+        builder.setSmallIcon(resourceImage);
+        builder.setContentTitle(remoteMessage.getNotification().getTitle());
+        builder.setContentText(remoteMessage.getNotification().getBody());
+        builder.setContentIntent(pendingIntent);
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
+        builder.setAutoCancel(true);
+        builder.setPriority(Notification.PRIORITY_DEFAULT);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence channelName = "Channel human readable title";
+            String channelDescription = "This notification channel is used for notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+            channel.setDescription(channelDescription);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(notificationId, builder.build());
 
     }
 
-    @NonNull
-    private NotificationCompat.Builder createBuilder(RemoteMessage remoteMessage) {
+    //@NonNull
+    /*private NotificationCompat.Builder createBuilder(RemoteMessage remoteMessage) {
         int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(resourceImage);
         Intent resultIntent = new Intent(this, CallActivity.class);
 
-        /*if(remoteMessage.getData().get("title").contentEquals("New Message")){
+        if(remoteMessage.getData().get("title").contentEquals("New Message")){
             resultIntent = new Intent(this, MenuActivity.class);
-        }*/
+        }
 
         resultIntent.putExtra(Constants.FROM_NOTIF, true);
 
@@ -85,5 +119,5 @@ public class MessageService extends FirebaseMessagingService {
         builder.setAutoCancel(true);
         builder.setPriority(Notification.PRIORITY_MAX);
         return builder;
-    }
+    }*/
 }

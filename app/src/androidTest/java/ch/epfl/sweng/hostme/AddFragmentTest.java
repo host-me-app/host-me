@@ -156,9 +156,6 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
-
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
@@ -182,8 +179,6 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
 
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
@@ -223,7 +218,7 @@ public class AddFragmentTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageResult());
 
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";

@@ -59,37 +59,42 @@ public class MessageService extends FirebaseMessagingService {
         }
 
         mNotificationManager.notify(100, builder.build());*/
-
-        int notificationId = new Random().nextInt();
-        String channelId = "Your_channel_id";
-
-        Intent intent = new Intent(this, CallActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(Constants.FROM_NOTIF, true);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(resourceImage);
+
+        int notificationId = new Random().nextInt();
+
+        Intent resultIntent = new Intent(this, CallActivity.class);
+        //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        resultIntent.putExtra(Constants.FROM_NOTIF, true);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         builder.setContentTitle(remoteMessage.getNotification().getTitle());
         builder.setContentText(remoteMessage.getNotification().getBody());
-        builder.setContentIntent(pendingIntent);
+        builder.setContentIntent(resultPendingIntent);
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
         builder.setAutoCancel(true);
-        builder.setPriority(Notification.PRIORITY_DEFAULT);
+        builder.setPriority(Notification.PRIORITY_MAX);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String channelId = "Your_channel_id";
             CharSequence channelName = "Channel human readable title";
-            String channelDescription = "This notification channel is used for notifications";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-            channel.setDescription(channelDescription);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            mNotificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.createNotificationChannel(channel);
+            builder.setChannelId(channelId);
         }
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(notificationId, builder.build());
+        mNotificationManager.notify(notificationId, builder.build());
+        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        //notificationManagerCompat.notify(notificationId, builder.build());
 
     }
 

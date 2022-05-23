@@ -36,7 +36,8 @@ public class ListImage {
     @SuppressLint("IntentReset")
     public static void acceptImage() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
-        galleryIntent.setType("image/*");
+        galleryIntent.setType("image/jpeg");
+        galleryIntent = Intent.createChooser(galleryIntent, SELECTION);
         activity.startActivityForResult(galleryIntent, REQ_IMAGE);
     }
 
@@ -50,9 +51,7 @@ public class ListImage {
         ext++;
         @SuppressLint("DefaultLocale") String ref = String.format("%s/%s%d.jpg", path, PREVIEW, ext);
         StorageReference target = Storage.getStorageReferenceByChild(ref);
-        target.putFile(image).addOnSuccessListener(done -> {
-            Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show();
-        });
+        target.putFile(image).addOnSuccessListener(done -> Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show());
     }
 
     public static String getPath() {

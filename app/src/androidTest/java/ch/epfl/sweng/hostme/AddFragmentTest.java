@@ -243,6 +243,7 @@ public class AddFragmentTest {
 
             onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(click());
+            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(click());
         } catch (Exception e) {
             e.printStackTrace();

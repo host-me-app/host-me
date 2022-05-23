@@ -110,33 +110,26 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar today = Calendar.getInstance();
-        view.getDayOfMonth();
-        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
-        updateFileMetadata(date, dayOfMonth, month, year);
+        updateFileMetadata(dayOfMonth, month, year);
 
     }
 
-    private void updateFileMetadata(String date, int dayOfMonth, int month, int year) {
+    private void updateFileMetadata(int dayOfMonth, int month, int year) {
         String pathString = document.getPath() + uid + document.getFileName() + document.getFileExtension();
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
-
-        // Create file metadata including the content type
-        StorageMetadata metadata = new StorageMetadata.Builder()
+        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
+        StorageMetadata metadata = new StorageMetadata.Builder() // Create file metadata including the content type
                 .setContentType("document/pdf")
                 .setCustomMetadata(KEY_CUSTOM_METADATA_EXPIRATION_DATE, date)
                 .build();
-
-        // Update metadata properties
-        fileRef.updateMetadata(metadata)
+        fileRef.updateMetadata(metadata) // Update metadata properties
                 .addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(StorageMetadata storageMetadata) {
                         // Updated metadata is in storageMetadata
                         expDateText.setText(date);
-                        createNotificationChannel();
-                        scheduleNotification(dayOfMonth, month, year);
+                        notif(year,dayOfMonth, month);
                         Toast.makeText(context, "Expiration date Update Succeeded", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -148,6 +141,15 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                 });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void notif(int year, int dayOfMonth, int month) {
+        clearPreviouslyScheduledNotif();
+        createNotificationChannel();
+        Calendar datePicked = Calendar.getInstance();
+        datePicked.set(year, month, dayOfMonth);
+        scheduleNotification(datePicked);
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createNotificationChannel() {
@@ -155,6 +157,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         String desc = "Reminders for the documents of the wallet";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
+        // CHANNEL_ID must be unique per package
         //Creating an existing notification channel with its original values performs no operation,
         // so it's safe to call many times this code (even when starting an app)
         //If a channel with the same ID exists then Android doesn't create another.
@@ -166,23 +169,47 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
     }
 
 
-    private void scheduleNotification(int dayOfMonth, int month, int year) {
+    private void clearPreviouslyScheduledNotif() {
+
+        int all_reminders_size = RemindersDate.values().length;
+        Intent intent = new Intent(context, ReminderNotification.class);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+
+        for (int i = 0; i < all_reminders_size; ++i) {
+
+            intent.putExtra(notification_ID_Extra, document.ordinal() * all_reminders_size + i);
+            String title = "Document expiration reminder";
+            String message = "Your " + document.getDocumentName().toLowerCase() + " will expire " + RemindersDate.values()[i].message;
+
+            PendingIntent pend = PendingIntent.getBroadcast(
+                    context.getApplicationContext(),
+                    document.ordinal() * all_reminders_size + i,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+            );
+            alarmManager.cancel(pend);
+            pend.cancel();
+        }
+
+
+    }
+
+    private void scheduleNotification(Calendar date) {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        ArrayList<Long> scheduleTime = getTime(dayOfMonth, month, year);
-        for (int i = 0; i < 1; ++i) {
+        ArrayList<Long> scheduledTime = new ArrayList<Long>();
+        ArrayList<String> scheduledMessage = new ArrayList<String>();
+        modifyScheduledArray(date, scheduledTime, scheduledMessage);
+
+        int all_reminders_size = RemindersDate.values().length;
+        for (int i = 0; i < scheduledTime.size(); ++i) {
 
             Intent intent = new Intent(context, ReminderNotification.class);
-            String title = "Wallet document expiration reminder";
-            String message = "One of your document will soon expire soon";
+            String title = "Document expiration reminder";
+            String message = "Your " + document.getDocumentName().toLowerCase() + " will expire " + scheduledMessage.get(i);
 
-            if (i == 0) {
-                intent.putExtra(notification_ID_Extra, 1);
-            }
-//            if (i==1) {
-//                intent.putExtra(notification_ID_Extra, 2);
-//            }
-
+            intent.putExtra(notification_ID_Extra, document.ordinal() * all_reminders_size + i); //same document notifications goes to a different notification
 
             intent.putExtra(titleExtra, title);
             intent.putExtra(messageExtra, message);
@@ -190,33 +217,37 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
             PendingIntent pend = PendingIntent.getBroadcast(
                     context.getApplicationContext(),
-                    PENDING_ID + i, //PendingIntent a un requestCode different sinon ça override la même PendingIntent.
+                    document.ordinal() * all_reminders_size + i, //PendingIntent a un requestCode different sinon ça override la même PendingIntent.
                     intent,
                     PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
             );
 
             alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
-                    scheduleTime.get(i),
+                    scheduledTime.get(i),
                     pend
             );
         }
     }
 
-    private ArrayList<Long> getTime(int dayOfMonth, int month, int year) {
+    private void modifyScheduledArray(Calendar targetDate, ArrayList<Long> scheduledTime, ArrayList<String> scheduledMessage) {
 
-        ArrayList<Long> scheduleTime = new ArrayList<Long>();
+        for (RemindersDate period : RemindersDate.values()) {
+            Calendar targetDate_copy = (Calendar) targetDate.clone();
+            targetDate_copy.add(period.timeUnit, period.number);
 
-        Calendar now = Calendar.getInstance();
-        now.add(Calendar.MINUTE, 1);
-        scheduleTime.add(now.getTimeInMillis());
+            Calendar now = Calendar.getInstance();
+            if (targetDate_copy.getTimeInMillis() - now.getTimeInMillis() > 0) {
+                scheduledTime.add(targetDate_copy.getTimeInMillis());
+                scheduledMessage.add(period.message);
+            }
 
-        Calendar now2 = Calendar.getInstance();
-        now2.add(Calendar.MINUTE, 2);
-        scheduleTime.add(now2.getTimeInMillis());
+        }
 
-        return scheduleTime;
-
+        Calendar nowTestDemo = Calendar.getInstance();
+        nowTestDemo.add(Calendar.SECOND, 20);
+        scheduledTime.add(nowTestDemo.getTimeInMillis());
+        scheduledMessage.add("in 2 days");
     }
 
 

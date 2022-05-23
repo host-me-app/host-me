@@ -1,12 +1,5 @@
 package ch.epfl.sweng.hostme.utils;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.assertEquals;
-
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -21,15 +14,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.LogInActivity;
-import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 
-public class ListImageTest {
+public class ConnectionTest {
     @Rule
-    public GrantPermissionRule internetAccess = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
-    public GrantPermissionRule readAccess = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+    public GrantPermissionRule network = GrantPermissionRule.grant(android.Manifest.permission.INTERNET,
+            android.Manifest.permission.ACCESS_NETWORK_STATE);
 
     @BeforeClass
     public static void setUp() {
@@ -41,14 +33,12 @@ public class ListImageTest {
     }
 
     @Test
-    public void initializeTest() {
+    public void onlineTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String path = "a/p_b_r";
             scenario.onActivity(activity -> {
-                ListImage.init(path, activity, ApplicationProvider.getApplicationContext());
-                assertEquals(path, ListImage.getPath());
+                org.junit.Assert.assertEquals(true, Connection.online(activity));
             });
         } catch (Exception e) {
             e.printStackTrace();

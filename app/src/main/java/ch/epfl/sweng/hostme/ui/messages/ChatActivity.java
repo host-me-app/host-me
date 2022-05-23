@@ -38,6 +38,7 @@ import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
+import ch.epfl.sweng.hostme.utils.Connection;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.UserManager;
 
@@ -106,9 +107,10 @@ public class ChatActivity extends AppCompatActivity {
         init();
         listenMessages();
         launchButt = findViewById(R.id.launchButt);
-        launchButt.setImageResource(isNetworkAvailable() ? R.drawable.video_call : R.drawable.no_video);
+        boolean isConnected = Connection.online(this);
+        launchButt.setImageResource(isConnected ? R.drawable.video_call : R.drawable.no_video);
         launchButt.setOnClickListener(v -> {
-            if (!isNetworkAvailable()) {
+            if (!isConnected) {
                 showToast("You have no Internet connection");
             } else {
                 Intent intent = new Intent(this, CallActivity.class);
@@ -116,19 +118,6 @@ public class ChatActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    /**
-     * Check if the user has Internet connection
-     *
-     * @return true if user has connection, false otherwise
-     */
-    @SuppressLint("MissingPermission")
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void init() {

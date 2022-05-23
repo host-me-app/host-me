@@ -79,7 +79,10 @@ public class FavoritesTest {
             onView(withId(R.id.navigation_favorites))
                     .perform(click());
 
-            Thread.sleep(500);
+            Thread.sleep(1000);
+            onView(withId(R.id.navigation_account)).perform(click());
+
+            Thread.sleep(1000);
             onView(withId(R.id.userProfilelogOutButton)).perform(click());
             Thread.sleep(1000);
 

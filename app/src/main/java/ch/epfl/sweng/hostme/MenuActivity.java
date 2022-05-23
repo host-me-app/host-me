@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme;
 import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -137,10 +138,10 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == REQ_IMAGE) {
-            ListImage.onAcceptImage(resultCode, intent.getData());
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getData() != null) {
+            ListImage.onAcceptImage(resultCode, data.getData());
         }
     }
 

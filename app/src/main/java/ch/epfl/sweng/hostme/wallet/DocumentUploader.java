@@ -24,7 +24,6 @@ public class DocumentUploader {
 
     private static final String UPLOAD_SUCCEED_MESSAGE = "Upload succeed!";
     private static final String UPLOAD_FAILED_MESSAGE = "Upload failed!";
-    private static final String PERMISSION_DENIED_MESSAGE = "Permission denied!";
     private static final String CHECK_FAILED_MESSAGE = "Failed to check documents!";
     private final Document document;
     private final String uid;
@@ -35,16 +34,14 @@ public class DocumentUploader {
     private final Button buttonDownload;
     private final ImageView checkImage;
     private final TextView expDateDescriptionText;
-    private DocumentExpirationDate expireDate;
-    private TextView expDateText;
-    private Button expDatePickButton;
+    private final TextView expDateText;
+    private final Button expDatePickButton;
 
     public DocumentUploader(Document document, String uid, Activity activity, Context context, DocumentExpirationDate expireDate) {
         this.document = document;
         this.uid = uid + "/";
         this.activity = activity;
         this.context = context;
-        this.expireDate = expireDate;
         this.titleChooser = "Choose" + document.getDocumentName();
         this.buttonBrowse = activity.findViewById(document.getButtonBrowseId());
         this.buttonDownload = activity.findViewById(document.getButtonDownloadId());
@@ -57,15 +54,6 @@ public class DocumentUploader {
     }
 
     private void askPermissionAndBrowseFile() {
-        int permission = ActivityCompat.checkSelfPermission(this.activity,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            this.activity.requestPermissions(
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    this.document.getCodePermission()
-            );
-        }
         this.doBrowseFile();
     }
 
@@ -76,16 +64,6 @@ public class DocumentUploader {
 
         chooseFileIntent = Intent.createChooser(chooseFileIntent, this.titleChooser);
         this.activity.startActivityForResult(chooseFileIntent, this.document.getCodePermission());
-    }
-
-    public void onPermissionsResult(int requestCode, @NonNull int[] grantResults) {
-        if (requestCode == this.document.getCodePermission()) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                this.doBrowseFile();
-            } else {
-                Toast.makeText(this.context, PERMISSION_DENIED_MESSAGE, Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     public void onBrowseFileResult(int requestCode, int resultCode, Intent data) {

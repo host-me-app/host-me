@@ -166,7 +166,7 @@ public class AccountFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         this.view = view;
-        accountUtils = new AccountUtils(getActivity(), activityResultLauncherGallery, activityResultLauncherCamera, view);
+        accountUtils = new AccountUtils(this, activityResultLauncherGallery, activityResultLauncherCamera, view);
 
         userManager = new UserManager(getActivity().getApplicationContext());
 
@@ -273,10 +273,14 @@ public class AccountFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        System.out.println("22222222222222222");
         if (requestCode == AccountUtils.CAMERA_PERM_CODE) {
+            System.out.println("3333333333333333333");
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                System.out.println("1111111111111111111");
                 accountUtils.openCamera();
             } else {
+                System.out.println("4444444444444444444");
                 Toast.makeText(getActivity(), "Camera Permission is Required to Use Camera", Toast.LENGTH_SHORT).show();
             }
         }

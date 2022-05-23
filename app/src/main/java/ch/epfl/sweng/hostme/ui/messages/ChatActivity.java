@@ -1,10 +1,6 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,15 +49,12 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private ImageView launchButt;
     private String conversionId = null;
-    private UserManager userManager;
-
     private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
             conversionId = documentSnapshot.getId();
         }
     };
-
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -94,6 +87,7 @@ public class ChatActivity extends AppCompatActivity {
             checkForConversion();
         }
     };
+    private UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +124,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendMessage() {
-        if(binding.inputMessage.getText().toString().length() != 0) {
+        if (binding.inputMessage.getText().toString().length() != 0) {
             HashMap<String, Object> message = new HashMap<>();
             message.put(Constants.KEY_SENDER_ID, Auth.getUid());
             message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
@@ -150,7 +144,7 @@ public class ChatActivity extends AppCompatActivity {
         if (conversionId != null) {
             updateConversion(binding.inputMessage.getText().toString());
             binding.inputMessage.setText(null);
-        }else{
+        } else {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
             conversion.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
@@ -252,7 +246,6 @@ public class ChatActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
 
 
 }

@@ -1,10 +1,5 @@
 package ch.epfl.sweng.hostme.utils;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
@@ -21,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.LogInActivity;
-import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;

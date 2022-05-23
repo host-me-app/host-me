@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.add;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -44,9 +44,6 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.utils.Connection;
 import ch.epfl.sweng.hostme.utils.ListImage;
 import ch.epfl.sweng.hostme.utils.Listing;
-
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
-import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
 public class AddFragment extends Fragment {
     private static final String ADDED = "Listing created !";
@@ -216,7 +213,7 @@ public class AddFragment extends Fragment {
                 ownerView.setVisibility(View.GONE);
                 notOwner.setVisibility(View.VISIBLE);
             } else {
-                for (DocumentSnapshot it: q.getDocuments()) {
+                for (DocumentSnapshot it : q.getDocuments()) {
                     myListings.add(it.toObject(Apartment.class));
                 }
                 notOwner.setVisibility(View.GONE);

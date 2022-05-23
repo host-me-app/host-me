@@ -22,7 +22,7 @@
             android:id="@+id/gpsSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPS"/>
+            android:text="GPS" />
 
         <LinearLayout
             android:id="@+id/filter_gps"
@@ -101,23 +101,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="40dp">
+        android:layout_marginHorizontal="40dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/clear_filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="true"
             android:layout_marginHorizontal="10dp"
+            android:enabled="true"
             android:text="Clear filters" />
+
         <Button
             android:id="@+id/filters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="true"
             android:layout_marginHorizontal="10dp"
+            android:enabled="true"
             android:text="Filters" />
 
     </LinearLayout>
@@ -127,9 +128,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:paddingBottom="50dp"
         android:clipToPadding="false"
+        android:paddingBottom="50dp"
+        android:scrollbars="vertical"
         tools:context=".ui.search.SearchFragment" />
 
 </LinearLayout>

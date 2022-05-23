@@ -1,7 +1,5 @@
 package ch.epfl.sweng.hostme.database;
 
-import com.google.firebase.storage.StorageReference;
-
 import org.junit.Test;
 
 

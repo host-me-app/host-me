@@ -56,6 +56,7 @@ public class SearchFragment extends Fragment {
     public static final String IS_FAVORITE = "isFavorite";
     public static final String FAVORITE_FRAGMENT = "FavoriteFragment";
     private final static CollectionReference favReference = Database.getCollection("favorite_apart");
+    private final static int PERMISSION_ID = 44;
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
     private SharedPreferences.Editor editor;
     private ApartmentAdapter recyclerAdapter;
@@ -69,6 +70,9 @@ public class SearchFragment extends Fragment {
     private LinearLayout filters;
     private ArrayList<Apartment> apartments;
     private String searchText;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private View root;
     private final LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -76,12 +80,8 @@ public class SearchFragment extends Fragment {
             filterLocation(mLastLocation);
         }
     };
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    private View root;
     private Button clearFilters;
     private FusedLocationProviderClient mFusedLocationClient;
-    private final static int PERMISSION_ID = 44;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

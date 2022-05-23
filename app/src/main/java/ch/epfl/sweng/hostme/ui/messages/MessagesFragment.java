@@ -39,8 +39,6 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     private FragmentMessagesBinding binding;
     private List<ChatMessage> conversations;
     private RecentConversationAdapter conversationAdapter;
-    private UserManager userManager;
-
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -86,6 +84,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
             }
         }
     };
+    private UserManager userManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

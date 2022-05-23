@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -37,10 +36,10 @@ public class ReminderNotificationTest {
     }
 
     @Test
-    public void notificationIsDisplayed(){
+    public void notificationIsDisplayed() {
 
         Context context = ApplicationProvider.getApplicationContext();
-        Intent intent = new Intent(context,ReminderNotification.class);
+        Intent intent = new Intent(context, ReminderNotification.class);
         String title = "Wallet document expiration reminder";
         String message = "One of your document will soon expire soon";
         intent.putExtra(titleExtra, title);
@@ -61,7 +60,6 @@ public class ReminderNotificationTest {
                 Calendar.getInstance().getTimeInMillis(),
                 pend
         );
-
 
 
     }

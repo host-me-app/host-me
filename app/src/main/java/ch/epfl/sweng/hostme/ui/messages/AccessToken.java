@@ -3,7 +3,6 @@ package ch.epfl.sweng.hostme.ui.messages;
 import static ch.epfl.sweng.hostme.ui.messages.Utils.crc32;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.TreeMap;
 
 
@@ -18,6 +17,7 @@ public class AccessToken {
     public int crcChannelName;
     public int crcUid;
     public PrivilegeMessage message;
+
     public AccessToken(String appId, String appCertificate, String channelName, String uid) {
         this.appId = appId;
         this.appCertificate = appCertificate;

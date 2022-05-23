@@ -33,12 +33,12 @@ public class FavoritesFragment extends Fragment {
     private static final String FAVORITES = "favorites";
     private final CollectionReference reference = Database.getCollection("favorite_apart");
     private final CollectionReference apartReference = Database.getCollection("apartments");
+    List<Apartment> apartments = new ArrayList<>();
     private View root;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ApartmentAdapter recyclerAdapter;
     private TextView noFavMessage;
-    List<Apartment> apartments = new ArrayList<>();
     private SharedPreferences bitmapPreferences;
 
 

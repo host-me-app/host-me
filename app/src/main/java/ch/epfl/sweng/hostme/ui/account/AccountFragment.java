@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -37,7 +36,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import ch.epfl.sweng.hostme.LogInActivity;
@@ -48,8 +46,8 @@ import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
-import ch.epfl.sweng.hostme.wallet.WalletActivity;
 import ch.epfl.sweng.hostme.utils.UserManager;
+import ch.epfl.sweng.hostme.wallet.WalletActivity;
 
 public class AccountFragment extends Fragment {
 
@@ -448,7 +446,6 @@ public class AccountFragment extends Fragment {
                         }
                 );
     }
-
 
 
 }

@@ -80,7 +80,8 @@ public class LogInActivity extends AppCompatActivity {
      * Disable the back press button
      */
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+    }
 
     @SuppressLint("MissingPermission")
     private void checkReminders() {
@@ -151,6 +152,7 @@ public class LogInActivity extends AppCompatActivity {
 
     /**
      * Change the preferences to keep user loged in
+     *
      * @param email
      */
     private void setSharedPref(String email) {

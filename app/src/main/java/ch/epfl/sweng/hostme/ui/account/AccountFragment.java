@@ -46,8 +46,8 @@ import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
-import ch.epfl.sweng.hostme.wallet.WalletActivity;
 import ch.epfl.sweng.hostme.utils.UserManager;
+import ch.epfl.sweng.hostme.wallet.WalletActivity;
 
 public class AccountFragment extends Fragment {
 
@@ -110,19 +110,17 @@ public class AccountFragment extends Fragment {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        if (result.getData() != null) {
-                            Uri selectedImage = result.getData().getData();
-                            Bitmap thumbnail = null;
-                            try {
-                                thumbnail = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImage);
-                            } catch (Exception ignored) {
-                            }
-                            editProfilePicture.setImageBitmap(thumbnail);
-                            uri_to_save = selectedImage;
-                            deletePic = false;
-                            saveButton.setEnabled(true);
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Uri selectedImage = result.getData().getData();
+                        Bitmap thumbnail = null;
+                        try {
+                            thumbnail = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImage);
+                        } catch (Exception ignored) {
                         }
+                        editProfilePicture.setImageBitmap(thumbnail);
+                        uri_to_save = selectedImage;
+                        deletePic = false;
+                        saveButton.setEnabled(true);
                     }
                 }
             });

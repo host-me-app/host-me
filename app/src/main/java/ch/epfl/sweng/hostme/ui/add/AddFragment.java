@@ -121,7 +121,6 @@ public class AddFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getData() != null) {
-            System.out.println("11111111");
             ListImage.onAcceptImage(resultCode, data.getData());
         }
     }

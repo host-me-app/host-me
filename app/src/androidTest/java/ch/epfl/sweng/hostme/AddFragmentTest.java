@@ -240,11 +240,13 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
             onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-
+            Thread.sleep(1000);
             onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(click());
+            Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
         }

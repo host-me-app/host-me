@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -37,7 +36,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import ch.epfl.sweng.hostme.LogInActivity;
@@ -56,7 +54,7 @@ public class AccountFragment extends Fragment {
     private static final String PREF_USER_NAME = "username";
     public static Uri uri_to_save = null;
     public static boolean deletePic = false;
-    public static boolean profilePicinDb = false;
+    public static boolean profilePicInDB = false;
     private View view;
     private EditText editFirstName;
     private EditText editLastName;
@@ -65,10 +63,12 @@ public class AccountFragment extends Fragment {
     private RadioButton buttonM;
     private RadioButton buttonF;
     private Button saveButton;
-    private Button logOutButton;
-    private Button changePasswordButton;
     private Profile dbProfile;
     private String school;
+    private ImageView editProfilePicture;
+    private AccountUtils accountUtils;
+    private UserManager userManager;
+
     /**
      * Watcher for any modifications of the text in the fields of the profile
      */
@@ -79,29 +79,17 @@ public class AccountFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             Profile local = getProfileFromUI();
-            Boolean allTheSame = local.equals(dbProfile);
-
-            if (allTheSame || !EmailValidator.isValid(local.getEmail())) {
-                saveButton.setEnabled(false);
-            } else {
-                saveButton.setEnabled(true);
-            }
-
+            boolean allTheSame = local.equals(dbProfile);
+            saveButton.setEnabled(!allTheSame && EmailValidator.isValid(local.getEmail()));
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
         }
     };
-    private ImageView editProfilePicture;
-    private FloatingActionButton changePictureButton;
-    private AccountUtils accountUtils;
 
-    private UserManager userManager;
-
-    private ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+    private final ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
@@ -111,7 +99,7 @@ public class AccountFragment extends Fragment {
                             editProfilePicture.setImageBitmap(imageBitmap);
                             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                            String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), imageBitmap, "Title", null);
+                            String path = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(), imageBitmap, "Title", null);
                             uri_to_save = Uri.parse(path);
                             deletePic = false;
                             saveButton.setEnabled(true);
@@ -120,7 +108,7 @@ public class AccountFragment extends Fragment {
                 }
             });
 
-    private ActivityResultLauncher<Intent> activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+    private final ActivityResultLauncher<Intent> activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
@@ -129,7 +117,7 @@ public class AccountFragment extends Fragment {
                             Uri selectedImage = result.getData().getData();
                             Bitmap thumbnail = null;
                             try {
-                                thumbnail = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                                thumbnail = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImage);
                             } catch (Exception ignored) {
                             }
                             editProfilePicture.setImageBitmap(thumbnail);
@@ -143,21 +131,13 @@ public class AccountFragment extends Fragment {
     /**
      * Watcher for any modifications of the gender button that is checked
      */
-    private RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher = new RadioGroup.OnCheckedChangeListener() {
+    private final RadioGroup.OnCheckedChangeListener SaveProfileCheckWatcher = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-
             Profile local = getProfileFromUI();
-            Boolean allTheSame = local.equals(dbProfile);
-
-            if (allTheSame || !EmailValidator.isValid(local.getEmail())) {
-                saveButton.setEnabled(false);
-            } else {
-                saveButton.setEnabled(true);
-            }
-
+            boolean allTheSame = local.equals(dbProfile);
+            saveButton.setEnabled(!allTheSame && EmailValidator.isValid(local.getEmail()));
         }
-
     };
 
 
@@ -168,7 +148,7 @@ public class AccountFragment extends Fragment {
         this.view = view;
         accountUtils = new AccountUtils(this, activityResultLauncherGallery, activityResultLauncherCamera, view);
 
-        userManager = new UserManager(getActivity().getApplicationContext());
+        userManager = new UserManager(requireActivity().getApplicationContext());
 
         editFirstName = view.findViewById(R.id.userProfileFirstName);
         editLastName = view.findViewById(R.id.userProfileLastName);
@@ -177,36 +157,28 @@ public class AccountFragment extends Fragment {
         buttonM = view.findViewById(R.id.userProfileGenderM);
         buttonF = view.findViewById(R.id.userProfileGenderF);
 
-        logOutButton = view.findViewById(R.id.userProfilelogOutButton);
+        Button logOutButton = view.findViewById(R.id.userProfilelogOutButton);
         saveButton = view.findViewById(R.id.userProfileSaveButton);
-        changePasswordButton = view.findViewById(R.id.userProfileChangePasswordButton);
+        Button changePasswordButton = view.findViewById(R.id.userProfileChangePasswordButton);
 
         saveButton.setEnabled(false);
 
         editProfilePicture = view.findViewById(R.id.userProfileImage);
         editProfilePicture.setImageBitmap(null);
         deletePic = false;
-        profilePicinDb = false;
+        profilePicInDB = false;
         uri_to_save = null;
 
         editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
-        changePictureButton = view.findViewById(R.id.userProfileChangePhotoButton);
+        FloatingActionButton changePictureButton = view.findViewById(R.id.userProfileChangePhotoButton);
 
         Button wallet_button = view.findViewById(R.id.wallet_button);
 
         //Listener to Buttons:
-        wallet_button.setOnClickListener(v -> {
-            goToWalletFragment();
-        });
-        logOutButton.setOnClickListener(v -> {
-            logUserOut();
-        });
-        changePictureButton.setOnClickListener(v -> {
-            accountUtils.showImagePickDialog();
-        });
-        changePasswordButton.setOnClickListener(v -> {
-            goToChangePasswordActivity();
-        });
+        wallet_button.setOnClickListener(v -> goToWalletFragment());
+        logOutButton.setOnClickListener(v -> logUserOut());
+        changePictureButton.setOnClickListener(v -> accountUtils.showImagePickDialog());
+        changePasswordButton.setOnClickListener(v -> goToChangePasswordActivity());
 
         loadProfileFieldsDB();
         loadProfilePictureDB();
@@ -226,10 +198,10 @@ public class AccountFragment extends Fragment {
                         if (task.isSuccessful()) {
                             Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                             editProfilePicture.setImageBitmap(bitmap);
-                            profilePicinDb = true;
+                            profilePicInDB = true;
 
                         } else {
-                            profilePicinDb = false;
+                            profilePicInDB = false;
                             editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
                         }
                     });
@@ -246,8 +218,8 @@ public class AccountFragment extends Fragment {
 
         docRef.get().addOnSuccessListener(
                 result -> {
-
                     dbProfile = result.toObject(Profile.class);
+                    assert dbProfile != null;
                     displayUIFromDB(dbProfile);
 
                     editFirstName.addTextChangedListener(SaveProfileWatcher);
@@ -256,8 +228,6 @@ public class AccountFragment extends Fragment {
                     editGender.setOnCheckedChangeListener(SaveProfileCheckWatcher);
 
                     addListenerToSaveButton();
-
-
                 }
         );
     }
@@ -277,7 +247,7 @@ public class AccountFragment extends Fragment {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 accountUtils.openCamera();
             } else {
-                Toast.makeText(getActivity(), "Camera Permission is Required to Use Camera", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.requireContext(), "Camera Permission is Required to Use Camera", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -296,14 +266,14 @@ public class AccountFragment extends Fragment {
             Auth.signOut();
             userManager.clear();
             resetSharedPref();
-            Intent intent = new Intent(getActivity(), LogInActivity.class);
+            Intent intent = new Intent(requireActivity(), LogInActivity.class);
             startActivity(intent);
-            getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+            requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
         });
     }
 
     private void resetSharedPref() {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(requireActivity()).edit();
         editor.putString(PREF_USER_NAME, "");
         editor.apply();
     }
@@ -312,18 +282,18 @@ public class AccountFragment extends Fragment {
      * Go to change password Activity
      */
     private void goToChangePasswordActivity() {
-        Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+        Intent intent = new Intent(requireActivity(), ChangePasswordActivity.class);
         startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
     /**
      * Go to wallet fragment
      */
     private void goToWalletFragment() {
-        Intent intent = new Intent(getActivity(), WalletActivity.class);
+        Intent intent = new Intent(requireActivity(), WalletActivity.class);
         startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
 
@@ -409,10 +379,10 @@ public class AccountFragment extends Fragment {
                                         task2 -> {
                                             if (task2.isSuccessful()) {
                                                 dbProfile.setEmail(toUpdateUser.getEmail());
-                                                Toast.makeText(getActivity(), "Profile's update succeeded.",
+                                                Toast.makeText(requireContext(), "Profile's update succeeded.",
                                                         Toast.LENGTH_SHORT).show();
                                             } else {
-                                                Toast.makeText(getActivity(), "Profile's update failed.",
+                                                Toast.makeText(requireContext(), "Profile's update failed.",
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -421,28 +391,28 @@ public class AccountFragment extends Fragment {
                                 String pathString = "profilePicture/" + Auth.getUid() + "/" + "profile.jpg";
                                 StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
 
-                                if (deletePic && uri_to_save == null && profilePicinDb) {
+                                if (deletePic && uri_to_save == null && profilePicInDB) {
                                     fileRef.delete()
                                             .addOnSuccessListener(taskSnapshot -> {
-                                                Toast.makeText(getActivity(), "Profile Pic Deleted", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(requireContext(), "Profile Pic Deleted", Toast.LENGTH_SHORT).show();
                                                 uri_to_save = null;
                                                 deletePic = false;
-                                                profilePicinDb = false;
-                                            }).addOnFailureListener(exception -> Toast.makeText(getActivity(), "Failed to Delete Profile Pic", Toast.LENGTH_SHORT).show());
+                                                profilePicInDB = false;
+                                            }).addOnFailureListener(exception -> Toast.makeText(requireContext(), "Failed to Delete Profile Pic", Toast.LENGTH_SHORT).show());
                                 }
 
-                                if (uri_to_save != null && deletePic == false) {
+                                if (uri_to_save != null && !deletePic) {
                                     fileRef.putFile(uri_to_save)
                                             .addOnSuccessListener(taskSnapshot -> {
-                                                Toast.makeText(getActivity(), "Profile Pic Updated", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(requireContext(), "Profile Pic Updated", Toast.LENGTH_SHORT).show();
                                                 uri_to_save = null;
                                                 deletePic = false;
-                                                profilePicinDb = true;
-                                            }).addOnFailureListener(exception -> Toast.makeText(getActivity(), "Failed to update Profile Pic", Toast.LENGTH_SHORT).show());
+                                                profilePicInDB = true;
+                                            }).addOnFailureListener(exception -> Toast.makeText(requireContext(), "Failed to update Profile Pic", Toast.LENGTH_SHORT).show());
                                 }
 
                             } else {
-                                Toast.makeText(getActivity(), "Profile's update failed.",
+                                Toast.makeText(requireContext(), "Profile's update failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }

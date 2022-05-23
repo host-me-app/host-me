@@ -89,7 +89,7 @@ public class AccountUtils {
         AccountFragment.uri_to_save = null;
         ImageView editProfilePicture = view.findViewById(R.id.userProfileImage);
         editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
-        if (AccountFragment.profilePicinDb) {
+        if (AccountFragment.profilePicInDB) {
             AccountFragment.deletePic = true;
             Button saveButton = view.findViewById(R.id.userProfileSaveButton);
             saveButton.setEnabled(true);

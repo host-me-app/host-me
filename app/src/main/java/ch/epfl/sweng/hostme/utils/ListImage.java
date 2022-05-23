@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
 import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+import static androidx.core.app.ActivityCompat.startActivityForResult;
 import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
 import android.annotation.SuppressLint;
@@ -9,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.storage.StorageReference;
 
@@ -21,14 +24,14 @@ public class ListImage {
 
     private static String path;
     @SuppressLint("StaticFieldLeak")
-    private static Activity activity;
+    private static Fragment fragment;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static int ext;
 
-    public static void init(String p, Activity a, Context c) {
+    public static void init(String p, Fragment f, Context c) {
         path = p;
-        activity = a;
+        fragment = f;
         context = c;
         ext = 0;
     }
@@ -38,7 +41,7 @@ public class ListImage {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
         galleryIntent.setType("image/jpeg");
         galleryIntent = Intent.createChooser(galleryIntent, SELECTION);
-        activity.startActivityForResult(galleryIntent, REQ_IMAGE);
+        fragment.startActivityForResult(galleryIntent, REQ_IMAGE);
     }
 
     public static void onAcceptImage(int res, Uri image) {

@@ -138,15 +138,6 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getData() != null) {
-            ListImage.onAcceptImage(resultCode, data.getData());
-        }
-    }
-
-
-    @Override
     protected void onStop() {
         super.onStop();
         startService(new Intent(this, MessageService.class));

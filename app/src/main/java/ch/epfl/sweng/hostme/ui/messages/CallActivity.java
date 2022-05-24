@@ -38,7 +38,7 @@ import io.agora.rtc.video.VideoEncoderConfiguration;
 
 public class CallActivity extends AppCompatActivity {
 
-    public static final String FROM_NOTIF = "from_notif";
+    public static final String FROM_NOTIF_CALL = "from_notif_call";
     private static final int PERMISSION_REQ_ID = 22;
     private final static CollectionReference reference = Database.getCollection(ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS);
     private final static int expirationTimeInSeconds = 3600;
@@ -79,7 +79,7 @@ public class CallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         Objects.requireNonNull(this.getSupportActionBar()).hide();
-        isFromNotif = getIntent().getBooleanExtra(FROM_NOTIF, false);
+        isFromNotif = getIntent().getBooleanExtra(FROM_NOTIF_CALL, false);
         currUserID = Auth.getUid();
         audioButt = findViewById(R.id.audioBtn);
         audioButt.setOnClickListener(l -> onAudioMuteClicked(audioButt));

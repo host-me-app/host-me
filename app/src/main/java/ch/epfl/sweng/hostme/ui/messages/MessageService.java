@@ -63,18 +63,19 @@ public class MessageService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(resourceImage);
 
-        int notificationId = new Random().nextInt();
-
         Intent resultIntent = new Intent(this, CallActivity.class);
-        //resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        resultIntent.putExtra(Constants.FROM_NOTIF, true);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        if(remoteMessage.getData().get("title").contentEquals("New Message")){
+            resultIntent = new Intent(this, MenuActivity.class);
+        }
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        resultIntent.putExtra(Constants.FROM_NOTIF_CALL, true);
+        /*TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0,
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);*/
 
-        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultIntent, PendingIntent.FLAG_IMMUTABLE);
         builder.setContentTitle(remoteMessage.getNotification().getTitle());
         builder.setContentText(remoteMessage.getNotification().getBody());
         builder.setContentIntent(resultPendingIntent);
@@ -92,7 +93,7 @@ public class MessageService extends FirebaseMessagingService {
             builder.setChannelId(channelId);
         }
 
-        mNotificationManager.notify(notificationId, builder.build());
+        mNotificationManager.notify(100, builder.build());
         //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         //notificationManagerCompat.notify(notificationId, builder.build());
 

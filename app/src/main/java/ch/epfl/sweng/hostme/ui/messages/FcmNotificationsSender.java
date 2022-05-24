@@ -45,7 +45,7 @@ public class FcmNotificationsSender {
             notiObject.put("title", title);
             notiObject.put("body", body);
             notiObject.put("icon", R.mipmap.ic_launcher);
-            mainObj.put("notification", notiObject);
+            mainObj.put("data", notiObject);
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
 

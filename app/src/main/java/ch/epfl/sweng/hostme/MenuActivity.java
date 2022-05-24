@@ -22,8 +22,10 @@ import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.ui.add.AddFragment;
 import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
+import ch.epfl.sweng.hostme.ui.messages.CallActivity;
 import ch.epfl.sweng.hostme.ui.messages.MessageService;
 import ch.epfl.sweng.hostme.ui.messages.MessagesFragment;
+import ch.epfl.sweng.hostme.ui.messages.UsersActivity;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.ListImage;
@@ -32,7 +34,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
     private static final String PREF_USER_NAME = "username";
-    boolean isFromNotif;
+    boolean isFromNotifCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +64,10 @@ public class MenuActivity extends AppCompatActivity {
 
             setupViewPager(viewPager);
 
-            /*isFromNotif = getIntent().getBooleanExtra(Constants.FROM_NOTIF, false);
-            if(isFromNotif){
-                View view = navView.findViewById(R.id.navigation_messages);
-                view.performClick();
-                System.out.println("NOTIF");
-            }*/
+            isFromNotifCall = getIntent().getBooleanExtra(Constants.FROM_NOTIF_CALL, false);
+            if(isFromNotifCall){
+                startActivity(new Intent(getApplicationContext(), CallActivity.class));
+            }
         }
 
     }

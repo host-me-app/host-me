@@ -1,12 +1,16 @@
 package ch.epfl.sweng.hostme.utils;
 
+import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
 import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.storage.StorageReference;
 
@@ -18,22 +22,25 @@ public class ListImage {
     private final static String PREVIEW = "preview";
 
     private static String path;
-    private static Activity activity;
+    @SuppressLint("StaticFieldLeak")
+    private static Fragment fragment;
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static int ext;
 
-    public static void init(String p, Activity a, Context c) {
+    public static void init(String p, Fragment f, Context c) {
         path = p;
-        activity = a;
+        fragment = f;
         context = c;
         ext = 0;
     }
 
+    @SuppressLint("IntentReset")
     public static void acceptImage() {
-        Intent selectImage = new Intent(Intent.ACTION_GET_CONTENT);
-        selectImage.setType("image/jpeg");
-        selectImage = selectImage.createChooser(selectImage, SELECTION);
-        activity.startActivityForResult(selectImage, REQ_IMAGE);
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("image/jpeg");
+        galleryIntent = Intent.createChooser(galleryIntent, SELECTION);
+        fragment.startActivityForResult(galleryIntent, REQ_IMAGE);
     }
 
     public static void onAcceptImage(int res, Uri image) {
@@ -44,11 +51,9 @@ public class ListImage {
 
     private static void pushImage(Uri image) {
         ext++;
-        String ref = String.format("%s/%s%d.jpg", path, PREVIEW, ext);
+        @SuppressLint("DefaultLocale") String ref = String.format("%s/%s%d.jpg", path, PREVIEW, ext);
         StorageReference target = Storage.getStorageReferenceByChild(ref);
-        target.putFile(image).addOnSuccessListener(done -> {
-            Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show();
-        });
+        target.putFile(image).addOnSuccessListener(done -> Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show());
     }
 
     public static String getPath() {

@@ -156,7 +156,7 @@ public class ChatActivity extends AppCompatActivity {
             HashMap<String, Object> message = new HashMap<>();
             message.put(Constants.KEY_SENDER_ID, uid);
             message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            message.put(Constants.KEY_MESSAGE, messageStr);
+            message.put(Constants.KEY_MESSAGE, messageStr.trim());
             message.put(Constants.KEY_TIMESTAMP, new Date());
             message.put(Constants.APART_ID, apartId);
             Database.getCollection(Constants.KEY_COLLECTION_CHAT)

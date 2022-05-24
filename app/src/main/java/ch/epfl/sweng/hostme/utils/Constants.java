@@ -15,6 +15,8 @@ public final class Constants {
     public static final String KEY_SENDER_ID = "senderId";
     public static final String KEY_RECEIVER_ID = "receiverId";
     public static final String KEY_MESSAGE = "message";
+    public static final String KEY_IS_DOCUMENT = "isDocument";
+    public static final String KEY_DOCUMENT_NAME = "documentName";
     public static final String KEY_COLLECTION_CONVERSATIONS = "conversations";
     public static final String KEY_SENDER_NAME = "senderName";
     public static final String KEY_RECEIVER_NAME = "receiverName";

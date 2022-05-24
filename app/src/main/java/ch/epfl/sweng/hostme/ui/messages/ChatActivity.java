@@ -1,9 +1,7 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,9 +13,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.StringUtils;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,18 +22,12 @@ import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
@@ -87,6 +76,8 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessage.senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     chatMessage.receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
+                    chatMessage.isDocument = documentChange.getDocument().getBoolean(Constants.KEY_IS_DOCUMENT);
+                    chatMessage.documentName = documentChange.getDocument().getString(Constants.KEY_DOCUMENT_NAME);
                     chatMessage.dateTime = getReadableDataTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     chatMessage.apartId = documentChange.getDocument().getString(Constants.APART_ID);
@@ -151,12 +142,14 @@ public class ChatActivity extends AppCompatActivity {
         binding.chatRecyclerView.setAdapter(chatAdapter);
     }
 
-    private void sendMessage(String messageStr) {
+    private void sendMessage(String messageStr, boolean isDocument, String documentName) {
         if(messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
             message.put(Constants.KEY_SENDER_ID, uid);
             message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             message.put(Constants.KEY_MESSAGE, messageStr.trim());
+            message.put(Constants.KEY_IS_DOCUMENT, isDocument);
+            message.put(Constants.KEY_DOCUMENT_NAME, documentName);
             message.put(Constants.KEY_TIMESTAMP, new Date());
             message.put(Constants.APART_ID, apartId);
             Database.getCollection(Constants.KEY_COLLECTION_CHAT)
@@ -172,7 +165,7 @@ public class ChatActivity extends AppCompatActivity {
         if (conversionId != null) {
             updateConversion(messageStr);
             binding.inputMessage.setText(null);
-        }else{
+        } else {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, uid);
             conversion.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
@@ -205,7 +198,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.sendButt.setOnClickListener(v -> sendMessage(binding.inputMessage.getText().toString()));
+        binding.sendButt.setOnClickListener(v -> sendMessage(binding.inputMessage.getText().toString(), false, ""));
     }
 
     @Override
@@ -311,7 +304,7 @@ public class ChatActivity extends AppCompatActivity {
             String pathString = doc.getPath() + uid + "/" + doc.getFileName() + doc.getFileExtension();
             StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
             fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                sendMessage(uri.toString());
+                sendMessage(uri.toString(), true, doc.getDocumentName());
             }).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents!", Toast.LENGTH_SHORT).show());
         }
     }

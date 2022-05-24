@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.chat;
 
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -79,8 +81,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void setData(ChatMessage chatMessage) {
-            binding.textMessage.setText(chatMessage.message);
-            binding.messageDate.setText(chatMessage.dateTime);
+            if (chatMessage.isDocument) {
+                binding.textMessage.setClickable(true);
+                binding.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
+                String text = "<a href='" + chatMessage.message + "' download> Download " + chatMessage.documentName + "</a>";
+                binding.textMessage.setText(Html.fromHtml(text));
+            } else {
+                binding.textMessage.setText(chatMessage.message);
+                binding.messageDate.setText(chatMessage.dateTime);
+            }
         }
     }
 
@@ -94,8 +103,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void setData(ChatMessage chatMessage) {
-            binding.textMessage.setText(chatMessage.message);
-            binding.messageDate.setText(chatMessage.dateTime);
+            if (chatMessage.isDocument) {
+                binding.textMessage.setClickable(true);
+                binding.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
+                String text = "<a href='" + chatMessage.message + "' download> Download " + chatMessage.documentName + "</a>";
+                binding.textMessage.setText(Html.fromHtml(text));
+            } else {
+                binding.textMessage.setText(chatMessage.message);
+                binding.messageDate.setText(chatMessage.dateTime);
+            }
         }
     }
 }

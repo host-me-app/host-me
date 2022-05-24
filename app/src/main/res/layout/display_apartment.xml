@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:padding="10dp"
-            android:scaleType="centerInside" >
+            android:scaleType="centerInside">
 
             <LinearLayout
                 android:id="@+id/gallery"

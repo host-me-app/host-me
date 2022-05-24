@@ -17,6 +17,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -214,7 +216,7 @@ public class AddFragmentTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             savePickedImage();
-            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageResult());
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageUriResult());
 
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
@@ -241,6 +243,7 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
             Thread.sleep(1000);
+            fail();
             onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(click());
             Thread.sleep(1000);
@@ -253,7 +256,7 @@ public class AddFragmentTest {
         Intents.release();
     }
 
-    private Instrumentation.ActivityResult getImageResult() {
+    private Instrumentation.ActivityResult getImageUriResult() {
         Intent resultData = new Intent();
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult.jpeg");

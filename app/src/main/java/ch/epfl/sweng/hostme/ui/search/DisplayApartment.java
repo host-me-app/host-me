@@ -5,6 +5,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
@@ -18,12 +19,14 @@ import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,9 +38,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.maps.MapsFragment;
 import ch.epfl.sweng.hostme.maps.StreetViewFragment;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
@@ -80,9 +88,8 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             String city = bundle.getString(CITY);
             int npa = bundle.getInt(NPA, 0);
             fullAddress = addr + " " + city + " " + npa;
-            ImageView image = root.findViewById(R.id.apart_image);
-            Bitmap bitmap = bundle.getParcelable(BITMAP);
-            image.setImageBitmap(bitmap);
+
+            setHorizontalScrollable(bundle);
 
             changeText(String.valueOf(npa), R.id.npa);
             changeText(city, R.id.city);
@@ -97,6 +104,47 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             contactUser.setOnClickListener(view -> chatWithUser(uid));
         }
         return root;
+    }
+
+    /**
+     * Set the horizontal scrollable view to have a list of images
+     * @param bundle
+     */
+    private void setHorizontalScrollable(Bundle bundle) {
+        LinearLayout gallery = root.findViewById(R.id.gallery);
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        View view = layoutInflater.inflate(R.layout.apart_image, gallery, false);
+        ImageView image = view.findViewById(R.id.imageApart);
+        Bitmap bitmap = bundle.getParcelable(BITMAP);
+        image.setImageBitmap(bitmap);
+        gallery.addView(view);
+        String imagePath = bundle.getString(IMAGE_PATH);
+        StorageReference storageReference = Storage.getStorageReferenceByChild(imagePath);
+        final boolean[] first = {true};
+        storageReference.listAll().addOnSuccessListener(listResult -> {
+            for (StorageReference ref : listResult.getItems()) {
+                if (first[0]) {
+                    first[0] = false;
+                    continue;
+                }
+                final File localFile;
+                try {
+                    localFile = File.createTempFile("preview1", "jpg");
+                    View newView = layoutInflater.inflate(R.layout.apart_image, gallery, false);
+                    newView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+                    ref.getFile(localFile)
+                            .addOnSuccessListener(result -> {
+                                Bitmap newBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                ImageView imageView = newView.findViewById(R.id.imageApart);
+                                imageView.setImageBitmap(newBitmap);
+                                gallery.addView(newView);
+                                newView.findViewById(R.id.loading).setVisibility(View.GONE);
+                            });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void goToStreetViewFragment(View view) {

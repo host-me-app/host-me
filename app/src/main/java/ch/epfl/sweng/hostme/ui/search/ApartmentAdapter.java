@@ -8,6 +8,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
 import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
@@ -45,7 +46,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -146,9 +146,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                 Toast.makeText(view.getContext(), "Apartment removed from your favorites",
                         Toast.LENGTH_SHORT).show();
             }
-        } /*else {
-            preferences.edit().putBoolean(IS_FROM_FILTERS, false).apply();
-        }*/
+        }
     }
 
     /**
@@ -202,6 +200,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         bundle.putInt(RENT, apartment.getRent());
         bundle.putInt(AREA, apartment.getArea());
         bundle.putString(PROPRIETOR, apartment.getProprietor());
+        bundle.putString(IMAGE_PATH, apartment.getImagePath());
         bundle.putParcelable(BITMAP, hashMap.get(apartment.getDocID()));
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);

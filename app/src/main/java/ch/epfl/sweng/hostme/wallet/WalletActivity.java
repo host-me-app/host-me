@@ -35,12 +35,6 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        documentUploader.get(requestCode - 1).onPermissionsResult(requestCode, grantResults);
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         documentUploader.get(requestCode - 1).onBrowseFileResult(requestCode, resultCode, data);

@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme.chat;
 
+import android.graphics.Color;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -86,6 +87,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
                 String text = "<a href='" + chatMessage.message + "' download> Download " + chatMessage.documentName + "</a>";
                 binding.textMessage.setText(Html.fromHtml(text));
+                binding.textMessage.setLinkTextColor(Color.GREEN);
             } else {
                 binding.textMessage.setText(chatMessage.message);
                 binding.messageDate.setText(chatMessage.dateTime);
@@ -108,6 +110,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
                 String text = "<a href='" + chatMessage.message + "' download> Download " + chatMessage.documentName + "</a>";
                 binding.textMessage.setText(Html.fromHtml(text));
+                binding.textMessage.setLinkTextColor(Color.GREEN);
             } else {
                 binding.textMessage.setText(chatMessage.message);
                 binding.messageDate.setText(chatMessage.dateTime);

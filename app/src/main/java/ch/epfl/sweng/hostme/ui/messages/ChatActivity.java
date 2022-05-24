@@ -163,14 +163,14 @@ public class ChatActivity extends AppCompatActivity {
                     .add(message)
                     .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
                     .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
-            addConversation();
+            addConversation(messageStr.trim());
             sendNotification();
         }
     }
 
-    private void addConversation() {
+    private void addConversation(String messageStr) {
         if (conversionId != null) {
-            updateConversion(binding.inputMessage.getText().toString());
+            updateConversion(messageStr);
             binding.inputMessage.setText(null);
         }else{
             HashMap<String, Object> conversion = new HashMap<>();
@@ -181,7 +181,6 @@ public class ChatActivity extends AppCompatActivity {
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             conversion.put(Constants.APART_ID, apartId);
-
             addConversion(conversion);
         }
     }

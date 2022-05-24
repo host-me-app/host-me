@@ -1,8 +1,11 @@
 package ch.epfl.sweng.hostme.ui.add;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -81,22 +85,21 @@ public class AddFragment extends Fragment {
         addViewModel.key(enterImages);
         final Button addSubmit = binding.addSubmit;
         enterImages.setOnClickListener(v -> {
-            addViewModel.formPath(formFields.get("proprietor"), formFields.get("name"),
-                    formFields.get("room"));
+            addViewModel.formPath(Objects.requireNonNull(formFields.get("proprietor")), Objects.requireNonNull(formFields.get("name")),
+                    Objects.requireNonNull(formFields.get("room")));
             if (ListImage.getPath() == null || !ListImage.getPath().equals(addViewModel.formPath().getValue())) {
-                ListImage.init(addViewModel.formPath().getValue(), this.getActivity(), this.getContext());
+                ListImage.init(addViewModel.formPath().getValue(), this, this.getContext());
             }
             ListImage.acceptImage();
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
-            if (generateApartment(root) != null) {
-                checkBin();
-            }
+            generateApartment(root);
+            checkBin();
         });
 
         final FloatingActionButton addNew = binding.addNew;
-        if (Connection.online(this.getActivity())) {
+        if (Connection.online(requireActivity())) {
             addNew.setBackgroundTintList(ColorStateList.valueOf(
                     getResources().getColor(R.color.purple_100)));
         } else {
@@ -104,9 +107,7 @@ public class AddFragment extends Fragment {
                     getResources().getColor(R.color.grey)));
             addNew.setEnabled(false);
         }
-        addNew.setOnClickListener(v -> {
-            formTransition(addForm, addButtons);
-        });
+        addNew.setOnClickListener(v -> formTransition(addForm, addButtons));
 
         ownerView = binding.ownerView;
         notOwner = binding.addFirst;
@@ -114,6 +115,14 @@ public class AddFragment extends Fragment {
         checkBin();
 
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getData() != null) {
+            ListImage.onAcceptImage(resultCode, data.getData());
+        }
     }
 
     @Override
@@ -138,9 +147,8 @@ public class AddFragment extends Fragment {
 
         for (String it : formFields.keySet()) {
             EditText ref = formFields.get(it);
-            ref.setOnFocusChangeListener((v, focused) -> {
-                addViewModel.validate(ref);
-            });
+            assert ref != null;
+            ref.setOnFocusChangeListener((v, focused) -> addViewModel.validate(ref));
         }
     }
 
@@ -153,9 +161,9 @@ public class AddFragment extends Fragment {
                 R.array.privacy_enum, android.R.layout.simple_spinner_item);
         arr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (String menu : dropDowns.keySet()) {
-            dropDowns.get(menu).setAdapter(arr);
-            dropDowns.get(menu).setOnItemSelectedListener(addViewModel);
-            dropDowns.get(menu).setSelection(1);
+            Objects.requireNonNull(dropDowns.get(menu)).setAdapter(arr);
+            Objects.requireNonNull(dropDowns.get(menu)).setOnItemSelectedListener(addViewModel);
+            Objects.requireNonNull(dropDowns.get(menu)).setSelection(1);
         }
     }
 
@@ -169,41 +177,37 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private Listing generateApartment(View root) {
+    private void generateApartment(View root) {
         JSONObject fields = new JSONObject();
-        String[] priv = getResources().getStringArray(R.array.privacy_enum);
+        String[] privacy = getResources().getStringArray(R.array.privacy_enum);
         Button furn = root.findViewById(selectFurnished.getCheckedRadioButtonId());
         Button pet = root.findViewById(selectPets.getCheckedRadioButtonId());
         try {
-            fields.put("name", formFields.get("name").getText().toString());
-            fields.put("room", formFields.get("room").getText().toString());
-            fields.put("address", formFields.get("address").getText().toString());
-            fields.put("npa", Integer.valueOf(formFields.get("npa").getText().toString()));
-            fields.put("city", formFields.get("city").getText().toString());
-            fields.put("rent", Integer.valueOf(formFields.get("rent").getText().toString()));
-            fields.put("beds", Integer.valueOf(formFields.get("beds").getText().toString()));
-            fields.put("area", Integer.valueOf(formFields.get("area").getText().toString()));
+            fields.put("name", Objects.requireNonNull(formFields.get("name")).getText().toString());
+            fields.put("room", Objects.requireNonNull(formFields.get("room")).getText().toString());
+            fields.put("address", Objects.requireNonNull(formFields.get("address")).getText().toString());
+            fields.put("npa", Integer.valueOf(Objects.requireNonNull(formFields.get("npa")).getText().toString()));
+            fields.put("city", Objects.requireNonNull(formFields.get("city")).getText().toString());
+            fields.put("rent", Integer.valueOf(Objects.requireNonNull(formFields.get("rent")).getText().toString()));
+            fields.put("beds", Integer.valueOf(Objects.requireNonNull(formFields.get("beds")).getText().toString()));
+            fields.put("area", Integer.valueOf(Objects.requireNonNull(formFields.get("area")).getText().toString()));
             fields.put("furnished", furn.getText().toString().equals("yes"));
-            fields.put("bath", priv[dropDowns.get("bath").getSelectedItemPosition()]);
-            fields.put("kitchen", priv[dropDowns.get("kitchen").getSelectedItemPosition()]);
-            fields.put("laundry", priv[dropDowns.get("laundry").getSelectedItemPosition()]);
+            fields.put("bath", privacy[Objects.requireNonNull(dropDowns.get("bath")).getSelectedItemPosition()]);
+            fields.put("kitchen", privacy[Objects.requireNonNull(dropDowns.get("kitchen")).getSelectedItemPosition()]);
+            fields.put("laundry", privacy[Objects.requireNonNull(dropDowns.get("laundry")).getSelectedItemPosition()]);
             fields.put("pets", pet.getText().toString().equals("yes"));
             fields.put("imagePath", addViewModel.formPath().getValue());
-            fields.put("proprietor", formFields.get("proprietor").getText().toString());
+            fields.put("proprietor", Objects.requireNonNull(formFields.get("proprietor")).getText().toString());
             fields.put("uid", USR);
-            fields.put("utilities", Integer.valueOf(formFields.get("utilities").getText().toString()));
-            fields.put("deposit", Integer.valueOf(formFields.get("deposit").getText().toString()));
-            fields.put("duration", formFields.get("duration").getText().toString());
+            fields.put("utilities", Integer.valueOf(Objects.requireNonNull(formFields.get("utilities")).getText().toString()));
+            fields.put("deposit", Integer.valueOf(Objects.requireNonNull(formFields.get("deposit")).getText().toString()));
+            fields.put("duration", Objects.requireNonNull(formFields.get("duration")).getText().toString());
         } catch (Exception ignored) {
         }
 
         Listing ret = new Listing(fields);
 
-        DB.add(ret).addOnSuccessListener(doc -> {
-            Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show();
-        });
-
-        return ret;
+        DB.add(ret).addOnSuccessListener(doc -> Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show());
     }
 
     private void checkBin() {
@@ -213,7 +217,7 @@ public class AddFragment extends Fragment {
                 ownerView.setVisibility(View.GONE);
                 notOwner.setVisibility(View.VISIBLE);
             } else {
-                for (DocumentSnapshot it : q.getDocuments()) {
+                for (DocumentSnapshot it: q.getDocuments()) {
                     myListings.add(it.toObject(Apartment.class));
                 }
                 notOwner.setVisibility(View.GONE);

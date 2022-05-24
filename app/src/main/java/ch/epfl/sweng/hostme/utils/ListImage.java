@@ -17,7 +17,6 @@ import com.google.firebase.storage.StorageReference;
 import ch.epfl.sweng.hostme.database.Storage;
 
 public class ListImage {
-    private final static String SELECTION = "Select a display image";
     private final static String COMPLETE = "File upload complete";
     private final static String PREVIEW = "preview";
 
@@ -39,7 +38,6 @@ public class ListImage {
     public static void acceptImage() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
         galleryIntent.setType("image/jpeg");
-        galleryIntent = Intent.createChooser(galleryIntent, SELECTION);
         fragment.startActivityForResult(galleryIntent, REQ_IMAGE);
     }
 

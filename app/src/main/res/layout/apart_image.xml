@@ -6,6 +6,7 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp">
 
+
     <ImageView
         android:id="@+id/imageApart"
         android:layout_width="250dp"
@@ -16,6 +17,6 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
 </LinearLayout>

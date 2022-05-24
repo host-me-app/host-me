@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -131,14 +132,15 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                 try {
                     localFile = File.createTempFile("preview1", "jpg");
                     View newView = layoutInflater.inflate(R.layout.apart_image, gallery, false);
-                    newView.findViewById(R.id.loading).setVisibility(View.VISIBLE);
+                    ProgressBar loading = newView.findViewById(R.id.loading);
+                    loading.setVisibility(View.VISIBLE);
                     ref.getFile(localFile)
                             .addOnSuccessListener(result -> {
                                 Bitmap newBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                                 ImageView imageView = newView.findViewById(R.id.imageApart);
                                 imageView.setImageBitmap(newBitmap);
                                 gallery.addView(newView);
-                                newView.findViewById(R.id.loading).setVisibility(View.GONE);
+                                loading.setVisibility(View.GONE);
                             });
                 } catch (IOException e) {
                     e.printStackTrace();

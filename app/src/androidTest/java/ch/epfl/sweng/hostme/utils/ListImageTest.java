@@ -25,6 +25,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
+import ch.epfl.sweng.hostme.ui.add.AddFragment;
 
 public class ListImageTest {
     @Rule
@@ -47,7 +48,7 @@ public class ListImageTest {
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String path = "a/p_b_r";
             scenario.onActivity(activity -> {
-                ListImage.init(path, activity, ApplicationProvider.getApplicationContext());
+                ListImage.init(path, new AddFragment(), ApplicationProvider.getApplicationContext());
                 assertEquals(path, ListImage.getPath());
             });
         } catch (Exception e) {

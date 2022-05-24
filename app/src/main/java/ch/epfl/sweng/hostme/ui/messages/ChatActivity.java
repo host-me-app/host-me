@@ -1,10 +1,9 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,23 +11,34 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.StringUtils;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
@@ -36,11 +46,13 @@ import ch.epfl.sweng.hostme.chat.ChatAdapter;
 import ch.epfl.sweng.hostme.chat.ChatMessage;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
+import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Connection;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.UserManager;
+import ch.epfl.sweng.hostme.wallet.Document;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -51,9 +63,9 @@ public class ChatActivity extends AppCompatActivity {
     private String apartId;
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
-    private ImageView launchButt;
     private String conversionId = null;
     private UserManager userManager;
+    private String uid;
 
     private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
@@ -62,6 +74,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
+    @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -102,13 +115,22 @@ public class ChatActivity extends AppCompatActivity {
         Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
         userManager = new UserManager(getApplicationContext());
+        uid = Auth.getUid();
         setListeners();
         loadReceiverDetails();
         init();
         listenMessages();
-        launchButt = findViewById(R.id.launchButt);
+        ImageView shareButt = findViewById(R.id.shareButton);
+        ImageView launchButt = findViewById(R.id.launchButt);
         boolean isConnected = Connection.online(this);
         launchButt.setImageResource(isConnected ? R.drawable.video_call : R.drawable.no_video);
+        shareButt.setOnClickListener(v -> {
+            if (!isConnected) {
+                showToast("You have no Internet connection");
+            } else {
+                chooseDocumentsToShare();
+            }
+        });
         launchButt.setOnClickListener(v -> {
             if (!isConnected) {
                 showToast("You have no Internet connection");
@@ -124,35 +146,35 @@ public class ChatActivity extends AppCompatActivity {
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(
                 chatMessages,
-                Auth.getUid()
+                uid
         );
         binding.chatRecyclerView.setAdapter(chatAdapter);
     }
 
-    private void sendMessage() {
-        if(binding.inputMessage.getText().toString().length() != 0) {
+    private void sendMessage(String messageStr) {
+        if(messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
-            message.put(Constants.KEY_SENDER_ID, Auth.getUid());
+            message.put(Constants.KEY_SENDER_ID, uid);
             message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+            message.put(Constants.KEY_MESSAGE, messageStr);
             message.put(Constants.KEY_TIMESTAMP, new Date());
             message.put(Constants.APART_ID, apartId);
             Database.getCollection(Constants.KEY_COLLECTION_CHAT)
                     .add(message)
                     .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
                     .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
-            addConvo();
+            addConversation();
             sendNotification();
         }
     }
 
-    private void addConvo() {
+    private void addConversation() {
         if (conversionId != null) {
             updateConversion(binding.inputMessage.getText().toString());
             binding.inputMessage.setText(null);
         }else{
             HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_SENDER_ID, Auth.getUid());
+            conversion.put(Constants.KEY_SENDER_ID, uid);
             conversion.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
@@ -166,13 +188,13 @@ public class ChatActivity extends AppCompatActivity {
 
     private void listenMessages() {
         Database.getCollection(Constants.KEY_COLLECTION_CHAT)
-                .whereEqualTo(Constants.KEY_SENDER_ID, Auth.getUid())
+                .whereEqualTo(Constants.KEY_SENDER_ID, uid)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
                 .whereEqualTo(Constants.APART_ID, apartId)
                 .addSnapshotListener(eventListener);
         Database.getCollection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, Auth.getUid())
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, uid)
                 .whereEqualTo(Constants.APART_ID, apartId)
                 .addSnapshotListener(eventListener);
     }
@@ -184,7 +206,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.sendButt.setOnClickListener(v -> sendMessage());
+        binding.sendButt.setOnClickListener(v -> sendMessage(binding.inputMessage.getText().toString()));
     }
 
     @Override
@@ -222,12 +244,12 @@ public class ChatActivity extends AppCompatActivity {
     private void checkForConversion() {
         if (chatMessages.size() != 0) {
             checkForConversionRemotely(
-                    Auth.getUid(),
+                    uid,
                     receiverUser.id
             );
             checkForConversionRemotely(
                     receiverUser.id,
-                    Auth.getUid()
+                    uid
             );
         }
     }
@@ -245,7 +267,6 @@ public class ChatActivity extends AppCompatActivity {
         FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message From :" + userManager.getString(Constants.KEY_SENDER_NAME),
                 binding.inputMessage.getText().toString(), getApplicationContext(), ChatActivity.this);
         sender.sendNotifications();
-        showToast("notification send");
         binding.inputMessage.setText(null);
     }
 
@@ -253,6 +274,47 @@ public class ChatActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    private void chooseDocumentsToShare() {
+        showDocumentsPickDialog();
+    }
 
+    private String[] getDocumentsNames() {
+        List<String> list = new ArrayList<>();
+        for (Document doc : Document.values()) {
+            String documentName = doc.getDocumentName();
+            list.add(documentName);
+        }
+        return list.toArray(new String[Document.values().length]);
+    }
+
+    private void showDocumentsPickDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Documents you want to share");
+        String[] items = getDocumentsNames();
+        ArrayList<Document> itemsSelected = new ArrayList<>();
+        builder.setMultiChoiceItems(items, null,
+                        (dialog, selectedItemId, isSelected) -> {
+                            if (isSelected) {
+                                itemsSelected.add(Document.values()[selectedItemId]);
+                            } else itemsSelected.remove(Document.values()[selectedItemId]);
+                        })
+                .setPositiveButton("Share", (dialog, id) -> {
+                    sendDocuments(itemsSelected);
+                })
+                .setNegativeButton("Cancel", (dialog, id) -> {
+                });
+
+        builder.create().show();
+    }
+
+    private void sendDocuments(ArrayList<Document> documentsToShare) {
+        for(Document doc : documentsToShare) {
+            String pathString = doc.getPath() + uid + "/" + doc.getFileName() + doc.getFileExtension();
+            StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
+            fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                sendMessage(uri.toString());
+            }).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents!", Toast.LENGTH_SHORT).show());
+        }
+    }
 
 }

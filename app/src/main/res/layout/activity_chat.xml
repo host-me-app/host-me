@@ -79,6 +79,18 @@
         app:layout_constraintStart_toStartOf="@+id/viewBackground"
         app:layout_constraintTop_toTopOf="@id/viewBackground" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/shareButton"
+        android:layout_width="52dp"
+        android:layout_height="49dp"
+        android:padding="8dp"
+        android:src="@drawable/add_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/inputMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewBackground"
+        app:tint="@color/white" />
+
     <FrameLayout
         android:id="@+id/layoutSend"
         android:layout_width="40dp"
@@ -99,12 +111,22 @@
             android:padding="8dp"
             android:src="@drawable/send_icon"
             app:tint="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sendButt2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:padding="8dp"
+            android:src="@drawable/send_icon"
+            app:tint="@color/white" />
     </FrameLayout>
+
 
     <EditText
         android:id="@+id/inputMessage"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_width="279dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_chat_input"
@@ -118,9 +140,10 @@
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="@+id/layoutSend"
         app:layout_constraintEnd_toStartOf="@+id/layoutSend"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layoutSend" />
-
+        app:layout_constraintTop_toTopOf="@+id/layoutSend"
+        app:layout_constraintVertical_bias="0.44" />
 
     <ImageView
         android:id="@+id/launchButt"

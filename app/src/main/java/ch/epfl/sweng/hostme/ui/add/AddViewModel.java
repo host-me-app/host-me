@@ -2,6 +2,8 @@ package ch.epfl.sweng.hostme.ui.add;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -41,11 +43,26 @@ public class AddViewModel extends ViewModel implements AdapterView.OnItemSelecte
     }
 
     public void validate(EditText chk) {
-        String input = chk.getText().toString();
-        if (!input.isEmpty()) {
-            lock.add(chk.getId());
+        if (lock.size() == 11) {
+            chk.addTextChangedListener(new TextWatcher() {
+                public void afterTextChanged(Editable s) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!String.valueOf(s).isEmpty()) {
+                        lock.add(chk.getId());
+                    } else {
+                        lock.remove(chk.getId());
+                    }
+                    turn();
+                }
+            });
         } else {
-            lock.remove(chk.getId());
+            String input = chk.getText().toString();
+            if (!input.isEmpty()) {
+                lock.add(chk.getId());
+            } else {
+                lock.remove(chk.getId());
+            }
         }
         turn();
     }

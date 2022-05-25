@@ -25,9 +25,9 @@ import ch.epfl.sweng.hostme.database.Database;
 
 public class GradeApartment extends Fragment {
 
+    private final DocumentReference reference = Database.getCollection("rating").document(Auth.getUid());
     private RatingBar[] ratingBars;
     private String apartID;
-    private final DocumentReference reference = Database.getCollection("rating").document(Auth.getUid());
 
     public GradeApartment() {
     }

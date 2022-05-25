@@ -22,9 +22,8 @@ import ch.epfl.sweng.hostme.utils.Constants;
 
 public class UsersActivity extends AppCompatActivity implements UserListener {
 
-    private ActivityUsersBinding binding;
     private static final String FROM = "from";
-
+    private ActivityUsersBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,21 +1,12 @@
 package ch.epfl.sweng.hostme;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.setFailureHandler;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 
 import androidx.test.core.app.ActivityScenario;
@@ -24,19 +15,12 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.FirebaseApp;
 
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -96,6 +80,19 @@ public class FavoritesTest {
                     .perform(click());
 
             Thread.sleep(1000);
+            onView(withId(R.id.navigation_account)).perform(click());
+
+            Thread.sleep(1000);
+            onView(withId(R.id.userProfilelogOutButton)).perform(click());
+            Thread.sleep(1000);
+
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -116,6 +113,23 @@ public class FavoritesTest {
             onView(withId(R.id.navigation_favorites))
                     .perform(click());
 
+            Thread.sleep(1000);
+            onView(withId(R.id.navigation_account)).perform(click());
+            Thread.sleep(1000);
+
+            onView(withId(R.id.userProfilelogOutButton)).perform(click());
+            Thread.sleep(1000);
+
+            String mail = "testlogin@gmail.com";
+            String password = "fakePassword1!";
+
+            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
+            onView(withId(R.id.logInButton)).perform(click());
+            Thread.sleep(1000);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

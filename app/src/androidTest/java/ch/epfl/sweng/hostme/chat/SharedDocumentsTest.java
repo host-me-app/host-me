@@ -4,8 +4,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -18,7 +16,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
@@ -47,7 +44,7 @@ public class SharedDocumentsTest {
     }
 
     @Test
-    public void ShareDocuments() {
+    public void ShareDocumentsCancel() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
@@ -65,18 +62,10 @@ public class SharedDocumentsTest {
             Thread.sleep(1000);
 
             UiDevice device = UiDevice.getInstance(getInstrumentation());
-
             onView(withId(R.id.shareButton)).perform(click());
             UiObject cancel = device.findObject(new UiSelector().text("CANCEL"));
             cancel.click();
-            onView(withId(R.id.shareButton)).perform(click());
-            UiObject pick_residence = device.findObject(new UiSelector().text("Residence permit"));
-            pick_residence.click();
-            UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));
-            pick_extract.click();
-            UiObject confirm = device.findObject(new UiSelector().text("SHARE"));
-            confirm.click();
-            Thread.sleep(1000);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

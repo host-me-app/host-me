@@ -9,9 +9,11 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
@@ -29,10 +31,16 @@ import android.widget.DatePicker;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -97,7 +105,7 @@ public class WalletTest {
     }
 
     @Test
-    public void uploadSalarySlipsTest() {
+    public void uploadSalarySlipsTestAndShare() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
@@ -127,7 +135,24 @@ public class WalletTest {
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
             Thread.sleep(1000);
-         } catch (InterruptedException e) {
+
+            onView(isRoot()).perform(ViewActions.pressBack());
+
+            onView(withId(R.id.navigation_messages)).perform(click());
+            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.usersRecyclerView))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
+            onView(withId(R.id.shareButton)).perform(click());
+            UiObject pick_salary = device.findObject(new UiSelector().text("Salary Slips"));
+            pick_salary.click();
+            UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));
+            pick_extract.click();
+            UiObject confirm = device.findObject(new UiSelector().text("SHARE"));
+            confirm.click();
+            Thread.sleep(1000);
+         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }
         Intents.release();

@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.add;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+
 import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 import static ch.epfl.sweng.hostme.utils.Constants.UID;
 

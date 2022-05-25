@@ -1,7 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
 import static org.junit.Assert.assertEquals;
-import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
@@ -53,7 +53,7 @@ public class ConstantsTest {
         assertEquals("image", KEY_IMAGE);
         assertEquals("fcmToken", KEY_FCM_TOKEN);
         assertEquals("uid", UID);
-        assertEquals("addr", ADDR);
+        assertEquals("address", ADDRESS);
         assertEquals("rent", RENT);
         assertEquals("area", AREA);
         assertEquals("lease", LEASE);

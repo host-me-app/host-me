@@ -21,7 +21,7 @@ public final class Constants {
     public static final String KEY_LAST_MESSAGE = "lastMessage";
     public static final String KEY_TIMESTAMP = "timestamp";
     public static final String UID = "uid";
-    public static final String ADDR = "addr";
+    public static final String ADDRESS = "address";
     public static final String RENT = "rent";
     public static final String AREA = "area";
     public static final String APART_ID = "apart_id";

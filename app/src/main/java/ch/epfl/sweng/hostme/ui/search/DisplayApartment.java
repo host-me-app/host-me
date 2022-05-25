@@ -1,6 +1,6 @@
 package ch.epfl.sweng.hostme.ui.search;
 
-import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
@@ -72,7 +72,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             bottomNav = getActivity().findViewById(R.id.nav_view);
             bottomNav.setVisibility(View.GONE);
             apartID = bundle.getString(APART_ID);
-            String addr = bundle.getString(ADDR);
+            String addr = bundle.getString(ADDRESS);
             int area = bundle.getInt(AREA, 0);
             int rent = bundle.getInt(RENT, 0);
             String lease = bundle.getString(LEASE);

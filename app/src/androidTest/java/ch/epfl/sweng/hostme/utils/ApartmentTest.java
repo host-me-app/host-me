@@ -12,30 +12,32 @@ import org.junit.Test;
 
 import java.util.Date;
 
+import ch.epfl.sweng.hostme.utils.Constants;
+
 public class ApartmentTest {
 
     @Test
     public void testApartment() throws JSONException {
         JSONObject fields = new JSONObject();
-        fields.put("name", "");
-        fields.put("room", "");
-        fields.put("address", "");
-        fields.put("npa", 0);
-        fields.put("city", "");
-        fields.put("rent", 0);
-        fields.put("beds", 0);
-        fields.put("area", 0);
-        fields.put("furnished", false);
-        fields.put("bath", "");
-        fields.put("kitchen", "");
-        fields.put("laundry", "");
-        fields.put("pets", false);
-        fields.put("imagePath", "imagePath");
-        fields.put("proprietor", "");
-        fields.put("uid", "uid");
-        fields.put("utilities", 0);
-        fields.put("deposit", 0);
-        fields.put("duration", 0);
+        fields.put(Constants.NAME, "");
+        fields.put(Constants.ROOM, "");
+        fields.put(Constants.ADDRESS, "");
+        fields.put(Constants.NPA, 0);
+        fields.put(Constants.CITY, "");
+        fields.put(Constants.RENT, 0);
+        fields.put(Constants.BEDS, 0);
+        fields.put(Constants.AREA, 0);
+        fields.put(Constants.FURNISHED, false);
+        fields.put(Constants.BATH, "");
+        fields.put(Constants.KITCHEN, "");
+        fields.put(Constants.LAUNDRY, "");
+        fields.put(Constants.PETS, false);
+        fields.put(Constants.IMAGE_PATH, "imagePath");
+        fields.put(Constants.PROPRIETOR, "");
+        fields.put(Constants.UID, "uid");
+        fields.put(Constants.UTILITIES, 0);
+        fields.put(Constants.DEPOSIT, 0);
+        fields.put(Constants.DURATION, 0);
 
         Apartment apt = new Apartment(fields);
 

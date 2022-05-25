@@ -5,6 +5,8 @@ import com.google.firebase.Timestamp;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ch.epfl.sweng.hostme.utils.Constants;
+
 public class Apartment {
     private String name;
     private String room;
@@ -45,25 +47,25 @@ public class Apartment {
      */
     public Apartment(JSONObject fields) {
         try {
-            this.name = fields.getString("name");
-            this.room = fields.getString("room");
-            this.address = fields.getString("address");
-            this.npa = fields.getInt("npa");
-            this.city = fields.getString("city");
-            this.rent = fields.getInt("rent");
-            this.beds = fields.getInt("beds");
-            this.area = fields.getInt("area");
-            this.furnished = fields.getBoolean("furnished");
-            this.bath = fields.getString("bath");
-            this.kitchen = fields.getString("kitchen");
-            this.laundry = fields.getString("laundry");
-            this.pets = fields.getBoolean("pets");
-            this.imagePath = fields.getString("imagePath");
-            this.proprietor = fields.getString("proprietor");
-            this.uid = fields.getString("uid");
-            this.utilities = fields.getInt("utilities");
-            this.deposit = fields.getInt("deposit");
-            this.duration = fields.getInt("duration");
+            this.name = fields.getString(Constants.NAME);
+            this.room = fields.getString(Constants.ROOM);
+            this.address = fields.getString(Constants.ADDRESS);
+            this.npa = fields.getInt(Constants.NPA);
+            this.city = fields.getString(Constants.CITY);
+            this.rent = fields.getInt(Constants.RENT);
+            this.beds = fields.getInt(Constants.BEDS);
+            this.area = fields.getInt(Constants.AREA);
+            this.furnished = fields.getBoolean(Constants.FURNISHED);
+            this.bath = fields.getString(Constants.BATH);
+            this.kitchen = fields.getString(Constants.KITCHEN);
+            this.laundry = fields.getString(Constants.LAUNDRY);
+            this.pets = fields.getBoolean(Constants.PETS);
+            this.imagePath = fields.getString(Constants.IMAGE_PATH);
+            this.proprietor = fields.getString(Constants.PROPRIETOR);
+            this.uid = fields.getString(Constants.UID);
+            this.utilities = fields.getInt(Constants.UTILITIES);
+            this.deposit = fields.getInt(Constants.DEPOSIT);
+            this.duration = fields.getInt(Constants.DURATION);
 
             this.available = true;
             this.currentLease = null;
@@ -249,26 +251,26 @@ public class Apartment {
     public JSONObject exportDoc() {
         JSONObject ret = new JSONObject();
         try {
-            ret.put("name", this.name);
-            ret.put("room", this.room);
-            ret.put("address", this.address);
-            ret.put("npa", this.npa);
-            ret.put("city", this.city);
-            ret.put("rent", this.rent);
-            ret.put("beds", this.beds);
-            ret.put("area", this.area);
-            ret.put("furnished", this.furnished);
-            ret.put("bath", this.bath);
-            ret.put("kitchen", this.kitchen);
-            ret.put("laundry", this.laundry);
-            ret.put("pets", this.pets);
-            ret.put("imagePath", this.imagePath);
+            ret.put(Constants.NAME, this.name);
+            ret.put(Constants.ROOM, this.room);
+            ret.put(Constants.ADDRESS, this.address);
+            ret.put(Constants.NPA, this.npa);
+            ret.put(Constants.CITY, this.city);
+            ret.put(Constants.RENT, this.rent);
+            ret.put(Constants.BEDS, this.beds);
+            ret.put(Constants.AREA, this.area);
+            ret.put(Constants.FURNISHED, this.furnished);
+            ret.put(Constants.BATH, this.bath);
+            ret.put(Constants.KITCHEN, this.kitchen);
+            ret.put(Constants.LAUNDRY, this.laundry);
+            ret.put(Constants.PETS, this.pets);
+            ret.put(Constants.IMAGE_PATH, this.imagePath);
             ret.put("available", this.available);
-            ret.put("proprietor", this.proprietor);
-            ret.put("uid", this.uid);
-            ret.put("utilities", this.utilities);
-            ret.put("deposit", this.deposit);
-            ret.put("duration", this.duration);
+            ret.put(Constants.PROPRIETOR, this.proprietor);
+            ret.put(Constants.UID, this.uid);
+            ret.put(Constants.UTILITIES, this.utilities);
+            ret.put(Constants.DEPOSIT, this.deposit);
+            ret.put(Constants.DURATION, this.duration);
             ret.put("currentLease", this.currentLease);
             ret.put("docId", this.docId);
         } catch (Exception ignored) {

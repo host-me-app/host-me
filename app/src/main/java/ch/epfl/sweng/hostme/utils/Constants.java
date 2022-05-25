@@ -30,6 +30,17 @@ public final class Constants {
     public static final String CITY = "city";
     public static final String BEDS = "beds";
     public static final String PROPRIETOR = "proprietor";
+    public static final String NAME = "name";
+    public static final String ROOM = "room";
+    public static final String FURNISHED = "furnished";
+    public static final String PETS = "pets";
+    public static final String BATH = "bath";
+    public static final String KITCHEN = "kitchen";
+    public static final String LAUNDRY = "laundry";
+    public static final String UTILITIES = "utilities";
+    public static final String DEPOSIT = "deposit";
+    public static final String DURATION = "duration";
+    public static final String IMAGE_PATH = "imagePath";
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
     public static final String FROM = "from";

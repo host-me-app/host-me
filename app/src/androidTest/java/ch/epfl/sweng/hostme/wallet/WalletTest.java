@@ -105,7 +105,7 @@ public class WalletTest {
     }
 
     @Test
-    public void uploadSalarySlipsTestAndShare() {
+    public void uploadSalarySlipsTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
@@ -135,24 +135,7 @@ public class WalletTest {
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
             Thread.sleep(1000);
-
-            onView(isRoot()).perform(ViewActions.pressBack());
-
-            onView(withId(R.id.navigation_messages)).perform(click());
-            onView(withId(R.id.contactButton)).perform(click());
-            onView(withId(R.id.usersRecyclerView))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            onView(withId(R.id.shareButton)).perform(click());
-            UiObject pick_salary = device.findObject(new UiSelector().text("Salary Slips"));
-            pick_salary.click();
-            UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));
-            pick_extract.click();
-            UiObject confirm = device.findObject(new UiSelector().text("SHARE"));
-            confirm.click();
-            Thread.sleep(1000);
-         } catch (InterruptedException | UiObjectNotFoundException e) {
+         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

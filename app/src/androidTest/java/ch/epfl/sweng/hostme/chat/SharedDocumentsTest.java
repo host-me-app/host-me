@@ -1,22 +1,15 @@
-package ch.epfl.sweng.hostme.wallet;
+package ch.epfl.sweng.hostme.chat;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-
-import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -36,7 +29,6 @@ import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
@@ -46,7 +38,6 @@ import com.google.firebase.FirebaseApp;
 
 import org.hamcrest.Matchers;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -59,15 +50,10 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
+import ch.epfl.sweng.hostme.ui.messages.UsersActivity;
 
 @RunWith(AndroidJUnit4.class)
-public class WalletTest {
-
-    @Rule
-    public GrantPermissionRule internetRule = GrantPermissionRule.grant(
-            android.Manifest.permission.INTERNET,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-    );
+public class SharedDocumentsTest {
 
     @BeforeClass
     public static void setUp() {
@@ -79,33 +65,36 @@ public class WalletTest {
     }
 
     @Test
-    public void downloadResidencePermitFailedTest() {
+    public void ShareDocumentsCancel() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
             onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.logInButton)).perform(click());
+
+            onView(withId(R.id.navigation_messages)).perform(click());
+            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.usersRecyclerView))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
 
-            onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
+            onView(withId(R.id.shareButton)).perform(click());
+            UiObject cancel = device.findObject(new UiSelector().text("CANCEL"));
+            cancel.click();
 
-            onView(withId(R.id.wallet_button)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.button_download_residence_permit)).perform(click());
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();
     }
 
     @Test
-    public void uploadSalarySlipsTest() {
+    public void uploadSalarySlipsTestAndShare() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
@@ -126,16 +115,24 @@ public class WalletTest {
             onView(withId(R.id.wallet_button)).perform(click());
             onView(withId(R.id.button_browse_salary_slips)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.button_download_salary_slips)).perform(click());
+
+            onView(isRoot()).perform(ViewActions.pressBack());
+
+            onView(withId(R.id.navigation_messages)).perform(click());
+            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.usersRecyclerView))
+                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
+            onView(withId(R.id.shareButton)).perform(click());
+            UiObject pick_salary = device.findObject(new UiSelector().text("Salary Slips"));
+            pick_salary.click();
+            UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));
+            pick_extract.click();
+            UiObject confirm = device.findObject(new UiSelector().text("SHARE"));
+            confirm.click();
             Thread.sleep(1000);
-            onView(withId(R.id.buttonPickDate_SalarySlips)).perform(click());
-            Thread.sleep(1000);
-            onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
-                    .perform(PickerActions.setDate(2025, 3, 22));
-            Thread.sleep(1000);
-            onView(withId(android.R.id.button1)).perform(click());
-            Thread.sleep(1000);
-         } catch (InterruptedException e) {
+        } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }
         Intents.release();

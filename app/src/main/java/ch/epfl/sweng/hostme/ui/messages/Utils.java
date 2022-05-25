@@ -20,9 +20,9 @@ public class Utils {
         return mac.doFinal(msg);
     }
 
-    public static byte[] pack(PackableEx packableEx) {
+    public static byte[] pack(Packable packable) {
         ByteBuf buffer = new ByteBuf();
-        packableEx.marshal(buffer);
+        packable.marshal(buffer);
         return buffer.asBytes();
     }
 

@@ -27,7 +27,6 @@ public final class Constants {
     public static final String RENT = "rent";
     public static final String AREA = "area";
     public static final String APART_ID = "apart_id";
-    public static final String PATH = "imagePath";
     public static final String LEASE = "lease";
     public static final String NPA = "npa";
     public static final String CITY = "city";
@@ -42,9 +41,4 @@ public final class Constants {
     public static final String FAVORITES = "favorites";
     // Response codes for all activities
     public static final int REQ_IMAGE = 105;
-
-    private Constants() {
-
-    }
-
 }

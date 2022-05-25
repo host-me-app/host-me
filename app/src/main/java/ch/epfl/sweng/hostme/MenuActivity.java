@@ -19,7 +19,7 @@ import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.ui.add.AddFragment;
 import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
 import ch.epfl.sweng.hostme.ui.messages.MessageService;
-import ch.epfl.sweng.hostme.ui.messages.MessagesFragment;
+import ch.epfl.sweng.hostme.ui.messages.*;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
 
 public class MenuActivity extends AppCompatActivity {

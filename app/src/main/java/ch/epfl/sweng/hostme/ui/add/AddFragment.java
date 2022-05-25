@@ -47,7 +47,6 @@ import ch.epfl.sweng.hostme.ui.search.ApartmentAdapter;
 import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.utils.Connection;
 import ch.epfl.sweng.hostme.utils.ListImage;
-import ch.epfl.sweng.hostme.utils.Listing;
 
 public class AddFragment extends Fragment {
     private static final String ADDED = "Listing created !";
@@ -94,8 +93,8 @@ public class AddFragment extends Fragment {
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
-            generateApartment(root);
-            checkBin();
+            myListings.add(generateApartment(root));
+
         });
 
         final FloatingActionButton addNew = binding.addNew;
@@ -177,7 +176,7 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private void generateApartment(View root) {
+    private Apartment generateApartment(View root) {
         JSONObject fields = new JSONObject();
         String[] privacy = getResources().getStringArray(R.array.privacy_enum);
         Button furn = root.findViewById(selectFurnished.getCheckedRadioButtonId());
@@ -205,9 +204,15 @@ public class AddFragment extends Fragment {
         } catch (Exception ignored) {
         }
 
-        Listing ret = new Listing(fields);
+        Apartment ret = new Apartment(fields);
 
-        DB.add(ret).addOnSuccessListener(doc -> Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show());
+        DB.add(ret).addOnSuccessListener(doc -> {
+            Map<String, Object> addition = new HashMap<>();
+            addition.put("docId", doc.getId());
+            doc.update(addition);
+            Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show();
+        });
+        return ret;
     }
 
     private void checkBin() {

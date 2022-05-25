@@ -61,12 +61,12 @@ public class MessageService extends FirebaseMessagingService {
 
     @NonNull
     private NotificationCompat.Builder createBuilder(RemoteMessage remoteMessage) {
-        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
+        int resourceImage = getResources().getIdentifier(remoteMessage.getData().get("image"), "drawable", getPackageName());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(resourceImage);
 
         Intent resultIntent = new Intent(this, CallActivity.class);
-        if(remoteMessage.getNotification().getTitle().contentEquals("New Message")){
+        if(remoteMessage.getData().get("titre").contentEquals("New Message")){
             resultIntent = new Intent(this, MenuActivity.class);
         }
         resultIntent.putExtra(Constants.FROM_NOTIF, true);
@@ -76,10 +76,10 @@ public class MessageService extends FirebaseMessagingService {
                 stackBuilder.getPendingIntent(0,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        builder.setContentTitle(remoteMessage.getNotification().getTitle());
-        builder.setContentText(remoteMessage.getNotification().getBody());
+        builder.setContentTitle(remoteMessage.getData().get("titre"));
+        builder.setContentText(remoteMessage.getData().get("content"));
         builder.setContentIntent(resultPendingIntent);
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getData().get("content")));
         builder.setAutoCancel(true);
         builder.setPriority(Notification.PRIORITY_MAX);
         return builder;

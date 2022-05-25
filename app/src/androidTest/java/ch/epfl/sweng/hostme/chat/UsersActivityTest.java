@@ -42,9 +42,9 @@ public class UsersActivityTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
+
     @AfterClass
-    public static void after_class()
-    {
+    public static void after_class() {
         Intents.release();
     }
 

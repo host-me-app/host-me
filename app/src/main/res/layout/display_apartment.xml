@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/display_apart_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,9 +16,9 @@
 
         <Button
             android:id="@+id/grade_button"
-            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:text="Add note" />
 
         <HorizontalScrollView
@@ -224,6 +223,7 @@
             android:scaleType="fitEnd"
             android:text="Contact user"
             android:textSize="11sp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -251,8 +251,6 @@
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
-
-
 
 
 </androidx.cardview.widget.CardView>

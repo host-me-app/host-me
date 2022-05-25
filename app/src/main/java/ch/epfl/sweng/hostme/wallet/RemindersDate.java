@@ -16,6 +16,7 @@ public enum RemindersDate {
     public int timeUnit;
     public int number;
     public String message;
+
     RemindersDate(int timeUnit, int number, String message) {
         this.timeUnit = timeUnit;
         this.number = number;

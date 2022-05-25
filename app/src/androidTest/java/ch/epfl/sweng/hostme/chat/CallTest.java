@@ -33,6 +33,12 @@ import ch.epfl.sweng.hostme.database.Storage;
 @RunWith(AndroidJUnit4.class)
 public class CallTest {
 
+    @Rule
+    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
+    );
+
     @BeforeClass
     public static void setUp() {
         Auth.setTest();
@@ -41,12 +47,6 @@ public class CallTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
-
-    @Rule
-    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA
-    );
 
     @Test
     public void callUser() {

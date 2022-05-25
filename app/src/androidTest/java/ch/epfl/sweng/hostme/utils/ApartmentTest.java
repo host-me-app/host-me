@@ -4,10 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.google.firebase.Timestamp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.junit.Test;
 
 import java.util.Date;
@@ -67,6 +71,11 @@ public class ApartmentTest {
         Timestamp tmp = new Timestamp(new Date(5));
         apt.setCurrentLease(tmp);
         assertEquals(tmp, apt.getCurrentLease());
+
+        byte[] bytes = {};
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        apt.setImage(bmp);
+        assertEquals(bmp, apt.getImage());
 
         assertEquals("name", apt.getName());
         assertEquals("name", apt.getName());

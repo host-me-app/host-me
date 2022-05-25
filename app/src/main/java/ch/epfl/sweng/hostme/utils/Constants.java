@@ -15,6 +15,8 @@ public final class Constants {
     public static final String KEY_SENDER_ID = "senderId";
     public static final String KEY_RECEIVER_ID = "receiverId";
     public static final String KEY_MESSAGE = "message";
+    public static final String KEY_IS_DOCUMENT = "isDocument";
+    public static final String KEY_DOCUMENT_NAME = "documentName";
     public static final String KEY_COLLECTION_CONVERSATIONS = "conversations";
     public static final String KEY_SENDER_NAME = "senderName";
     public static final String KEY_RECEIVER_NAME = "receiverName";
@@ -43,8 +45,10 @@ public final class Constants {
     public static final String IMAGE_PATH = "imagePath";
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
+    public static final String APARTMENTS_FAV = "apartmentsFav";
     public static final String FROM = "from";
     public static final String BITMAP = "bitmap";
+    public static final String BITMAP_FAV = "bitmapFav";
     public static final String FILTERS = "filters";
     public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";

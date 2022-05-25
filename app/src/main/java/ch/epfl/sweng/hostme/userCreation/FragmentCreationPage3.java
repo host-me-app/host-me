@@ -49,6 +49,7 @@ public class FragmentCreationPage3 extends Fragment implements IOnBackPressed {
 
     /**
      * Change the fragment (next or previous)
+     *
      * @param fragment
      */
     private void changeFragment(Fragment fragment) {

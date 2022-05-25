@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.Timestamp;
 
 import org.json.JSONException;
@@ -30,6 +32,7 @@ public class Apartment {
     private int duration;
     private Timestamp currentLease;
     private String docId;
+    private Bitmap image;
 
     /**
      * Constructor for Firebase class binding
@@ -242,6 +245,14 @@ public class Apartment {
         this.docId = docId;
     }
 
+    public Bitmap getImage() {
+        return this.image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
     /**
      * A JSON representation of a Listing that may be used to create identical objects or edit the
      * fields of this Listing.
@@ -284,3 +295,4 @@ public class Apartment {
         return this.exportDoc().toString();
     }
 }
+

@@ -139,6 +139,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                     Toast.LENGTH_SHORT).show();
                         });
             } else {
+                bitmapPreferences.edit().remove(apartment.getDocID()).apply();
                 favMap.put(apartment.getDocID(), false);
                 editor.putString(apartment.getDocID() + "pressed", "no");
                 editor.apply();
@@ -228,7 +229,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
         if (!bitmapPreferences.getString(model.getDocID(), "").equals("")) {
-            System.out.println("Je passe ");
             String encodedImage = bitmapPreferences.getString(model.getDocID(), "");
             byte[] b = Base64.decode(encodedImage, Base64.DEFAULT);
             Bitmap bitmapImage = BitmapFactory.decodeByteArray(b, 0, b.length);

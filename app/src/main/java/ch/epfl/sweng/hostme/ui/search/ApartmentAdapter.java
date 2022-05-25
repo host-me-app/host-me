@@ -17,6 +17,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
 import static ch.epfl.sweng.hostme.utils.Constants.UID;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -51,8 +52,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -139,6 +142,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                     Toast.LENGTH_SHORT).show();
                         });
             } else {
+                bitmapPreferences.edit().remove(apartment.getDocID()).apply();
                 favMap.put(apartment.getDocID(), false);
                 editor.putString(apartment.getDocID() + "pressed", "no");
                 editor.apply();
@@ -227,14 +231,15 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
-        if (!bitmapPreferences.getString(model.getDocID(), "").equals("")) {
-            System.out.println("Je passe ");
-            String encodedImage = bitmapPreferences.getString(model.getDocID(), "");
-            byte[] b = Base64.decode(encodedImage, Base64.DEFAULT);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(b, 0, b.length);
-            holder.image.setImageBitmap(bitmapImage);
-            loadingBar.setVisibility(View.GONE);
-            hashMap.put(model.getDocID(), bitmapImage);
+        if (!bitmapPreferences.getStringSet(model.getDocID(), new HashSet<>()).isEmpty()) {
+            Set<String> encodedImages = bitmapPreferences.getStringSet(model.getDocID(), new HashSet<>());
+            for (String encodedImage: encodedImages) {
+                byte[] b = Base64.decode(encodedImage, Base64.DEFAULT);
+                Bitmap bitmapImage = BitmapFactory.decodeByteArray(b, 0, b.length);
+                holder.image.setImageBitmap(bitmapImage);
+                loadingBar.setVisibility(View.GONE);
+                hashMap.put(model.getDocID(), bitmapImage);
+            }
         } else {
             try {
                 final File localFile = File.createTempFile("preview1", "jpg");
@@ -242,10 +247,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                         .addOnSuccessListener(result -> {
                             loadingBar.setVisibility(View.GONE);
                             Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                            if (isFavFragment) {
+                            /*if (isFavFragment) {
                                 saveBitmap(model, bitmap);
-                            }
-                            model.setBitmap(bitmap);
+                            }*/
                             hashMap.put(model.getDocID(), bitmap);
                             holder.image.setImageBitmap(bitmap);
                         });
@@ -260,12 +264,16 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
      * @param model
      * @param bitmap
      */
+    @SuppressLint("MutatingSharedPrefs")
     private void saveBitmap(@NonNull Apartment model, Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] compressImage = baos.toByteArray();
         String sEncodedImage = Base64.encodeToString(compressImage, Base64.DEFAULT);
-        bitmapPreferences.edit().putString(model.getDocID(), sEncodedImage).apply();
+        Set<String> newSet =
+                new HashSet<>(bitmapPreferences.getStringSet(model.getDocID(), new HashSet<>()));
+        newSet.add(sEncodedImage);
+        bitmapPreferences.edit().putStringSet(model.getDocID(), newSet).apply();
     }
 
     @Override

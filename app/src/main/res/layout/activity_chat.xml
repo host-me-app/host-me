@@ -80,6 +80,33 @@
         app:layout_constraintTop_toTopOf="@id/viewBackground" />
 
     <FrameLayout
+        android:id="@+id/layoutShare"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/background_chat_input"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/shareButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:padding="8dp"
+            android:src="@drawable/add_icon"
+            app:tint="@color/white" />
+
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/layoutSend"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -99,12 +126,22 @@
             android:padding="8dp"
             android:src="@drawable/send_icon"
             app:tint="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sendButt2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:padding="8dp"
+            android:src="@drawable/send_icon"
+            app:tint="@color/white" />
     </FrameLayout>
+
 
     <EditText
         android:id="@+id/inputMessage"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_width="279dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_chat_input"
@@ -118,9 +155,10 @@
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="@+id/layoutSend"
         app:layout_constraintEnd_toStartOf="@+id/layoutSend"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layoutSend" />
-
+        app:layout_constraintTop_toTopOf="@+id/layoutSend"
+        app:layout_constraintVertical_bias="0.44" />
 
     <ImageView
         android:id="@+id/launchButt"
@@ -135,6 +173,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

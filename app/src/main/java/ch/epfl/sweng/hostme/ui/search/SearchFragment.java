@@ -209,7 +209,6 @@ public class SearchFragment extends Fragment {
                 String address = (String) doc.get("address");
                 Long npa = (Long) doc.get("npa");
                 String fullAddress = address + " " + city + " " + npa;
-                apartment.setDocID(doc.getId());
                 if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
                     if ((searchText == null) || (String.valueOf(npa).toLowerCase().contains(searchText) ||
                             address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText))) {
@@ -238,7 +237,6 @@ public class SearchFragment extends Fragment {
             for (DocumentSnapshot doc : snapshot.getDocuments()) {
                 if (apartments.size() < 10) {
                     Apartment apartment = doc.toObject(Apartment.class);
-                    apartment.setDocID(doc.getId());
                     apartments.add(apartment);
                 }
             }

@@ -60,6 +60,7 @@ public class ApartmentTest {
         apt.setUtilities(200);
         apt.setDeposit(2000);
         apt.setDuration(6);
+        apt.setDocId("testApt");
 
         Timestamp tmp = new Timestamp(new Date(5));
         apt.setCurrentLease(tmp);
@@ -86,6 +87,7 @@ public class ApartmentTest {
         assertEquals(200, apt.getUtilities());
         assertEquals(2000, apt.getDeposit());
         assertEquals(6, apt.getDuration());
+        assertEquals("testApt", apt.getDocId());
 
         JSONObject japt = apt.exportDoc();
         assertEquals(japt.toString(), apt.toString());

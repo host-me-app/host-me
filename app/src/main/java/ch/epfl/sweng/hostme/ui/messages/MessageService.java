@@ -66,7 +66,7 @@ public class MessageService extends FirebaseMessagingService {
         Intent resultIntent = new Intent(this, CallActivity.class);
         resultIntent.putExtra(FROM_NOTIF, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntent(resultIntent);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);

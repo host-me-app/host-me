@@ -13,6 +13,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+
 import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
@@ -30,6 +31,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
@@ -38,6 +40,7 @@ import androidx.test.uiautomator.UiSelector;
 import com.google.firebase.FirebaseApp;
 
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -61,19 +64,8 @@ public class UserProfileUITest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
+    @Rule
+    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA);
 
     @Test
     public void ProfileInfoIsDisplayedTest() {
@@ -411,6 +403,7 @@ public class UserProfileUITest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
+
     private Instrumentation.ActivityResult getImageUriResult() {
         Intent resultData = new Intent();
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
@@ -420,6 +413,20 @@ public class UserProfileUITest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     private void savePickedImage() {
         Drawable d = ApplicationProvider.getApplicationContext().getResources().getDrawable(R.drawable.add_icon);
         Bitmap bm = drawableToBitmap(d);
@@ -427,8 +434,8 @@ public class UserProfileUITest {
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult.jpeg");
         FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream(file);
+        try{
+            outStream  = new FileOutputStream(file);
             bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
             outStream.flush();
             outStream.close();

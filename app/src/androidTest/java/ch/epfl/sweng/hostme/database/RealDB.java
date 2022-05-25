@@ -6,7 +6,7 @@ import org.junit.Test;
 public class RealDB {
 
     @Test
-    public void checkRealInstance() throws Exception {
+    public void checkRealInstance() {
         String email = "otherlogin@gmail.com";
         String pwd = "fakePassword1!";
         try {

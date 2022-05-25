@@ -16,6 +16,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -49,10 +51,6 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 @RunWith(AndroidJUnit4.class)
 public class AddFragmentTest {
-
-    @Rule
-    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.INTERNET,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @BeforeClass
     public static void setUp() {
@@ -169,9 +167,6 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
-
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
@@ -195,8 +190,6 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
 
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
@@ -236,7 +229,7 @@ public class AddFragmentTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             savePickedImage();
-            intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(getImageResult());
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getImageUriResult());
 
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
@@ -262,17 +255,20 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
             onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-
+            Thread.sleep(1000);
             onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(click());
+            Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
         }
         Intents.release();
     }
 
-    private Instrumentation.ActivityResult getImageResult() {
+    private Instrumentation.ActivityResult getImageUriResult() {
         Intent resultData = new Intent();
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult.jpeg");

@@ -21,9 +21,6 @@ import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.userCreation.CreationContainer;
 import ch.epfl.sweng.hostme.userCreation.EnterMailChangePwd;
 
-//import com.google.firebase.database.FirebaseDatabase;
-//import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
-
 public class LogInActivity extends AppCompatActivity {
 
     private static final String PREF_USER_NAME = "username";
@@ -80,8 +77,7 @@ public class LogInActivity extends AppCompatActivity {
      * Disable the back press button
      */
     @Override
-    public void onBackPressed() {
-    }
+    public void onBackPressed() {}
 
     @SuppressLint("MissingPermission")
     private void checkReminders() {
@@ -151,8 +147,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     /**
-     * Change the preferences to keep user loged in
-     *
+     * Change the preferences to keep user logged in
      * @param email
      */
     private void setSharedPref(String email) {

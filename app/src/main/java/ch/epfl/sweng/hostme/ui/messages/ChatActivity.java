@@ -305,7 +305,7 @@ public class ChatActivity extends AppCompatActivity {
             StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
             fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 sendMessage(uri.toString(), true, doc.getDocumentName());
-            }).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents!", Toast.LENGTH_SHORT).show());
+            }).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents! \n Check in your wallet if documents are correctly uploaded!", Toast.LENGTH_SHORT).show());
         }
     }
 

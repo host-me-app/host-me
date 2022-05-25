@@ -76,7 +76,7 @@ public class SharedDocumentsTest {
             pick_extract.click();
             UiObject confirm = device.findObject(new UiSelector().text("SHARE"));
             confirm.click();
-            Thread.sleep(30000);
+            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }

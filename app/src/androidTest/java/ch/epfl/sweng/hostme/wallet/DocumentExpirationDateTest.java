@@ -10,49 +10,49 @@ public class DocumentExpirationDateTest {
 
     @Test
     public void ResidenceDescriptionFieldTextIdIsSame() {
-        assertEquals(R.id.textExpirationDate1, DocumentExpirationDate.RESIDENCE_PERMIT.getDescriptionFieldTextId());
+        assertEquals(R.id.rpDateDescText, DocumentExpirationDate.RESIDENCE_PERMIT.getDescriptionFieldTextId());
     }
 
     @Test
     public void ResidenceExpirationDateTextIdIsSame() {
-        assertEquals(R.id.textExpirationDate_ResidencePermit, DocumentExpirationDate.RESIDENCE_PERMIT.getExpirationDateTextId());
+        assertEquals(R.id.rpDateText, DocumentExpirationDate.RESIDENCE_PERMIT.getExpirationDateTextId());
     }
 
     @Test
     public void ResidencePickDateButtonIdIsSame() {
-        assertEquals(R.id.buttonPickDate_ResidencePermit, DocumentExpirationDate.RESIDENCE_PERMIT.getPickDateButtonId());
+        assertEquals(R.id.rpPickDateButton, DocumentExpirationDate.RESIDENCE_PERMIT.getPickDateButtonId());
     }
 
 
     @Test
     public void SalaryDescriptionFieldTextIdIsSame() {
-        assertEquals(R.id.textExpirationDate2, DocumentExpirationDate.SALARY_SLIPS.getDescriptionFieldTextId());
+        assertEquals(R.id.spDateDescText, DocumentExpirationDate.SALARY_SLIPS.getDescriptionFieldTextId());
     }
 
     @Test
     public void SalaryExpirationDateTextIdIsSame() {
-        assertEquals(R.id.textExpirationDate_SalarySlips, DocumentExpirationDate.SALARY_SLIPS.getExpirationDateTextId());
+        assertEquals(R.id.spDateText, DocumentExpirationDate.SALARY_SLIPS.getExpirationDateTextId());
     }
 
     @Test
     public void SalaryPickDateButtonIdIsSame() {
-        assertEquals(R.id.buttonPickDate_SalarySlips, DocumentExpirationDate.SALARY_SLIPS.getPickDateButtonId());
+        assertEquals(R.id.spPickDateButton, DocumentExpirationDate.SALARY_SLIPS.getPickDateButtonId());
     }
 
 
     @Test
     public void ExeOfficeDescriptionFieldTextIdIsSame() {
-        assertEquals(R.id.textExpirationDate3, DocumentExpirationDate.EXECUTION_OFFICE.getDescriptionFieldTextId());
+        assertEquals(R.id.exDateDescText, DocumentExpirationDate.EXECUTION_OFFICE.getDescriptionFieldTextId());
     }
 
     @Test
     public void ExeOfficeExpirationDateTextIdIsSame() {
-        assertEquals(R.id.textExpirationDate_ExecOffice, DocumentExpirationDate.EXECUTION_OFFICE.getExpirationDateTextId());
+        assertEquals(R.id.exDateText, DocumentExpirationDate.EXECUTION_OFFICE.getExpirationDateTextId());
     }
 
     @Test
     public void ExeOfficePickDateButtonIdIsSame() {
-        assertEquals(R.id.buttonPickDate_ExecOffice, DocumentExpirationDate.EXECUTION_OFFICE.getPickDateButtonId());
+        assertEquals(R.id.exPickDateButton, DocumentExpirationDate.EXECUTION_OFFICE.getPickDateButtonId());
     }
 
 

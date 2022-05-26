@@ -21,22 +21,22 @@ public class WalletActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wallet);
+        setContentView(R.layout.walletcard);
 
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 
-        String uid = Auth.getUid();
-        documentUploader = new ArrayList<>();
-        for (Document doc : Document.values()) {
-            documentUploader.add(new DocumentUploader(doc, uid, this, this, DocumentExpirationDate.values()[doc.ordinal()]));
-            new DocumentDownloader(doc, uid, this, this);
-            new ExpirationDatePicker(doc, uid, this, this, DocumentExpirationDate.values()[doc.ordinal()]);
-        }
+//        String uid = Auth.getUid();
+//        documentUploader = new ArrayList<>();
+//        for (Document doc : Document.values()) {
+//            documentUploader.add(new DocumentUploader(doc, uid, this, this, DocumentExpirationDate.values()[doc.ordinal()]));
+//            new DocumentDownloader(doc, uid, this, this);
+//            new ExpirationDatePicker(doc, uid, this, this, DocumentExpirationDate.values()[doc.ordinal()]);
+//        }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        documentUploader.get(requestCode - 1).onBrowseFileResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        documentUploader.get(requestCode - 1).onBrowseFileResult(requestCode, resultCode, data);
+//    }
 }

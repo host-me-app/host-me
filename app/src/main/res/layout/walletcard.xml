@@ -6,55 +6,364 @@
              android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_width="410dp"
-        android:layout_height="665dp"
-        android:orientation="vertical"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view1"
+        android:layout_width="378dp"
+        android:layout_height="176dp"
+        android:layout_marginTop="50dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <!-- A CardView that contains a TextView -->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view2"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rpconstraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="166dp"
-            app:cardCornerRadius="4dp">
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/rppickbutton"
+                android:layout_width="129dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="104dp"
+                android:text="Pick date"
+                app:layout_constraintStart_toEndOf="@+id/rptextView13"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/rpimageButton2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="33dp"
+                app:layout_constraintStart_toEndOf="@+id/rptextView9"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_upload"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:id="@+id/info_text2"
-                android:layout_width="262dp"
-                android:layout_height="62dp"
-                android:text="Residence Permit" />
-        </androidx.cardview.widget.CardView>
+                android:id="@+id/rpinfo_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="232dp"
+                android:text="Residence Permit"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_width="match_parent"
-            android:layout_height="166dp"
-            app:cardCornerRadius="4dp">
-
-            <TextView
-                android:id="@+id/info_text"
-                android:layout_width="262dp"
-                android:layout_height="62dp"
-                android:text="Salary Slips" />
-        </androidx.cardview.widget.CardView>
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view3"
-            android:layout_width="match_parent"
-            android:layout_height="166dp"
-            app:cardCornerRadius="4dp">
+            <ImageView
+                android:id="@+id/rpfcheck_residence_permit"
+                android:layout_width="24dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="28dp"
+                android:src="@android:drawable/presence_online"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/rpinfo_text2"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/info_text3"
-                android:layout_width="262dp"
-                android:layout_height="62dp"
-                android:text="Executive Office" />
-        </androidx.cardview.widget.CardView>
+                android:id="@+id/rptextView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Import new File :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/rptextView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="92dp"
+                android:text="Expiration date:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
+
+            <TextView
+                android:id="@+id/rptextView13"
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="92dp"
+                android:text="None"
+                app:layout_constraintStart_toEndOf="@+id/rptextView12"
+                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
+
+            <TextView
+                android:id="@+id/rptextView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="224dp"
+                android:layout_marginTop="16dp"
+                android:text="Download :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
+
+            <ImageButton
+                android:id="@+id/rpimageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="33dp"
+                app:layout_constraintStart_toEndOf="@+id/rptextView10"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/stat_sys_download"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view2"
+        android:layout_width="378dp"
+        android:layout_height="176dp"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/spconstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/sppickbutton"
+                android:layout_width="129dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="104dp"
+                android:text="Pick date"
+                app:layout_constraintStart_toEndOf="@+id/sptextView13"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/spimageButton2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="33dp"
+                app:layout_constraintStart_toEndOf="@+id/sptextView9"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_upload"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/spinfo_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="276dp"
+                android:text="Salary Slips"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/spfcheck_residence_permit"
+                android:layout_width="24dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="28dp"
+                android:src="@android:drawable/presence_online"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/spinfo_text2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sptextView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Import new File :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+
+            <TextView
+                android:id="@+id/sptextView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="92dp"
+                android:text="Expiration date:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+
+            <TextView
+                android:id="@+id/sptextView13"
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="92dp"
+                android:text="None"
+                app:layout_constraintStart_toEndOf="@+id/sptextView12"
+                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+
+            <TextView
+                android:id="@+id/sptextView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="224dp"
+                android:layout_marginTop="16dp"
+                android:text="Download :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+
+            <ImageButton
+                android:id="@+id/spimageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="33dp"
+                app:layout_constraintStart_toEndOf="@+id/sptextView10"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/stat_sys_download"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view3"
+        android:layout_width="378dp"
+        android:layout_height="176dp"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/exconstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/expickbutton"
+                android:layout_width="129dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="104dp"
+                android:text="Pick date"
+                app:layout_constraintStart_toEndOf="@+id/extextView13"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/eximageButton2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="33dp"
+                app:layout_constraintStart_toEndOf="@+id/extextView9"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_upload"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/exinfo_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="124dp"
+                android:text="Extract from the execution office"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/exfcheck_residence_permit"
+                android:layout_width="24dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="28dp"
+                android:src="@android:drawable/presence_online"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/exinfo_text2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/extextView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Import new File :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+
+            <TextView
+                android:id="@+id/extextView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="92dp"
+                android:text="Expiration date:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+
+            <TextView
+                android:id="@+id/extextView13"
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="92dp"
+                android:text="None"
+                app:layout_constraintStart_toEndOf="@+id/extextView12"
+                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+
+            <TextView
+                android:id="@+id/extextView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="224dp"
+                android:layout_marginTop="16dp"
+                android:text="Download :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+
+            <ImageButton
+                android:id="@+id/eximageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="33dp"
+                app:layout_constraintStart_toEndOf="@+id/extextView10"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/stat_sys_download"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Wallet"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

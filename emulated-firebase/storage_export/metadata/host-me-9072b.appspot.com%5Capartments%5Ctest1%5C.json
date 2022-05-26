@@ -1,0 +1,18 @@
+{
+  "name": "apartments/test1/",
+  "bucket": "host-me-9072b.appspot.com",
+  "contentType": "text/plain",
+  "metageneration": 1,
+  "generation": 1653567985749,
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [],
+  "etag": "Qmj3mXA8757ZcdFRSQrMPSi/4L4",
+  "timeCreated": "2022-05-26T12:26:25.748Z",
+  "updated": "2022-05-26T12:26:25.748Z",
+  "size": 0,
+  "md5Hash": "1B2M2Y8AsgTpgAmY7PhCfg==",
+  "crc32c": "0"
+}

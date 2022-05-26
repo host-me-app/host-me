@@ -21,7 +21,7 @@ public class WalletActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wallet);
+        setContentView(R.layout.walletcard);
 
         Objects.requireNonNull(this.getSupportActionBar()).hide();
 

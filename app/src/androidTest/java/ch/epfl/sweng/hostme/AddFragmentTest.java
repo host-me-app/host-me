@@ -19,6 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -60,6 +61,10 @@ public class AddFragmentTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
+
+    @Rule
+    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE);
+
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
 
@@ -271,7 +276,7 @@ public class AddFragmentTest {
     private Instrumentation.ActivityResult getImageUriResult() {
         Intent resultData = new Intent();
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
-        File file = new File(dir.getPath(), "pickImageResult.jpeg");
+        File file = new File(dir.getPath(), "pickImageResult2.jpeg");
         Uri uri = Uri.fromFile(file);
         resultData.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
@@ -282,7 +287,7 @@ public class AddFragmentTest {
         Bitmap bm = drawableToBitmap(d);
         assertNotNull(bm);
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
-        File file = new File(dir.getPath(), "pickImageResult.jpeg");
+        File file = new File(dir.getPath(), "pickImageResult2.jpeg");
         FileOutputStream outStream = null;
         try {
             outStream = new FileOutputStream(file);

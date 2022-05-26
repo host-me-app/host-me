@@ -78,8 +78,8 @@ public class SharedDocumentsTest {
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
             onView(withId(R.id.shareButton)).perform(click());
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject cancel = device.findObject(new UiSelector().text("CANCEL"));
             cancel.click();
 
@@ -119,8 +119,8 @@ public class SharedDocumentsTest {
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
             onView(withId(R.id.shareButton)).perform(click());
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick_salary = device.findObject(new UiSelector().text("Salary Slips"));
             pick_salary.click();
             UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));

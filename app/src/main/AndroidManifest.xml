@@ -11,24 +11,27 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <uses-feature
         android:name="android.hardware.sensor.proximity"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"
+    <uses-permission
+        android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"
         tools:ignore="HighSamplingRate" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
 
     <application
@@ -41,29 +44,31 @@
         android:usesCleartextTraffic="true">
         <receiver
             android:name=".wallet.ReminderNotification"
-            android:enabled="true"/>
-        <activity android:name=".ui.messages.CallActivity"
-            tools:ignore="LockedOrientationActivity"/>
+            android:enabled="true" />
+
+        <activity
+            android:name=".ui.messages.CallActivity"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.messages.ChatActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.messages.UsersActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.account.ChangePasswordActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MenuActivity"
-            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,27 +78,35 @@
         <activity
             android:name=".userCreation.CreationContainer"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".userCreation.EnterMailChangePwd"
             android:parentActivityName=".LogInActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".LogInActivity"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".wallet.WalletActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
 
         <service
             android:name=".ui.messages.MessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="OPEN_CALL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="OPEN_MESSAGES" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 

@@ -1,9 +1,12 @@
 package ch.epfl.sweng.hostme.utils;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.Timestamp;
 
 public class Apartment {
 
+    private Bitmap bitmap;
     private boolean isFavorite;
     private String docID;
     private String name;
@@ -37,6 +40,8 @@ public class Apartment {
     /**
      * Constructor of a an apartment
      *
+     * @param bitmap
+     * @param isFavorite
      * @param docID
      * @param city
      * @param npa
@@ -60,11 +65,12 @@ public class Apartment {
      * @param utilities
      * @param uid
      */
-    public Apartment(boolean isFavorite, String docID, String city, int npa, String address,
+    public Apartment(Bitmap bitmap, boolean isFavorite, String docID, String city, int npa, String address,
                      int area, boolean available, Timestamp currentLease, String bath, int deposit,
                      boolean furnished, String imagePath, String kitchen, String laundry, String lid,
                      String name, int beds, boolean pets, String proprietor, int rent, String room,
                      int utilities, String uid) {
+        this.bitmap = bitmap;
         this.isFavorite = isFavorite;
         this.docID = docID;
         this.city = city;
@@ -272,5 +278,13 @@ public class Apartment {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

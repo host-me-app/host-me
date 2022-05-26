@@ -5,6 +5,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
+import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
 import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
@@ -20,6 +21,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +46,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private boolean isFavFragment;
     private HashMap<String, Boolean> favMap = new HashMap<>();
     private SharedPreferences preferences;
+    private SharedPreferences bitmapPreferences;
 
     public ApartmentAdapter(List<Apartment> apartments, Context context) {
         this.apartments = apartments;
@@ -76,6 +79,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         preferences = view.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE);
+        bitmapPreferences = view.getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
         return new ViewHolder(view);
     }
 
@@ -146,9 +150,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                 Toast.makeText(view.getContext(), "Apartment removed from your favorites",
                         Toast.LENGTH_SHORT).show();
             }
-        } /*else {
-            preferences.edit().putBoolean(IS_FROM_FILTERS, false).apply();
-        }*/
+        }
     }
 
     /**
@@ -223,17 +225,45 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
-        try {
-            final File localFile = File.createTempFile("preview1", "jpg");
-            storageReference.getFile(localFile)
-                    .addOnSuccessListener(result -> {
-                        loadingBar.setVisibility(View.GONE);
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        hashMap.put(model.getDocID(), bitmap);
-                        holder.image.setImageBitmap(bitmap);
-                    });
-        } catch (Exception ignored) {
+        if (!bitmapPreferences.getString(model.getDocID(), "").equals("")) {
+            System.out.println("Je passe ");
+            String encodedImage = bitmapPreferences.getString(model.getDocID(), "");
+            byte[] b = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap bitmapImage = BitmapFactory.decodeByteArray(b, 0, b.length);
+            holder.image.setImageBitmap(bitmapImage);
+            loadingBar.setVisibility(View.GONE);
+            hashMap.put(model.getDocID(), bitmapImage);
+        } else {
+            try {
+                final File localFile = File.createTempFile("preview1", "jpg");
+                storageReference.getFile(localFile)
+                        .addOnSuccessListener(result -> {
+                            loadingBar.setVisibility(View.GONE);
+                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            if (isFavFragment) {
+                                saveBitmap(model, bitmap);
+                            }
+                            model.setBitmap(bitmap);
+                            hashMap.put(model.getDocID(), bitmap);
+                            holder.image.setImageBitmap(bitmap);
+                        });
+            } catch (Exception ignored) {
+            }
         }
+    }
+
+    /**
+     * Save the bitmap in shared preferences for caching the favorites apartments
+     *
+     * @param model
+     * @param bitmap
+     */
+    private void saveBitmap(@NonNull Apartment model, Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] compressImage = baos.toByteArray();
+        String sEncodedImage = Base64.encodeToString(compressImage, Base64.DEFAULT);
+        bitmapPreferences.edit().putString(model.getDocID(), sEncodedImage).apply();
     }
 
     @Override

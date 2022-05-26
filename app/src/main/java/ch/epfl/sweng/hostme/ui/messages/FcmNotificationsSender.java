@@ -8,7 +8,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -42,10 +41,11 @@ public class FcmNotificationsSender {
         try {
             mainObj.put("to", userFcmToken);
             JSONObject notiObject = new JSONObject();
-            notiObject.put("title", title);
-            notiObject.put("body", body);
-            notiObject.put("icon", R.mipmap.ic_launcher);
-            mainObj.put("notification", notiObject);
+            notiObject.put("titre", title);
+            notiObject.put("content", body);
+            notiObject.put("image", R.mipmap.ic_launcher);
+            //notiObject.put("click_action", "OPEN_CALL");
+            mainObj.put("data", notiObject);
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
 

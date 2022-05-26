@@ -93,6 +93,7 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
 
     /**
      * Change the sharedPreferences to keep the user logged in
+     *
      * @param email
      */
     private void setSharedPref(String email) {

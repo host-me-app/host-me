@@ -7,7 +7,6 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -20,12 +19,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
-import android.widget.DatePicker;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -36,7 +33,6 @@ import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
-import org.hamcrest.Matchers;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -82,8 +78,8 @@ public class SharedDocumentsTest {
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
             onView(withId(R.id.shareButton)).perform(click());
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject cancel = device.findObject(new UiSelector().text("CANCEL"));
             cancel.click();
 
@@ -123,8 +119,8 @@ public class SharedDocumentsTest {
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
             onView(withId(R.id.shareButton)).perform(click());
+            UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick_salary = device.findObject(new UiSelector().text("Salary Slips"));
             pick_salary.click();
             UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));

@@ -42,6 +42,7 @@ public final class Constants {
     public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";
     public static final String IMAGE_PATH = "image_path";
+    public static final String FROM_NOTIF = "from_notif";
     // Response codes for all activities
     public static final int REQ_IMAGE = 105;
 }

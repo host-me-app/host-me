@@ -21,6 +21,7 @@ import ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment;
 import ch.epfl.sweng.hostme.ui.messages.MessageService;
 import ch.epfl.sweng.hostme.ui.messages.*;
 import ch.epfl.sweng.hostme.ui.search.SearchFragment;
+import ch.epfl.sweng.hostme.utils.Constants;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -54,7 +55,12 @@ public class MenuActivity extends AppCompatActivity {
             });
 
             setupViewPager(viewPager);
+
+            if(getIntent().getBooleanExtra(Constants.FROM_NOTIF, false)){
+                findViewById(R.id.navigation_messages).performClick();
+            }
         }
+
 
     }
 

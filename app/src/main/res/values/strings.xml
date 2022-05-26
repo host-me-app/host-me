@@ -72,4 +72,13 @@
     <string name="daily_route">Daily route</string>
     <string name="street_view">Street view</string>
     <string name="radius_gps">RADIUS (km):</string>
+    <string name="pick_date">Pick date</string>
+    <string name="residence_permit">Residence Permit</string>
+    <string name="import_new_file">Import new File :</string>
+    <string name="expiration_date">Expiration date:</string>
+    <string name="none">None</string>
+    <string name="download">Download :</string>
+    <string name="wallet">Wallet</string>
+    <string name="extract_from_the_execution_office">Extract from the Execution Office</string>
+    <string name="salary_slips">Salary Slips</string>
 </resources>

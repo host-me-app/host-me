@@ -28,7 +28,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="104dp"
-                android:text="Pick date"
+                android:text="@string/pick_date"
                 app:layout_constraintStart_toEndOf="@+id/rptextView13"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="232dp"
-                android:text="Residence Permit"
+                android:text="@string/residence_permit"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Import new File :"
+                android:text="@string/import_new_file"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
 
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="92dp"
-                android:text="Expiration date:"
+                android:text="@string/expiration_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
 
@@ -94,7 +94,7 @@
                 android:layout_height="21dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="92dp"
-                android:text="None"
+                android:text="@string/none"
                 app:layout_constraintStart_toEndOf="@+id/rptextView12"
                 app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="224dp"
                 android:layout_marginTop="16dp"
-                android:text="Download :"
+                android:text="@string/download"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
 
@@ -144,7 +144,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="104dp"
-                android:text="Pick date"
+                android:text="@string/pick_date"
                 app:layout_constraintStart_toEndOf="@+id/sptextView13"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="276dp"
-                android:text="Salary Slips"
+                android:text="@string/salary_slips"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Import new File :"
+                android:text="@string/import_new_file"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
 
@@ -200,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="92dp"
-                android:text="Expiration date:"
+                android:text="@string/expiration_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
 
@@ -210,7 +210,7 @@
                 android:layout_height="21dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="92dp"
-                android:text="None"
+                android:text="@string/none"
                 app:layout_constraintStart_toEndOf="@+id/sptextView12"
                 app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
 
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="224dp"
                 android:layout_marginTop="16dp"
-                android:text="Download :"
+                android:text="@string/download"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
 
@@ -260,7 +260,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="104dp"
-                android:text="Pick date"
+                android:text="@string/pick_date"
                 app:layout_constraintStart_toEndOf="@+id/extextView13"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -281,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="124dp"
-                android:text="Extract from the execution office"
+                android:text="@string/extract_from_the_execution_office"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -306,7 +306,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Import new File :"
+                android:text="@string/import_new_file"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
 
@@ -316,7 +316,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="92dp"
-                android:text="Expiration date:"
+                android:text="@string/expiration_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
 
@@ -326,7 +326,7 @@
                 android:layout_height="21dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="92dp"
-                android:text="None"
+                android:text="@string/none"
                 app:layout_constraintStart_toEndOf="@+id/extextView12"
                 app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
 
@@ -336,7 +336,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="224dp"
                 android:layout_marginTop="16dp"
-                android:text="Download :"
+                android:text="@string/download"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
 
@@ -357,8 +357,8 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Wallet"
+        android:layout_marginTop="4dp"
+        android:text="@string/wallet"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

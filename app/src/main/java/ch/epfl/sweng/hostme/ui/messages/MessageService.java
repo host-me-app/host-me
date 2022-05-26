@@ -19,8 +19,10 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import ch.epfl.sweng.hostme.MenuActivity;
+import ch.epfl.sweng.hostme.utils.Constants;
+
 public class MessageService extends FirebaseMessagingService {
-    public static final String FROM_NOTIF = "from_notif";
     NotificationManager mNotificationManager;
 
     @Override
@@ -59,22 +61,25 @@ public class MessageService extends FirebaseMessagingService {
 
     @NonNull
     private NotificationCompat.Builder createBuilder(RemoteMessage remoteMessage) {
-        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
+        int resourceImage = getResources().getIdentifier(remoteMessage.getData().get("image"), "drawable", getPackageName());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         builder.setSmallIcon(resourceImage);
 
         Intent resultIntent = new Intent(this, CallActivity.class);
-        resultIntent.putExtra(FROM_NOTIF, true);
+        if(remoteMessage.getData().get("titre").contentEquals("New Message")){
+            resultIntent = new Intent(this, MenuActivity.class);
+        }
+        resultIntent.putExtra(Constants.FROM_NOTIF, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        builder.setContentTitle(remoteMessage.getNotification().getTitle());
-        builder.setContentText(remoteMessage.getNotification().getBody());
+        builder.setContentTitle(remoteMessage.getData().get("titre"));
+        builder.setContentText(remoteMessage.getData().get("content"));
         builder.setContentIntent(resultPendingIntent);
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getData().get("content")));
         builder.setAutoCancel(true);
         builder.setPriority(Notification.PRIORITY_MAX);
         return builder;

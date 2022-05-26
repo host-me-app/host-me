@@ -85,21 +85,25 @@ public class AddFragment extends Fragment {
         final Button enterImages = binding.enterImages;
         addViewModel.key(enterImages);
         final Button addSubmit = binding.addSubmit;
+        final FloatingActionButton addNew = binding.addNew;
         enterImages.setOnClickListener(v -> {
             addViewModel.formPath(Objects.requireNonNull(formFields.get("proprietor")), Objects.requireNonNull(formFields.get("name")),
                     Objects.requireNonNull(formFields.get("room")));
             if (ListImage.getPath() == null || !ListImage.getPath().equals(addViewModel.formPath().getValue())) {
                 ListImage.init(addViewModel.formPath().getValue(), this, this.getContext());
             }
+            ListImage.clear();
             ListImage.acceptImage();
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
             generateApartment(root);
+            clearForm();
+            ListImage.clear();
             checkBin();
+            formTransition(addForm, addButtons);
         });
 
-        final FloatingActionButton addNew = binding.addNew;
         if (Connection.online(requireActivity())) {
             addNew.setBackgroundTintList(ColorStateList.valueOf(
                     getResources().getColor(R.color.purple_100)));
@@ -121,8 +125,8 @@ public class AddFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getData() != null) {
-            ListImage.onAcceptImage(resultCode, data.getData());
+        if (requestCode == REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getClipData() != null) {
+            ListImage.onAcceptImage(resultCode, data.getClipData());
         }
     }
 
@@ -151,6 +155,10 @@ public class AddFragment extends Fragment {
             assert ref != null;
             ref.setOnFocusChangeListener((v, focused) -> addViewModel.validate(ref));
         }
+    }
+
+    private void clearForm() {
+        for (String it : formFields.keySet()) Objects.requireNonNull(formFields.get(it)).setText("");
     }
 
     private void spinUp() {
@@ -206,8 +214,8 @@ public class AddFragment extends Fragment {
         } catch (Exception ignored) {
         }
 
+        ListImage.pushImages();
         Listing ret = new Listing(fields);
-
         DB.add(ret).addOnSuccessListener(doc -> Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show());
     }
 

@@ -23,28 +23,29 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/rppickbutton"
+                android:id="@+id/rpPickDateButton"
                 android:layout_width="129dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="104dp"
                 android:text="@string/pick_date"
-                app:layout_constraintStart_toEndOf="@+id/rptextView13"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/rpDateText"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/rpimageButton2"
+                android:id="@+id/rpImportButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="33dp"
-                app:layout_constraintStart_toEndOf="@+id/rptextView9"
+                app:layout_constraintStart_toEndOf="@+id/rpImportText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/ic_menu_upload"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:id="@+id/rpinfo_text2"
+                android:id="@+id/rptitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -56,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/rpfcheck_residence_permit"
+                android:id="@+id/rpcheck"
                 android:layout_width="24dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="4dp"
@@ -65,56 +66,60 @@
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/rpinfo_text2"
+                app:layout_constraintStart_toEndOf="@+id/rptitle"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/rptextView9"
+                android:id="@+id/rpImportText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/import_new_file"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/rptitle" />
 
             <TextView
-                android:id="@+id/rptextView12"
+                android:id="@+id/rpDateDescText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="92dp"
                 android:text="@string/expiration_date"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/rptitle" />
 
             <TextView
-                android:id="@+id/rptextView13"
+                android:id="@+id/rpDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="21dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="92dp"
                 android:text="@string/none"
-                app:layout_constraintStart_toEndOf="@+id/rptextView12"
-                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/rpDateDescText"
+                app:layout_constraintTop_toBottomOf="@+id/rptitle" />
 
             <TextView
-                android:id="@+id/rptextView10"
+                android:id="@+id/rpDownloadText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="224dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/download"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rpinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/rptitle" />
 
             <ImageButton
-                android:id="@+id/rpimageButton"
+                android:id="@+id/rpDownloadButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="33dp"
-                app:layout_constraintStart_toEndOf="@+id/rptextView10"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/rpDownloadText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/stat_sys_download"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -139,28 +144,29 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/sppickbutton"
+                android:id="@+id/spPickDateButton"
                 android:layout_width="129dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="104dp"
                 android:text="@string/pick_date"
-                app:layout_constraintStart_toEndOf="@+id/sptextView13"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/spDateText"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/spimageButton2"
+                android:id="@+id/spImportButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="33dp"
-                app:layout_constraintStart_toEndOf="@+id/sptextView9"
+                app:layout_constraintStart_toEndOf="@+id/spImportText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/ic_menu_upload"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:id="@+id/spinfo_text2"
+                android:id="@+id/sptitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -172,7 +178,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/spfcheck_residence_permit"
+                android:id="@+id/spcheck"
                 android:layout_width="24dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="4dp"
@@ -181,56 +187,60 @@
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/spinfo_text2"
+                app:layout_constraintStart_toEndOf="@+id/sptitle"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/sptextView9"
+                android:id="@+id/spImportText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/import_new_file"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/sptitle" />
 
             <TextView
-                android:id="@+id/sptextView12"
+                android:id="@+id/spDateDescText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="92dp"
                 android:text="@string/expiration_date"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/sptitle" />
 
             <TextView
-                android:id="@+id/sptextView13"
+                android:id="@+id/spDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="21dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="92dp"
                 android:text="@string/none"
-                app:layout_constraintStart_toEndOf="@+id/sptextView12"
-                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/spDateDescText"
+                app:layout_constraintTop_toBottomOf="@+id/sptitle" />
 
             <TextView
-                android:id="@+id/sptextView10"
+                android:id="@+id/spDownloadText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="224dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/download"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/sptitle" />
 
             <ImageButton
-                android:id="@+id/spimageButton"
+                android:id="@+id/spDownloadButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="33dp"
-                app:layout_constraintStart_toEndOf="@+id/sptextView10"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/spDownloadText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/stat_sys_download"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -255,28 +265,30 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/expickbutton"
+                android:id="@+id/exPickDateButton"
                 android:layout_width="129dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="104dp"
                 android:text="@string/pick_date"
-                app:layout_constraintStart_toEndOf="@+id/extextView13"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/exDateText"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/eximageButton2"
+                android:id="@+id/exImportButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="33dp"
-                app:layout_constraintStart_toEndOf="@+id/extextView9"
+                android:visibility="visible"
+                app:layout_constraintStart_toEndOf="@+id/exImportText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/ic_menu_upload"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:id="@+id/exinfo_text2"
+                android:id="@+id/extitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -288,65 +300,68 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/exfcheck_residence_permit"
+                android:id="@+id/excheck"
                 android:layout_width="24dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="28dp"
                 android:src="@android:drawable/presence_online"
-                android:visibility="visible"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/exinfo_text2"
+                app:layout_constraintStart_toEndOf="@+id/extitle"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/extextView9"
+                android:id="@+id/exImportText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/import_new_file"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/extitle" />
 
             <TextView
-                android:id="@+id/extextView12"
+                android:id="@+id/exDateDescText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="92dp"
                 android:text="@string/expiration_date"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/extitle" />
 
             <TextView
-                android:id="@+id/extextView13"
+                android:id="@+id/exDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="21dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="92dp"
                 android:text="@string/none"
-                app:layout_constraintStart_toEndOf="@+id/extextView12"
-                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/exDateDescText"
+                app:layout_constraintTop_toBottomOf="@+id/extitle" />
 
             <TextView
-                android:id="@+id/extextView10"
+                android:id="@+id/exDownloadText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="224dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/download"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exinfo_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/extitle" />
 
             <ImageButton
-                android:id="@+id/eximageButton"
+                android:id="@+id/exDownloadButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="33dp"
-                app:layout_constraintStart_toEndOf="@+id/extextView10"
+                app:layout_constraintStart_toEndOf="@+id/exDownloadText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/stat_sys_download"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -354,7 +369,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/walletPageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

@@ -4,9 +4,9 @@ import ch.epfl.sweng.hostme.R;
 
 public enum Document {
 
-    RESIDENCE_PERMIT("Residence permit", "application/pdf", "documents/residence_permit/", "residence_permit", ".pdf", R.id.rpimageButton2, R.id.rpimageButton, R.id.check_residence_permit, 1),
-    SALARY_SLIPS("Salary Slips", "application/pdf", "documents/salary_slips/", "salary_slips", ".pdf", R.id.spimageButton2, R.id.spimageButton, R.id.check_salary_slips, 2),
-    EXECUTION_OFFICE("Extract from the Execution Office", "application/pdf", "documents/exec_office/", "exec_office", ".pdf", R.id.eximageButton, R.id.button_download_exec_office, R.id.check_exec_office, 3);
+    RESIDENCE_PERMIT("Residence permit", "application/pdf", "documents/residence_permit/", "residence_permit", ".pdf", R.id.rpImportButton, R.id.rpDownloadButton, R.id.rpcheck, 1),
+    SALARY_SLIPS("Salary Slips", "application/pdf", "documents/salary_slips/", "salary_slips", ".pdf", R.id.spImportButton, R.id.spDownloadButton, R.id.spcheck, 2),
+    EXECUTION_OFFICE("Extract from the Execution Office", "application/pdf", "documents/exec_office/", "exec_office", ".pdf", R.id.exDownloadButton, R.id.excheck, R.id.check_exec_office, 3);
 
     private final String documentName;
     private final String type;

@@ -61,6 +61,16 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     private BottomNavigationView bottomNav;
     private String fullAddress;
     private String apartID;
+    private Bitmap bitmap;
+    private String imagePath;
+    private String addr;
+    private int area;
+    private int rent;
+    private String lease;
+    private String proprietor;
+    private String city;
+    private int npa;
+    private String uid;
 
     public DisplayApartment() {
     }
@@ -75,51 +85,50 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         maps_button.setOnClickListener(this::goToMapsFragment);
         Button street_view_button = root.findViewById(R.id.street_view_button);
         street_view_button.setOnClickListener(this::goToStreetViewFragment);
+        bottomNav = requireActivity().findViewById(R.id.nav_view);
+        bottomNav.setVisibility(View.GONE);
 
         Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            bottomNav = getActivity().findViewById(R.id.nav_view);
-            bottomNav.setVisibility(View.GONE);
+        if (bundle != null && !bundle.isEmpty()) {
             apartID = bundle.getString(APART_ID);
-            String addr = bundle.getString(ADDR);
-            int area = bundle.getInt(AREA, 0);
-            int rent = bundle.getInt(RENT, 0);
-            String lease = bundle.getString(LEASE);
-            String proprietor = bundle.getString(PROPRIETOR);
-            String city = bundle.getString(CITY);
-            int npa = bundle.getInt(NPA, 0);
+            addr = bundle.getString(ADDR);
+            area = bundle.getInt(AREA, 0);
+            rent = bundle.getInt(RENT, 0);
+            lease = bundle.getString(LEASE);
+            proprietor = bundle.getString(PROPRIETOR);
+            city = bundle.getString(CITY);
+            npa = bundle.getInt(NPA, 0);
             fullAddress = addr + " " + city + " " + npa;
-
-            setHorizontalScrollable(bundle);
-
-            changeText(String.valueOf(npa), R.id.npa);
-            changeText(city, R.id.city);
-            changeText(addr, R.id.addr);
-            changeText(String.valueOf(area), R.id.area);
-            changeText(String.valueOf(rent), R.id.price);
-            changeText(lease, R.id.lease);
-            changeText(proprietor, R.id.proprietor);
-
-            String uid = bundle.getString(UID);
-            Button contactUser = root.findViewById(R.id.contact_user_button);
-            contactUser.setOnClickListener(view -> chatWithUser(uid));
+            uid = bundle.getString(UID);
+            bitmap = bundle.getParcelable(BITMAP);
+            imagePath = bundle.getString(IMAGE_PATH);
+            bundle.clear();
         }
+        Button contactUser = root.findViewById(R.id.contact_user_button);
+        contactUser.setOnClickListener(view -> chatWithUser(uid));
+        changeText(String.valueOf(npa), R.id.npa);
+        changeText(city, R.id.city);
+        changeText(addr, R.id.addr);
+        changeText(String.valueOf(area), R.id.area);
+        changeText(String.valueOf(rent), R.id.price);
+        changeText(lease, R.id.lease);
+        changeText(proprietor, R.id.proprietor);
+        setHorizontalScrollable(bitmap, imagePath);
         return root;
     }
 
     /**
      * Set the horizontal scrollable view to have a list of images
-     * @param bundle
+     * @param bitmap
+     * @param imagePath
      */
-    private void setHorizontalScrollable(Bundle bundle) {
+    private void setHorizontalScrollable(Bitmap bitmap, String imagePath) {
         LinearLayout gallery = root.findViewById(R.id.gallery);
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View view = layoutInflater.inflate(R.layout.apart_image, gallery, false);
         ImageView image = view.findViewById(R.id.imageApart);
-        Bitmap bitmap = bundle.getParcelable(BITMAP);
         image.setImageBitmap(bitmap);
         gallery.addView(view);
-        String imagePath = bundle.getString(IMAGE_PATH);
         StorageReference storageReference = Storage.getStorageReferenceByChild(imagePath);
         final boolean[] first = {true};
         storageReference.listAll().addOnSuccessListener(listResult -> {

@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;

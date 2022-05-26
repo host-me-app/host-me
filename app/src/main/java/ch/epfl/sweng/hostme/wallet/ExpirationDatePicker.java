@@ -129,7 +129,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                     public void onSuccess(StorageMetadata storageMetadata) {
                         // Updated metadata is in storageMetadata
                         expDateText.setText(date);
-                        notif(year,dayOfMonth, month);
+                        notif(year, dayOfMonth, month);
                         Toast.makeText(context, "Expiration date Update Succeeded", Toast.LENGTH_SHORT).show();
                     }
                 })

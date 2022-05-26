@@ -25,9 +25,8 @@ import ch.epfl.sweng.hostme.utils.Constants;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private ViewPager2 viewPager;
     private static final String PREF_USER_NAME = "username";
-
+    private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +66,7 @@ public class MenuActivity extends AppCompatActivity {
 
     /**
      * Set the corresponding Item to checked
+     *
      * @param position
      * @param navView
      */
@@ -92,6 +92,7 @@ public class MenuActivity extends AppCompatActivity {
 
     /**
      * set the current item
+     *
      * @param item
      */
     @SuppressLint("NonConstantResourceId")
@@ -117,6 +118,7 @@ public class MenuActivity extends AppCompatActivity {
 
     /**
      * set up the viewPage
+     *
      * @param viewPager
      */
     private void setupViewPager(ViewPager2 viewPager) {

@@ -13,10 +13,10 @@ import ch.epfl.sweng.hostme.R;
 
 public class ReminderNotification extends BroadcastReceiver {
 
-    public static final  String CHANNEL_ID = "ChannelReminders";
+    public static final String CHANNEL_ID = "ChannelReminders";
 
     public static final String notification_ID_Extra = "notificationExtra";
-    public static final  String titleExtra = "titleExtra";
+    public static final String titleExtra = "titleExtra";
     public static final String messageExtra = "messageExtra";
 
     @Override
@@ -29,7 +29,7 @@ public class ReminderNotification extends BroadcastReceiver {
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(intent.getIntExtra(notification_ID_Extra,1), notification);
+        manager.notify(intent.getIntExtra(notification_ID_Extra, 1), notification);
         //notification_ID_Extra is different otherwise it updates the same notification
     }
 }

@@ -5,7 +5,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.storage.StorageReference;
@@ -24,7 +24,7 @@ public class DocumentDownloader {
         this.document = document;
         this.uid = uid + "/";
         this.context = context;
-        Button buttonDownload = activity.findViewById(document.getButtonDownloadId());
+        ImageButton buttonDownload = activity.findViewById(document.getButtonDownloadId());
         buttonDownload.setOnClickListener(view -> this.downloadFile());
     }
 

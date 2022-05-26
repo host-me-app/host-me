@@ -4,11 +4,14 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -26,10 +29,6 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -79,10 +78,10 @@ public class SharedDocumentsTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.shareButton)).perform(click());
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject cancel = device.findObject(new UiSelector().text("CANCEL"));
-            cancel.click();
-
+            onView(withText("CANCEL"))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,16 +118,22 @@ public class SharedDocumentsTest {
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
+
             onView(withId(R.id.shareButton)).perform(click());
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick_salary = device.findObject(new UiSelector().text("Salary Slips"));
-            pick_salary.click();
-            UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));
-            pick_extract.click();
-            UiObject confirm = device.findObject(new UiSelector().text("SHARE"));
-            confirm.click();
+            onView(withText("Salary Slips"))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click());
+            onView(withText("Extract from the Execution Office"))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click());
+            onView(withText("SHARE"))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click());
             Thread.sleep(1000);
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

@@ -1,19 +1,15 @@
 package ch.epfl.sweng.hostme.wallet;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
 import com.google.firebase.storage.StorageReference;
 
@@ -30,8 +26,10 @@ public class DocumentUploader {
     private final Activity activity;
     private final Context context;
     private final String titleChooser;
-    private final Button buttonBrowse;
-    private final Button buttonDownload;
+    private final ImageButton buttonBrowse;
+    private final TextView buttonBrowseText;
+    private final ImageButton buttonDownload;
+    private final TextView buttonDownloadText;
     private final ImageView checkImage;
     private final TextView expDateDescriptionText;
     private final TextView expDateText;
@@ -44,7 +42,9 @@ public class DocumentUploader {
         this.context = context;
         this.titleChooser = "Choose" + document.getDocumentName();
         this.buttonBrowse = activity.findViewById(document.getButtonBrowseId());
+        this.buttonBrowseText = activity.findViewById(document.getButtonBrowseTextId());
         this.buttonDownload = activity.findViewById(document.getButtonDownloadId());
+        this.buttonDownloadText = activity.findViewById(document.getButtonDownloadTextId());
         this.checkImage = activity.findViewById(document.getCheckImageId());
         this.expDateDescriptionText = activity.findViewById(expireDate.getDescriptionFieldTextId());
         this.expDateText = activity.findViewById(expireDate.getExpirationDateTextId());
@@ -95,8 +95,9 @@ public class DocumentUploader {
     }
 
     private void changeButton() {
-        this.buttonBrowse.setText(R.string.change_file);
+        this.buttonBrowseText.setText(R.string.change_file);
         this.buttonDownload.setVisibility(View.VISIBLE);
+        this.buttonDownloadText.setVisibility(View.VISIBLE);
         this.checkImage.setVisibility(View.VISIBLE);
         this.expDateDescriptionText.setVisibility(View.VISIBLE);
         this.expDateText.setVisibility(View.VISIBLE);

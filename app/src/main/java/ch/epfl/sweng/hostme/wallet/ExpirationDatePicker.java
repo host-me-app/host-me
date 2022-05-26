@@ -36,6 +36,7 @@ import ch.epfl.sweng.hostme.database.Storage;
 public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener {
 
     private static final String KEY_CUSTOM_METADATA_EXPIRATION_DATE = "Expiration date";
+    private static final String NOTIF_TITLE = "Document expiration reminder";
     private static final int PENDING_ID = 1;
     private final Document document;
     private final String uid;
@@ -171,20 +172,20 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
     private void clearPreviouslyScheduledNotif() {
 
-        int all_reminders_size = RemindersDate.values().length;
+        int allRemindersSize = RemindersDate.values().length;
         Intent intent = new Intent(context, ReminderNotification.class);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 
-        for (int i = 0; i < all_reminders_size; ++i) {
+        for (int i = 0; i < allRemindersSize; ++i) {
 
-            intent.putExtra(notification_ID_Extra, document.ordinal() * all_reminders_size + i);
-            String title = "Document expiration reminder";
+            intent.putExtra(notification_ID_Extra, document.ordinal() * allRemindersSize + i);
+            String title = NOTIF_TITLE;
             String message = "Your " + document.getDocumentName().toLowerCase() + " will expire " + RemindersDate.values()[i].message;
 
             PendingIntent pend = PendingIntent.getBroadcast(
                     context.getApplicationContext(),
-                    document.ordinal() * all_reminders_size + i,
+                    document.ordinal() * allRemindersSize + i,
                     intent,
                     PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
             );
@@ -202,14 +203,14 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         ArrayList<String> scheduledMessage = new ArrayList<String>();
         modifyScheduledArray(date, scheduledTime, scheduledMessage);
 
-        int all_reminders_size = RemindersDate.values().length;
+        int allRemindersSize = RemindersDate.values().length;
         for (int i = 0; i < scheduledTime.size(); ++i) {
 
             Intent intent = new Intent(context, ReminderNotification.class);
-            String title = "Document expiration reminder";
+            String title = NOTIF_TITLE;
             String message = "Your " + document.getDocumentName().toLowerCase() + " will expire " + scheduledMessage.get(i);
 
-            intent.putExtra(notification_ID_Extra, document.ordinal() * all_reminders_size + i); //same document notifications goes to a different notification
+            intent.putExtra(notification_ID_Extra, document.ordinal() * allRemindersSize + i); //same document notifications goes to a different notification
 
             intent.putExtra(titleExtra, title);
             intent.putExtra(messageExtra, message);
@@ -217,7 +218,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
             PendingIntent pend = PendingIntent.getBroadcast(
                     context.getApplicationContext(),
-                    document.ordinal() * all_reminders_size + i, //PendingIntent a un requestCode different sinon ça override la même PendingIntent.
+                    document.ordinal() * allRemindersSize + i, //PendingIntent a un requestCode different sinon ça override la même PendingIntent.
                     intent,
                     PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
             );
@@ -233,21 +234,17 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
     private void modifyScheduledArray(Calendar targetDate, ArrayList<Long> scheduledTime, ArrayList<String> scheduledMessage) {
 
         for (RemindersDate period : RemindersDate.values()) {
-            Calendar targetDate_copy = (Calendar) targetDate.clone();
-            targetDate_copy.add(period.timeUnit, period.number);
+            Calendar targetDateCopy = (Calendar) targetDate.clone();
+            targetDateCopy.add(period.timeUnit, period.number);
 
             Calendar now = Calendar.getInstance();
-            if (targetDate_copy.getTimeInMillis() - now.getTimeInMillis() > 0) {
-                scheduledTime.add(targetDate_copy.getTimeInMillis());
+            if (targetDateCopy.getTimeInMillis() - now.getTimeInMillis() > 0) {
+                scheduledTime.add(targetDateCopy.getTimeInMillis());
                 scheduledMessage.add(period.message);
             }
 
         }
 
-        Calendar nowTestDemo = Calendar.getInstance();
-        nowTestDemo.add(Calendar.SECOND, 20);
-        scheduledTime.add(nowTestDemo.getTimeInMillis());
-        scheduledMessage.add("in 2 days");
     }
 
 

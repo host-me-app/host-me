@@ -352,6 +352,7 @@
                 android:layout_marginStart="224dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/download"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/extitle" />
 
@@ -361,6 +362,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="33dp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toEndOf="@+id/exDownloadText"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/stat_sys_download"

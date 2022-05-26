@@ -142,8 +142,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                                 gallery.addView(newView);
                                 loading.setVisibility(View.GONE);
                             });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ignored) {
                 }
             }
         });

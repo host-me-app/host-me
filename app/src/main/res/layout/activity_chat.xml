@@ -127,22 +127,14 @@
             android:src="@drawable/send_icon"
             app:tint="@color/white" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/sendButt2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:padding="8dp"
-            android:src="@drawable/send_icon"
-            app:tint="@color/white" />
     </FrameLayout>
 
 
     <EditText
         android:id="@+id/inputMessage"
-        android:layout_width="279dp"
+        android:layout_width="250dp"
         android:layout_height="48dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_chat_input"
         android:hint="@string/type_message"
@@ -156,7 +148,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/layoutSend"
         app:layout_constraintEnd_toStartOf="@+id/layoutSend"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/layoutShare"
         app:layout_constraintTop_toTopOf="@+id/layoutSend"
         app:layout_constraintVertical_bias="0.44" />
 

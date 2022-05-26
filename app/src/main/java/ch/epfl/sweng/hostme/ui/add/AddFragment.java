@@ -80,6 +80,7 @@ public class AddFragment extends Fragment {
         final Button enterImages = binding.enterImages;
         addViewModel.key(enterImages);
         final Button addSubmit = binding.addSubmit;
+        final FloatingActionButton addNew = binding.addNew;
         enterImages.setOnClickListener(v -> {
             addViewModel.formPath(Objects.requireNonNull(formFields.get(Constants.PROPRIETOR)),
                     Objects.requireNonNull(formFields.get(Constants.NAME)),
@@ -87,15 +88,18 @@ public class AddFragment extends Fragment {
             if (ListImage.getPath() == null || !ListImage.getPath().equals(addViewModel.formPath().getValue())) {
                 ListImage.init(addViewModel.formPath().getValue(), this, this.getContext());
             }
+            ListImage.clear();
             ListImage.acceptImage();
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
             myListings.add(generateApartment(root));
             ownerView.getAdapter().notifyItemInserted(myListings.size() - 1);
+            clearForm();
+            ListImage.clear();
+            formTransition(addForm, addButtons);
         });
 
-        final FloatingActionButton addNew = binding.addNew;
         if (Connection.online(requireActivity())) {
             addNew.setBackgroundTintList(ColorStateList.valueOf(
                     getResources().getColor(R.color.purple_100)));
@@ -117,9 +121,8 @@ public class AddFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQ_IMAGE &&
-                resultCode == Activity.RESULT_OK && data.getData() != null) {
-            ListImage.onAcceptImage(resultCode, data.getData());
+        if (requestCode == Constants.REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getClipData() != null) {
+            ListImage.onAcceptImage(resultCode, data.getClipData());
         }
     }
 
@@ -148,6 +151,10 @@ public class AddFragment extends Fragment {
             assert ref != null;
             ref.setOnFocusChangeListener((v, focused) -> addViewModel.validate(ref));
         }
+    }
+
+    private void clearForm() {
+        for (String it : formFields.keySet()) Objects.requireNonNull(formFields.get(it)).setText("");
     }
 
     private void spinUp() {
@@ -203,6 +210,7 @@ public class AddFragment extends Fragment {
         } catch (Exception ignored) {
         }
 
+        ListImage.pushImages();
         Apartment ret = new Apartment(fields);
 
         DB.add(ret).addOnSuccessListener(doc -> {

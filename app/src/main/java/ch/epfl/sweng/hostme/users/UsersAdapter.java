@@ -1,22 +1,25 @@
 package ch.epfl.sweng.hostme.users;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.databinding.ItemContainerUserBinding;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
+    private View view;
     private final List<User> users;
     private final UserListener userListener;
 
     public UsersAdapter(List<User> users, UserListener userListener) {
-
         this.users = users;
         this.userListener = userListener;
     }
@@ -24,12 +27,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemContainerUserBinding itemContainerUserBinding = ItemContainerUserBinding.inflate(
-                LayoutInflater.from(parent.getContext()),
-                parent,
-                false
-        );
-        return new UserViewHolder(itemContainerUserBinding);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_user, parent, false);
+        return new UserViewHolder(view);
     }
 
     @Override
@@ -44,17 +43,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     class UserViewHolder extends RecyclerView.ViewHolder {
 
-        ItemContainerUserBinding binding;
+        View itemView;
+        TextView textName;
+        TextView textEmail;
 
-        UserViewHolder(@NonNull ItemContainerUserBinding itemContainerUserBinding) {
-            super(itemContainerUserBinding.getRoot());
-            binding = itemContainerUserBinding;
+        UserViewHolder(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+            this.textName = itemView.findViewById(R.id.textName);
+            this.textEmail = itemView.findViewById(R.id.textEmail);
         }
 
         void setUserData(@NonNull User user) {
-            binding.textName.setText(user.name);
-            binding.textEmail.setText(user.email);
-            binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
+            this.textName.setText(user.name);
+            this.textEmail.setText(user.email);
+            this.itemView.setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }
 }

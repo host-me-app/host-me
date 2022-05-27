@@ -2,12 +2,12 @@ package ch.epfl.sweng.hostme.utils;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.Timestamp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import ch.epfl.sweng.hostme.utils.Constants;
 
 public class Apartment {
     private String name;
@@ -38,6 +38,7 @@ public class Apartment {
      * Constructor for Firebase class binding
      */
     public Apartment() {
+
     }
 
     /**
@@ -46,7 +47,6 @@ public class Apartment {
      *
      * @param fields a JSONObject containing all required fields of the Add UI, optionally
      *               containing some additional fields
-     * @throws JSONException when input data is malformed
      */
     public Apartment(JSONObject fields) {
         try {
@@ -72,9 +72,8 @@ public class Apartment {
 
             this.available = true;
             this.currentLease = null;
-        } catch (Exception ignored) {
+        } catch (JSONException ignored) {
         }
-
     }
 
     public String getName() {
@@ -290,6 +289,7 @@ public class Apartment {
         return ret;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return this.exportDoc().toString();

@@ -69,7 +69,7 @@ public class MessageService extends FirebaseMessagingService {
         if(remoteMessage.getData().get("titre").contentEquals("New Message")){
             resultIntent = new Intent(this, MenuActivity.class);
         }
-        resultIntent.putExtra(Constants.FROM_NOTIF, true);
+        resultIntent.putExtra(Constants.FROM_NOTIFICATION, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent =

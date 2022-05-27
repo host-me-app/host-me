@@ -83,7 +83,7 @@ public class FavoritesTest {
             onView(withId(R.id.navigation_account)).perform(click());
 
             Thread.sleep(1000);
-            onView(withId(R.id.userProfilelogOutButton)).perform(click());
+            onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Thread.sleep(1000);
 
             String mail = "testlogin@gmail.com";
@@ -117,7 +117,7 @@ public class FavoritesTest {
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfilelogOutButton)).perform(click());
+            onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Thread.sleep(1000);
 
             String mail = "testlogin@gmail.com";

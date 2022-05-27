@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme.utils;
 public final class Constants {
 
     public static final String KEY_COLLECTION_USERS = "users";
+    public static final String DATA = "data";
     public static final String KEY_FIRSTNAME = "firstName";
     public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_EMAIL = "email";
@@ -52,5 +53,9 @@ public final class Constants {
     public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";
     public static final String FROM_NOTIFICATION = "from_notification";
+    public static final String PICK_CAM = "Pick from Camera";
+    public static final String PICK_GALLERY = "Pick from Gallery";
+    public static final String DELETE = "Delete";
     public static final int REQ_IMAGE = 105;
+    public static final int CAMERA_PERM_CODE = 101;
 }

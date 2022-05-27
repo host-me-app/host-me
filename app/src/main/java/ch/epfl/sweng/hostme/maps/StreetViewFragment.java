@@ -42,10 +42,8 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
     public StreetViewFragment() {
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.street_view, container, false);
-
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -56,8 +54,8 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
                 (SupportStreetViewPanoramaFragment) getChildFragmentManager().findFragmentById(R.id.street_view_panorama);
         Objects.requireNonNull(streetViewPanoramaFragment).getStreetViewPanoramaAsync(this);
 
-        sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
-        orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        this.sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
+        this.orientationSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         tilt = 0;
 
         gyroscopeEventListener = new SensorEventListener() {
@@ -87,16 +85,16 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
 
     @Override
     public void onStreetViewPanoramaReady(@NonNull StreetViewPanorama streetViewPanorama) {
-        streetViewPan = streetViewPanorama;
+        this.streetViewPan = streetViewPanorama;
         Geocoder coder = new Geocoder(this.getContext());
         List<Address> address;
         try {
             address = coder.getFromLocationName(this.fullAddress, 1);
             Address location = address.get(0);
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-            streetViewPan.setPosition(latlng, StreetViewSource.OUTDOOR);
-            streetViewPan.setZoomGesturesEnabled(false);
-            streetViewPan.setPanningGesturesEnabled(false);
+            this.streetViewPan.setPosition(latlng, StreetViewSource.OUTDOOR);
+            this.streetViewPan.setZoomGesturesEnabled(false);
+            this.streetViewPan.setPanningGesturesEnabled(false);
         } catch (Exception ignored) {
         }
     }
@@ -104,13 +102,13 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
     @Override
     public void onResume() {
         super.onResume();
-        sensorManager.registerListener(gyroscopeEventListener, orientationSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        this.sensorManager.registerListener(gyroscopeEventListener, orientationSensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(gyroscopeEventListener);
+        this.sensorManager.unregisterListener(gyroscopeEventListener);
     }
 
     @Override

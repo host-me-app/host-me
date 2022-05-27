@@ -66,14 +66,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
 
-        View itemView;
         TextView textMessage;
         TextView messageDate;
 
 
         SentMessageViewHolder(View itemView) {
             super(itemView);
-            this.itemView = itemView;
             this.textMessage = itemView.findViewById(R.id.text_message);
             this.messageDate = itemView.findViewById(R.id.message_date);
         }
@@ -94,13 +92,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
 
-        View itemView;
         TextView textMessage;
         TextView messageDate;
 
         ReceivedMessageViewHolder(View itemView) {
             super(itemView);
-            this.itemView = itemView;
             this.textMessage = itemView.findViewById(R.id.text_message);
             this.messageDate = itemView.findViewById(R.id.message_date);
         }

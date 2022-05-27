@@ -10,8 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Objects;
-
 import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -41,11 +39,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_pwd);
 
-        mail = findViewById(R.id.mailForgotPwd);
+        mail = findViewById(R.id.mail_forgot_pwd);
         mail.addTextChangedListener(sendMailTextWatcher);
-        sendPwd = findViewById(R.id.nextButtonMail2);
+        sendPwd = findViewById(R.id.next_button_mail);
         sendPwd.setEnabled(false);
-
         sendPwd.setOnClickListener(v -> {
             String mailText = mail.getText().toString().trim();
             sendMail(mailText);
@@ -54,23 +51,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     /**
      * Send email to change password
-     *
-     * @param mailText
      */
     private void sendMail(String mailText) {
         Auth.resetEmail(mailText)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(),
-                                "Reset password instructions sent to " + mailText, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(this, LogInActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                mailText + " does not exist", Toast.LENGTH_LONG).show();
-                    }
-                });
+        .addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getApplicationContext(), "Reset password instructions sent to " + mailText, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, LogInActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+            } else {
+                Toast.makeText(getApplicationContext(), mailText + " does not exist", Toast.LENGTH_LONG).show();
+            }
+        });
     }
-
 }

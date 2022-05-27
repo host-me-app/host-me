@@ -303,7 +303,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             this.price = itemView.findViewById(R.id.list_price);
-            this.addr = itemView.findViewById(R.id.list_addr);
+            this.addr = itemView.findViewById(R.id.list_address);
             this.area = itemView.findViewById(R.id.list_area);
             this.npa = itemView.findViewById(R.id.list_npa);
             this.city = itemView.findViewById(R.id.list_city);

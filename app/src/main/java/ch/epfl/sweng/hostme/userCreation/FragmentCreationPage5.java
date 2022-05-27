@@ -20,9 +20,10 @@ import ch.epfl.sweng.hostme.utils.EmailValidator;
 public class FragmentCreationPage5 extends Fragment implements IOnBackPressed {
 
     public static final String MAIL = "Mail";
+    public static final String INVALID_EMAIL = "You should enter a valid mail address";
     private EditText mail;
     private Button nextMailButt;
-    private TextWatcher mailTextWatcher = new TextWatcher() {
+    private final TextWatcher mailTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
@@ -31,7 +32,7 @@ public class FragmentCreationPage5 extends Fragment implements IOnBackPressed {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String mailText = mail.getText().toString().trim();
             if (!EmailValidator.isValid(mailText)) {
-                mail.setError("You should enter a valid mail address");
+                mail.setError(INVALID_EMAIL);
             } else {
                 mail.setError(null);
             }
@@ -50,7 +51,7 @@ public class FragmentCreationPage5 extends Fragment implements IOnBackPressed {
         mail = view.findViewById(R.id.mail);
         mail.addTextChangedListener(mailTextWatcher);
 
-        nextMailButt = view.findViewById(R.id.nextButtonMail);
+        nextMailButt = view.findViewById(R.id.next_button_mail_account);
         nextMailButt.setEnabled(false);
         nextMailButt.setOnClickListener(v -> {
             String mailText = mail.getText().toString();
@@ -68,22 +69,20 @@ public class FragmentCreationPage5 extends Fragment implements IOnBackPressed {
         changeFragment(new FragmentCreationPage6());
     }
 
-    @Override
-    public boolean onBackPressed() {
-        changeFragment(new FragmentCreationPage4());
-        return true;
-    }
-
     /**
      * Change the fragment (next or previous)
-     *
-     * @param fragment
      */
     private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        changeFragment(new FragmentCreationPage4());
+        return true;
     }
 
 }

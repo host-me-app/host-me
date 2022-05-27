@@ -10,7 +10,7 @@ public class EmailValidator {
         + "{2,})$";
     private static final Pattern PATTERN = Pattern.compile(EMAIL_PATTERN);
 
-    private EmailValidator() {
+    public EmailValidator() {
 
     }
 

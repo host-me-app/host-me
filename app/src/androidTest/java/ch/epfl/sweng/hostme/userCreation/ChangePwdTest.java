@@ -48,9 +48,9 @@ public class ChangePwdTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String wrongMail = "host.me@gmail.com";
-            onView(withId(R.id.mailForgotPwd)).perform(typeText(wrongMail), closeSoftKeyboard());
-            onView(withId(R.id.nextButtonMail2)).check(matches(isDisplayed()));
-            onView(withId(R.id.nextButtonMail2)).perform(click());
+            onView(withId(R.id.mail_forgot_pwd)).perform(typeText(wrongMail), closeSoftKeyboard());
+            onView(withId(R.id.next_button_mail)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_mail)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -64,9 +64,9 @@ public class ChangePwdTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String validMail = "testlogin@gmail.com";
-            onView(withId(R.id.mailForgotPwd)).perform(typeText(validMail), closeSoftKeyboard());
-            onView(withId(R.id.nextButtonMail2)).check(matches(isDisplayed()));
-            onView(withId(R.id.nextButtonMail2)).perform(click());
+            onView(withId(R.id.mail_forgot_pwd)).perform(typeText(validMail), closeSoftKeyboard());
+            onView(withId(R.id.next_button_mail)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_mail)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();

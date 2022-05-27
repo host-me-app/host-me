@@ -51,7 +51,7 @@ public class UserCreationTest {
         try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
             onView(ViewMatchers.withId(R.id.genderNextButton)).check(matches(isDisplayed()));
             onView(withId(R.id.genderNextButton)).perform(click());
-            onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_first_name)).check(matches(isDisplayed()));
         }
         Intents.release();
     }
@@ -65,28 +65,28 @@ public class UserCreationTest {
             String email = "host.me.test2022@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.radioF)).check(matches(isDisplayed()));
-            onView(withId(R.id.radioF)).perform(click());
+            onView(withId(R.id.radio_f)).check(matches(isDisplayed()));
+            onView(withId(R.id.radio_f)).perform(click());
             onView(withId(R.id.genderNextButton)).check(matches(isDisplayed()));
             onView(withId(R.id.genderNextButton)).perform(click());
 
-            onView(withId(R.id.nextButtonFirstName)).check(matches(isDisplayed()));
-            onView(withId(R.id.nextButtonFirstName)).perform(click());
+            onView(withId(R.id.next_button_first_name)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_first_name)).perform(click());
 
-            onView(withId(R.id.nextButtonLastName)).check(matches(isDisplayed()));
-            onView(withId(R.id.nextButtonLastName)).perform(click());
+            onView(withId(R.id.next_button_last_name)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_last_name)).perform(click());
 
-            onView(withId(R.id.nextButtonSchool)).perform(click());
+            onView(withId(R.id.next_button_school)).perform(click());
 
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
-            onView(withId(R.id.nextButtonMail)).check(matches(isDisplayed()));
-            onView(withId(R.id.nextButtonMail)).perform(click());
+            onView(withId(R.id.next_button_mail_account)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_mail_account)).perform(click());
 
             onView(withId(R.id.password)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.confirm_pwd)).perform(typeText(pwd), closeSoftKeyboard());
 
-            onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.terminateButton)).perform(click());
+            onView(withId(R.id.terminate_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.terminate_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -104,29 +104,29 @@ public class UserCreationTest {
             String pwd = "fakePassword1!";
 
             onView(withId(R.id.genderNextButton)).perform(click());
-            onView(withId(R.id.nextButtonFirstName)).perform(click());
-            onView(withId(R.id.nextButtonLastName)).perform(click());
-            onView(withId(R.id.nextButtonSchool)).perform(click());
+            onView(withId(R.id.next_button_first_name)).perform(click());
+            onView(withId(R.id.next_button_last_name)).perform(click());
+            onView(withId(R.id.next_button_school)).perform(click());
 
 
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
-            onView(withId(R.id.nextButtonMail)).perform(click());
+            onView(withId(R.id.next_button_mail_account)).perform(click());
 
             onView(withId(R.id.password)).perform(typeText("!"), closeSoftKeyboard());
             onView(withId(R.id.confirm_pwd)).perform(typeText("!Hostme"), closeSoftKeyboard());
-            onView(withId(R.id.terminateButton)).perform(click());
+            onView(withId(R.id.terminate_button)).perform(click());
             onView(withId(R.id.password)).check(matches(hasErrorText("The password must be " +
                     "at least 8 characters and contains at least 1 uppercase character and 1 special character")));
 
             onView(withId(R.id.password)).perform(typeText("Hostme"), closeSoftKeyboard());
-            onView(withId(R.id.terminateButton)).perform(click());
+            onView(withId(R.id.terminate_button)).perform(click());
             onView(withId(R.id.password)).perform(typeText("2022"), closeSoftKeyboard());
-            onView(withId(R.id.terminateButton)).perform(click());
+            onView(withId(R.id.terminate_button)).perform(click());
             onView(withId(R.id.confirm_pwd)).check(matches(hasErrorText("The passwords should be identical")));
             onView(withId(R.id.confirm_pwd)).perform(typeText("2022"), closeSoftKeyboard());
 
-            onView(withId(R.id.terminateButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.terminateButton)).perform(click());
+            onView(withId(R.id.terminate_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.terminate_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -146,17 +146,17 @@ public class UserCreationTest {
             onView(withId(R.id.genderNextButton)).perform(click());
             mDevice.pressBack();
             onView(withId(R.id.genderNextButton)).perform(click());
-            onView(withId(R.id.nextButtonFirstName)).perform(click());
+            onView(withId(R.id.next_button_first_name)).perform(click());
             mDevice.pressBack();
-            onView(withId(R.id.nextButtonFirstName)).perform(click());
-            onView(withId(R.id.nextButtonLastName)).perform(click());
+            onView(withId(R.id.next_button_first_name)).perform(click());
+            onView(withId(R.id.next_button_last_name)).perform(click());
             mDevice.pressBack();
-            onView(withId(R.id.nextButtonLastName)).perform(click());
-            onView(withId(R.id.nextButtonSchool)).perform(click());
+            onView(withId(R.id.next_button_last_name)).perform(click());
+            onView(withId(R.id.next_button_school)).perform(click());
             mDevice.pressBack();
-            onView(withId(R.id.nextButtonSchool)).perform(click());
+            onView(withId(R.id.next_button_school)).perform(click());
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
-            onView(withId(R.id.nextButtonMail)).perform(click());
+            onView(withId(R.id.next_button_mail_account)).perform(click());
             mDevice.pressBack();
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
             mDevice.pressBack();
@@ -171,9 +171,9 @@ public class UserCreationTest {
         try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
             String email = "host";
             onView(withId(R.id.genderNextButton)).perform(click());
-            onView(withId(R.id.nextButtonFirstName)).perform(click());
-            onView(withId(R.id.nextButtonLastName)).perform(click());
-            onView(withId(R.id.nextButtonSchool)).perform(click());
+            onView(withId(R.id.next_button_first_name)).perform(click());
+            onView(withId(R.id.next_button_last_name)).perform(click());
+            onView(withId(R.id.next_button_school)).perform(click());
 
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
             onView(withId(R.id.mail)).check(matches(hasErrorText("You should enter a valid mail address")));

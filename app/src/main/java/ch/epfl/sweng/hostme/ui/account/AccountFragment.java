@@ -325,24 +325,20 @@ public class AccountFragment extends Fragment {
 
             if (deletePic && uri_to_save == null && profilePicInDB) {
                 fileRef.delete()
-                .addOnSuccessListener(taskSnapshot -> {
-                    changePicture(DELETE_SUCCEED, null, false, false);
-                }).addOnFailureListener(exception -> Toast.makeText(requireContext(), DELETE_FAILED, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(taskSnapshot -> changePicture(DELETE_SUCCEED, false)).addOnFailureListener(exception -> Toast.makeText(requireContext(), DELETE_FAILED, Toast.LENGTH_SHORT).show());
             }
 
             if (uri_to_save != null && !deletePic) {
                 fileRef.putFile(uri_to_save)
-                .addOnSuccessListener(taskSnapshot -> {
-                    changePicture(UPDATE_SUCCEED, null, false, true);
-                }).addOnFailureListener(exception -> Toast.makeText(requireContext(), UPDATE_FAILED, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(taskSnapshot -> changePicture(UPDATE_SUCCEED, true)).addOnFailureListener(exception -> Toast.makeText(requireContext(), UPDATE_FAILED, Toast.LENGTH_SHORT).show());
             }
         }).addOnFailureListener(error ->Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
     }
 
-    private void changePicture(String message, Uri uri, boolean delete, boolean inDB) {
+    private void changePicture(String message, boolean inDB) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-        uri_to_save = uri;
-        deletePic = delete;
+        uri_to_save = null;
+        deletePic = false;
         profilePicInDB = inDB;
     }
 

@@ -241,7 +241,7 @@ public class AddFragment extends Fragment {
     }
 
     private void recycle() {
-        ApartmentAdapter recycler = new ApartmentAdapter(myListings, this.getContext());
+        ApartmentAdapter recycler = new ApartmentAdapter(myListings);
         recycler.setFavFragment();
         RecyclerView.LayoutManager lin = new LinearLayoutManager(this.getContext());
         ownerView.setHasFixedSize(true);

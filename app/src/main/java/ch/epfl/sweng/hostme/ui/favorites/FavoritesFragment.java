@@ -1,6 +1,8 @@
 package ch.epfl.sweng.hostme.ui.favorites;
 
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_APARTMENTS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_FAV;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,11 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -31,26 +33,22 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 public class FavoritesFragment extends Fragment {
 
     private static final String FAVORITES = "favorites";
-    private final CollectionReference reference = Database.getCollection("favorite_apart");
-    private final CollectionReference apartReference = Database.getCollection("apartments");
+    private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_FAV);
+    private final CollectionReference apartReference = Database.getCollection(KEY_COLLECTION_APARTMENTS);
     List<Apartment> apartments = new ArrayList<>();
-    private View root;
     private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    private ApartmentAdapter recyclerAdapter;
     private TextView noFavMessage;
     private SharedPreferences bitmapPreferences;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_favorites, container, false);
-        recyclerView = root.findViewById(R.id.favorites_recyclerView);
-        noFavMessage = root.findViewById(R.id.no_fav_message);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_favorites, container, false);
+        this.recyclerView = root.findViewById(R.id.favorites_recyclerView);
+        this.noFavMessage = root.findViewById(R.id.no_fav_message);
 
-        bitmapPreferences = getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
+        this.bitmapPreferences = requireContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
 
-        reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
+        this.reference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
                 setUpRecyclerView(apartments);
             }
@@ -65,56 +63,48 @@ public class FavoritesFragment extends Fragment {
      */
     private void setUpRecyclerView(List<Apartment> apartments) {
         String uid = Auth.getUid();
-        reference.document(uid)
-                .get()
-                .addOnSuccessListener(result -> {
-                    apartments.clear();
-                    DocumentSnapshot doc = result;
-                    List<String> apartIDs = (List<String>) doc.get(FAVORITES);
-                    if (apartIDs.isEmpty()) {
-                        bitmapPreferences.edit().clear().apply();
-                        apartments.clear();
-                        noFavMessage.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    } else {
-                        noFavMessage.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        for (String apartID : apartIDs) {
-                            getCorrespondingApartAndDisplay(apartID, apartments);
-                        }
-                    }
-                });
+        this.reference.document(uid).get()
+        .addOnSuccessListener(result -> {
+            apartments.clear();
+            List<String> apartIDs = (List<String>) result.get(FAVORITES);
+            if (Objects.requireNonNull(apartIDs).isEmpty()) {
+                this.bitmapPreferences.edit().clear().apply();
+                apartments.clear();
+                this.noFavMessage.setVisibility(View.VISIBLE);
+                this.recyclerView.setVisibility(View.GONE);
+            } else {
+                this.noFavMessage.setVisibility(View.GONE);
+                this.recyclerView.setVisibility(View.VISIBLE);
+                for (String apartID : apartIDs) {
+                    getCorrespondingApartAndDisplay(apartID, apartments);
+                }
+            }
+        });
     }
 
     /**
-     * get the apart corresponding to the ID in Firestore and display it
-     *
-     * @param apartID
-     * @param apartments
+     * Get the apartment corresponding to the ID in Firestore and display it
      */
     private void getCorrespondingApartAndDisplay(String apartID, List<Apartment> apartments) {
-        apartReference.document(apartID)
-                .get()
-                .addOnSuccessListener(result -> {
-                    Apartment apartment = result.toObject(Apartment.class);
-                    apartments.add(apartment);
-                    displayRecycler(apartments);
-                });
+        this.apartReference.document(apartID).get()
+        .addOnSuccessListener(result -> {
+            Apartment apartment = result.toObject(Apartment.class);
+            apartments.add(apartment);
+            displayRecycler(apartments);
+        });
     }
 
     /**
-     * prepare the layout and set the adapter to display the recyclerView
-     *
-     * @param apartments
+     * Prepare the layout and set the adapter to display the recyclerView
      */
     private void displayRecycler(List<Apartment> apartments) {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
+        ApartmentAdapter recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
         recyclerAdapter.setFavFragment();
-        recyclerView.setHasFixedSize(true);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(recyclerAdapter);
+        this.recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        this.recyclerView.setLayoutManager(linearLayoutManager);
+        this.recyclerView.setAdapter(recyclerAdapter);
     }
 
 

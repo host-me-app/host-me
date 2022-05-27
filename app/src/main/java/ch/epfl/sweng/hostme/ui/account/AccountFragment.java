@@ -309,14 +309,14 @@ public class AccountFragment extends Fragment {
     private void saveUserProperties(Profile toUpdateUser) {
         Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid()).set(toUpdateUser)
         .addOnSuccessListener(result -> {
-            dbProfile.setFirstName(toUpdateUser.getFirstName());
-            dbProfile.setLastName(toUpdateUser.getLastName());
-            dbProfile.setEmail(toUpdateUser.getEmail());
-            dbProfile.setGender(toUpdateUser.getGender());
+            this.dbProfile.setFirstName(toUpdateUser.getFirstName());
+            this.dbProfile.setLastName(toUpdateUser.getLastName());
+            this.dbProfile.setEmail(toUpdateUser.getEmail());
+            this.dbProfile.setGender(toUpdateUser.getGender());
 
             Auth.updateEmail(toUpdateUser.getEmail())
             .addOnSuccessListener(result2 -> {
-                dbProfile.setEmail(toUpdateUser.getEmail());
+                this.dbProfile.setEmail(toUpdateUser.getEmail());
                 Toast.makeText(requireContext(), PROFILE_SUCCEED, Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(error2 -> Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
 

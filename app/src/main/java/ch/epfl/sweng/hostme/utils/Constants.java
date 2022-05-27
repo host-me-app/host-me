@@ -60,4 +60,5 @@ public final class Constants {
     public static final String DELETE = "Delete";
     public static final int REQ_IMAGE = 105;
     public static final int CAMERA_PERM_CODE = 101;
+    public static final int CALL_PERM_CODE = 22;
 }

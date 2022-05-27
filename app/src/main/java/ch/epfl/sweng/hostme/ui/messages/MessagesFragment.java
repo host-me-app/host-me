@@ -2,16 +2,19 @@ package ch.epfl.sweng.hostme.ui.messages;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,16 +32,21 @@ import ch.epfl.sweng.hostme.chat.ConversionListener;
 import ch.epfl.sweng.hostme.chat.RecentConversationAdapter;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.databinding.FragmentMessagesBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class MessagesFragment extends Fragment implements ConversionListener {
 
-    private FragmentMessagesBinding binding;
+    private static final String TOKEN_FAILED = "Unable to update token";
+    private View root;
     private List<ChatMessage> conversations;
     private RecentConversationAdapter conversationAdapter;
+    private UserManager userManager;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+
+    @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -77,36 +85,30 @@ public class MessagesFragment extends Fragment implements ConversionListener {
             }
             Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
             conversationAdapter.notifyDataSetChanged();
-            if (binding != null) {
-                binding.conversationRecycler.smoothScrollToPosition(0);
-                binding.conversationRecycler.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+
+            if (this.root != null) {
+                this.recyclerView.smoothScrollToPosition(0);
+                this.recyclerView.setVisibility(View.VISIBLE);
+                this.progressBar.setVisibility(View.GONE);
             }
         }
     };
-    private UserManager userManager;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentMessagesBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        userManager = new UserManager(getActivity().getApplicationContext());
-        init();
-        getActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
-        ImageButton contactButt = binding.contactButton;
-        contactButt.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity().getApplicationContext(), UsersActivity.class));
-        });
-        getToken();
-        listenConversations();
+        this.root = inflater.inflate(R.layout.fragment_messages, container, false);
+        this.userManager = new UserManager(this.requireContext());
+        this.recyclerView = this.root.findViewById(R.id.conversation_recycler);
+        this.conversations = new ArrayList<>();
+        this.conversationAdapter = new RecentConversationAdapter(conversations, this);
+        this.recyclerView.setAdapter(conversationAdapter);
+        this.progressBar = this.root.findViewById(R.id.progress_bar);
+        this.requireActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+        ImageButton contactButton = this.root.findViewById(R.id.contact_button);
+        contactButton.setOnClickListener(v -> startActivity(new Intent(this.requireContext(), UsersActivity.class)));
+        this.getToken();
+        this.listenConversations();
         return root;
-    }
-
-    private void init() {
-        conversations = new ArrayList<>();
-        conversationAdapter = new RecentConversationAdapter(conversations, this);
-        binding.conversationRecycler.setAdapter(conversationAdapter);
     }
 
     private void getToken() {
@@ -115,11 +117,9 @@ public class MessagesFragment extends Fragment implements ConversionListener {
 
     private void updateToken(String token) {
         userManager.putString(Constants.KEY_FCM_TOKEN, token);
-        DocumentReference documentReference =
-                Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
-
+        DocumentReference documentReference = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Unable to update token", Toast.LENGTH_SHORT).show());
+        .addOnFailureListener(error -> Toast.makeText(getApplicationContext(), TOKEN_FAILED, Toast.LENGTH_SHORT).show());
     }
 
     private void listenConversations() {
@@ -133,15 +133,9 @@ public class MessagesFragment extends Fragment implements ConversionListener {
 
     @Override
     public void onConversionClicked(User user, String apartId) {
-        Intent intent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+        Intent intent = new Intent(requireContext(), ChatActivity.class);
         intent.putExtra(Constants.FROM, apartId);
         intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

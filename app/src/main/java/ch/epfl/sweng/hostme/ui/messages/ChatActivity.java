@@ -1,16 +1,24 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static ch.epfl.sweng.hostme.utils.Constants.FROM;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CONVERSATIONS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_LAST_MESSAGE;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_TIMESTAMP;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
@@ -35,7 +43,6 @@ import ch.epfl.sweng.hostme.chat.ChatMessage;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.databinding.ActivityChatBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Connection;
 import ch.epfl.sweng.hostme.utils.Constants;
@@ -44,9 +51,7 @@ import ch.epfl.sweng.hostme.wallet.Document;
 
 public class ChatActivity extends AppCompatActivity {
 
-    public static final String FROM = "from";
-    private static final String TAG = "chatA";
-    private ActivityChatBinding binding;
+    private static final String NO_INTERNET_MESSAGE = "You have no Internet connection";
     private User receiverUser;
     private String apartId;
     private List<ChatMessage> chatMessages;
@@ -54,11 +59,16 @@ public class ChatActivity extends AppCompatActivity {
     private String conversionId = null;
     private UserManager userManager;
     private String uid;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private EditText inputMessage;
+    private TextView textName;
+    private ImageView sendButt;
 
     private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-            conversionId = documentSnapshot.getId();
+            this.conversionId = documentSnapshot.getId();
         }
     };
 
@@ -68,7 +78,7 @@ public class ChatActivity extends AppCompatActivity {
             return;
         }
         if (value != null) {
-            int count = chatMessages.size();
+            int count = this.chatMessages.size();
             for (DocumentChange documentChange : value.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
                     ChatMessage chatMessage = new ChatMessage();
@@ -77,67 +87,67 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
                     chatMessage.isDocument = documentChange.getDocument().getBoolean(Constants.KEY_IS_DOCUMENT);
                     chatMessage.documentName = documentChange.getDocument().getString(Constants.KEY_DOCUMENT_NAME);
-                    chatMessage.dateTime = getReadableDataTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
-                    chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    chatMessage.dateTime = getReadableDataTime(documentChange.getDocument().getDate(KEY_TIMESTAMP));
+                    chatMessage.dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
                     chatMessage.apartId = documentChange.getDocument().getString(Constants.APART_ID);
-                    chatMessages.add(chatMessage);
+                    this.chatMessages.add(chatMessage);
                 }
             }
             Collections.sort(chatMessages, (obj1, obj2) -> obj1.dateObject.compareTo(obj2.dateObject));
             if (count == 0) {
-                chatAdapter.notifyDataSetChanged();
+                this.chatAdapter.notifyDataSetChanged();
             } else {
-                chatAdapter.notifyItemRangeInserted(chatMessages.size(), chatMessages.size());
-                binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size() - 1);
+                this.chatAdapter.notifyItemRangeInserted(chatMessages.size(), chatMessages.size());
+                this.recyclerView.smoothScrollToPosition(chatMessages.size() - 1);
             }
-            binding.chatRecyclerView.setVisibility(View.VISIBLE);
+            this.recyclerView.setVisibility(View.VISIBLE);
         }
-        binding.progressBar.setVisibility(View.GONE);
+        this.progressBar.setVisibility(View.GONE);
         if (conversionId == null) {
-            checkForConversion();
+            this.checkForConversion();
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChatBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_chat);
         userManager = new UserManager(getApplicationContext());
         uid = Auth.getUid();
-        setListeners();
-        loadReceiverDetails();
-        init();
-        listenMessages();
-        ImageView shareButt = findViewById(R.id.shareButton);
-        ImageView launchButt = findViewById(R.id.launchButt);
+
+        this.recyclerView = findViewById(R.id.chat_recycler_view);
+        this.progressBar = findViewById(R.id.progress_bar);
+        this.inputMessage = findViewById(R.id.input_message);
+        this.textName = findViewById(R.id.text_name);
+        this.sendButt = findViewById(R.id.send_button);
+
+        this.chatMessages = new ArrayList<>();
+        this.chatAdapter = new ChatAdapter(chatMessages, uid);
+        this.recyclerView.setAdapter(chatAdapter);
+        this.setListeners();
+        this.loadReceiverDetails();
+        this.listenMessages();
+
+        ImageView shareButt = findViewById(R.id.share_button);
+        ImageView launchButt = findViewById(R.id.launch_button);
         boolean isConnected = Connection.online(this);
         launchButt.setImageResource(isConnected ? R.drawable.video_call : R.drawable.no_video);
         shareButt.setOnClickListener(v -> {
             if (!isConnected) {
-                showToast("You have no Internet connection");
+                this.showToast();
             } else {
-                chooseDocumentsToShare();
+                this.chooseDocumentsToShare();
             }
         });
         launchButt.setOnClickListener(v -> {
             if (!isConnected) {
-                showToast("You have no Internet connection");
+                this.showToast();
             } else {
                 Intent intent = new Intent(this, CallActivity.class);
                 intent.putExtra("user", receiverUser);
                 startActivity(intent);
             }
         });
-    }
-
-    private void init() {
-        chatMessages = new ArrayList<>();
-        chatAdapter = new ChatAdapter(
-                chatMessages,
-                uid
-        );
-        binding.chatRecyclerView.setAdapter(chatAdapter);
     }
 
     private void sendMessage(String messageStr, boolean isDocument, String documentName) {
@@ -148,31 +158,28 @@ public class ChatActivity extends AppCompatActivity {
             message.put(Constants.KEY_MESSAGE, messageStr.trim());
             message.put(Constants.KEY_IS_DOCUMENT, isDocument);
             message.put(Constants.KEY_DOCUMENT_NAME, documentName);
-            message.put(Constants.KEY_TIMESTAMP, new Date());
+            message.put(KEY_TIMESTAMP, new Date());
             message.put(Constants.APART_ID, apartId);
-            Database.getCollection(Constants.KEY_COLLECTION_CHAT)
-                    .add(message)
-                    .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
-                    .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
-            addConversation(messageStr.trim());
-            sendNotification();
+            Database.getCollection(Constants.KEY_COLLECTION_CHAT).add(message);
+            this.addConversation(messageStr.trim());
+            this.sendNotification();
         }
     }
 
     private void addConversation(String messageStr) {
         if (conversionId != null) {
-            updateConversion(messageStr);
-            binding.inputMessage.setText(null);
+            this.updateConversion(messageStr);
+            this.inputMessage.setText(null);
         } else {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, uid);
             conversion.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
-            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
-            conversion.put(Constants.KEY_TIMESTAMP, new Date());
+            conversion.put(KEY_LAST_MESSAGE, this.inputMessage.getText().toString());
+            conversion.put(KEY_TIMESTAMP, new Date());
             conversion.put(Constants.APART_ID, apartId);
-            addConversion(conversion);
+            this.addConversion(conversion);
         }
     }
 
@@ -190,13 +197,13 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void loadReceiverDetails() {
-        receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
-        apartId = (String) getIntent().getSerializableExtra(Constants.FROM);
-        binding.textName.setText(receiverUser.name);
+        this.receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
+        this.apartId = (String) getIntent().getSerializableExtra(FROM);
+        this.textName.setText(receiverUser.name);
     }
 
     private void setListeners() {
-        binding.sendButt.setOnClickListener(v -> sendMessage(binding.inputMessage.getText().toString(), false, ""));
+        this.sendButt.setOnClickListener(v -> sendMessage(this.inputMessage.getText().toString(), false, ""));
     }
 
     @Override
@@ -207,7 +214,7 @@ public class ChatActivity extends AppCompatActivity {
             Intent intent = new Intent(this, UsersActivity.class);
             intent.putExtra(FROM, getIntent().getStringExtra(FROM));
             startActivity(intent);
-            finish();
+            this.finish();
         }
     }
 
@@ -217,35 +224,26 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void addConversion(HashMap<String, Object> conversion) {
-        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+        Database.getCollection(KEY_COLLECTION_CONVERSATIONS)
                 .add(conversion)
                 .addOnSuccessListener(documentReference -> conversionId = documentReference.getId());
     }
 
     private void updateConversion(String message) {
         DocumentReference documentReference =
-                Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
-        documentReference.update(
-                Constants.KEY_LAST_MESSAGE, message,
-                Constants.KEY_TIMESTAMP, new Date()
-        );
+                Database.getCollection(KEY_COLLECTION_CONVERSATIONS).document(conversionId);
+        documentReference.update(KEY_LAST_MESSAGE, message, KEY_TIMESTAMP, new Date());
     }
 
     private void checkForConversion() {
         if (chatMessages.size() != 0) {
-            checkForConversionRemotely(
-                    uid,
-                    receiverUser.id
-            );
-            checkForConversionRemotely(
-                    receiverUser.id,
-                    uid
-            );
+            this.checkForConversionRemotely(uid, receiverUser.id);
+            this.checkForConversionRemotely(receiverUser.id, uid);
         }
     }
 
     private void checkForConversionRemotely(String senderId, String receiverId) {
-        Database.getCollection(Constants.KEY_COLLECTION_CONVERSATIONS)
+        Database.getCollection(KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
                 .whereEqualTo(Constants.APART_ID, apartId)
@@ -257,15 +255,11 @@ public class ChatActivity extends AppCompatActivity {
         FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message",
                 " From : " + userManager.getString(Constants.KEY_SENDER_NAME), getApplicationContext(), ChatActivity.this);
         sender.sendNotifications();
-        binding.inputMessage.setText(null);
+        this.inputMessage.setText(null);
     }
 
-    private void showToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void chooseDocumentsToShare() {
-        showDocumentsPickDialog();
+    private void showToast() {
+        Toast.makeText(getApplicationContext(), NO_INTERNET_MESSAGE, Toast.LENGTH_SHORT).show();
     }
 
     private String[] getDocumentsNames() {
@@ -277,23 +271,20 @@ public class ChatActivity extends AppCompatActivity {
         return list.toArray(new String[Document.values().length]);
     }
 
-    private void showDocumentsPickDialog() {
+    private void chooseDocumentsToShare() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Documents you want to share");
         String[] items = getDocumentsNames();
         ArrayList<Document> itemsSelected = new ArrayList<>();
         builder.setMultiChoiceItems(items, null,
-                        (dialog, selectedItemId, isSelected) -> {
-                            if (isSelected) {
-                                itemsSelected.add(Document.values()[selectedItemId]);
-                            } else itemsSelected.remove(Document.values()[selectedItemId]);
-                        })
-                .setPositiveButton("Share", (dialog, id) -> {
-                    sendDocuments(itemsSelected);
+                (dialog, selectedItemId, isSelected) -> {
+                    if (isSelected) {
+                        itemsSelected.add(Document.values()[selectedItemId]);
+                    } else itemsSelected.remove(Document.values()[selectedItemId]);
                 })
-                .setNegativeButton("Cancel", (dialog, id) -> {
-                });
-
+        .setPositiveButton("Share", (dialog, id) -> sendDocuments(itemsSelected))
+        .setNegativeButton("Cancel", (dialog, id) -> {
+        });
         builder.create().show();
     }
 
@@ -301,9 +292,7 @@ public class ChatActivity extends AppCompatActivity {
         for (Document doc : documentsToShare) {
             String pathString = doc.getPath() + uid + "/" + doc.getFileName() + doc.getFileExtension();
             StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
-            fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                sendMessage(uri.toString(), true, doc.getDocumentName());
-            }).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents! \n Check in your wallet if documents are correctly uploaded!", Toast.LENGTH_SHORT).show());
+            fileRef.getDownloadUrl().addOnSuccessListener(uri -> sendMessage(uri.toString(), true, doc.getDocumentName())).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents! \n Check in your wallet if documents are correctly uploaded!", Toast.LENGTH_SHORT).show());
         }
     }
 

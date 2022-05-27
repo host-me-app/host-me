@@ -58,7 +58,7 @@
     <string name="chf_per_month">.-CHF/ month</string>
     <string name="chf_once">.-CHF</string>
     <string name="enter_area_hint">in m\u00B2</string>
-    <string name="enter_beds_"></string>
+    <string name="enter_beds_">beds</string>
     <string name="enter_proprietor_hint">Your Name/ Organization</string>
     <string name="enter_duration_hint">in months</string>
     <string name="upload_images">Upload Images</string>
@@ -68,6 +68,8 @@
     <string name="change_file">Change file</string>
     <string name="type_message">Type a Message</string>
     <string name="agora_app_id">1e2e55c0fb1a47a6b39114a961df8573</string>
+    <string name="agora_certificate">fd11cdf9c54d490c9756be9d087c5293</string>
+    <string name="fcm_server_key">AAAAynpb0cU:APA91bE270JfYV-p1HuLo1nq-ENrwmk9ZZ0Qbj-D37jpVc9YGS2N-wWy-bYfmK12xOtsp5XmIiGgV1w7sxJxbeeS5TEDtrfHoztvH7F7pc7dyNwhr6sd-BXtUBWN9JqNtlXAfi1NSmHe</string>
 
     <string name="daily_route">Daily route</string>
     <string name="street_view">Street view</string>

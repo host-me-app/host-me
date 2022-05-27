@@ -63,20 +63,20 @@ public class CallTest {
                     RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(500);
             onView(withId(R.id.contact_user_button)).perform(click());
-            onView(withId(R.id.launchButt)).perform(click());
+            onView(withId(R.id.launch_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.audioBtn)).perform(click());
+            onView(withId(R.id.audio_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.audioBtn)).perform(click());
-            onView(withId(R.id.videoBtn)).perform(click());
+            onView(withId(R.id.audio_button)).perform(click());
+            onView(withId(R.id.audio_button)).perform(click());
+            onView(withId(R.id.video_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.videoBtn)).perform(click());
+            onView(withId(R.id.video_button)).perform(click());
             onView(withId(R.id.switch_camera)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.switch_camera)).perform(click());
             Thread.sleep(500);
-            onView(withId(R.id.leaveBtn)).perform(click());
+            onView(withId(R.id.leave_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -11,8 +11,6 @@ public class RtcTokenBuilder {
 
     public String buildTokenWithUserAccount(String appId, String appCertificate,
                                             String channelName, String account, Role role, int privilegeTs) {
-
-        // Assign appropriate access privileges to each role.
         AccessToken builder = new AccessToken(appId, appCertificate, channelName, account);
         builder.addPrivilege(AccessToken.Privileges.kJoinChannel, privilegeTs);
         if (role == Role.Role_Publisher || role == Role.Role_Subscriber || role == Role.Role_Admin) {
@@ -30,13 +28,10 @@ public class RtcTokenBuilder {
 
     public enum Role {
         Role_Publisher(1),
-
         Role_Subscriber(2),
-
         Role_Admin(101);
 
         public int initValue;
-
         Role(int initValue) {
             this.initValue = initValue;
         }

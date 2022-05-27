@@ -65,9 +65,9 @@ public class ChatActivityTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
             onView(withId(R.id.text_name)).check(matches(isDisplayed()));
@@ -94,11 +94,11 @@ public class ChatActivityTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.chatInfo)).check(matches(isDisplayed()));
+            onView(withId(R.id.chat_info)).check(matches(isDisplayed()));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -122,11 +122,11 @@ public class ChatActivityTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.viewBackground)).check(matches(isDisplayed()));
+            onView(withId(R.id.view_background)).check(matches(isDisplayed()));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -150,13 +150,13 @@ public class ChatActivityTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.layoutSend)).check(matches(isDisplayed()));
-            onView(withId(R.id.sendButt)).check(matches(isDisplayed()));
-            onView(withId(R.id.inputMessage)).check(matches(isDisplayed()));
+            onView(withId(R.id.layout_send)).check(matches(isDisplayed()));
+            onView(withId(R.id.send_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.input_message)).check(matches(isDisplayed()));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -180,19 +180,19 @@ public class ChatActivityTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
             Thread.sleep(1000);
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
             String message = "hello";
-            onView(withId(R.id.inputMessage)).perform(typeText(message), closeSoftKeyboard());
+            onView(withId(R.id.input_message)).perform(typeText(message), closeSoftKeyboard());
             Thread.sleep(1000);
             Thread.sleep(1000);
-            onView(withId(R.id.sendButt)).perform(click());
+            onView(withId(R.id.send_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.inputMessage)).equals("");
+            onView(withId(R.id.input_message)).equals("");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -214,19 +214,19 @@ public class ChatActivityTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
             Thread.sleep(1000);
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
             Thread.sleep(1000);
             String message = "test convo";
-            onView(withId(R.id.inputMessage)).perform(typeText(message), closeSoftKeyboard());
+            onView(withId(R.id.input_message)).perform(typeText(message), closeSoftKeyboard());
             Thread.sleep(1000);
             Thread.sleep(1000);
-            onView(withId(R.id.sendButt)).perform(click());
+            onView(withId(R.id.send_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.inputMessage)).equals("");
+            onView(withId(R.id.input_message)).equals("");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -248,10 +248,10 @@ public class ChatActivityTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
             Thread.sleep(1000);
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
             Thread.sleep(1000);
             onView(isRoot()).perform(ViewActions.pressBack());

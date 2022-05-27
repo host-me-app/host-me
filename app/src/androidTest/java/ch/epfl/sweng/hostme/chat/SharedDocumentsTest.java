@@ -69,12 +69,12 @@ public class SharedDocumentsTest {
             onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_messages)).perform(click());
-            onView(withId(R.id.contactButton)).perform(click());
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.contact_button)).perform(click());
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
 
-            onView(withId(R.id.shareButton)).perform(click());
+            onView(withId(R.id.share_button)).perform(click());
             onView(withText("CANCEL")).perform(click());
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,11 +108,11 @@ public class SharedDocumentsTest {
             onView(isRoot()).perform(ViewActions.pressBack());
 
             onView(withId(R.id.navigation_messages)).perform(click());
-            onView(withId(R.id.contactButton)).perform(click());
-            onView(withId(R.id.usersRecyclerView))
+            onView(withId(R.id.contact_button)).perform(click());
+            onView(withId(R.id.users_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            onView(withId(R.id.shareButton)).perform(click());
+            onView(withId(R.id.share_button)).perform(click());
             onView(withText("Salary Slips")).perform(click());
             onView(withText("Extract from the Execution Office")).perform(click());
             onView(withText("SHARE")).perform(click());

@@ -8,7 +8,7 @@
     tools:context=".ui.messages.MessagesFragment">
 
     <ImageView
-        android:id="@+id/imageProfileChat"
+        android:id="@+id/image_profile_chat"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:width="275dp"
@@ -23,7 +23,7 @@
         app:tint="@color/black" />
 
     <TextView
-        android:id="@+id/textHome"
+        android:id="@+id/text_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -31,13 +31,13 @@
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/contactButton"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageProfileChat" />
+        app:layout_constraintTop_toTopOf="@id/image_profile_chat" />
 
     <ImageButton
-        android:id="@+id/contactButton"
+        android:id="@+id/contact_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_purple"
@@ -51,16 +51,16 @@
         app:tint="@color/black" />
 
     <FrameLayout
-        android:id="@+id/FrameConv"
+        android:id="@+id/frame_conv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/content_bottom_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageProfileChat">
+        app:layout_constraintTop_toBottomOf="@id/image_profile_chat">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/conversationRecycler"
+            android:id="@+id/conversation_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
@@ -71,7 +71,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar
-            android:id="@id/progressBar"
+            android:id="@id/progress_bar"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center" />

@@ -58,8 +58,8 @@ public class MessagesFragmentTest {
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.contactButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.contactButton)).perform(click());
+            onView(withId(R.id.contact_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.contact_button)).perform(click());
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -77,7 +77,7 @@ public class MessagesFragmentTest {
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.imageProfileChat)).check(matches(isDisplayed()));
+            onView(withId(R.id.image_profile_chat)).check(matches(isDisplayed()));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -96,8 +96,8 @@ public class MessagesFragmentTest {
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.textHome)).check(matches(isDisplayed()));
-            onView(withId(R.id.textHome)).check(matches(withText(m)));
+            onView(withId(R.id.text_home)).check(matches(isDisplayed()));
+            onView(withId(R.id.text_home)).check(matches(withText(m)));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -115,8 +115,8 @@ public class MessagesFragmentTest {
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.FrameConv)).check(matches(isDisplayed()));
-            onView(withId(R.id.conversationRecycler)).check(matches(isDisplayed()));
+            onView(withId(R.id.frame_conv)).check(matches(isDisplayed()));
+            onView(withId(R.id.conversation_recycler)).check(matches(isDisplayed()));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -140,7 +140,7 @@ public class MessagesFragmentTest {
 
             onView(withId(R.id.navigation_messages)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.conversationRecycler))
+            onView(withId(R.id.conversation_recycler))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
 

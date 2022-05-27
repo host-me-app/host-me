@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.maps;
 
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -47,12 +49,11 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            this.fullAddress = bundle.getString("address");
+        this.fullAddress = bundle.getString(ADDRESS);
         }
 
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment =
-                (SupportStreetViewPanoramaFragment)
-                        getChildFragmentManager().findFragmentById(R.id.street_view_panorama);
+                (SupportStreetViewPanoramaFragment) getChildFragmentManager().findFragmentById(R.id.street_view_panorama);
         Objects.requireNonNull(streetViewPanoramaFragment).getStreetViewPanoramaAsync(this);
 
         sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -78,11 +79,26 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int i) {
-
             }
         };
 
         return root;
+    }
+
+    @Override
+    public void onStreetViewPanoramaReady(@NonNull StreetViewPanorama streetViewPanorama) {
+        streetViewPan = streetViewPanorama;
+        Geocoder coder = new Geocoder(this.getContext());
+        List<Address> address;
+        try {
+            address = coder.getFromLocationName(this.fullAddress, 1);
+            Address location = address.get(0);
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            streetViewPan.setPosition(latlng, StreetViewSource.OUTDOOR);
+            streetViewPan.setZoomGesturesEnabled(false);
+            streetViewPan.setPanningGesturesEnabled(false);
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
@@ -100,22 +116,6 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
     @Override
     public boolean onBackPressed() {
         return false;
-    }
-
-    @Override
-    public void onStreetViewPanoramaReady(@NonNull StreetViewPanorama streetViewPanorama) {
-        streetViewPan = streetViewPanorama;
-        Geocoder coder = new Geocoder(this.getContext());
-        List<Address> address;
-        try {
-            address = coder.getFromLocationName(this.fullAddress, 1);
-            Address location = address.get(0);
-            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-            streetViewPan.setPosition(latlng, StreetViewSource.OUTDOOR);
-            streetViewPan.setZoomGesturesEnabled(false);
-            streetViewPan.setPanningGesturesEnabled(false);
-        } catch (Exception ignored) {
-        }
     }
 }
 

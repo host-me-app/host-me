@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.userCreation;
 
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -103,7 +105,7 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
                 DATA.get(FragmentCreationPage4.SCHOOL)
         );
 
-        Database.getCollection("users").document(Auth.getUid()).set(user);
+        Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid()).set(user);
     }
 
     @Override

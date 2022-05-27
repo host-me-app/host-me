@@ -103,7 +103,6 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
         userManager = new UserManager(getApplicationContext());
         uid = Auth.getUid();

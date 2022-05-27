@@ -29,7 +29,6 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityUsersBinding.inflate(getLayoutInflater());
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
         getUsers();
     }

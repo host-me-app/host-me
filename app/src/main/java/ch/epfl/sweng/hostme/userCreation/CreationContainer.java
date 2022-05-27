@@ -18,8 +18,6 @@ public class CreationContainer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty);
 
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, new FragmentCreationPage1());
         fragmentTransaction.commit();

@@ -48,6 +48,8 @@
 
         <activity
             android:name=".ui.messages.CallActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.messages.ChatActivity"
@@ -80,7 +82,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".userCreation.EnterMailChangePwd"
+            android:name=".userCreation.ChangePasswordActivity"
             android:parentActivityName=".LogInActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

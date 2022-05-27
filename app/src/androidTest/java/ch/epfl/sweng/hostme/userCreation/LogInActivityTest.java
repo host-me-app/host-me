@@ -50,17 +50,17 @@ public class LogInActivityTest {
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String email = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
-            onView(ViewMatchers.withId(R.id.userName)).check(matches(isDisplayed()));
+            onView(ViewMatchers.withId(R.id.user_name)).check(matches(isDisplayed()));
             onView(withId(R.id.pwd)).check(matches(isDisplayed()));
 
-            onView(withId(R.id.userName)).perform(clearText()).perform(typeText(email), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(clearText()).perform(typeText(email), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(clearText()).perform(typeText(pwd), closeSoftKeyboard());
 
-            onView(withId(R.id.userName)).check(matches(withText(email)));
+            onView(withId(R.id.user_name)).check(matches(withText(email)));
             onView(withId(R.id.pwd)).check(matches(withText(pwd)));
 
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -75,17 +75,17 @@ public class LogInActivityTest {
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String email = "testlogin@gmail.com";
             String pwd = "fakepassword";
-            onView(withId(R.id.userName)).check(matches(isDisplayed()));
+            onView(withId(R.id.user_name)).check(matches(isDisplayed()));
             onView(withId(R.id.pwd)).check(matches(isDisplayed()));
 
-            onView(withId(R.id.userName)).perform(clearText()).perform(typeText(email), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(clearText()).perform(typeText(email), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(clearText()).perform(typeText(pwd), closeSoftKeyboard());
 
-            onView(withId(R.id.userName)).check(matches(withText(email)));
+            onView(withId(R.id.user_name)).check(matches(withText(email)));
             onView(withId(R.id.pwd)).check(matches(withText(pwd)));
 
-            onView(withId(R.id.logInButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -98,8 +98,8 @@ public class LogInActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            onView(withId(R.id.signUpButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.signUpButton)).perform(click());
+            onView(withId(R.id.sign_up_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.sign_up_button)).perform(click());
         }
         Intents.release();
     }
@@ -109,8 +109,8 @@ public class LogInActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            onView(withId(R.id.forgotPassword)).check(matches(isDisplayed()));
-            onView(withId(R.id.forgotPassword)).perform(click());
+            onView(withId(R.id.forgot_password)).check(matches(isDisplayed()));
+            onView(withId(R.id.forgot_password)).perform(click());
         }
         Intents.release();
     }

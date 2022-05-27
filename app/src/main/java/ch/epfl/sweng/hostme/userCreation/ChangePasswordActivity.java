@@ -17,7 +17,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 
-public class EnterMailChangePwd extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
     private EditText mail;
     private Button sendPwd;
     private final TextWatcher sendMailTextWatcher = new TextWatcher() {
@@ -40,7 +40,6 @@ public class EnterMailChangePwd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_pwd);
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
 
         mail = findViewById(R.id.mailForgotPwd);
         mail.addTextChangedListener(sendMailTextWatcher);

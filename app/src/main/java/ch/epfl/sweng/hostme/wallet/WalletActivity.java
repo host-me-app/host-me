@@ -23,8 +23,6 @@ public class WalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.walletcard);
 
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
-
         String uid = Auth.getUid();
         documentUploader = new ArrayList<>();
         for (Document doc : Document.values()) {

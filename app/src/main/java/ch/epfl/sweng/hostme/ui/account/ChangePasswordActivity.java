@@ -30,8 +30,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
-
         editOldPassword = findViewById(R.id.userProfileOldPassword);
         editNewPassword = findViewById(R.id.userProfileNewPassword);
         editConfirmNewPassword = findViewById(R.id.userProfileConfirmNewPassword);

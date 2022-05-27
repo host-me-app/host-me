@@ -44,7 +44,7 @@ public class ChangePwdTest {
 
     @Test
     public void enterWrongMail() {
-        Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
+        Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String wrongMail = "host.me@gmail.com";
@@ -60,7 +60,7 @@ public class ChangePwdTest {
 
     @Test
     public void enterValidMail() {
-        Intent intent = new Intent(getApplicationContext(), EnterMailChangePwd.class);
+        Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String validMail = "testlogin@gmail.com";

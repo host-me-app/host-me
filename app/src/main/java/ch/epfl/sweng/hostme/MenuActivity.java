@@ -3,7 +3,6 @@ package ch.epfl.sweng.hostme;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
+import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.account.AccountFragment;
 import ch.epfl.sweng.hostme.ui.add.AddFragment;
@@ -24,17 +22,14 @@ import ch.epfl.sweng.hostme.ui.search.SearchFragment;
 import ch.epfl.sweng.hostme.utils.Constants;
 
 public class MenuActivity extends AppCompatActivity {
-
-    private static final String PREF_USER_NAME = "username";
     private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu1);
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
+        setContentView(R.layout.activity_menu);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_USER_NAME, "").length() == 0) {
+        if (Auth.getCurrentUser() == null) {
             startActivity(new Intent(this, LogInActivity.class));
         } else {
             BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -60,15 +55,10 @@ public class MenuActivity extends AppCompatActivity {
                 findViewById(R.id.navigation_messages).performClick();
             }
         }
-
-
     }
 
     /**
      * Set the corresponding Item to checked
-     *
-     * @param position
-     * @param navView
      */
     private void setCheckedItem(int position, BottomNavigationView navView) {
         switch (position) {
@@ -91,9 +81,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     /**
-     * set the current item
-     *
-     * @param item
+     * Set the current item
      */
     @SuppressLint("NonConstantResourceId")
     private void setCurrentItem(MenuItem item) {
@@ -118,8 +106,6 @@ public class MenuActivity extends AppCompatActivity {
 
     /**
      * set up the viewPage
-     *
-     * @param viewPager
      */
     private void setupViewPager(ViewPager2 viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getLifecycle());

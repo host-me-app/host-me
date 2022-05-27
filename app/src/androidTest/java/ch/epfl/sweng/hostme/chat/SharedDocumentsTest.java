@@ -8,7 +8,7 @@ import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -26,10 +26,6 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -78,11 +74,8 @@ public class SharedDocumentsTest {
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
             onView(withId(R.id.shareButton)).perform(click());
-            UiObject cancel = device.findObject(new UiSelector().text("CANCEL"));
-            cancel.click();
-
+            onView(withText("CANCEL")).perform(click());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,16 +112,12 @@ public class SharedDocumentsTest {
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
             onView(withId(R.id.shareButton)).perform(click());
-            UiObject pick_salary = device.findObject(new UiSelector().text("Salary Slips"));
-            pick_salary.click();
-            UiObject pick_extract = device.findObject(new UiSelector().text("Extract from the Execution Office"));
-            pick_extract.click();
-            UiObject confirm = device.findObject(new UiSelector().text("SHARE"));
-            confirm.click();
+            onView(withText("Salary Slips")).perform(click());
+            onView(withText("Extract from the Execution Office")).perform(click());
+            onView(withText("SHARE")).perform(click());
             Thread.sleep(1000);
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

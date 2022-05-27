@@ -97,7 +97,6 @@ public class FavoritesFragment extends Fragment {
                 .get()
                 .addOnSuccessListener(result -> {
                     Apartment apartment = result.toObject(Apartment.class);
-                    apartment.setDocID(result.getId());
                     apartments.add(apartment);
                     displayRecycler(apartments);
                 });

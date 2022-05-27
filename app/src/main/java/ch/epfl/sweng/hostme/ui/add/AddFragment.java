@@ -1,10 +1,5 @@
 package ch.epfl.sweng.hostme.ui.add;
 
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
-
-import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
-import static ch.epfl.sweng.hostme.utils.Constants.UID;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -47,12 +42,12 @@ import ch.epfl.sweng.hostme.databinding.FragmentAddBinding;
 import ch.epfl.sweng.hostme.ui.search.ApartmentAdapter;
 import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.utils.Connection;
+import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.ListImage;
-import ch.epfl.sweng.hostme.utils.Listing;
 
 public class AddFragment extends Fragment {
     private static final String ADDED = "Listing created !";
-    private final CollectionReference DB = Database.getCollection(APARTMENTS);
+    private final CollectionReference DB = Database.getCollection(Constants.APARTMENTS);
     private final String USR = Auth.getUid();
     private FragmentAddBinding binding;
     private AddViewModel addViewModel;
@@ -87,8 +82,9 @@ public class AddFragment extends Fragment {
         final Button addSubmit = binding.addSubmit;
         final FloatingActionButton addNew = binding.addNew;
         enterImages.setOnClickListener(v -> {
-            addViewModel.formPath(Objects.requireNonNull(formFields.get("proprietor")), Objects.requireNonNull(formFields.get("name")),
-                    Objects.requireNonNull(formFields.get("room")));
+            addViewModel.formPath(Objects.requireNonNull(formFields.get(Constants.PROPRIETOR)),
+                    Objects.requireNonNull(formFields.get(Constants.NAME)),
+                    Objects.requireNonNull(formFields.get(Constants.ROOM)));
             if (ListImage.getPath() == null || !ListImage.getPath().equals(addViewModel.formPath().getValue())) {
                 ListImage.init(addViewModel.formPath().getValue(), this, this.getContext());
             }
@@ -97,10 +93,10 @@ public class AddFragment extends Fragment {
             addViewModel.key(addSubmit);
         });
         addSubmit.setOnClickListener(v -> {
-            generateApartment(root);
+            myListings.add(generateApartment(root));
+            ownerView.getAdapter().notifyItemInserted(myListings.size() - 1);
             clearForm();
             ListImage.clear();
-            checkBin();
             formTransition(addForm, addButtons);
         });
 
@@ -125,7 +121,7 @@ public class AddFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getClipData() != null) {
+        if (requestCode == Constants.REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getClipData() != null) {
             ListImage.onAcceptImage(resultCode, data.getClipData());
         }
     }
@@ -137,18 +133,18 @@ public class AddFragment extends Fragment {
     }
 
     private void textValidation() {
-        formFields.put("proprietor", binding.enterProprietor);
-        formFields.put("name", binding.enterName);
-        formFields.put("room", binding.enterRoom);
-        formFields.put("address", binding.enterAddress);
-        formFields.put("npa", binding.enterNpa);
-        formFields.put("city", binding.enterCity);
-        formFields.put("rent", binding.enterRent);
-        formFields.put("utilities", binding.enterUtilities);
-        formFields.put("deposit", binding.enterDeposit);
-        formFields.put("beds", binding.enterBeds);
-        formFields.put("area", binding.enterArea);
-        formFields.put("duration", binding.enterDuration);
+        formFields.put(Constants.PROPRIETOR, binding.enterProprietor);
+        formFields.put(Constants.NAME, binding.enterName);
+        formFields.put(Constants.ROOM, binding.enterRoom);
+        formFields.put(Constants.ADDRESS, binding.enterAddress);
+        formFields.put(Constants.NPA, binding.enterNpa);
+        formFields.put(Constants.CITY, binding.enterCity);
+        formFields.put(Constants.RENT, binding.enterRent);
+        formFields.put(Constants.UTILITIES, binding.enterUtilities);
+        formFields.put(Constants.DEPOSIT, binding.enterDeposit);
+        formFields.put(Constants.BEDS, binding.enterBeds);
+        formFields.put(Constants.AREA, binding.enterArea);
+        formFields.put(Constants.DURATION, binding.enterDuration);
 
         for (String it : formFields.keySet()) {
             EditText ref = formFields.get(it);
@@ -162,9 +158,9 @@ public class AddFragment extends Fragment {
     }
 
     private void spinUp() {
-        dropDowns.put("bath", binding.selectBath);
-        dropDowns.put("kitchen", binding.selectKitchen);
-        dropDowns.put("laundry", binding.selectLaundry);
+        dropDowns.put(Constants.BATH, binding.selectBath);
+        dropDowns.put(Constants.KITCHEN, binding.selectKitchen);
+        dropDowns.put(Constants.LAUNDRY, binding.selectLaundry);
 
         ArrayAdapter<CharSequence> arr = ArrayAdapter.createFromResource(this.getContext(),
                 R.array.privacy_enum, android.R.layout.simple_spinner_item);
@@ -186,42 +182,49 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private void generateApartment(View root) {
+    private Apartment generateApartment(View root) {
         JSONObject fields = new JSONObject();
         String[] privacy = getResources().getStringArray(R.array.privacy_enum);
         Button furn = root.findViewById(selectFurnished.getCheckedRadioButtonId());
         Button pet = root.findViewById(selectPets.getCheckedRadioButtonId());
         try {
-            fields.put("name", Objects.requireNonNull(formFields.get("name")).getText().toString());
-            fields.put("room", Objects.requireNonNull(formFields.get("room")).getText().toString());
-            fields.put("address", Objects.requireNonNull(formFields.get("address")).getText().toString());
-            fields.put("npa", Integer.valueOf(Objects.requireNonNull(formFields.get("npa")).getText().toString()));
-            fields.put("city", Objects.requireNonNull(formFields.get("city")).getText().toString());
-            fields.put("rent", Integer.valueOf(Objects.requireNonNull(formFields.get("rent")).getText().toString()));
-            fields.put("beds", Integer.valueOf(Objects.requireNonNull(formFields.get("beds")).getText().toString()));
-            fields.put("area", Integer.valueOf(Objects.requireNonNull(formFields.get("area")).getText().toString()));
-            fields.put("furnished", furn.getText().toString().equals("yes"));
-            fields.put("bath", privacy[Objects.requireNonNull(dropDowns.get("bath")).getSelectedItemPosition()]);
-            fields.put("kitchen", privacy[Objects.requireNonNull(dropDowns.get("kitchen")).getSelectedItemPosition()]);
-            fields.put("laundry", privacy[Objects.requireNonNull(dropDowns.get("laundry")).getSelectedItemPosition()]);
-            fields.put("pets", pet.getText().toString().equals("yes"));
-            fields.put("imagePath", addViewModel.formPath().getValue());
-            fields.put("proprietor", Objects.requireNonNull(formFields.get("proprietor")).getText().toString());
-            fields.put("uid", USR);
-            fields.put("utilities", Integer.valueOf(Objects.requireNonNull(formFields.get("utilities")).getText().toString()));
-            fields.put("deposit", Integer.valueOf(Objects.requireNonNull(formFields.get("deposit")).getText().toString()));
-            fields.put("duration", Objects.requireNonNull(formFields.get("duration")).getText().toString());
+            fields.put(Constants.NAME, Objects.requireNonNull(formFields.get(Constants.NAME)).getText().toString());
+            fields.put(Constants.ROOM, Objects.requireNonNull(formFields.get(Constants.ROOM)).getText().toString());
+            fields.put(Constants.ADDRESS, Objects.requireNonNull(formFields.get(Constants.ADDRESS)).getText().toString());
+            fields.put(Constants.NPA, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.NPA)).getText().toString()));
+            fields.put(Constants.CITY, Objects.requireNonNull(formFields.get(Constants.CITY)).getText().toString());
+            fields.put(Constants.RENT, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.RENT)).getText().toString()));
+            fields.put(Constants.BEDS, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.BEDS)).getText().toString()));
+            fields.put(Constants.AREA, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.AREA)).getText().toString()));
+            fields.put(Constants.FURNISHED, furn.getText().toString().equals("yes"));
+            fields.put(Constants.BATH, privacy[Objects.requireNonNull(dropDowns.get(Constants.BATH)).getSelectedItemPosition()]);
+            fields.put(Constants.KITCHEN, privacy[Objects.requireNonNull(dropDowns.get(Constants.KITCHEN)).getSelectedItemPosition()]);
+            fields.put(Constants.LAUNDRY, privacy[Objects.requireNonNull(dropDowns.get(Constants.LAUNDRY)).getSelectedItemPosition()]);
+            fields.put(Constants.PETS, pet.getText().toString().equals("yes"));
+            fields.put(Constants.IMAGE_PATH, addViewModel.formPath().getValue());
+            fields.put(Constants.PROPRIETOR, Objects.requireNonNull(formFields.get(Constants.PROPRIETOR)).getText().toString());
+            fields.put(Constants.UID, USR);
+            fields.put(Constants.UTILITIES, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.UTILITIES)).getText().toString()));
+            fields.put(Constants.DEPOSIT, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.DEPOSIT)).getText().toString()));
+            fields.put(Constants.DURATION, Objects.requireNonNull(formFields.get(Constants.DURATION)).getText().toString());
         } catch (Exception ignored) {
         }
 
         ListImage.pushImages();
-        Listing ret = new Listing(fields);
-        DB.add(ret).addOnSuccessListener(doc -> Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show());
+        Apartment ret = new Apartment(fields);
+
+        DB.add(ret).addOnSuccessListener(doc -> {
+            Map<String, Object> addition = new HashMap<>();
+            addition.put("docId", doc.getId());
+            doc.update(addition);
+            Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show();
+        });
+        return ret;
     }
 
     private void checkBin() {
         myListings.clear();
-        DB.whereEqualTo(UID, USR).get().addOnSuccessListener(q -> {
+        DB.whereEqualTo(Constants.UID, USR).get().addOnSuccessListener(q -> {
             if (q.isEmpty()) {
                 ownerView.setVisibility(View.GONE);
                 notOwner.setVisibility(View.VISIBLE);

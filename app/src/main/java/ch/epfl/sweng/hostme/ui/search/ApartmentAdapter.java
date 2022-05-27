@@ -1,7 +1,7 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static android.content.Context.MODE_PRIVATE;
-import static ch.epfl.sweng.hostme.utils.Constants.ADDR;
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
@@ -95,7 +95,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
         SharedPreferences pref = holder.itemView.getContext()
                 .getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE);
-        String state = pref.getString(apartment.getDocID() + "pressed", "no");
+        String state = pref.getString(apartment.getDocId() + "pressed", "no");
         if (isFavFragment) {
             holder.favouriteButton.setChecked(true);
         } else {
@@ -120,17 +120,17 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                 getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE).edit();
         if (!preferences.getBoolean(IS_FROM_FILTERS, true)) {
             if (isAdded) {
-                favMap.put(apartment.getDocID(), true);
-                editor.putString(apartment.getDocID() + "pressed", "yes");
+                favMap.put(apartment.getDocId(), true);
+                editor.putString(apartment.getDocId() + "pressed", "yes");
                 editor.apply();
                 documentRef.get()
                         .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {
-                                documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocID()));
+                                documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocId()));
                             } else {
                                 Map<String, ArrayList> mapData = new HashMap<>();
                                 ArrayList<String> favorites = new ArrayList<>();
-                                favorites.add(apartment.getDocID());
+                                favorites.add(apartment.getDocId());
                                 mapData.put(FAVORITES, favorites);
                                 documentRef.set(mapData);
                             }
@@ -138,13 +138,13 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                     Toast.LENGTH_SHORT).show();
                         });
             } else {
-                favMap.put(apartment.getDocID(), false);
-                editor.putString(apartment.getDocID() + "pressed", "no");
+                favMap.put(apartment.getDocId(), false);
+                editor.putString(apartment.getDocId() + "pressed", "no");
                 editor.apply();
                 documentRef.get()
                         .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {
-                                documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocID()));
+                                documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocId()));
                             }
                         });
                 Toast.makeText(view.getContext(), "Apartment removed from your favorites",
@@ -196,15 +196,15 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        bundle.putString(APART_ID, apartment.getDocID());
+        bundle.putString(APART_ID, apartment.getDocId());
         bundle.putString(UID, apartment.getUid());
-        bundle.putString(ADDR, apartment.getAddress());
+        bundle.putString(ADDRESS, apartment.getAddress());
         bundle.putInt(NPA, apartment.getNpa());
         bundle.putString(CITY, apartment.getCity());
         bundle.putInt(RENT, apartment.getRent());
         bundle.putInt(AREA, apartment.getArea());
         bundle.putString(PROPRIETOR, apartment.getProprietor());
-        bundle.putParcelable(BITMAP, hashMap.get(apartment.getDocID()));
+        bundle.putParcelable(BITMAP, hashMap.get(apartment.getDocId()));
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
@@ -225,14 +225,13 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
         StorageReference storageReference = Storage.getStorageReferenceByChild(model.getImagePath() + PREVIEW_1_JPG);
-        if (!bitmapPreferences.getString(model.getDocID(), "").equals("")) {
-            System.out.println("Je passe ");
-            String encodedImage = bitmapPreferences.getString(model.getDocID(), "");
+        if (!bitmapPreferences.getString(model.getDocId(), "").equals("")) {
+            String encodedImage = bitmapPreferences.getString(model.getDocId(), "");
             byte[] b = Base64.decode(encodedImage, Base64.DEFAULT);
             Bitmap bitmapImage = BitmapFactory.decodeByteArray(b, 0, b.length);
             holder.image.setImageBitmap(bitmapImage);
             loadingBar.setVisibility(View.GONE);
-            hashMap.put(model.getDocID(), bitmapImage);
+            hashMap.put(model.getDocId(), bitmapImage);
         } else {
             try {
                 final File localFile = File.createTempFile("preview1", "jpg");
@@ -243,8 +242,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                             if (isFavFragment) {
                                 saveBitmap(model, bitmap);
                             }
-                            model.setBitmap(bitmap);
-                            hashMap.put(model.getDocID(), bitmap);
+                            model.setImage(bitmap);
+                            hashMap.put(model.getDocId(), bitmap);
                             holder.image.setImageBitmap(bitmap);
                         });
             } catch (Exception ignored) {
@@ -263,7 +262,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] compressImage = baos.toByteArray();
         String sEncodedImage = Base64.encodeToString(compressImage, Base64.DEFAULT);
-        bitmapPreferences.edit().putString(model.getDocID(), sEncodedImage).apply();
+        bitmapPreferences.edit().putString(model.getDocId(), sEncodedImage).apply();
     }
 
     @Override

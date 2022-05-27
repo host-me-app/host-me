@@ -1,65 +1,107 @@
 package ch.epfl.sweng.hostme.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.google.firebase.Timestamp;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import org.junit.Test;
+
+import java.util.Date;
+
+import ch.epfl.sweng.hostme.utils.Constants;
 
 public class ApartmentTest {
 
     @Test
-    public void testApartment() {
-        Timestamp time = new Timestamp(0, 0);
-        Apartment apart = new Apartment(null, false, "a", "b", 1, "c", 2, false, new Timestamp(3, 4), "d", 5, false, "e", "f", "g", "h", "i", 6, false, "k", 7, "l", 8, "m");
-        apart.setAddress("address");
-        apart.setAvailable(true);
-        apart.setCurrentLease(time);
-        apart.setBath("bath");
-        apart.setDeposit(1);
-        apart.setFurnished(true);
-        apart.setImagePath("image");
-        apart.setKitchen("kitchen");
-        apart.setLaundry("laundry");
-        apart.setLid("lid");
-        apart.setName("name");
-        apart.setBeds(1);
-        apart.setPets(true);
-        apart.setProprietor("proprietor");
-        apart.setRent(1);
-        apart.setRoom("room");
-        apart.setUtilities(1);
-        apart.setArea(1);
-        apart.setCity("city");
-        apart.setNpa(1);
-        apart.setUid("uid");
-        apart.setDocID("id");
-        apart.setFavorite(true);
+    public void testApartment() throws JSONException {
+        JSONObject fields = new JSONObject();
+        fields.put(Constants.NAME, "");
+        fields.put(Constants.ROOM, "");
+        fields.put(Constants.ADDRESS, "");
+        fields.put(Constants.NPA, 0);
+        fields.put(Constants.CITY, "");
+        fields.put(Constants.RENT, 0);
+        fields.put(Constants.BEDS, 0);
+        fields.put(Constants.AREA, 0);
+        fields.put(Constants.FURNISHED, false);
+        fields.put(Constants.BATH, "");
+        fields.put(Constants.KITCHEN, "");
+        fields.put(Constants.LAUNDRY, "");
+        fields.put(Constants.PETS, false);
+        fields.put(Constants.IMAGE_PATH, "imagePath");
+        fields.put(Constants.PROPRIETOR, "");
+        fields.put(Constants.UID, "uid");
+        fields.put(Constants.UTILITIES, 0);
+        fields.put(Constants.DEPOSIT, 0);
+        fields.put(Constants.DURATION, 0);
 
-        assertEquals("address", apart.getAddress());
-        assertTrue(apart.isAvailable());
-        assertEquals(time, apart.getCurrentLease());
-        assertEquals("bath", apart.getBath());
-        assertEquals(1, apart.getDeposit());
-        assertTrue(apart.isFurnished());
-        assertEquals("image", apart.getImagePath());
-        assertEquals("kitchen", apart.getKitchen());
-        assertEquals("laundry", apart.getLaundry());
-        assertEquals("lid", apart.getLid());
-        assertEquals("name", apart.getName());
-        assertEquals(1, apart.getBeds());
-        assertTrue(apart.isPets());
-        assertEquals("proprietor", apart.getProprietor());
-        assertEquals(1, apart.getRent());
-        assertEquals("room", apart.getRoom());
-        assertEquals(1, apart.getUtilities());
-        assertEquals(1, apart.getArea());
-        assertEquals("city", apart.getCity());
-        assertEquals(1, apart.getNpa());
-        assertEquals("uid", apart.getUid());
-        assertEquals("id", apart.getDocID());
-        assertEquals("uid", apart.getUid());
-        assertTrue(apart.isFavorite());
+        Apartment apt = new Apartment(fields);
+
+        apt.setName("name");
+        apt.setRoom("room");
+        apt.setAddress("address");
+        apt.setNpa(1024);
+        apt.setCity("city");
+        apt.setRent(600);
+        apt.setBeds(1);
+        apt.setArea(25);
+        apt.toggleFurnished();
+        apt.toggleFurnished();
+        apt.setBath("bath");
+        apt.setKitchen("kitchen");
+        apt.setLaundry("laundry");
+        apt.togglePets();
+        apt.togglePets();
+        apt.toggleAvailable();
+        apt.toggleAvailable();
+        apt.setProprietor("proprietor");
+        apt.setUtilities(200);
+        apt.setDeposit(2000);
+        apt.setDuration(6);
+        apt.setDocId("testApt");
+
+        Timestamp tmp = new Timestamp(new Date(5));
+        apt.setCurrentLease(tmp);
+        assertEquals(tmp, apt.getCurrentLease());
+
+        byte[] bytes = {};
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        apt.setImage(bmp);
+        assertEquals(bmp, apt.getImage());
+
+        assertEquals("name", apt.getName());
+        assertEquals("name", apt.getName());
+        assertEquals("room", apt.getRoom());
+        assertEquals("address", apt.getAddress());
+        assertEquals("city", apt.getCity());
+        assertEquals(1024, apt.getNpa());
+        assertEquals(600, apt.getRent());
+        assertEquals(1, apt.getBeds());
+        assertEquals(25, apt.getArea());
+        assertFalse(apt.isFurnished());
+        assertEquals("bath", apt.getBath());
+        assertEquals("kitchen", apt.getKitchen());
+        assertEquals("laundry", apt.getLaundry());
+        assertFalse(apt.isPets());
+        assertTrue(apt.isAvailable());
+        assertEquals("imagePath", apt.getImagePath());
+        assertEquals("proprietor", apt.getProprietor());
+        assertEquals("uid", apt.getUid());
+        assertEquals(200, apt.getUtilities());
+        assertEquals(2000, apt.getDeposit());
+        assertEquals(6, apt.getDuration());
+        assertEquals("testApt", apt.getDocId());
+
+        JSONObject japt = apt.exportDoc();
+        assertEquals(japt.toString(), apt.toString());
     }
+
 }

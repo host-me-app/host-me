@@ -4,11 +4,12 @@ import android.graphics.Bitmap;
 
 import com.google.firebase.Timestamp;
 
-public class Apartment {
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private Bitmap bitmap;
-    private boolean isFavorite;
-    private String docID;
+import ch.epfl.sweng.hostme.utils.Constants;
+
+public class Apartment {
     private String name;
     private String room;
     private String address;
@@ -26,134 +27,138 @@ public class Apartment {
     private boolean available;
     private String proprietor;
     private String uid;
-    private String lid;
     private int utilities;
     private int deposit;
+    private int duration;
     private Timestamp currentLease;
+    private String docId;
+    private Bitmap image;
 
     /**
-     * constructor needed for Firebase
+     * Constructor for Firebase class binding
      */
     public Apartment() {
     }
 
     /**
-     * Constructor of a an apartment
+     * Constructor of a residence listing. Stores all provided fields, sets default values for
+     * fields that do not exist at instantiation, and checks for optional values.
      *
-     * @param bitmap
-     * @param isFavorite
-     * @param docID
-     * @param city
-     * @param npa
-     * @param address
-     * @param area
-     * @param available
-     * @param currentLease
-     * @param bath
-     * @param deposit
-     * @param furnished
-     * @param imagePath
-     * @param kitchen
-     * @param laundry
-     * @param lid
-     * @param name
-     * @param beds
-     * @param pets
-     * @param proprietor
-     * @param rent
-     * @param room
-     * @param utilities
-     * @param uid
+     * @param fields a JSONObject containing all required fields of the Add UI, optionally
+     *               containing some additional fields
+     * @throws JSONException when input data is malformed
      */
-    public Apartment(Bitmap bitmap, boolean isFavorite, String docID, String city, int npa, String address,
-                     int area, boolean available, Timestamp currentLease, String bath, int deposit,
-                     boolean furnished, String imagePath, String kitchen, String laundry, String lid,
-                     String name, int beds, boolean pets, String proprietor, int rent, String room,
-                     int utilities, String uid) {
-        this.bitmap = bitmap;
-        this.isFavorite = isFavorite;
-        this.docID = docID;
-        this.city = city;
-        this.npa = npa;
-        this.address = address;
-        this.area = area;
-        this.available = available;
-        this.currentLease = currentLease;
-        this.bath = bath;
-        this.deposit = deposit;
-        this.furnished = furnished;
-        this.imagePath = imagePath;
-        this.kitchen = kitchen;
-        this.laundry = laundry;
-        this.lid = lid;
+    public Apartment(JSONObject fields) {
+        try {
+            this.name = fields.getString(Constants.NAME);
+            this.room = fields.getString(Constants.ROOM);
+            this.address = fields.getString(Constants.ADDRESS);
+            this.npa = fields.getInt(Constants.NPA);
+            this.city = fields.getString(Constants.CITY);
+            this.rent = fields.getInt(Constants.RENT);
+            this.beds = fields.getInt(Constants.BEDS);
+            this.area = fields.getInt(Constants.AREA);
+            this.furnished = fields.getBoolean(Constants.FURNISHED);
+            this.bath = fields.getString(Constants.BATH);
+            this.kitchen = fields.getString(Constants.KITCHEN);
+            this.laundry = fields.getString(Constants.LAUNDRY);
+            this.pets = fields.getBoolean(Constants.PETS);
+            this.imagePath = fields.getString(Constants.IMAGE_PATH);
+            this.proprietor = fields.getString(Constants.PROPRIETOR);
+            this.uid = fields.getString(Constants.UID);
+            this.utilities = fields.getInt(Constants.UTILITIES);
+            this.deposit = fields.getInt(Constants.DEPOSIT);
+            this.duration = fields.getInt(Constants.DURATION);
+
+            this.available = true;
+            this.currentLease = null;
+        } catch (Exception ignored) {
+        }
+
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
         this.name = name;
-        this.beds = beds;
-        this.pets = pets;
-        this.proprietor = proprietor;
-        this.rent = rent;
+    }
+
+    public String getRoom() {
+        return this.room;
+    }
+
+    public void setRoom(String room) {
         this.room = room;
-        this.utilities = utilities;
-        this.uid = uid;
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public int getNpa() {
+        return this.npa;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setNpa(int npa) {
+        this.npa = npa;
     }
 
-    public Timestamp getCurrentLease() {
-        return currentLease;
+    public String getCity() {
+        return this.city;
     }
 
-    public void setCurrentLease(Timestamp currentLease) {
-        this.currentLease = currentLease;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getRent() {
+        return this.rent;
+    }
+
+    public void setRent(int rent) {
+        this.rent = rent;
+    }
+
+    public int getBeds() {
+        return this.beds;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
+    }
+
+    public int getArea() {
+        return this.area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
+
+    public boolean isFurnished() {
+        return this.furnished;
+    }
+
+    public void toggleFurnished() {
+        this.furnished = !this.furnished;
     }
 
     public String getBath() {
-        return bath;
+        return this.bath;
     }
 
     public void setBath(String bath) {
         this.bath = bath;
     }
 
-    public int getDeposit() {
-        return deposit;
-    }
-
-    public void setDeposit(int deposit) {
-        this.deposit = deposit;
-    }
-
-    public boolean isFurnished() {
-        return furnished;
-    }
-
-    public void setFurnished(boolean furnished) {
-        this.furnished = furnished;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
     public String getKitchen() {
-        return kitchen;
+        return this.kitchen;
     }
 
     public void setKitchen(String kitchen) {
@@ -161,130 +166,133 @@ public class Apartment {
     }
 
     public String getLaundry() {
-        return laundry;
+        return this.laundry;
     }
 
     public void setLaundry(String laundry) {
         this.laundry = laundry;
     }
 
-    public String getLid() {
-        return lid;
-    }
-
-    public void setLid(String lid) {
-        this.lid = lid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getBeds() {
-        return beds;
-    }
-
-    public void setBeds(int beds) {
-        this.beds = beds;
-    }
-
     public boolean isPets() {
-        return pets;
+        return this.pets;
     }
 
-    public void setPets(boolean pets) {
-        this.pets = pets;
+    public void togglePets() {
+        this.pets = !this.pets;
+    }
+
+    public String getImagePath() {
+        return this.imagePath;
+    }
+
+    public boolean isAvailable() {
+        return this.available;
+    }
+
+    public void toggleAvailable() {
+        this.available = !this.available;
     }
 
     public String getProprietor() {
-        return proprietor;
+        return this.proprietor;
     }
 
     public void setProprietor(String proprietor) {
         this.proprietor = proprietor;
     }
 
-    public int getRent() {
-        return rent;
-    }
-
-    public void setRent(int rent) {
-        this.rent = rent;
-    }
-
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
+    public String getUid() {
+        return this.uid;
     }
 
     public int getUtilities() {
-        return utilities;
+        return this.utilities;
     }
 
     public void setUtilities(int utilities) {
         this.utilities = utilities;
     }
 
-    public int getArea() {
-        return area;
+    public int getDeposit() {
+        return this.deposit;
     }
 
-    public void setArea(int area) {
-        this.area = area;
+    public void setDeposit(int deposit) {
+        this.deposit = deposit;
     }
 
-    public String getCity() {
-        return city;
+    public int getDuration() {
+        return this.duration;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
-    public int getNpa() {
-        return npa;
+    public Timestamp getCurrentLease() {
+        return this.currentLease;
     }
 
-    public void setNpa(int npa) {
-        this.npa = npa;
+    public void setCurrentLease(Timestamp currentLease) {
+        this.currentLease = currentLease;
     }
 
-    public String getUid() {
-        return uid;
+    public String getDocId() {
+        return this.docId;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setDocId(String docId) {
+        this.docId = docId;
     }
 
-    public String getDocID() {
-        return docID;
+    public Bitmap getImage() {
+        return this.image;
     }
 
-    public void setDocID(String docID) {
-        this.docID = docID;
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
+    /**
+     * A JSON representation of a Listing that may be used to create identical objects or edit the
+     * fields of this Listing.
+     *
+     * @return JSONObject holding approximate representations of all this Listing's fields
+     */
+    public JSONObject exportDoc() {
+        JSONObject ret = new JSONObject();
+        try {
+            ret.put(Constants.NAME, this.name);
+            ret.put(Constants.ROOM, this.room);
+            ret.put(Constants.ADDRESS, this.address);
+            ret.put(Constants.NPA, this.npa);
+            ret.put(Constants.CITY, this.city);
+            ret.put(Constants.RENT, this.rent);
+            ret.put(Constants.BEDS, this.beds);
+            ret.put(Constants.AREA, this.area);
+            ret.put(Constants.FURNISHED, this.furnished);
+            ret.put(Constants.BATH, this.bath);
+            ret.put(Constants.KITCHEN, this.kitchen);
+            ret.put(Constants.LAUNDRY, this.laundry);
+            ret.put(Constants.PETS, this.pets);
+            ret.put(Constants.IMAGE_PATH, this.imagePath);
+            ret.put("available", this.available);
+            ret.put(Constants.PROPRIETOR, this.proprietor);
+            ret.put(Constants.UID, this.uid);
+            ret.put(Constants.UTILITIES, this.utilities);
+            ret.put(Constants.DEPOSIT, this.deposit);
+            ret.put(Constants.DURATION, this.duration);
+            ret.put("currentLease", this.currentLease);
+            ret.put("docId", this.docId);
+        } catch (Exception ignored) {
+        }
+
+        return ret;
     }
 
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
-    }
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
+    @Override
+    public String toString() {
+        return this.exportDoc().toString();
     }
 }
+

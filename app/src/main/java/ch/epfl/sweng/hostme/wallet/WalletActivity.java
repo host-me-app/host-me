@@ -3,12 +3,10 @@ package ch.epfl.sweng.hostme.wallet;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -19,9 +17,8 @@ public class WalletActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.walletcard);
+        setContentView(R.layout.wallet_card);
 
         String uid = Auth.getUid();
         documentUploader = new ArrayList<>();

@@ -86,7 +86,7 @@ public class WalletTest {
 
             onView(withId(R.id.wallet_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.rpDownloadButton)).perform(click());
+            onView(withId(R.id.rp_download_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -114,11 +114,11 @@ public class WalletTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
-            onView(withId(R.id.spImportButton)).perform(click());
+            onView(withId(R.id.sp_import_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.spDownloadButton)).perform(click());
+            onView(withId(R.id.sp_download_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.spPickDateButton)).perform(click());
+            onView(withId(R.id.sp_pick_date_button)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
                     .perform(PickerActions.setDate(2025, 3, 22));

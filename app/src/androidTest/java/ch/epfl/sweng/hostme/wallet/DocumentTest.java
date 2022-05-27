@@ -36,28 +36,28 @@ public class DocumentTest {
 
     @Test
     public void DocumentButtonBrowseIdIsSame() {
-        Assert.assertEquals(R.id.rpImportButton, Document.RESIDENCE_PERMIT.getButtonBrowseId());
+        Assert.assertEquals(R.id.rp_import_button, Document.RESIDENCE_PERMIT.getButtonBrowseId());
     }
 
     @Test
     public void DocumentButtonBrowseTextIdIsSame() {
-        Assert.assertEquals(R.id.rpImportText, Document.RESIDENCE_PERMIT.getButtonBrowseTextId());
+        Assert.assertEquals(R.id.rp_import_text, Document.RESIDENCE_PERMIT.getButtonBrowseTextId());
     }
 
     @Test
     public void DocumentButtonDownloadIdIsSame() {
-        assertEquals(R.id.rpDownloadButton, Document.RESIDENCE_PERMIT.getButtonDownloadId());
+        assertEquals(R.id.rp_download_button, Document.RESIDENCE_PERMIT.getButtonDownloadId());
     }
 
     @Test
     public void DocumentDownloadTextIdIsSame() {
-        assertEquals(R.id.rpDownloadText, Document.RESIDENCE_PERMIT.getButtonDownloadTextId());
+        assertEquals(R.id.rp_download_text, Document.RESIDENCE_PERMIT.getButtonDownloadTextId());
     }
 
 
     @Test
     public void DocumentCheckImageIdIsSame() {
-        assertEquals(R.id.rpcheck, Document.RESIDENCE_PERMIT.getCheckImageId());
+        assertEquals(R.id.rp_check, Document.RESIDENCE_PERMIT.getCheckImageId());
     }
 
     @Test

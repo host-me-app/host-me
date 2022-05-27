@@ -19,9 +19,13 @@ import ch.epfl.sweng.hostme.userCreation.ChangePasswordActivity;
 
 public class LogInActivity extends AppCompatActivity {
 
+    private final static String LOG_EVENT_NAME = "main_screen_opened";
+    private final static String AUTH_FAILED = "Authentication failed";
+
     private EditText userName;
     private EditText pwd;
     private Button logInButt;
+
     private final TextWatcher logInTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -42,7 +46,7 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkReminders();
+        this.checkReminders();
         setContentView(R.layout.login_page);
 
         userName = findViewById(R.id.user_name);
@@ -74,7 +78,7 @@ public class LogInActivity extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     private void checkReminders() {
-        FirebaseAnalytics.getInstance(this).logEvent("main_screen_opened", null);
+        FirebaseAnalytics.getInstance(this).logEvent(LOG_EVENT_NAME, null);
     }
 
     /**
@@ -114,10 +118,8 @@ public class LogInActivity extends AppCompatActivity {
         .addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 welcome();
-                Toast.makeText(LogInActivity.this, "Authentication succeed.",
-                        Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(LogInActivity.this, "Authentication failed.",
+                Toast.makeText(LogInActivity.this, AUTH_FAILED,
                         Toast.LENGTH_SHORT).show();
             }
         });

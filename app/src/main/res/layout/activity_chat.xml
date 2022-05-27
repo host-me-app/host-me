@@ -36,16 +36,16 @@
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="130dp"
-        android:ellipsize="end"
+        android:layout_marginEnd="0dp"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/chatInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -83,17 +83,13 @@
         android:id="@+id/layoutShare"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/background_chat_input"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1">
+        app:layout_constraintVertical_bias="0.976">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/shareButton"
@@ -126,23 +122,14 @@
             android:padding="8dp"
             android:src="@drawable/send_icon"
             app:tint="@color/white" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/sendButt2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:padding="8dp"
-            android:src="@drawable/send_icon"
-            app:tint="@color/white" />
     </FrameLayout>
 
 
     <EditText
         android:id="@+id/inputMessage"
-        android:layout_width="279dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="270dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_chat_input"
         android:hint="@string/type_message"
@@ -150,15 +137,15 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:paddingEnd="8dp"
         android:textColor="@color/white"
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="@+id/layoutSend"
         app:layout_constraintEnd_toStartOf="@+id/layoutSend"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/layoutShare"
         app:layout_constraintTop_toTopOf="@+id/layoutSend"
-        app:layout_constraintVertical_bias="0.44" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/launchButt"

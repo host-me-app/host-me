@@ -102,7 +102,7 @@ public class SharedDocumentsTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
-            onView(withId(R.id.spImportButton)).perform(click());
+            onView(withId(R.id.sp_import_button)).perform(click());
             Thread.sleep(1000);
 
             onView(isRoot()).perform(ViewActions.pressBack());

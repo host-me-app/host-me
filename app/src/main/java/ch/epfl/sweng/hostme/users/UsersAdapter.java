@@ -11,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.databinding.ItemContainerUserBinding;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
-    private View view;
     private final List<User> users;
     private final UserListener userListener;
 
@@ -27,7 +25,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_user, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_user, parent, false);
         return new UserViewHolder(view);
     }
 
@@ -50,8 +48,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         UserViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            this.textName = itemView.findViewById(R.id.textName);
-            this.textEmail = itemView.findViewById(R.id.textEmail);
+            this.textName = itemView.findViewById(R.id.text_name);
+            this.textEmail = itemView.findViewById(R.id.text_email);
         }
 
         void setUserData(@NonNull User user) {

@@ -1,7 +1,9 @@
 package ch.epfl.sweng.hostme.chat;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +14,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ItemContainerRecentConvoBinding;
 import ch.epfl.sweng.hostme.users.User;
@@ -30,13 +33,8 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
     @NonNull
     @Override
     public ConversionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ConversionViewHolder(
-                ItemContainerRecentConvoBinding.inflate(
-                        LayoutInflater.from(parent.getContext()),
-                        parent,
-                        false
-                )
-        );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_recent_convo, parent, false);
+        return new ConversionViewHolder(view);
     }
 
     @Override
@@ -55,30 +53,31 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
 
     class ConversionViewHolder extends RecyclerView.ViewHolder {
 
-        ItemContainerRecentConvoBinding binding;
+        View itemView;
+        TextView textName;
+        TextView textRecentMessage;
 
-        ConversionViewHolder(ItemContainerRecentConvoBinding itemContainerRecentConvoBinding) {
-            super(itemContainerRecentConvoBinding.getRoot());
-            binding = itemContainerRecentConvoBinding;
+        ConversionViewHolder(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+            this.textName = itemView.findViewById(R.id.text_name);
+            this.textRecentMessage = itemView.findViewById(R.id.text_recent_message);
         }
 
         void setData(@NonNull ChatMessage chatMessage) {
-            binding.textName.setText(chatMessage.conversionName);
-            binding.textRecentMessage.setText(chatMessage.message);
+            this.textName.setText(chatMessage.conversionName);
+            this.textRecentMessage.setText(chatMessage.message);
             DocumentReference docRef =
                     Database.getCollection(Constants.KEY_COLLECTION_USERS).document(chatMessage.conversionId);
-            Task<DocumentSnapshot> t = docRef.get().addOnCompleteListener(
-                    task -> {
-                        if (task.isSuccessful()) {
-                            binding.getRoot().setOnClickListener(v -> {
-                                User user = new User();
-                                user.id = chatMessage.conversionId;
-                                user.name = chatMessage.conversionName;
-                                user.token = task.getResult().getString(Constants.KEY_FCM_TOKEN);
-                                conversionListener.onConversionClicked(user, chatMessage.apartId);
-                            });
-                        }
-                    });
+            docRef.get().addOnSuccessListener(result -> {
+                this.itemView.setOnClickListener(v -> {
+                    User user = new User();
+                    user.id = chatMessage.conversionId;
+                    user.name = chatMessage.conversionName;
+                    user.token = result.getString(Constants.KEY_FCM_TOKEN);
+                    conversionListener.onConversionClicked(user, chatMessage.apartId);
+                });
+            });
         }
     }
 

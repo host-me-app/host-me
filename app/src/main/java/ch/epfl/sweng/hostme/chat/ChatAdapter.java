@@ -4,15 +4,16 @@ import android.graphics.Color;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ch.epfl.sweng.hostme.databinding.ItemContainerReceivedMessageBinding;
-import ch.epfl.sweng.hostme.databinding.ItemContainerSentMessageBinding;
+import ch.epfl.sweng.hostme.R;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -29,22 +30,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
         if (viewType == VIEW_TYPE_SENT) {
-            return new SentMessageViewHolder(
-                    ItemContainerSentMessageBinding.inflate(
-                            LayoutInflater.from(parent.getContext()),
-                            parent,
-                            false
-                    )
-            );
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_sent_message, parent, false);
+            return new SentMessageViewHolder(view);
         } else {
-            return new ReceivedMessageViewHolder(
-                    ItemContainerReceivedMessageBinding.inflate(
-                            LayoutInflater.from(parent.getContext()),
-                            parent,
-                            false
-                    )
-            );
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_received_message, parent, false);
+            return new ReceivedMessageViewHolder(view);
         }
     }
 
@@ -74,46 +66,55 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
 
-        private final ItemContainerSentMessageBinding binding;
+        View itemView;
+        TextView textMessage;
+        TextView messageDate;
 
-        SentMessageViewHolder(ItemContainerSentMessageBinding itemContainerSentMessageBinding) {
-            super(itemContainerSentMessageBinding.getRoot());
-            binding = itemContainerSentMessageBinding;
+
+        SentMessageViewHolder(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+            this.textMessage = itemView.findViewById(R.id.text_message);
+            this.messageDate = itemView.findViewById(R.id.message_date);
         }
 
         void setData(ChatMessage chatMessage) {
             if (chatMessage.isDocument) {
-                binding.textMessage.setClickable(true);
-                binding.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
+                this.textMessage.setClickable(true);
+                this.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
                 String text = "<a href='" + chatMessage.message + "' download> Download " + chatMessage.documentName + "</a>";
-                binding.textMessage.setText(Html.fromHtml(text));
-                binding.textMessage.setLinkTextColor(Color.GREEN);
+                this.textMessage.setText(Html.fromHtml(text));
+                this.textMessage.setLinkTextColor(Color.GREEN);
             } else {
-                binding.textMessage.setText(chatMessage.message);
-                binding.messageDate.setText(chatMessage.dateTime);
+                this.textMessage.setText(chatMessage.message);
+                this.messageDate.setText(chatMessage.dateTime);
             }
         }
     }
 
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
 
-        private final ItemContainerReceivedMessageBinding binding;
+        View itemView;
+        TextView textMessage;
+        TextView messageDate;
 
-        ReceivedMessageViewHolder(ItemContainerReceivedMessageBinding itemContainerReceivedMessageBinding) {
-            super(itemContainerReceivedMessageBinding.getRoot());
-            binding = itemContainerReceivedMessageBinding;
+        ReceivedMessageViewHolder(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+            this.textMessage = itemView.findViewById(R.id.text_message);
+            this.messageDate = itemView.findViewById(R.id.message_date);
         }
 
         void setData(ChatMessage chatMessage) {
             if (chatMessage.isDocument) {
-                binding.textMessage.setClickable(true);
-                binding.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
+                this.textMessage.setClickable(true);
+                this.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
                 String text = "<a href='" + chatMessage.message + "' download> Download " + chatMessage.documentName + "</a>";
-                binding.textMessage.setText(Html.fromHtml(text));
-                binding.textMessage.setLinkTextColor(Color.GREEN);
+                this.textMessage.setText(Html.fromHtml(text));
+                this.textMessage.setLinkTextColor(Color.GREEN);
             } else {
-                binding.textMessage.setText(chatMessage.message);
-                binding.messageDate.setText(chatMessage.dateTime);
+                this.textMessage.setText(chatMessage.message);
+                this.messageDate.setText(chatMessage.dateTime);
             }
         }
     }

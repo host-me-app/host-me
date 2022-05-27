@@ -70,7 +70,7 @@ public class ChatActivityTest {
             onView(withId(R.id.usersRecyclerView))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-            onView(withId(R.id.textName)).check(matches(isDisplayed()));
+            onView(withId(R.id.text_name)).check(matches(isDisplayed()));
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {

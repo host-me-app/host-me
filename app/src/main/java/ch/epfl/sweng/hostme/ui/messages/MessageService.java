@@ -66,7 +66,7 @@ public class MessageService extends FirebaseMessagingService {
         builder.setSmallIcon(resourceImage);
 
         Intent resultIntent = new Intent(this, CallActivity.class);
-        if(remoteMessage.getData().get("titre").contentEquals("New Message")){
+        if (remoteMessage.getData().get("titre").contentEquals("New Message")) {
             resultIntent = new Intent(this, MenuActivity.class);
         }
         resultIntent.putExtra(Constants.FROM_NOTIFICATION, true);

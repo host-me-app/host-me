@@ -98,12 +98,12 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                 .setCustomMetadata(KEY_CUSTOM_METADATA_EXPIRATION_DATE, date)
                 .build();
         fileRef.updateMetadata(metadata)
-        .addOnSuccessListener(storageMetadata -> {
-            expDateText.setText(date);
-            notification(year, dayOfMonth, month);
-            Toast.makeText(context, EXPIRATION_SUCCEED, Toast.LENGTH_SHORT).show();
-        })
-        .addOnFailureListener(exception -> Toast.makeText(context, EXPIRATION_FAILED, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(storageMetadata -> {
+                    expDateText.setText(date);
+                    notification(year, dayOfMonth, month);
+                    Toast.makeText(context, EXPIRATION_SUCCEED, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(exception -> Toast.makeText(context, EXPIRATION_FAILED, Toast.LENGTH_SHORT).show());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -133,10 +133,10 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         for (int i = 0; i < allRemindersSize; ++i) {
             intent.putExtra(notification_ID_Extra, document.ordinal() * allRemindersSize + i);
             PendingIntent pend = PendingIntent.getBroadcast(
-                context.getApplicationContext(),
-                document.ordinal() * allRemindersSize + i,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                    context.getApplicationContext(),
+                    document.ordinal() * allRemindersSize + i,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pend);
             pend.cancel();
         }

@@ -54,15 +54,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
      */
     private void sendMail(String mailText) {
         Auth.resetEmail(mailText)
-        .addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getApplicationContext(), "Reset password instructions sent to " + mailText, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this, LogInActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
-            } else {
-                Toast.makeText(getApplicationContext(), mailText + " does not exist", Toast.LENGTH_LONG).show();
-            }
-        });
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Reset password instructions sent to " + mailText, Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(this, LogInActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+                    } else {
+                        Toast.makeText(getApplicationContext(), mailText + " does not exist", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

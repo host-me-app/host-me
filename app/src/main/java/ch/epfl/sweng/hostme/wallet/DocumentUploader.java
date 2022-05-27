@@ -72,22 +72,22 @@ public class DocumentUploader {
         String pathString = this.document.getPath() + this.uid + this.document.getFileName() + this.document.getFileExtension();
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
         fileRef.putFile(file)
-        .addOnSuccessListener(taskSnapshot -> {
-            this.checkFileUploaded();
-            Toast.makeText(this.context, UPLOAD_SUCCEED_MESSAGE, Toast.LENGTH_SHORT).show();
-        }).addOnFailureListener(exception -> Toast.makeText(this.context, UPLOAD_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(taskSnapshot -> {
+                    this.checkFileUploaded();
+                    Toast.makeText(this.context, UPLOAD_SUCCEED_MESSAGE, Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(exception -> Toast.makeText(this.context, UPLOAD_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
     }
 
     private void checkFileUploaded() {
         String pathString = this.document.getPath() + this.uid;
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
         fileRef.listAll()
-        .addOnSuccessListener(listResult -> {
-            if (listResult.getItems().size() == 1) {
-                changeButton();
-            }
-        })
-        .addOnFailureListener(e -> Toast.makeText(this.context, CHECK_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(listResult -> {
+                    if (listResult.getItems().size() == 1) {
+                        changeButton();
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(this.context, CHECK_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
     }
 
     @SuppressLint("SetTextI18n")

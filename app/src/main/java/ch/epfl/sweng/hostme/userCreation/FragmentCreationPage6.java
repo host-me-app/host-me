@@ -76,12 +76,12 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
      */
     private void createUser(String email, String password) {
         Auth.createUser(email, password)
-        .addOnSuccessListener( authResult -> {
-            setSharedPref(email);
-            updateFireStoreDB();
-            goToMenu();
-        })
-        .addOnFailureListener(r -> Toast.makeText(getActivity(), AUTH_FAILED, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(authResult -> {
+                    setSharedPref(email);
+                    updateFireStoreDB();
+                    goToMenu();
+                })
+                .addOnFailureListener(r -> Toast.makeText(getActivity(), AUTH_FAILED, Toast.LENGTH_SHORT).show());
     }
 
     /**

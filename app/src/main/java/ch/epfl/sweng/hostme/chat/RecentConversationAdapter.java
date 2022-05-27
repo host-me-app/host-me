@@ -8,15 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.databinding.ItemContainerRecentConvoBinding;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 
@@ -69,15 +66,13 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
             this.textRecentMessage.setText(chatMessage.message);
             DocumentReference docRef =
                     Database.getCollection(Constants.KEY_COLLECTION_USERS).document(chatMessage.conversionId);
-            docRef.get().addOnSuccessListener(result -> {
-                this.itemView.setOnClickListener(v -> {
-                    User user = new User();
-                    user.id = chatMessage.conversionId;
-                    user.name = chatMessage.conversionName;
-                    user.token = result.getString(Constants.KEY_FCM_TOKEN);
-                    conversionListener.onConversionClicked(user, chatMessage.apartId);
-                });
-            });
+            docRef.get().addOnSuccessListener(result -> this.itemView.setOnClickListener(v -> {
+                User user = new User();
+                user.id = chatMessage.conversionId;
+                user.name = chatMessage.conversionName;
+                user.token = result.getString(Constants.KEY_FCM_TOKEN);
+                conversionListener.onConversionClicked(user, chatMessage.apartId);
+            }));
         }
     }
 

@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;

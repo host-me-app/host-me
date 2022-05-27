@@ -14,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import ch.epfl.sweng.hostme.database.Auth;
-import ch.epfl.sweng.hostme.userCreation.CreationContainer;
 import ch.epfl.sweng.hostme.userCreation.ChangePasswordActivity;
+import ch.epfl.sweng.hostme.userCreation.CreationContainer;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -74,7 +74,8 @@ public class LogInActivity extends AppCompatActivity {
      * Disable the back press button
      */
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+    }
 
     @SuppressLint("MissingPermission")
     private void checkReminders() {
@@ -115,13 +116,13 @@ public class LogInActivity extends AppCompatActivity {
      */
     private void loginUser(String email, String password) {
         Auth.loginUserWithEmail(email, password)
-        .addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                welcome();
-            } else {
-                Toast.makeText(LogInActivity.this, AUTH_FAILED,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        welcome();
+                    } else {
+                        Toast.makeText(LogInActivity.this, AUTH_FAILED,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

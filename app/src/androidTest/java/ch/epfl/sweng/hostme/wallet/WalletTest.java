@@ -4,15 +4,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -125,7 +120,7 @@ public class WalletTest {
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
             Thread.sleep(1000);
-         } catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -141,10 +136,10 @@ public class WalletTest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -159,15 +154,15 @@ public class WalletTest {
         Drawable d = ApplicationProvider.getApplicationContext().getResources().getDrawable(R.drawable.add_icon);
         Bitmap bm = drawableToBitmap(d);
         PdfDocument pdfDocument = new PdfDocument();
-        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(960,1280,1).create();
+        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(960, 1280, 1).create();
         PdfDocument.Page page = pdfDocument.startPage(myPageInfo);
-        page.getCanvas().drawBitmap(bm,0,0, null);
+        page.getCanvas().drawBitmap(bm, 0, 0, null);
         pdfDocument.finishPage(page);
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "file.pdf");
         FileOutputStream outStream = null;
-        try{
-            outStream  = new FileOutputStream(file);
+        try {
+            outStream = new FileOutputStream(file);
             pdfDocument.writeTo(outStream);
             outStream.flush();
             outStream.close();

@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.R;
@@ -142,7 +141,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String messageStr, boolean isDocument, String documentName) {
-        if(messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
+        if (messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
             message.put(Constants.KEY_SENDER_ID, uid);
             message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
@@ -299,7 +298,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendDocuments(ArrayList<Document> documentsToShare) {
-        for(Document doc : documentsToShare) {
+        for (Document doc : documentsToShare) {
             String pathString = doc.getPath() + uid + "/" + doc.getFileName() + doc.getFileExtension();
             StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
             fileRef.getDownloadUrl().addOnSuccessListener(uri -> {

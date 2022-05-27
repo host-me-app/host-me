@@ -51,7 +51,7 @@ public class MenuActivity extends AppCompatActivity {
 
             setupViewPager(viewPager);
 
-            if(getIntent().getBooleanExtra(Constants.FROM_NOTIFICATION, false)){
+            if (getIntent().getBooleanExtra(Constants.FROM_NOTIFICATION, false)) {
                 findViewById(R.id.navigation_messages).performClick();
             }
         }

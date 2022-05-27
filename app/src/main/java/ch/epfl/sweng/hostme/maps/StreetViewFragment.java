@@ -49,7 +49,7 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-        this.fullAddress = bundle.getString(ADDRESS);
+            this.fullAddress = bundle.getString(ADDRESS);
         }
 
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment =

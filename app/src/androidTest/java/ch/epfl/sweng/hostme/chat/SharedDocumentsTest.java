@@ -133,10 +133,10 @@ public class SharedDocumentsTest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -151,15 +151,15 @@ public class SharedDocumentsTest {
         Drawable d = ApplicationProvider.getApplicationContext().getResources().getDrawable(R.drawable.add_icon);
         Bitmap bm = drawableToBitmap(d);
         PdfDocument pdfDocument = new PdfDocument();
-        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(960,1280,1).create();
+        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(960, 1280, 1).create();
         PdfDocument.Page page = pdfDocument.startPage(myPageInfo);
-        page.getCanvas().drawBitmap(bm,0,0, null);
+        page.getCanvas().drawBitmap(bm, 0, 0, null);
         pdfDocument.finishPage(page);
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "file.pdf");
         FileOutputStream outStream = null;
-        try{
-            outStream  = new FileOutputStream(file);
+        try {
+            outStream = new FileOutputStream(file);
             pdfDocument.writeTo(outStream);
             outStream.flush();
             outStream.close();

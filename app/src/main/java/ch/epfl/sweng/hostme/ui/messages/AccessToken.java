@@ -35,23 +35,23 @@ public class AccessToken {
     public static byte[] generateSignature(String appCertificate,
                                            String appID, String channelName, String uid, byte[] message) throws Exception {
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
-            baos.write(appID.getBytes());
-            baos.write(channelName.getBytes());
-            baos.write(uid.getBytes());
-            baos.write(message);
+            stream.write(appID.getBytes());
+            stream.write(channelName.getBytes());
+            stream.write(uid.getBytes());
+            stream.write(message);
         } catch (Exception ignored) {
         }
-        return Utils.hmacSign(appCertificate, baos.toByteArray());
+        return Utils.macSign(appCertificate, stream.toByteArray());
     }
 
     public String build() throws Exception {
-        if (!Utils.isUUID(appId)) {
+        if (Utils.isUUID(appId)) {
             return "";
         }
 
-        if (!Utils.isUUID(appCertificate)) {
+        if (Utils.isUUID(appCertificate)) {
             return "";
         }
 
@@ -74,10 +74,7 @@ public class AccessToken {
         kJoinChannel(1),
         kPublishAudioStream(2),
         kPublishVideoStream(3),
-        kPublishDataStream(4),
-
-        // For RTM only
-        kRtmLogin(1000);
+        kPublishDataStream(4);
 
         public short intValue;
 
@@ -86,7 +83,7 @@ public class AccessToken {
         }
     }
 
-    public class PrivilegeMessage implements Packable {
+    public static class PrivilegeMessage implements Packable {
         public int salt;
         public int ts;
         public TreeMap<Short, Integer> messages;
@@ -98,12 +95,12 @@ public class AccessToken {
         }
 
         @Override
-        public ByteBuf marshal(ByteBuf out) {
-            return out.put(salt).put(ts).putIntMap(messages);
+        public void marshal(ByteBuf out) {
+            out.put(salt).put(ts).putIntMap(messages);
         }
     }
 
-    public class PackContent implements Packable {
+    public static class PackContent implements Packable {
         public byte[] signature;
         public int crcChannelName;
         public int crcUid;
@@ -117,8 +114,8 @@ public class AccessToken {
         }
 
         @Override
-        public ByteBuf marshal(ByteBuf out) {
-            return out.put(signature).put(crcChannelName).put(crcUid).put(rawMessage);
+        public void marshal(ByteBuf out) {
+            out.put(signature).put(crcChannelName).put(crcUid).put(rawMessage);
         }
     }
 }

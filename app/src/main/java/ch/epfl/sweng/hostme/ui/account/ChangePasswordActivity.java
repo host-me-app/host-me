@@ -19,31 +19,26 @@ import ch.epfl.sweng.hostme.utils.PasswordValidator;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
+    private static final String MODIFICATION_SUCCEED = "Password successfully modified";
+    private static final String MODIFICATION_FAILED = "Password modification failed";
+    private static final String AUTH_FAILED = "Authentication failed";
     private EditText editOldPassword;
     private EditText editNewPassword;
     private EditText editConfirmNewPassword;
-
-    private Button terminateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
-
-        editOldPassword = findViewById(R.id.userProfileOldPassword);
-        editNewPassword = findViewById(R.id.userProfileNewPassword);
-        editConfirmNewPassword = findViewById(R.id.userProfileConfirmNewPassword);
-
-        terminateButton = findViewById(R.id.userProfileChangePsswdTerminate);
-
+        editOldPassword = findViewById(R.id.user_profile_old_password);
+        editNewPassword = findViewById(R.id.user_profile_new_password);
+        editConfirmNewPassword = findViewById(R.id.user_profile_confirm_new_password);
+        Button terminateButton = findViewById(R.id.user_profile_change_pwd_terminate);
         terminateButton.setOnClickListener(v -> {
-
             String oldPasswordText = editOldPassword.getText().toString();
             String newPasswordText = editNewPassword.getText().toString();
             String confirmNewPasswordText = editConfirmNewPassword.getText().toString();
-
             if (newPasswordText.equals(confirmNewPasswordText) && PasswordValidator.isValid(confirmNewPasswordText)) {
                 changePasswordDB(oldPasswordText, newPasswordText);
             }
@@ -60,29 +55,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         FirebaseUser user = Auth.getCurrentUser();
         final String email = user.getEmail();
-        AuthCredential credential = EmailAuthProvider.getCredential(email, oldPassword);
+        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(email), oldPassword);
 
-        user.reauthenticate(credential).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-
-                user.updatePassword(newPassword).addOnCompleteListener(task1 -> {
-
-                    if (task1.isSuccessful()) {
-                        Toast.makeText(this, "Password Successfully Modified",
-                                Toast.LENGTH_SHORT).show();
-                        this.getFragmentManager().popBackStack();
-                    } else {
-                        Toast.makeText(this, "Password Modification Failed",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            } else {
-
-                Toast.makeText(this, "Authentication Failed",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        user.reauthenticate(credential).addOnSuccessListener(result -> user.updatePassword(newPassword).addOnSuccessListener(result2 -> {
+                Toast.makeText(this, MODIFICATION_SUCCEED, Toast.LENGTH_SHORT).show();
+                this.getFragmentManager().popBackStack();
+        }).addOnFailureListener(error2 -> Toast.makeText(this, MODIFICATION_FAILED, Toast.LENGTH_SHORT).show())).addOnFailureListener(error -> Toast.makeText(this, AUTH_FAILED, Toast.LENGTH_SHORT).show());
     }
 }

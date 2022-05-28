@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.userCreation;
 
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,19 +29,22 @@ import ch.epfl.sweng.hostme.utils.Profile;
 
 
 public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
-    public final static Map<String, String> DATA = new HashMap<>();
-    private static final String PREF_USER_NAME = "username";
 
+    private static final String PREF_USER_NAME = "username";
+    private static final String INVALID_PWD = "The password must be at least 8 characters and contains at " +
+            "least 1 uppercase character and 1 special character";
+    private static final String INVALID_CONFIRM_PWD = "The passwords should be identical";
+    private static final String AUTH_FAILED = "Authentication failed";
+
+    public final static Map<String, String> DATA = new HashMap<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page6, container, false);
 
-        Button terminateButt = view.findViewById(R.id.terminateButton);
         EditText pwd = view.findViewById(R.id.password);
         EditText confirm_pwd = view.findViewById(R.id.confirm_pwd);
-
+        Button terminateButt = view.findViewById(R.id.terminate_button);
         terminateButt.setOnClickListener(v -> {
             String pwdText = pwd.getText().toString();
             String confirm_pwdText = confirm_pwd.getText().toString();
@@ -47,11 +52,10 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
                 if (pwdText.equals(confirm_pwdText)) {
                     createUser(DATA.get(FragmentCreationPage5.MAIL), pwdText);
                 } else {
-                    confirm_pwd.setError("The passwords should be identical");
+                    confirm_pwd.setError(INVALID_CONFIRM_PWD);
                 }
             } else {
-                pwd.setError("The password must be at least 8 characters and contains at " +
-                        "least 1 uppercase character and 1 special character");
+                pwd.setError(INVALID_PWD);
             }
         });
 
@@ -64,41 +68,27 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
     private void goToMenu() {
         Intent intent = new Intent(getActivity(), MenuActivity.class);
         startActivity(intent);
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }
 
     /**
      * Create a user on firebase
-     *
-     * @param email
-     * @param password
      */
     private void createUser(String email, String password) {
         Auth.createUser(email, password)
-                .addOnCompleteListener(
-                        task -> {
-                            if (task.isSuccessful()) {
-                                setSharedPref(email);
-                                updateFireStoreDB();
-                                Toast.makeText(getActivity(), "Authentication successed.",
-                                        Toast.LENGTH_SHORT).show();
-                                goToMenu();
-                            } else {
-                                Toast.makeText(getActivity(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
+                .addOnSuccessListener(authResult -> {
+                    setSharedPref(email);
+                    updateFireStoreDB();
+                    goToMenu();
+                })
+                .addOnFailureListener(r -> Toast.makeText(getActivity(), AUTH_FAILED, Toast.LENGTH_SHORT).show());
     }
 
     /**
      * Change the sharedPreferences to keep the user logged in
-     *
-     * @param email
      */
     private void setSharedPref(String email) {
-        SharedPreferences.Editor editor = PreferenceManager.
-                getDefaultSharedPreferences(getContext()).edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
         editor.putString(PREF_USER_NAME, email);
         editor.apply();
     }
@@ -107,7 +97,6 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
      * Update the database with user's attributes
      */
     private void updateFireStoreDB() {
-
         Profile user = new Profile(
                 DATA.get(FragmentCreationPage2.FIRST_NAME),
                 DATA.get(FragmentCreationPage3.LAST_NAME),
@@ -116,8 +105,7 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
                 DATA.get(FragmentCreationPage4.SCHOOL)
         );
 
-        Database.getCollection("users").document(Auth.getUid()).set(user);
-
+        Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid()).set(user);
     }
 
     @Override
@@ -125,7 +113,7 @@ public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, new FragmentCreationPage5());
         fragmentTransaction.commit();
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
         return true;
     }
 

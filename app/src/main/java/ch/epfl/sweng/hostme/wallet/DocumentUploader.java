@@ -1,5 +1,6 @@
 package ch.epfl.sweng.hostme.wallet;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,15 +19,15 @@ import ch.epfl.sweng.hostme.database.Storage;
 
 public class DocumentUploader {
 
-    private static final String UPLOAD_SUCCEED_MESSAGE = "Upload succeed!";
-    private static final String UPLOAD_FAILED_MESSAGE = "Upload failed!";
-    private static final String CHECK_FAILED_MESSAGE = "Failed to check documents!";
+    private static final String UPLOAD_SUCCEED_MESSAGE = "Upload succeed";
+    private static final String UPLOAD_FAILED_MESSAGE = "Upload failed";
+    private static final String CHOOSE_TEXT = "Choose";
+    private static final String CHECK_FAILED_MESSAGE = "Failed to check documents";
     private final Document document;
     private final String uid;
     private final Activity activity;
     private final Context context;
     private final String titleChooser;
-    private final ImageButton buttonBrowse;
     private final TextView buttonBrowseText;
     private final ImageButton buttonDownload;
     private final TextView buttonDownloadText;
@@ -40,8 +41,8 @@ public class DocumentUploader {
         this.uid = uid + "/";
         this.activity = activity;
         this.context = context;
-        this.titleChooser = "Choose" + document.getDocumentName();
-        this.buttonBrowse = activity.findViewById(document.getButtonBrowseId());
+        this.titleChooser = CHOOSE_TEXT + document.getDocumentName();
+        ImageButton buttonBrowse = activity.findViewById(document.getButtonBrowseId());
         this.buttonBrowseText = activity.findViewById(document.getButtonBrowseTextId());
         this.buttonDownload = activity.findViewById(document.getButtonDownloadId());
         this.buttonDownloadText = activity.findViewById(document.getButtonDownloadTextId());
@@ -49,19 +50,14 @@ public class DocumentUploader {
         this.expDateDescriptionText = activity.findViewById(expireDate.getDescriptionFieldTextId());
         this.expDateText = activity.findViewById(expireDate.getExpirationDateTextId());
         this.expDatePickButton = activity.findViewById(expireDate.getPickDateButtonId());
-        buttonBrowse.setOnClickListener(view -> askPermissionAndBrowseFile());
+        buttonBrowse.setOnClickListener(view -> this.doBrowseFile());
         this.checkFileUploaded();
-    }
-
-    private void askPermissionAndBrowseFile() {
-        this.doBrowseFile();
     }
 
     private void doBrowseFile() {
         Intent chooseFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFileIntent.setType(this.document.getType());
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
-
         chooseFileIntent = Intent.createChooser(chooseFileIntent, this.titleChooser);
         this.activity.startActivityForResult(chooseFileIntent, this.document.getCodePermission());
     }
@@ -94,6 +90,7 @@ public class DocumentUploader {
                 .addOnFailureListener(e -> Toast.makeText(this.context, CHECK_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
     }
 
+    @SuppressLint("SetTextI18n")
     private void changeButton() {
         this.buttonBrowseText.setText(R.string.change_file);
         this.buttonDownload.setVisibility(View.VISIBLE);
@@ -101,7 +98,7 @@ public class DocumentUploader {
         this.checkImage.setVisibility(View.VISIBLE);
         this.expDateDescriptionText.setVisibility(View.VISIBLE);
         this.expDateText.setVisibility(View.VISIBLE);
-        expDateText.setText("None");
+        this.expDateText.setText("None");
         this.expDatePickButton.setVisibility(View.VISIBLE);
     }
 }

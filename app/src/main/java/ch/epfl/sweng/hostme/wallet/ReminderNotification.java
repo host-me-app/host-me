@@ -14,14 +14,12 @@ import ch.epfl.sweng.hostme.R;
 public class ReminderNotification extends BroadcastReceiver {
 
     public static final String CHANNEL_ID = "ChannelReminders";
-
     public static final String notification_ID_Extra = "notificationExtra";
     public static final String titleExtra = "titleExtra";
     public static final String messageExtra = "messageExtra";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_reminder_wallet)
                 .setContentTitle(intent.getStringExtra(titleExtra))
@@ -30,6 +28,5 @@ public class ReminderNotification extends BroadcastReceiver {
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(intent.getIntExtra(notification_ID_Extra, 1), notification);
-        //notification_ID_Extra is different otherwise it updates the same notification
     }
 }

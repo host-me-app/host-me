@@ -3,6 +3,9 @@ package ch.epfl.sweng.hostme.utils;
 public final class Constants {
 
     public static final String KEY_COLLECTION_USERS = "users";
+    public static final String KEY_COLLECTION_FAV = "favorite_apart";
+    public static final String KEY_COLLECTION_APARTMENTS = "apartments";
+    public static final String DATA = "data";
     public static final String KEY_FIRSTNAME = "firstName";
     public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_EMAIL = "email";
@@ -45,14 +48,17 @@ public final class Constants {
     public static final String IMAGE_PATH = "imagePath";
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
-    public static final String APARTMENTS_FAV = "apartmentsFav";
     public static final String FROM = "from";
     public static final String BITMAP = "bitmap";
     public static final String BITMAP_FAV = "bitmapFav";
     public static final String FILTERS = "filters";
     public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";
-    public static final String FROM_NOTIF = "from_notif";
-    // Response codes for all activities
+    public static final String FROM_NOTIFICATION = "from_notification";
+    public static final String PICK_CAM = "Pick from Camera";
+    public static final String PICK_GALLERY = "Pick from Gallery";
+    public static final String DELETE = "Delete";
     public static final int REQ_IMAGE = 105;
+    public static final int CAMERA_PERM_CODE = 101;
+    public static final int CALL_PERM_CODE = 22;
 }

@@ -4,9 +4,9 @@ import ch.epfl.sweng.hostme.R;
 
 public enum Document {
 
-    RESIDENCE_PERMIT("Residence permit", "application/pdf", "documents/residence_permit/", "residence_permit", ".pdf", R.id.rpImportButton, R.id.rpImportText, R.id.rpDownloadButton, R.id.rpDownloadText, R.id.rpcheck, 1),
-    SALARY_SLIPS("Salary Slips", "application/pdf", "documents/salary_slips/", "salary_slips", ".pdf", R.id.spImportButton, R.id.spImportText, R.id.spDownloadButton, R.id.spDownloadText, R.id.spcheck, 2),
-    EXECUTION_OFFICE("Extract from the Execution Office", "application/pdf", "documents/exec_office/", "exec_office", ".pdf", R.id.exImportButton, R.id.exImportText, R.id.exDownloadButton, R.id.exDownloadText, R.id.excheck, 3);
+    RESIDENCE_PERMIT("Residence permit", "application/pdf", "documents/residence_permit/", "residence_permit", ".pdf", R.id.rp_import_button, R.id.rp_import_text, R.id.rp_download_button, R.id.rp_download_text, R.id.rp_check, 1),
+    SALARY_SLIPS("Salary Slips", "application/pdf", "documents/salary_slips/", "salary_slips", ".pdf", R.id.sp_import_button, R.id.sp_import_text, R.id.sp_download_button, R.id.sp_download_text, R.id.sp_check, 2),
+    EXECUTION_OFFICE("Extract from the Execution Office", "application/pdf", "documents/exec_office/", "exec_office", ".pdf", R.id.ex_import_button, R.id.ex_import_text, R.id.ex_download_button, R.id.ex_download_text, R.id.ex_check, 3);
 
     private final String documentName;
     private final String type;

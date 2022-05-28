@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/genderQuestion"
+        android:id="@+id/gender_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="177dp"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGrp"
+        android:id="@+id/radio_grp"
         android:layout_width="502dp"
         android:layout_height="151dp"
         android:layout_marginTop="125dp"
@@ -35,10 +35,10 @@
         android:paddingRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genderQuestion">
+        app:layout_constraintTop_toBottomOf="@+id/gender_question">
 
         <RadioButton
-            android:id="@+id/radioM"
+            android:id="@+id/radio_m"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="left"
@@ -50,13 +50,13 @@
             android:fontFamily="@font/roboto"
             android:text="@string/male"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/radioF"
+            app:layout_constraintEnd_toStartOf="@+id/radio_f"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/genderQuestion"
+            app:layout_constraintTop_toBottomOf="@+id/gender_question"
             tools:ignore="RtlHardcoded" />
 
         <RadioButton
-            android:id="@+id/radioF"
+            android:id="@+id/radio_f"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="right"
@@ -69,8 +69,8 @@
             android:text="@string/female"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/radioM"
-            app:layout_constraintTop_toBottomOf="@+id/genderQuestion"
+            app:layout_constraintStart_toEndOf="@+id/radio_m"
+            app:layout_constraintTop_toBottomOf="@+id/gender_question"
             tools:ignore="RtlHardcoded" />
 
     </RadioGroup>
@@ -84,7 +84,7 @@
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_grp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,15 +17,13 @@ import ch.epfl.sweng.hostme.R;
 public class FragmentCreationPage1 extends Fragment {
 
     public final static String GENDER = "Gender";
-    public final static String MALE = "Male";
-    public final static String FEMALE = "Female";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page1, container, false);
 
-        RadioGroup radioGroup = view.findViewById(R.id.radioGrp);
+        RadioGroup radioGroup = view.findViewById(R.id.radio_grp);
         Button genderButt = view.findViewById(R.id.genderNextButton);
         genderButt.setOnClickListener(v -> {
             int selectedGender = radioGroup.getCheckedRadioButtonId();

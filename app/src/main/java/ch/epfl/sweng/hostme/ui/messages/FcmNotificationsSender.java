@@ -17,53 +17,44 @@ import ch.epfl.sweng.hostme.R;
 
 public class FcmNotificationsSender {
 
-    private final String postUrl = "https://fcm.googleapis.com/fcm/send";
-    private final String fcmServerKey = "AAAAynpb0cU:APA91bE270JfYV-p1HuLo1nq-ENrwmk9ZZ0Qbj-D37jpVc9YGS2N-wWy-bYfmK12xOtsp5XmIiGgV1w7sxJxbeeS5TEDtrfHoztvH7F7pc7dyNwhr6sd-BXtUBWN9JqNtlXAfi1NSmHe";
+    private final static String POST_URL = "https://fcm.googleapis.com/fcm/send";
     String userFcmToken;
     String title;
     String body;
-    Context mContext;
-    Activity mActivity;
-    private RequestQueue requestQueue;
+    Context context;
+    Activity activity;
 
-    public FcmNotificationsSender(String userFcmToken, String title, String body, Context mContext, Activity mActivity) {
+    public FcmNotificationsSender(String userFcmToken, String title, String body, Context context, Activity activity) {
         this.userFcmToken = userFcmToken;
         this.title = title;
         this.body = body;
-        this.mContext = mContext;
-        this.mActivity = mActivity;
+        this.context = context;
+        this.activity = activity;
     }
 
     public void sendNotifications() {
-
-        requestQueue = Volley.newRequestQueue(mActivity);
+        RequestQueue requestQueue = Volley.newRequestQueue(this.activity);
         JSONObject mainObj = new JSONObject();
         try {
-            mainObj.put("to", userFcmToken);
-            JSONObject notiObject = new JSONObject();
-            notiObject.put("titre", title);
-            notiObject.put("content", body);
-            notiObject.put("image", R.mipmap.ic_launcher);
-            //notiObject.put("click_action", "OPEN_CALL");
-            mainObj.put("data", notiObject);
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
-
-            }, error -> {
-            }) {
+            mainObj.put("to", this.userFcmToken);
+            JSONObject notificationObject = new JSONObject();
+            notificationObject.put("title", this.title);
+            notificationObject.put("content", this.body);
+            notificationObject.put("image", R.mipmap.ic_launcher);
+            mainObj.put("data", notificationObject);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, POST_URL, mainObj, response -> {}, error -> {})
+            {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
-                    header.put("authorization", "key=" + fcmServerKey);
+                    header.put("authorization", "key=" + context.getString(R.string.fcm_server_key));
                     return header;
                 }
             };
             requestQueue.add(request);
         } catch (Exception ignored) {
         }
-
     }
-
 
 }

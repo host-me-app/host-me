@@ -7,7 +7,7 @@
     android:padding="4dp">
 
     <TextView
-        android:id="@+id/textMessage"
+        android:id="@+id/text_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/sent_message"
@@ -23,12 +23,12 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <TextView
-        android:id="@+id/messageDate"
+        android:id="@+id/message_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/grey"
         android:textSize="8sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textMessage" />
+        app:layout_constraintTop_toBottomOf="@id/text_message" />
 </androidx.constraintlayout.widget.ConstraintLayout>

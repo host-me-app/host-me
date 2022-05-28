@@ -1,5 +1,8 @@
 package ch.epfl.sweng.hostme.maps;
 
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
+
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -35,28 +38,26 @@ import ch.epfl.sweng.hostme.utils.Profile;
 public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReadyCallback {
 
     HashMap<String, LatLng> schools = new HashMap<>();
-    Button daily_route;
-    private View root;
+    Button dailyRoute;
     private String fullAddress;
 
     public MapsFragment() {
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.maps, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.maps, container, false);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            this.fullAddress = bundle.getString("address");
+            this.fullAddress = bundle.getString(ADDRESS);
         }
 
-        daily_route = root.findViewById(R.id.daily_route_maps);
+        this.dailyRoute = root.findViewById(R.id.daily_route_maps);
 
-        schools.put("EPFL", new LatLng(46.5197, 6.5657));
-        schools.put("EHL", new LatLng(46.5604818, 6.6827063));
-        schools.put("CHUV", new LatLng(46.5253, 6.6422));
-        schools.put("UNIL", new LatLng(46.52136915, 6.574215492));
+        this.schools.put("EPFL", new LatLng(46.5197, 6.5657));
+        this.schools.put("EHL", new LatLng(46.5604818, 6.6827063));
+        this.schools.put("CHUV", new LatLng(46.5253, 6.6422));
+        this.schools.put("UNIL", new LatLng(46.52136915, 6.574215492));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         Objects.requireNonNull(mapFragment).getMapAsync(this);
@@ -65,17 +66,11 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
     }
 
     @Override
-    public boolean onBackPressed() {
-        return false;
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        DocumentReference docRef = Database.getCollection("users")
-                .document(Auth.getUid());
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        DocumentReference docRef = Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid());
         docRef.get().addOnSuccessListener(result -> {
             Profile dbProfile = result.toObject(Profile.class);
-            String school = dbProfile.getSchool();
+            String school = Objects.requireNonNull(dbProfile).getSchool();
             Geocoder coder = new Geocoder(this.getContext());
             List<Address> address;
             try {
@@ -89,12 +84,13 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
                         .position(latlng)
                         .title("Your future home!"));
                 if (!school.equals("NONE")) {
-                    LatLng schoolCoordinates = schools.get(school);
+                    LatLng schoolCoordinates = this.schools.get(school);
+                    assert schoolCoordinates != null;
                     googleMap.addMarker(new MarkerOptions()
                             .position(schoolCoordinates)
                             .title(school));
                 }
-                daily_route.setOnClickListener(view -> {
+                this.dailyRoute.setOnClickListener(view -> {
                             String url = "geo:0,0?q=" + latlng.latitude + "," + latlng.longitude + "(Your future home)";
                             Uri gmmIntentUri = Uri.parse(url);
                             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -105,8 +101,12 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(pos));
             } catch (Exception ignored) {
             }
-
         });
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 }
 

@@ -6,5 +6,5 @@ public class ChatMessage {
     public String senderId, receiverId, message, dateTime, apartId, documentName;
     public Boolean isDocument;
     public Date dateObject;
-    public String conversionId, conversionName, conversationImage;
+    public String conversionId, conversionName;
 }

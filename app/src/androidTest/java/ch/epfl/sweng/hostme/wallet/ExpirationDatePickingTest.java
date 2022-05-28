@@ -56,9 +56,9 @@ public class ExpirationDatePickingTest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
@@ -66,7 +66,7 @@ public class ExpirationDatePickingTest {
 
             onView(withId(R.id.wallet_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.rpPickDateButton)).perform(click());
+            onView(withId(R.id.rp_pick_date_button)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
                     .perform(PickerActions.setDate(2025, 3, 22));

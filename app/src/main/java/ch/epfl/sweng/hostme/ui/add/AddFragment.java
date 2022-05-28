@@ -154,7 +154,8 @@ public class AddFragment extends Fragment {
     }
 
     private void clearForm() {
-        for (String it : formFields.keySet()) Objects.requireNonNull(formFields.get(it)).setText("");
+        for (String it : formFields.keySet())
+            Objects.requireNonNull(formFields.get(it)).setText("");
     }
 
     private void spinUp() {
@@ -229,7 +230,7 @@ public class AddFragment extends Fragment {
                 ownerView.setVisibility(View.GONE);
                 notOwner.setVisibility(View.VISIBLE);
             } else {
-                for (DocumentSnapshot it: q.getDocuments()) {
+                for (DocumentSnapshot it : q.getDocuments()) {
                     myListings.add(it.toObject(Apartment.class));
                 }
                 notOwner.setVisibility(View.GONE);
@@ -240,7 +241,7 @@ public class AddFragment extends Fragment {
     }
 
     private void recycle() {
-        ApartmentAdapter recycler = new ApartmentAdapter(myListings, this.getContext());
+        ApartmentAdapter recycler = new ApartmentAdapter(myListings);
         recycler.setFavFragment();
         RecyclerView.LayoutManager lin = new LinearLayoutManager(this.getContext());
         ownerView.setHasFixedSize(true);

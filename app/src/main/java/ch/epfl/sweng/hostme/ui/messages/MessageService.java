@@ -23,7 +23,7 @@ import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.utils.Constants;
 
 public class MessageService extends FirebaseMessagingService {
-    NotificationManager mNotificationManager;
+    private final static String CHANNEL_NAME = "Channel human readable title";
 
     @Override
     public void onNewToken(@NonNull String token) {
@@ -32,7 +32,7 @@ public class MessageService extends FirebaseMessagingService {
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -42,20 +42,19 @@ public class MessageService extends FirebaseMessagingService {
         }
 
         NotificationCompat.Builder builder = createBuilder(remoteMessage);
-        mNotificationManager =
-                (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "Your_channel_id";
             NotificationChannel channel = new NotificationChannel(
                     channelId,
-                    "Channel human readable title",
+                    CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_HIGH);
-            mNotificationManager.createNotificationChannel(channel);
+            notificationManager.createNotificationChannel(channel);
             builder.setChannelId(channelId);
         }
 
-        mNotificationManager.notify(100, builder.build());
+        notificationManager.notify(100, builder.build());
 
     }
 
@@ -66,17 +65,16 @@ public class MessageService extends FirebaseMessagingService {
         builder.setSmallIcon(resourceImage);
 
         Intent resultIntent = new Intent(this, CallActivity.class);
-        if(remoteMessage.getData().get("titre").contentEquals("New Message")){
+        if (remoteMessage.getData().get("title").contentEquals("New Message")) {
             resultIntent = new Intent(this, MenuActivity.class);
         }
-        resultIntent.putExtra(Constants.FROM_NOTIF, true);
+        resultIntent.putExtra(Constants.FROM_NOTIFICATION, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0,
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        builder.setContentTitle(remoteMessage.getData().get("titre"));
+        builder.setContentTitle(remoteMessage.getData().get("title"));
         builder.setContentText(remoteMessage.getData().get("content"));
         builder.setContentIntent(resultPendingIntent);
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getData().get("content")));

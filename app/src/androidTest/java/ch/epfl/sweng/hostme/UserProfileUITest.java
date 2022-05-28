@@ -13,7 +13,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-
 import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
@@ -78,18 +77,18 @@ public class UserProfileUITest {
             String lastName = "account";
             String gender = "Male";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileFirstName)).check(matches(withText(firstName)));
-            onView(withId(R.id.userProfileLastName)).check(matches(withText(lastName)));
-            onView(withId(R.id.userProfileEmail)).check(matches(withText(Auth.getCurrentUser().getEmail())));
+            onView(withId(R.id.user_profile_first_name)).check(matches(withText(firstName)));
+            onView(withId(R.id.user_profile_last_name)).check(matches(withText(lastName)));
+            onView(withId(R.id.user_profile_email)).check(matches(withText(Auth.getCurrentUser().getEmail())));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -104,15 +103,15 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfilelogOutButton)).perform(click());
+            onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Thread.sleep(1000);
 
             Intent intent2 = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
@@ -131,28 +130,28 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
             String firstname = "test modified";
-            onView(withId(R.id.userProfileFirstName)).perform(clearText())
+            onView(withId(R.id.user_profile_first_name)).perform(clearText())
                     .perform(typeText(firstname), closeSoftKeyboard());
-            onView(withId(R.id.userProfileSaveButton)).check(matches(isEnabled()));
-            onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileGenderF)).perform(click());
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).check(matches(isEnabled()));
+            onView(withId(R.id.user_profile_save_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.user_profile_gender_f)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
 
             String firstnameOriginal = "test";
-            onView(withId(R.id.userProfileFirstName)).perform(clearText())
+            onView(withId(R.id.user_profile_first_name)).perform(clearText())
                     .perform(typeText(firstnameOriginal), closeSoftKeyboard());
-            onView(withId(R.id.userProfileGenderM)).perform(click());
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            onView(withId(R.id.user_profile_gender_m)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
 
         } catch (InterruptedException e) {
@@ -169,21 +168,21 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
             String firstname = "test modified";
-            onView(withId(R.id.userProfileFirstName)).perform(clearText())
+            onView(withId(R.id.user_profile_first_name)).perform(clearText())
                     .perform(typeText(firstname), closeSoftKeyboard());
-            onView(withId(R.id.userProfileSaveButton)).check(matches(isEnabled()));
-            onView(withId(R.id.userProfileSaveButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileGenderF)).perform(click());
-            onView(withId(R.id.userProfileGenderM)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).check(matches(isEnabled()));
+            onView(withId(R.id.user_profile_save_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.user_profile_gender_f)).perform(click());
+            onView(withId(R.id.user_profile_gender_m)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -198,9 +197,9 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
@@ -224,31 +223,31 @@ public class UserProfileUITest {
             String originalPassword = "fakePassword1!";
             String newPassword = "!Hostme2022";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileChangePasswordButton)).perform(click());
-            onView(withId(R.id.userProfileChangePsswdTerminate)).perform(click());
+            onView(withId(R.id.user_profile_change_password_button)).perform(click());
+            onView(withId(R.id.user_profile_change_pwd_terminate)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.userProfileOldPassword)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileNewPassword)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileConfirmNewPassword)).check(matches(isDisplayed()));
-            onView(withId(R.id.userProfileOldPassword)).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.userProfileNewPassword)).perform(typeText(newPassword), closeSoftKeyboard());
-            onView(withId(R.id.userProfileConfirmNewPassword)).perform(typeText(newPassword), closeSoftKeyboard());
-            onView(withId(R.id.userProfileChangePsswdTerminate)).perform(click());
+            onView(withId(R.id.user_profile_old_password)).check(matches(isDisplayed()));
+            onView(withId(R.id.user_profile_new_password)).check(matches(isDisplayed()));
+            onView(withId(R.id.user_profile_confirm_new_password)).check(matches(isDisplayed()));
+            onView(withId(R.id.user_profile_old_password)).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_new_password)).perform(typeText(newPassword), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_confirm_new_password)).perform(typeText(newPassword), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_change_pwd_terminate)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileOldPassword)).perform(clearText()).perform(typeText(newPassword), closeSoftKeyboard());
-            onView(withId(R.id.userProfileNewPassword)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.userProfileConfirmNewPassword)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.userProfileChangePsswdTerminate)).perform(click());
+            onView(withId(R.id.user_profile_old_password)).perform(clearText()).perform(typeText(newPassword), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_new_password)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_confirm_new_password)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_change_pwd_terminate)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -266,15 +265,15 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String originalPassword = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+            onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Camera"));
@@ -296,21 +295,21 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String originalPassword = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+            onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
             Thread.sleep(1000);
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).perform(click());
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }
@@ -327,28 +326,28 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String originalPassword = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+            onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
             Thread.sleep(1000);
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+            onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             UiObject pick2 = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick2.click();
             Thread.sleep(1000);
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).perform(click());
 
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
@@ -366,27 +365,27 @@ public class UserProfileUITest {
             String mail = "testlogin@gmail.com";
             String originalPassword = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+            onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             UiDevice device = UiDevice.getInstance(getInstrumentation());
             UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
             pick.click();
             Thread.sleep(1000);
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.userProfileChangePhotoButton)).perform(click());
+            onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             UiObject delete = device.findObject(new UiSelector().text("Delete"));
             delete.click();
-            onView(withId(R.id.userProfileSaveButton)).perform(click());
+            onView(withId(R.id.user_profile_save_button)).perform(click());
         } catch (InterruptedException | UiObjectNotFoundException e) {
             e.printStackTrace();
         }
@@ -413,10 +412,10 @@ public class UserProfileUITest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -434,8 +433,8 @@ public class UserProfileUITest {
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult.jpeg");
         FileOutputStream outStream = null;
-        try{
-            outStream  = new FileOutputStream(file);
+        try {
+            outStream = new FileOutputStream(file);
             bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
             outStream.flush();
             outStream.close();

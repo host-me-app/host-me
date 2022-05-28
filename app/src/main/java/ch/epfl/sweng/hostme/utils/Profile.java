@@ -57,10 +57,6 @@ public class Profile {
         return school;
     }
 
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

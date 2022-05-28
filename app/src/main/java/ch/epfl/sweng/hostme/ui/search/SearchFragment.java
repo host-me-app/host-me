@@ -252,7 +252,7 @@ public class SearchFragment extends Fragment {
      */
     private void displayRecycler() {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate, root.getContext());
+        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);

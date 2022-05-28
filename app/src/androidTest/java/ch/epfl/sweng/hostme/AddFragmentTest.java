@@ -16,8 +16,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import android.Manifest;
 import android.app.Activity;
@@ -88,9 +86,9 @@ public class AddFragmentTest {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -112,9 +110,9 @@ public class AddFragmentTest {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -138,9 +136,9 @@ public class AddFragmentTest {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -175,9 +173,9 @@ public class AddFragmentTest {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -199,9 +197,9 @@ public class AddFragmentTest {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -239,9 +237,9 @@ public class AddFragmentTest {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -307,9 +305,9 @@ public class AddFragmentTest {
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -329,9 +327,9 @@ public class AddFragmentTest {
             String usr = "testchat@gmail.com";
             String pwd = "Hostme@2022";
 
-            onView(withId(R.id.userName)).perform(typeText(usr), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_add)).perform(click());
 

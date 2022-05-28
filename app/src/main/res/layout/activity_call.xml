@@ -15,9 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </FrameLayout>
-
 
     <FrameLayout
         android:id="@+id/floating_video_container"
@@ -43,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/audioBtn"
+            android:id="@+id/audio_button"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="20"
@@ -58,7 +56,7 @@
             android:src="@drawable/btn_switch_camera" />
 
         <ImageView
-            android:id="@+id/leaveBtn"
+            android:id="@+id/leave_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="20"
@@ -66,7 +64,7 @@
             android:src="@drawable/btn_endcall" />
 
         <ImageView
-            android:id="@+id/videoBtn"
+            android:id="@+id/video_button"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="20"

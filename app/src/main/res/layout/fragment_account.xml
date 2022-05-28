@@ -9,7 +9,7 @@
 
 
     <EditText
-        android:id="@+id/userProfileFirstName"
+        android:id="@+id/user_profile_first_name"
         android:layout_width="200dp"
         android:layout_height="51dp"
         android:ems="10"
@@ -25,7 +25,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/userProfileFieldLastName"
+        android:id="@+id/user_profile_field_last_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -33,14 +33,14 @@
         android:textColor="#212121"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/userProfileLastName"
+        app:layout_constraintEnd_toStartOf="@+id/user_profile_last_name"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.337" />
 
     <Button
-        android:id="@+id/userProfilelogOutButton"
+        android:id="@+id/user_profile_log_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -50,11 +50,11 @@
         android:text="@string/log_out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileChangePasswordButton"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_change_password_button"
         tools:ignore="TextContrastCheck" />
 
     <TextView
-        android:id="@+id/userProfileFieldEmail"
+        android:id="@+id/user_profile_field_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
@@ -63,14 +63,14 @@
         android:textColor="#212121"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/userProfileEmail"
+        app:layout_constraintEnd_toStartOf="@+id/user_profile_email"
         app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.438" />
 
     <TextView
-        android:id="@+id/userProfileFieldGender"
+        android:id="@+id/user_profile_field_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
@@ -78,14 +78,14 @@
         android:textColor="#212121"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/userProfileRadioG"
+        app:layout_constraintEnd_toStartOf="@+id/user_profile_radio_g"
         app:layout_constraintHorizontal_bias="0.807"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.534" />
 
     <Button
-        android:id="@+id/userProfileSaveButton"
+        android:id="@+id/user_profile_save_button"
         android:layout_width="116dp"
         android:layout_height="54dp"
         android:layout_marginTop="8dp"
@@ -96,11 +96,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.769"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileRadioG"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_radio_g"
         tools:ignore="TextContrastCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/userProfileChangePhotoButton"
+        android:id="@+id/user_profile_change_photo_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="88dp"
@@ -108,12 +108,12 @@
         android:clickable="true"
         android:src="@drawable/ic_baseline_add_a_photo_24"
         app:fabCustomSize="50dp"
-        app:layout_constraintStart_toStartOf="@+id/userProfileImage"
-        app:layout_constraintTop_toTopOf="@+id/userProfileImage"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_image"
+        app:layout_constraintTop_toTopOf="@+id/user_profile_image"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <RadioGroup
-        android:id="@+id/userProfileRadioG"
+        android:id="@+id/user_profile_radio_g"
         android:layout_width="225dp"
         android:layout_height="51dp"
         android:orientation="horizontal"
@@ -125,7 +125,7 @@
         app:layout_constraintVertical_bias="0.529">
 
         <RadioButton
-            android:id="@+id/userProfileGenderM"
+            android:id="@+id/user_profile_gender_m"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -135,7 +135,7 @@
             android:text="@string/male" />
 
         <RadioButton
-            android:id="@+id/userProfileGenderF"
+            android:id="@+id/user_profile_gender_f"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -146,7 +146,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/userProfileChangePasswordButton"
+        android:id="@+id/user_profile_change_password_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -156,11 +156,11 @@
         android:text="@string/change_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileSaveButton"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_save_button"
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/userProfileLastName"
+        android:id="@+id/user_profile_last_name"
         android:layout_width="200dp"
         android:layout_height="51dp"
         android:ems="10"
@@ -176,7 +176,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/userProfileEmail"
+        android:id="@+id/user_profile_email"
         android:layout_width="200dp"
         android:layout_height="51dp"
         android:ems="10"
@@ -192,7 +192,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/userProfileFieldFirstName"
+        android:id="@+id/user_profile_field_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -200,7 +200,7 @@
         android:textColor="#212121"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/userProfileLastName"
+        app:layout_constraintEnd_toStartOf="@+id/user_profile_last_name"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -223,7 +223,7 @@
         tools:ignore="TextContrastCheck" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userProfileImage"
+        android:id="@+id/user_profile_image"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:clickable="false"

@@ -4,19 +4,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-
-import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -31,16 +22,10 @@ import android.widget.DatePicker;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -86,9 +71,9 @@ public class WalletTest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
@@ -96,7 +81,7 @@ public class WalletTest {
 
             onView(withId(R.id.wallet_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.rpDownloadButton)).perform(click());
+            onView(withId(R.id.rp_download_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -115,27 +100,27 @@ public class WalletTest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
-            onView(withId(R.id.spImportButton)).perform(click());
+            onView(withId(R.id.sp_import_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.spDownloadButton)).perform(click());
+            onView(withId(R.id.sp_download_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.spPickDateButton)).perform(click());
+            onView(withId(R.id.sp_pick_date_button)).perform(click());
             Thread.sleep(1000);
             onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
                     .perform(PickerActions.setDate(2025, 3, 22));
             Thread.sleep(1000);
             onView(withId(android.R.id.button1)).perform(click());
             Thread.sleep(1000);
-         } catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -151,10 +136,10 @@ public class WalletTest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -169,15 +154,15 @@ public class WalletTest {
         Drawable d = ApplicationProvider.getApplicationContext().getResources().getDrawable(R.drawable.add_icon);
         Bitmap bm = drawableToBitmap(d);
         PdfDocument pdfDocument = new PdfDocument();
-        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(960,1280,1).create();
+        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(960, 1280, 1).create();
         PdfDocument.Page page = pdfDocument.startPage(myPageInfo);
-        page.getCanvas().drawBitmap(bm,0,0, null);
+        page.getCanvas().drawBitmap(bm, 0, 0, null);
         pdfDocument.finishPage(page);
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "file.pdf");
         FileOutputStream outStream = null;
-        try{
-            outStream  = new FileOutputStream(file);
+        try {
+            outStream = new FileOutputStream(file);
             pdfDocument.writeTo(outStream);
             outStream.flush();
             outStream.close();

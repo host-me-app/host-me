@@ -46,9 +46,9 @@ public class MapsTest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.recyclerView))
@@ -72,9 +72,9 @@ public class MapsTest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.recyclerView))
@@ -97,9 +97,9 @@ public class MapsTest {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
-            onView(withId(R.id.userName)).perform(typeText(mail), closeSoftKeyboard());
+            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.logInButton)).perform(click());
+            onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.recyclerView))

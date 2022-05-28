@@ -21,7 +21,6 @@ public class ByteBuf {
         return out;
     }
 
-    // packUint16
     public ByteBuf put(short v) {
         buffer.putShort(v);
         return this;
@@ -33,7 +32,6 @@ public class ByteBuf {
         return this;
     }
 
-    // packUint32
     public ByteBuf put(int v) {
         buffer.putInt(v);
         return this;

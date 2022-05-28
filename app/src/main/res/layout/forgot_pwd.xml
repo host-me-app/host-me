@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/nextButtonMail2"
+        android:id="@+id/next_button_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
@@ -16,11 +16,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mailForgotPwd" />
+        app:layout_constraintTop_toBottomOf="@+id/mail_forgot_pwd" />
 
 
     <EditText
-        android:id="@+id/mailForgotPwd"
+        android:id="@+id/mail_forgot_pwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -35,10 +35,10 @@
         android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_addr" />
+        app:layout_constraintTop_toBottomOf="@+id/list_address" />
 
     <TextView
-        android:id="@+id/list_addr"
+        android:id="@+id/list_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="114dp"

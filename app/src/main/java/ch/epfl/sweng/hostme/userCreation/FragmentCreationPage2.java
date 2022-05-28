@@ -14,14 +14,14 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 
 public class FragmentCreationPage2 extends Fragment implements IOnBackPressed {
+
     public final static String FIRST_NAME = "firstName";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_creation_page2, container, false);
-        EditText userName = view.findViewById(R.id.firstName);
-        Button nameButt = view.findViewById(R.id.nextButtonFirstName);
+        EditText userName = view.findViewById(R.id.first_name);
+        Button nameButt = view.findViewById(R.id.next_button_first_name);
         nameButt.setOnClickListener(v -> {
             String name = userName.getText().toString();
             FragmentCreationPage6.DATA.put(FIRST_NAME, name);
@@ -37,21 +37,19 @@ public class FragmentCreationPage2 extends Fragment implements IOnBackPressed {
         changeFragment(new FragmentCreationPage3());
     }
 
-    @Override
-    public boolean onBackPressed() {
-        changeFragment(new FragmentCreationPage1());
-        return true;
-    }
-
     /**
      * Change the fragment (next or previous)
-     *
-     * @param fragment
      */
     private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-        getActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+        requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        changeFragment(new FragmentCreationPage1());
+        return true;
     }
 }

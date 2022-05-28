@@ -29,9 +29,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
 
     <application
@@ -48,6 +48,8 @@
 
         <activity
             android:name=".ui.messages.CallActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.messages.ChatActivity"
@@ -80,7 +82,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".userCreation.EnterMailChangePwd"
+            android:name=".userCreation.ChangePasswordActivity"
             android:parentActivityName=".LogInActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

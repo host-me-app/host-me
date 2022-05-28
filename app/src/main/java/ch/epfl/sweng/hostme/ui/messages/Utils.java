@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Utils {
 
-    public static byte[] hmacSign(String keyString, byte[] msg) throws InvalidKeyException, NoSuchAlgorithmException {
+    public static byte[] macSign(String keyString, byte[] msg) throws InvalidKeyException, NoSuchAlgorithmException {
         SecretKeySpec keySpec = new SecretKeySpec(keyString.getBytes(), "HmacSHA256");
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(keySpec);
@@ -32,7 +32,6 @@ public class Utils {
     }
 
     public static int crc32(String data) {
-        // get bytes from string
         byte[] bytes = data.getBytes();
         return crc32(bytes);
     }
@@ -53,9 +52,9 @@ public class Utils {
 
     public static boolean isUUID(String uuid) {
         if (uuid.length() != 32) {
-            return false;
+            return true;
         }
 
-        return uuid.matches("\\p{XDigit}+");
+        return !uuid.matches("\\p{XDigit}+");
     }
 }

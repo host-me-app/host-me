@@ -11,12 +11,9 @@ import com.google.firebase.Timestamp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import org.junit.Test;
 
 import java.util.Date;
-
-import ch.epfl.sweng.hostme.utils.Constants;
 
 public class ApartmentTest {
 

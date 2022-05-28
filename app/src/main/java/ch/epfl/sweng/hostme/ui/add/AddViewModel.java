@@ -45,8 +45,12 @@ public class AddViewModel extends ViewModel implements AdapterView.OnItemSelecte
     public void validate(EditText chk) {
         if (lock.size() == 11) {
             chk.addTextChangedListener(new TextWatcher() {
-                public void afterTextChanged(Editable s) {}
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void afterTextChanged(Editable s) {
+                }
+
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (!String.valueOf(s).isEmpty()) {
                         lock.add(chk.getId());

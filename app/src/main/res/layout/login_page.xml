@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/appName"
+        android:id="@+id/app_name"
         android:layout_width="153dp"
         android:layout_height="48dp"
         android:layout_marginStart="130dp"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/userName"
+        android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appName"
+        app:layout_constraintTop_toBottomOf="@+id/app_name"
         tools:ignore="LabelFor" />
 
     <EditText
@@ -61,11 +61,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userName"
+        app:layout_constraintTop_toBottomOf="@+id/user_name"
         tools:ignore="LabelFor" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logInButton"
+        android:id="@+id/log_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -79,7 +79,7 @@
         tools:ignore="TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signUpButton"
+        android:id="@+id/sign_up_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -90,10 +90,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logInButton" />
+        app:layout_constraintTop_toBottomOf="@+id/log_in_button" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/forgotPassword"
+        android:id="@+id/forgot_password"
         android:layout_width="207dp"
         android:layout_height="54dp"
         android:layout_marginTop="32dp"
@@ -103,7 +103,7 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpButton"
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_button"
         tools:ignore="MissingConstraints" />
 
 

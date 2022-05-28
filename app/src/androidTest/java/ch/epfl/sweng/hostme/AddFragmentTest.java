@@ -20,6 +20,8 @@ import static org.junit.Assert.assertNotNull;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -261,7 +263,6 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(click());
             Thread.sleep(1000);
         } catch (Exception e) {
@@ -275,7 +276,8 @@ public class AddFragmentTest {
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult2.jpeg");
         Uri uri = Uri.fromFile(file);
-        resultData.setData(uri);
+        ClipData clip = new ClipData(new ClipDescription(ClipDescription.MIMETYPE_TEXT_URILIST, new String[]{"uri"}), new ClipData.Item(uri));
+        resultData.setClipData(clip);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 

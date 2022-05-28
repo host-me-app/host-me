@@ -71,7 +71,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private SharedPreferences preferences;
     private SharedPreferences bitmapPreferences;
 
-    public ApartmentAdapter(List<Apartment> apartments, Context context) {
+    public ApartmentAdapter(List<Apartment> apartments) {
         this.apartments = apartments;
     }
 

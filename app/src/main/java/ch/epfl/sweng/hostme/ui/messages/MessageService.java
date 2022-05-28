@@ -19,6 +19,8 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
 import ch.epfl.sweng.hostme.MenuActivity;
 import ch.epfl.sweng.hostme.utils.Constants;
 
@@ -65,7 +67,7 @@ public class MessageService extends FirebaseMessagingService {
         builder.setSmallIcon(resourceImage);
 
         Intent resultIntent = new Intent(this, CallActivity.class);
-        if (remoteMessage.getData().get("title").contentEquals("New Message")) {
+        if (Objects.requireNonNull(remoteMessage.getData().get("title")).contentEquals("New Message")) {
             resultIntent = new Intent(this, MenuActivity.class);
         }
         resultIntent.putExtra(Constants.FROM_NOTIFICATION, true);

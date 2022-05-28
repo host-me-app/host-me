@@ -37,7 +37,7 @@ public class ByteBuf {
         return this;
     }
 
-    public ByteBuf putIntMap(TreeMap<Short, Integer> extra) {
+    public void putIntMap(TreeMap<Short, Integer> extra) {
         put((short) extra.size());
 
         for (Map.Entry<Short, Integer> pair : extra.entrySet()) {
@@ -45,6 +45,5 @@ public class ByteBuf {
             put(pair.getValue());
         }
 
-        return this;
     }
 }

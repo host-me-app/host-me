@@ -9,6 +9,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
 import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
@@ -70,7 +71,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private SharedPreferences preferences;
     private SharedPreferences bitmapPreferences;
 
-    public ApartmentAdapter(List<Apartment> apartments) {
+    public ApartmentAdapter(List<Apartment> apartments, Context context) {
         this.apartments = apartments;
     }
 
@@ -138,6 +139,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                     Toast.LENGTH_SHORT).show();
                         });
             } else {
+                bitmapPreferences.edit().remove(apartment.getDocId()).apply();
                 favMap.put(apartment.getDocId(), false);
                 editor.putString(apartment.getDocId() + "pressed", "no");
                 editor.apply();
@@ -204,6 +206,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         bundle.putInt(RENT, apartment.getRent());
         bundle.putInt(AREA, apartment.getArea());
         bundle.putString(PROPRIETOR, apartment.getProprietor());
+        bundle.putString(IMAGE_PATH, apartment.getImagePath());
         bundle.putParcelable(BITMAP, hashMap.get(apartment.getDocId()));
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);
@@ -242,7 +245,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                             if (isFavFragment) {
                                 saveBitmap(model, bitmap);
                             }
-                            model.setImage(bitmap);
                             hashMap.put(model.getDocId(), bitmap);
                             holder.image.setImageBitmap(bitmap);
                         });

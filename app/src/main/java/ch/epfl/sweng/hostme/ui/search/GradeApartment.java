@@ -48,12 +48,11 @@ public class GradeApartment extends Fragment {
         saveRatingButton.setOnClickListener(this::saveRatingInfo);
 
         Bundle bundle = this.getArguments();
-        if (bundle != null) {
+        if (bundle != null && !bundle.isEmpty()) {
             apartID = bundle.getString(APART_ID);
+            bundle.clear();
         }
-
         retrieveGradesFromDB();
-
         return root;
     }
 

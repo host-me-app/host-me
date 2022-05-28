@@ -199,6 +199,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setListeners() {
         binding.sendButt.setOnClickListener(v -> sendMessage(binding.inputMessage.getText().toString(), false, ""));
+        binding.chatInfo.setOnClickListener(v -> goInfo());
     }
 
     @Override
@@ -307,6 +308,13 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage(uri.toString(), true, doc.getDocumentName());
             }).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents! \n Check in your wallet if documents are correctly uploaded!", Toast.LENGTH_SHORT).show());
         }
+    }
+
+    private void goInfo(){
+        Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+        intent.putExtra(Constants.FROM, apartId);
+        intent.putExtra(Constants.KEY_USER, receiverUser);
+        startActivity(intent);
     }
 
 }

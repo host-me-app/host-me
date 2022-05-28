@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ch.epfl.sweng.hostme">
 
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -23,7 +22,6 @@
     <uses-permission
         android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"
         tools:ignore="HighSamplingRate" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -33,7 +31,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -42,6 +39,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HostMe"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.messages.InfoActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".wallet.ReminderNotification"
             android:enabled="true" />
@@ -72,6 +73,7 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -102,10 +104,12 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="OPEN_CALL" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="OPEN_MESSAGES" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>

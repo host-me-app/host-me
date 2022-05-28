@@ -155,7 +155,6 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_deposit)).perform(typeText("4"), closeSoftKeyboard());
             onView(withId(R.id.enter_beds)).perform(typeText("5"), closeSoftKeyboard());
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-            onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
 
             onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
             onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));

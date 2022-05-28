@@ -120,43 +120,43 @@ public class AddFragment extends Fragment {
     }
 
     private void textValidation() {
-        formFields.put(Constants.PROPRIETOR, this.root.findViewById(R.id.enter_proprietor));
-        formFields.put(Constants.NAME, this.root.findViewById(R.id.enter_name));
-        formFields.put(Constants.ROOM, this.root.findViewById(R.id.enter_room));
-        formFields.put(Constants.ADDRESS, this.root.findViewById(R.id.enter_address));
-        formFields.put(Constants.NPA, this.root.findViewById(R.id.enter_npa));
-        formFields.put(Constants.CITY, this.root.findViewById(R.id.enter_city));
-        formFields.put(Constants.RENT, this.root.findViewById(R.id.enter_rent));
-        formFields.put(Constants.UTILITIES, this.root.findViewById(R.id.enter_utilities));
-        formFields.put(Constants.DEPOSIT, this.root.findViewById(R.id.enter_deposit));
-        formFields.put(Constants.BEDS, this.root.findViewById(R.id.enter_beds));
-        formFields.put(Constants.AREA, this.root.findViewById(R.id.enter_area));
-        formFields.put(Constants.DURATION, this.root.findViewById(R.id.enter_duration));
+        this.formFields.put(Constants.PROPRIETOR, this.root.findViewById(R.id.enter_proprietor));
+        this.formFields.put(Constants.NAME, this.root.findViewById(R.id.enter_name));
+        this.formFields.put(Constants.ROOM, this.root.findViewById(R.id.enter_room));
+        this.formFields.put(Constants.ADDRESS, this.root.findViewById(R.id.enter_address));
+        this.formFields.put(Constants.NPA, this.root.findViewById(R.id.enter_npa));
+        this.formFields.put(Constants.CITY, this.root.findViewById(R.id.enter_city));
+        this.formFields.put(Constants.RENT, this.root.findViewById(R.id.enter_rent));
+        this.formFields.put(Constants.UTILITIES, this.root.findViewById(R.id.enter_utilities));
+        this.formFields.put(Constants.DEPOSIT, this.root.findViewById(R.id.enter_deposit));
+        this.formFields.put(Constants.BEDS, this.root.findViewById(R.id.enter_beds));
+        this.formFields.put(Constants.AREA, this.root.findViewById(R.id.enter_area));
+        this.formFields.put(Constants.DURATION, this.root.findViewById(R.id.enter_duration));
 
-        for (String it : formFields.keySet()) {
-            EditText ref = formFields.get(it);
+        for (String it : this.formFields.keySet()) {
+            EditText ref = this.formFields.get(it);
             assert ref != null;
-            ref.setOnFocusChangeListener((v, focused) -> addViewModel.validate(ref));
+            ref.setOnFocusChangeListener((v, focused) -> this.addViewModel.validate(ref));
         }
     }
 
     private void clearForm() {
-        for (String it : formFields.keySet())
-            Objects.requireNonNull(formFields.get(it)).setText("");
+        for (String it : this.formFields.keySet())
+            Objects.requireNonNull(this.formFields.get(it)).setText("");
     }
 
     private void spinUp() {
-        dropDowns.put(Constants.BATH, this.root.findViewById(R.id.select_bath));
-        dropDowns.put(Constants.KITCHEN, this.root.findViewById(R.id.select_kitchen));
-        dropDowns.put(Constants.LAUNDRY, this.root.findViewById(R.id.select_laundry));
+        this.dropDowns.put(Constants.BATH, this.root.findViewById(R.id.select_bath));
+        this.dropDowns.put(Constants.KITCHEN, this.root.findViewById(R.id.select_kitchen));
+        this.dropDowns.put(Constants.LAUNDRY, this.root.findViewById(R.id.select_laundry));
 
         ArrayAdapter<CharSequence> arr = ArrayAdapter.createFromResource(this.getContext(),
                 R.array.privacy_enum, android.R.layout.simple_spinner_item);
         arr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for (String menu : dropDowns.keySet()) {
-            Objects.requireNonNull(dropDowns.get(menu)).setAdapter(arr);
-            Objects.requireNonNull(dropDowns.get(menu)).setOnItemSelectedListener(addViewModel);
-            Objects.requireNonNull(dropDowns.get(menu)).setSelection(1);
+        for (String menu : this.dropDowns.keySet()) {
+            Objects.requireNonNull(this.dropDowns.get(menu)).setAdapter(arr);
+            Objects.requireNonNull(this.dropDowns.get(menu)).setOnItemSelectedListener(this.addViewModel);
+            Objects.requireNonNull(this.dropDowns.get(menu)).setSelection(1);
         }
     }
 
@@ -173,28 +173,28 @@ public class AddFragment extends Fragment {
     private Apartment generateApartment(View root) {
         JSONObject fields = new JSONObject();
         String[] privacy = getResources().getStringArray(R.array.privacy_enum);
-        Button furn = root.findViewById(selectFurnished.getCheckedRadioButtonId());
-        Button pet = root.findViewById(selectPets.getCheckedRadioButtonId());
+        Button furn = root.findViewById(this.selectFurnished.getCheckedRadioButtonId());
+        Button pet = root.findViewById(this.selectPets.getCheckedRadioButtonId());
         try {
-            fields.put(Constants.NAME, Objects.requireNonNull(formFields.get(Constants.NAME)).getText().toString());
-            fields.put(Constants.ROOM, Objects.requireNonNull(formFields.get(Constants.ROOM)).getText().toString());
-            fields.put(Constants.ADDRESS, Objects.requireNonNull(formFields.get(Constants.ADDRESS)).getText().toString());
-            fields.put(Constants.NPA, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.NPA)).getText().toString()));
-            fields.put(Constants.CITY, Objects.requireNonNull(formFields.get(Constants.CITY)).getText().toString());
-            fields.put(Constants.RENT, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.RENT)).getText().toString()));
-            fields.put(Constants.BEDS, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.BEDS)).getText().toString()));
-            fields.put(Constants.AREA, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.AREA)).getText().toString()));
+            fields.put(Constants.NAME, Objects.requireNonNull(this.formFields.get(Constants.NAME)).getText().toString());
+            fields.put(Constants.ROOM, Objects.requireNonNull(this.formFields.get(Constants.ROOM)).getText().toString());
+            fields.put(Constants.ADDRESS, Objects.requireNonNull(this.formFields.get(Constants.ADDRESS)).getText().toString());
+            fields.put(Constants.NPA, Integer.valueOf(Objects.requireNonNull(this.formFields.get(Constants.NPA)).getText().toString()));
+            fields.put(Constants.CITY, Objects.requireNonNull(this.formFields.get(Constants.CITY)).getText().toString());
+            fields.put(Constants.RENT, Integer.valueOf(Objects.requireNonNull(this.formFields.get(Constants.RENT)).getText().toString()));
+            fields.put(Constants.BEDS, Integer.valueOf(Objects.requireNonNull(this.formFields.get(Constants.BEDS)).getText().toString()));
+            fields.put(Constants.AREA, Integer.valueOf(Objects.requireNonNull(this.formFields.get(Constants.AREA)).getText().toString()));
             fields.put(Constants.FURNISHED, furn.getText().toString().equals(YES));
-            fields.put(Constants.BATH, privacy[Objects.requireNonNull(dropDowns.get(Constants.BATH)).getSelectedItemPosition()]);
-            fields.put(Constants.KITCHEN, privacy[Objects.requireNonNull(dropDowns.get(Constants.KITCHEN)).getSelectedItemPosition()]);
-            fields.put(Constants.LAUNDRY, privacy[Objects.requireNonNull(dropDowns.get(Constants.LAUNDRY)).getSelectedItemPosition()]);
+            fields.put(Constants.BATH, privacy[Objects.requireNonNull(this.dropDowns.get(Constants.BATH)).getSelectedItemPosition()]);
+            fields.put(Constants.KITCHEN, privacy[Objects.requireNonNull(this.dropDowns.get(Constants.KITCHEN)).getSelectedItemPosition()]);
+            fields.put(Constants.LAUNDRY, privacy[Objects.requireNonNull(this.dropDowns.get(Constants.LAUNDRY)).getSelectedItemPosition()]);
             fields.put(Constants.PETS, pet.getText().toString().equals(YES));
-            fields.put(Constants.IMAGE_PATH, addViewModel.formPath().getValue());
-            fields.put(Constants.PROPRIETOR, Objects.requireNonNull(formFields.get(Constants.PROPRIETOR)).getText().toString());
+            fields.put(Constants.IMAGE_PATH, this.addViewModel.formPath().getValue());
+            fields.put(Constants.PROPRIETOR, Objects.requireNonNull(this.formFields.get(Constants.PROPRIETOR)).getText().toString());
             fields.put(Constants.UID, USR);
-            fields.put(Constants.UTILITIES, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.UTILITIES)).getText().toString()));
-            fields.put(Constants.DEPOSIT, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.DEPOSIT)).getText().toString()));
-            fields.put(Constants.DURATION, Objects.requireNonNull(formFields.get(Constants.DURATION)).getText().toString());
+            fields.put(Constants.UTILITIES, Integer.valueOf(Objects.requireNonNull(this.formFields.get(Constants.UTILITIES)).getText().toString()));
+            fields.put(Constants.DEPOSIT, Integer.valueOf(Objects.requireNonNull(this.formFields.get(Constants.DEPOSIT)).getText().toString()));
+            fields.put(Constants.DURATION, Objects.requireNonNull(this.formFields.get(Constants.DURATION)).getText().toString());
         } catch (Exception ignored) {
         }
 
@@ -211,17 +211,17 @@ public class AddFragment extends Fragment {
     }
 
     private void checkBin() {
-        myListings.clear();
+        this.myListings.clear();
         DB.whereEqualTo(Constants.UID, USR).get().addOnSuccessListener(q -> {
             if (q.isEmpty()) {
                 ownerView.setVisibility(View.GONE);
                 notOwner.setVisibility(View.VISIBLE);
             } else {
                 for (DocumentSnapshot it : q.getDocuments()) {
-                    myListings.add(it.toObject(Apartment.class));
+                    this.myListings.add(it.toObject(Apartment.class));
                 }
-                notOwner.setVisibility(View.GONE);
-                ownerView.setVisibility(View.VISIBLE);
+                this.notOwner.setVisibility(View.GONE);
+                this.ownerView.setVisibility(View.VISIBLE);
                 recycle();
             }
         });
@@ -231,9 +231,8 @@ public class AddFragment extends Fragment {
         ApartmentAdapter recycler = new ApartmentAdapter(myListings);
         recycler.setFavFragment();
         RecyclerView.LayoutManager lin = new LinearLayoutManager(this.getContext());
-        ownerView.setHasFixedSize(true);
-        ownerView.setLayoutManager(lin);
-        ownerView.setAdapter(recycler);
+        this.ownerView.setLayoutManager(lin);
+        this.ownerView.setAdapter(recycler);
     }
 
     @Override

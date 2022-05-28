@@ -38,7 +38,6 @@ import java.util.Objects;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.databinding.FragmentAddBinding;
 import ch.epfl.sweng.hostme.ui.search.ApartmentAdapter;
 import ch.epfl.sweng.hostme.utils.Apartment;
 import ch.epfl.sweng.hostme.utils.Connection;
@@ -47,9 +46,11 @@ import ch.epfl.sweng.hostme.utils.ListImage;
 
 public class AddFragment extends Fragment {
     private static final String ADDED = "Listing created !";
+    private static final String DOC_ID = "docId";
+    private static final String YES = "yes";
     private final CollectionReference DB = Database.getCollection(Constants.APARTMENTS);
     private final String USR = Auth.getUid();
-    private FragmentAddBinding binding;
+    private View root;
     private AddViewModel addViewModel;
     private Map<String, EditText> formFields;
     private Map<String, Spinner> dropDowns;
@@ -60,91 +61,77 @@ public class AddFragment extends Fragment {
     private TextView notOwner;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        addViewModel = new ViewModelProvider(this).get(AddViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.root = inflater.inflate(R.layout.fragment_add, container, false);
 
-        binding = FragmentAddBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        this.addViewModel = new ViewModelProvider(this).get(AddViewModel.class);
 
-        final ScrollView addForm = binding.addForm;
-        formFields = new HashMap<>();
-        dropDowns = new HashMap<>();
-        selectFurnished = binding.selectFurnished;
-        selectPets = binding.selectPets;
+        this.formFields = new HashMap<>();
+        this.dropDowns = new HashMap<>();
+        this.selectFurnished = this.root.findViewById(R.id.select_furnished);
+        this.selectPets = this.root.findViewById(R.id.select_pets);
+        this.ownerView = this.root.findViewById(R.id.owner_view);
+        this.notOwner = this.root.findViewById(R.id.add_first);
+        this.myListings = new ArrayList<>();
 
-        textValidation();
-        spinUp();
+        LinearLayout addButtons = this.root.findViewById(R.id.add_buttons);
+        ScrollView addForm = this.root.findViewById(R.id.add_form);
+        FloatingActionButton addNew = this.root.findViewById(R.id.add_new);
+        Button addSubmit = this.root.findViewById(R.id.add_submit);
+        Button enterImages = this.root.findViewById(R.id.enter_images);
 
-        final LinearLayout addButtons = binding.addButtons;
-        final Button enterImages = binding.enterImages;
-        addViewModel.key(enterImages);
-        final Button addSubmit = binding.addSubmit;
-        final FloatingActionButton addNew = binding.addNew;
+        this.addViewModel.key(enterImages);
+        this.setButtonListener(addSubmit, enterImages, addForm, addNew, addButtons);
+        this.textValidation();
+        this.spinUp();
+        this.checkBin();
+
+        return root;
+    }
+
+    private void setButtonListener(Button addSubmit, Button enterImages, ScrollView addForm, FloatingActionButton addNew, LinearLayout addButtons) {
         enterImages.setOnClickListener(v -> {
-            addViewModel.formPath(Objects.requireNonNull(formFields.get(Constants.PROPRIETOR)),
-                    Objects.requireNonNull(formFields.get(Constants.NAME)),
-                    Objects.requireNonNull(formFields.get(Constants.ROOM)));
-            if (ListImage.getPath() == null || !ListImage.getPath().equals(addViewModel.formPath().getValue())) {
-                ListImage.init(addViewModel.formPath().getValue(), this, this.getContext());
+            this.addViewModel.formPath(Objects.requireNonNull(this.formFields.get(Constants.PROPRIETOR)),
+                    Objects.requireNonNull(this.formFields.get(Constants.NAME)),
+                    Objects.requireNonNull(this.formFields.get(Constants.ROOM)));
+            if (ListImage.getPath() == null || !ListImage.getPath().equals(this.addViewModel.formPath().getValue())) {
+                ListImage.init(this.addViewModel.formPath().getValue(), this, this.getContext());
             }
             ListImage.clear();
             ListImage.acceptImage();
-            addViewModel.key(addSubmit);
+            this.addViewModel.key(addSubmit);
         });
+
         addSubmit.setOnClickListener(v -> {
-            myListings.add(generateApartment(root));
-            ownerView.getAdapter().notifyItemInserted(myListings.size() - 1);
+            this.myListings.add(generateApartment(root));
+            Objects.requireNonNull(this.ownerView.getAdapter()).notifyItemInserted(myListings.size() - 1);
             clearForm();
             ListImage.clear();
             formTransition(addForm, addButtons);
         });
 
         if (Connection.online(requireActivity())) {
-            addNew.setBackgroundTintList(ColorStateList.valueOf(
-                    getResources().getColor(R.color.purple_100)));
+            addNew.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_100)));
         } else {
-            addNew.setBackgroundTintList(ColorStateList.valueOf(
-                    getResources().getColor(R.color.grey)));
+            addNew.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
             addNew.setEnabled(false);
         }
         addNew.setOnClickListener(v -> formTransition(addForm, addButtons));
-
-        ownerView = binding.ownerView;
-        notOwner = binding.addFirst;
-        myListings = new ArrayList<>();
-        checkBin();
-
-        return root;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getClipData() != null) {
-            ListImage.onAcceptImage(resultCode, data.getClipData());
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     private void textValidation() {
-        formFields.put(Constants.PROPRIETOR, binding.enterProprietor);
-        formFields.put(Constants.NAME, binding.enterName);
-        formFields.put(Constants.ROOM, binding.enterRoom);
-        formFields.put(Constants.ADDRESS, binding.enterAddress);
-        formFields.put(Constants.NPA, binding.enterNpa);
-        formFields.put(Constants.CITY, binding.enterCity);
-        formFields.put(Constants.RENT, binding.enterRent);
-        formFields.put(Constants.UTILITIES, binding.enterUtilities);
-        formFields.put(Constants.DEPOSIT, binding.enterDeposit);
-        formFields.put(Constants.BEDS, binding.enterBeds);
-        formFields.put(Constants.AREA, binding.enterArea);
-        formFields.put(Constants.DURATION, binding.enterDuration);
+        formFields.put(Constants.PROPRIETOR, this.root.findViewById(R.id.enter_proprietor));
+        formFields.put(Constants.NAME, this.root.findViewById(R.id.enter_name));
+        formFields.put(Constants.ROOM, this.root.findViewById(R.id.enter_room));
+        formFields.put(Constants.ADDRESS, this.root.findViewById(R.id.enter_address));
+        formFields.put(Constants.NPA, this.root.findViewById(R.id.enter_npa));
+        formFields.put(Constants.CITY, this.root.findViewById(R.id.enter_city));
+        formFields.put(Constants.RENT, this.root.findViewById(R.id.enter_rent));
+        formFields.put(Constants.UTILITIES, this.root.findViewById(R.id.enter_utilities));
+        formFields.put(Constants.DEPOSIT, this.root.findViewById(R.id.enter_deposit));
+        formFields.put(Constants.BEDS, this.root.findViewById(R.id.enter_beds));
+        formFields.put(Constants.AREA, this.root.findViewById(R.id.enter_area));
+        formFields.put(Constants.DURATION, this.root.findViewById(R.id.enter_duration));
 
         for (String it : formFields.keySet()) {
             EditText ref = formFields.get(it);
@@ -159,9 +146,9 @@ public class AddFragment extends Fragment {
     }
 
     private void spinUp() {
-        dropDowns.put(Constants.BATH, binding.selectBath);
-        dropDowns.put(Constants.KITCHEN, binding.selectKitchen);
-        dropDowns.put(Constants.LAUNDRY, binding.selectLaundry);
+        dropDowns.put(Constants.BATH, this.root.findViewById(R.id.select_bath));
+        dropDowns.put(Constants.KITCHEN, this.root.findViewById(R.id.select_kitchen));
+        dropDowns.put(Constants.LAUNDRY, this.root.findViewById(R.id.select_laundry));
 
         ArrayAdapter<CharSequence> arr = ArrayAdapter.createFromResource(this.getContext(),
                 R.array.privacy_enum, android.R.layout.simple_spinner_item);
@@ -173,7 +160,7 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private void formTransition(ScrollView form, LinearLayout buttons) {    // TODO: expand/ collapse from action button
+    private void formTransition(ScrollView form, LinearLayout buttons) {
         if (form.getVisibility() != View.VISIBLE) {
             form.setVisibility(View.VISIBLE);
             buttons.setVisibility(View.VISIBLE);
@@ -197,11 +184,11 @@ public class AddFragment extends Fragment {
             fields.put(Constants.RENT, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.RENT)).getText().toString()));
             fields.put(Constants.BEDS, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.BEDS)).getText().toString()));
             fields.put(Constants.AREA, Integer.valueOf(Objects.requireNonNull(formFields.get(Constants.AREA)).getText().toString()));
-            fields.put(Constants.FURNISHED, furn.getText().toString().equals("yes"));
+            fields.put(Constants.FURNISHED, furn.getText().toString().equals(YES));
             fields.put(Constants.BATH, privacy[Objects.requireNonNull(dropDowns.get(Constants.BATH)).getSelectedItemPosition()]);
             fields.put(Constants.KITCHEN, privacy[Objects.requireNonNull(dropDowns.get(Constants.KITCHEN)).getSelectedItemPosition()]);
             fields.put(Constants.LAUNDRY, privacy[Objects.requireNonNull(dropDowns.get(Constants.LAUNDRY)).getSelectedItemPosition()]);
-            fields.put(Constants.PETS, pet.getText().toString().equals("yes"));
+            fields.put(Constants.PETS, pet.getText().toString().equals(YES));
             fields.put(Constants.IMAGE_PATH, addViewModel.formPath().getValue());
             fields.put(Constants.PROPRIETOR, Objects.requireNonNull(formFields.get(Constants.PROPRIETOR)).getText().toString());
             fields.put(Constants.UID, USR);
@@ -216,7 +203,7 @@ public class AddFragment extends Fragment {
 
         DB.add(ret).addOnSuccessListener(doc -> {
             Map<String, Object> addition = new HashMap<>();
-            addition.put("docId", doc.getId());
+            addition.put(DOC_ID, doc.getId());
             doc.update(addition);
             Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show();
         });
@@ -247,5 +234,18 @@ public class AddFragment extends Fragment {
         ownerView.setHasFixedSize(true);
         ownerView.setLayoutManager(lin);
         ownerView.setAdapter(recycler);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getClipData() != null) {
+            ListImage.onAcceptImage(resultCode, data.getClipData());
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

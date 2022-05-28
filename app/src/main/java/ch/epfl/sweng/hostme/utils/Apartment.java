@@ -34,9 +34,6 @@ public class Apartment {
     private String docId;
     private Bitmap image;
 
-    /**
-     * Constructor for Firebase class binding
-     */
     public Apartment() {
 
     }

@@ -33,21 +33,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view;
         if (viewType == VIEW_TYPE_SENT) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_sent_message, parent, false);
-            return new SentMessageViewHolder(view);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_received_message, parent, false);
-            return new ReceivedMessageViewHolder(view);
         }
+        return new MessageViewHolder(view);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == VIEW_TYPE_SENT) {
-            ((SentMessageViewHolder) holder).setData(chatMessages.get(position));
-        } else {
-            ((ReceivedMessageViewHolder) holder).setData(chatMessages.get(position));
-        }
+        ((MessageViewHolder) holder).setData(chatMessages.get(position));
     }
 
     @Override
@@ -64,38 +59,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    static class SentMessageViewHolder extends RecyclerView.ViewHolder {
+    static class MessageViewHolder extends RecyclerView.ViewHolder {
 
         TextView textMessage;
         TextView messageDate;
 
 
-        SentMessageViewHolder(View itemView) {
-            super(itemView);
-            this.textMessage = itemView.findViewById(R.id.text_message);
-            this.messageDate = itemView.findViewById(R.id.message_date);
-        }
-
-        void setData(ChatMessage chatMessage) {
-            if (chatMessage.isDocument) {
-                this.textMessage.setClickable(true);
-                this.textMessage.setMovementMethod(LinkMovementMethod.getInstance());
-                String text = "<a href='" + chatMessage.message + "' download> Download " + chatMessage.documentName + "</a>";
-                this.textMessage.setText(Html.fromHtml(text));
-                this.textMessage.setLinkTextColor(Color.GREEN);
-            } else {
-                this.textMessage.setText(chatMessage.message);
-                this.messageDate.setText(chatMessage.dateTime);
-            }
-        }
-    }
-
-    static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
-
-        TextView textMessage;
-        TextView messageDate;
-
-        ReceivedMessageViewHolder(View itemView) {
+        MessageViewHolder(View itemView) {
             super(itemView);
             this.textMessage = itemView.findViewById(R.id.text_message);
             this.messageDate = itemView.findViewById(R.id.message_date);

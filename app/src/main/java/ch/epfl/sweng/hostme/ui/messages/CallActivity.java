@@ -96,13 +96,6 @@ public class CallActivity extends AppCompatActivity {
         this.mRtcEngine.switchCamera();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.mRtcEngine.leaveChannel();
-        RtcEngine.destroy();
-    }
-
     private void checkPermissionsAndInitEngine() {
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.RECORD_AUDIO);
@@ -127,7 +120,7 @@ public class CallActivity extends AppCompatActivity {
         reference.document(this.user.id).update(ROOM_NAME, currUserID);
     }
 
-    public void joinChannel() {
+    private void joinChannel() {
         reference.document(Auth.getUid()).get().addOnSuccessListener(res -> {
             if (res.exists()) {
                 String roomName = res.getString(ROOM_NAME);
@@ -205,7 +198,7 @@ public class CallActivity extends AppCompatActivity {
         videoSurface.setVisibility(state == 0 ? View.GONE : View.VISIBLE);
     }
 
-    public void onJoinChannelClicked() {
+    private void onJoinChannelClicked() {
         String channelName = currUserID;
         initToken(channelName);
         this. mRtcEngine.joinChannel(this.result, channelName, null, 0);
@@ -219,7 +212,7 @@ public class CallActivity extends AppCompatActivity {
                 channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
     }
 
-    public void onLeaveChannelClicked() {
+    private void onLeaveChannelClicked() {
         this.mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
@@ -236,35 +229,38 @@ public class CallActivity extends AppCompatActivity {
         videoContainer.removeAllViews();
     }
 
-    public void onAudioMuteClicked(View view) {
+    private void onAudioMuteClicked(View view) {
         ImageView btn = (ImageView) view;
-        if (btn.isSelected()) {
-            btn.setSelected(false);
-            btn.setImageResource(R.drawable.btn_mute);
-        } else {
-            btn.setSelected(true);
-            btn.setImageResource(R.drawable.btn_unmute);
-        }
-
+        changeButtonState(btn, R.drawable.btn_unmute, R.drawable.btn_mute);
         this.mRtcEngine.muteLocalAudioStream(btn.isSelected());
     }
 
-    public void onVideoMuteClicked(View view) {
+    private void onVideoMuteClicked(View view) {
         ImageView btn = (ImageView) view;
-        if (btn.isSelected()) {
-            btn.setSelected(false);
-            btn.setImageResource(R.drawable.video_toggle_btn);
-        } else {
-            btn.setSelected(true);
-            btn.setImageResource(R.drawable.video_toggle_active_btn);
-        }
-
+        changeButtonState(btn, R.drawable.video_toggle_active_btn, R.drawable.video_toggle_btn);
         this. mRtcEngine.muteLocalVideoStream(btn.isSelected());
         FrameLayout container = findViewById(R.id.floating_video_container);
         container.setVisibility(btn.isSelected() ? View.GONE : View.VISIBLE);
         SurfaceView videoSurface = (SurfaceView) container.getChildAt(0);
         videoSurface.setZOrderMediaOverlay(!btn.isSelected());
         videoSurface.setVisibility(btn.isSelected() ? View.GONE : View.VISIBLE);
+    }
+
+    private void changeButtonState(ImageView btn, int active, int inactive) {
+        if (btn.isSelected()) {
+            btn.setSelected(false);
+            btn.setImageResource(inactive);
+        } else {
+            btn.setSelected(true);
+            btn.setImageResource(active);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mRtcEngine.leaveChannel();
+        RtcEngine.destroy();
     }
 
     @Override

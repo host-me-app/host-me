@@ -149,6 +149,7 @@ public class AccountFragment extends Fragment {
         this.accountUtils = new AccountUtils(this, activityResultLauncherGallery, activityResultLauncherCamera, view);
 
         this.userManager = new UserManager(requireContext());
+
         this.editFirstName = view.findViewById(R.id.user_profile_first_name);
         this.editLastName = view.findViewById(R.id.user_profile_last_name);
         this.editEmail = view.findViewById(R.id.user_profile_email);
@@ -156,14 +157,10 @@ public class AccountFragment extends Fragment {
         this.buttonM = view.findViewById(R.id.user_profile_gender_m);
         this.buttonF = view.findViewById(R.id.user_profile_gender_f);
         this.saveButton = view.findViewById(R.id.user_profile_save_button);
-        this.saveButton.setEnabled(false);
         this.editProfilePicture = view.findViewById(R.id.user_profile_image);
-        this.editProfilePicture.setImageBitmap(null);
-        this.editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
+        this.initUI();
 
-        deletePic = false;
-        profilePicInDB = false;
-        uri_to_save = null;
+        changePicture(false, null, false);
 
         Button logOutButton = view.findViewById(R.id.user_profile_log_out_button);
         logOutButton.setOnClickListener(v -> this.logUserOut());
@@ -181,6 +178,12 @@ public class AccountFragment extends Fragment {
         this.loadProfilePictureDB();
 
         return view;
+    }
+
+    private void initUI() {
+        this.saveButton.setEnabled(false);
+        this.editProfilePicture.setImageBitmap(null);
+        this.editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
     }
 
     private void loadProfilePictureDB() {
@@ -325,18 +328,20 @@ public class AccountFragment extends Fragment {
 
             if (deletePic && uri_to_save == null && profilePicInDB) {
                 fileRef.delete()
-                .addOnSuccessListener(taskSnapshot -> changePicture(DELETE_SUCCEED, false)).addOnFailureListener(exception -> Toast.makeText(requireContext(), DELETE_FAILED, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(taskSnapshot -> changePicture(true, DELETE_SUCCEED, false)).addOnFailureListener(exception -> Toast.makeText(requireContext(), DELETE_FAILED, Toast.LENGTH_SHORT).show());
             }
 
             if (uri_to_save != null && !deletePic) {
                 fileRef.putFile(uri_to_save)
-                .addOnSuccessListener(taskSnapshot -> changePicture(UPDATE_SUCCEED, true)).addOnFailureListener(exception -> Toast.makeText(requireContext(), UPDATE_FAILED, Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(taskSnapshot -> changePicture(true, UPDATE_SUCCEED, true)).addOnFailureListener(exception -> Toast.makeText(requireContext(), UPDATE_FAILED, Toast.LENGTH_SHORT).show());
             }
         }).addOnFailureListener(error ->Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
     }
 
-    private void changePicture(String message, boolean inDB) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    private void changePicture(boolean displayMessage, String message, boolean inDB) {
+        if (displayMessage) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        }
         uri_to_save = null;
         deletePic = false;
         profilePicInDB = inDB;

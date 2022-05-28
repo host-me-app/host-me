@@ -140,7 +140,7 @@
 
     <EditText
         android:id="@+id/inputMessage"
-        android:layout_width="279dp"
+        android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"

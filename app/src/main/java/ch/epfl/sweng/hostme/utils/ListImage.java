@@ -23,7 +23,6 @@ public class ListImage {
     private final static String COMPLETE = "File upload complete";
     private final static String PREVIEW = "preview";
 
-    private static String path;
     @SuppressLint("StaticFieldLeak")
     private static Fragment fragment;
     @SuppressLint("StaticFieldLeak")
@@ -31,8 +30,7 @@ public class ListImage {
     private static int ext;
     private static ArrayList<Uri> imagesUri;
 
-    public static void init(String p, Fragment f, Context c) {
-        path = p;
+    public static void init( Fragment f, Context c) {
         fragment = f;
         context = c;
         ext = 0;
@@ -57,6 +55,10 @@ public class ListImage {
         }
     }
 
+    public static boolean areImagesSelected() {
+        return !imagesUri.isEmpty();
+    }
+
     public static void clear() {
         ext = 0;
         imagesUri.clear();
@@ -66,16 +68,12 @@ public class ListImage {
         imagesUri.add(image);
     }
 
-    public static void pushImages() {
+    public static void pushImages(String path) {
         for (Uri uri : imagesUri) {
             ext++;
             @SuppressLint("DefaultLocale") String ref = String.format("%s/%s%d.jpg", path, PREVIEW, ext);
             StorageReference target = Storage.getStorageReferenceByChild(ref);
             target.putFile(uri).addOnSuccessListener(done -> Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show());
         }
-    }
-
-    public static String getPath() {
-        return path;
     }
 }

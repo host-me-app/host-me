@@ -40,10 +40,8 @@ public class ListImageTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String path = "a/p_b_r";
             scenario.onActivity(activity -> {
-                ListImage.init(path, new AddFragment(), ApplicationProvider.getApplicationContext());
-                assertEquals(path, ListImage.getPath());
+                ListImage.init(new AddFragment(), ApplicationProvider.getApplicationContext());
             });
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,9 +1,13 @@
 package ch.epfl.sweng.hostme.ui.add;
 
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +23,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,9 +34,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -51,7 +56,9 @@ public class AddFragment extends Fragment {
     private final CollectionReference DB = Database.getCollection(Constants.APARTMENTS);
     private final String USR = Auth.getUid();
     private View root;
-    private AddViewModel addViewModel;
+    private Set<Integer> lock;
+    private Button enterImages;
+    private Button addSubmit;
     private Map<String, EditText> formFields;
     private Map<String, Spinner> dropDowns;
     private RadioGroup selectFurnished;
@@ -64,10 +71,10 @@ public class AddFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.root = inflater.inflate(R.layout.fragment_add, container, false);
 
-        this.addViewModel = new ViewModelProvider(this).get(AddViewModel.class);
-
         this.formFields = new HashMap<>();
         this.dropDowns = new HashMap<>();
+        this.lock = new HashSet<>();
+
         this.selectFurnished = this.root.findViewById(R.id.select_furnished);
         this.selectPets = this.root.findViewById(R.id.select_pets);
         this.ownerView = this.root.findViewById(R.id.owner_view);
@@ -77,11 +84,12 @@ public class AddFragment extends Fragment {
         LinearLayout addButtons = this.root.findViewById(R.id.add_buttons);
         ScrollView addForm = this.root.findViewById(R.id.add_form);
         FloatingActionButton addNew = this.root.findViewById(R.id.add_new);
-        Button addSubmit = this.root.findViewById(R.id.add_submit);
-        Button enterImages = this.root.findViewById(R.id.enter_images);
+        this.enterImages = this.root.findViewById(R.id.enter_images);
+        this.addSubmit = this.root.findViewById(R.id.add_submit);
 
-        this.addViewModel.key(enterImages);
-        this.setButtonListener(addSubmit, enterImages, addForm, addNew, addButtons);
+        ListImage.init(this, this.getContext());
+
+        this.setButtonListener(addForm, addNew, addButtons);
         this.textValidation();
         this.spinUp();
         this.checkBin();
@@ -89,24 +97,19 @@ public class AddFragment extends Fragment {
         return root;
     }
 
-    private void setButtonListener(Button addSubmit, Button enterImages, ScrollView addForm, FloatingActionButton addNew, LinearLayout addButtons) {
+    private void setButtonListener(ScrollView addForm, FloatingActionButton addNew, LinearLayout addButtons) {
         enterImages.setOnClickListener(v -> {
-            this.addViewModel.formPath(Objects.requireNonNull(this.formFields.get(Constants.PROPRIETOR)),
-                    Objects.requireNonNull(this.formFields.get(Constants.NAME)),
-                    Objects.requireNonNull(this.formFields.get(Constants.ROOM)));
-            if (ListImage.getPath() == null || !ListImage.getPath().equals(this.addViewModel.formPath().getValue())) {
-                ListImage.init(this.addViewModel.formPath().getValue(), this, this.getContext());
-            }
             ListImage.clear();
             ListImage.acceptImage();
-            this.addViewModel.key(addSubmit);
         });
 
         addSubmit.setOnClickListener(v -> {
-            this.myListings.add(generateApartment(root));
-            Objects.requireNonNull(this.ownerView.getAdapter()).notifyItemInserted(myListings.size() - 1);
+            this.myListings.add(generateApartment());
+            Objects.requireNonNull(this.ownerView.getAdapter()).notifyItemInserted(this.myListings.size() - 1);
             clearForm();
             ListImage.clear();
+            this.enterImages.setEnabled(false);
+            this.addSubmit.setEnabled(false);
             formTransition(addForm, addButtons);
         });
 
@@ -136,7 +139,7 @@ public class AddFragment extends Fragment {
         for (String it : this.formFields.keySet()) {
             EditText ref = this.formFields.get(it);
             assert ref != null;
-            ref.setOnFocusChangeListener((v, focused) -> this.addViewModel.validate(ref));
+            ref.setOnFocusChangeListener((v, focused) -> this.validate(ref));
         }
     }
 
@@ -155,7 +158,6 @@ public class AddFragment extends Fragment {
         arr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (String menu : this.dropDowns.keySet()) {
             Objects.requireNonNull(this.dropDowns.get(menu)).setAdapter(arr);
-            Objects.requireNonNull(this.dropDowns.get(menu)).setOnItemSelectedListener(this.addViewModel);
             Objects.requireNonNull(this.dropDowns.get(menu)).setSelection(1);
         }
     }
@@ -170,11 +172,15 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private Apartment generateApartment(View root) {
+    private Apartment generateApartment() {
         JSONObject fields = new JSONObject();
         String[] privacy = getResources().getStringArray(R.array.privacy_enum);
-        Button furn = root.findViewById(this.selectFurnished.getCheckedRadioButtonId());
-        Button pet = root.findViewById(this.selectPets.getCheckedRadioButtonId());
+        Button furn = this.root.findViewById(this.selectFurnished.getCheckedRadioButtonId());
+        Button pet = this.root.findViewById(this.selectPets.getCheckedRadioButtonId());
+        String path = this.formPath(Objects.requireNonNull(this.formFields.get(Constants.PROPRIETOR)),
+                Objects.requireNonNull(this.formFields.get(Constants.NAME)),
+                Objects.requireNonNull(this.formFields.get(Constants.ROOM)));
+
         try {
             fields.put(Constants.NAME, Objects.requireNonNull(this.formFields.get(Constants.NAME)).getText().toString());
             fields.put(Constants.ROOM, Objects.requireNonNull(this.formFields.get(Constants.ROOM)).getText().toString());
@@ -189,7 +195,7 @@ public class AddFragment extends Fragment {
             fields.put(Constants.KITCHEN, privacy[Objects.requireNonNull(this.dropDowns.get(Constants.KITCHEN)).getSelectedItemPosition()]);
             fields.put(Constants.LAUNDRY, privacy[Objects.requireNonNull(this.dropDowns.get(Constants.LAUNDRY)).getSelectedItemPosition()]);
             fields.put(Constants.PETS, pet.getText().toString().equals(YES));
-            fields.put(Constants.IMAGE_PATH, this.addViewModel.formPath().getValue());
+            fields.put(Constants.IMAGE_PATH, path);
             fields.put(Constants.PROPRIETOR, Objects.requireNonNull(this.formFields.get(Constants.PROPRIETOR)).getText().toString());
             fields.put(Constants.UID, USR);
             fields.put(Constants.UTILITIES, Integer.valueOf(Objects.requireNonNull(this.formFields.get(Constants.UTILITIES)).getText().toString()));
@@ -198,7 +204,7 @@ public class AddFragment extends Fragment {
         } catch (Exception ignored) {
         }
 
-        ListImage.pushImages();
+        ListImage.pushImages(path);
         Apartment ret = new Apartment(fields);
 
         DB.add(ret).addOnSuccessListener(doc -> {
@@ -235,11 +241,58 @@ public class AddFragment extends Fragment {
         this.ownerView.setAdapter(recycler);
     }
 
+    private void turn() {
+        if (!enterImages.isEnabled() && lock.size() == 12) {
+            this.enterImages.setEnabled(true);
+        } else if (lock.size() < 12) {
+            this.enterImages.setEnabled(false);
+            this.addSubmit.setEnabled(false);
+        }
+        if (!this.addSubmit.isEnabled() && enterImages.isEnabled() && ListImage.areImagesSelected()) {
+            this.addSubmit.setEnabled(true);
+        }
+    }
+
+    private String formPath(EditText p, EditText b, EditText r) {
+        return String.format("%s/%s_%s_%s", APARTMENTS, p.getText().toString().toLowerCase(),
+                b.getText().toString().toLowerCase(), r.getText().toString().toLowerCase());
+    }
+
+    private void validate(EditText editText) {
+        if (this.lock.size() == 11 || this.lock.size() == 12) {
+            editText.addTextChangedListener(new TextWatcher() {
+                public void afterTextChanged(Editable s) {
+                }
+
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!String.valueOf(s).isEmpty()) {
+                        lock.add(editText.getId());
+                    } else {
+                        lock.remove(editText.getId());
+                    }
+                    turn();
+                }
+            });
+        } else {
+            String input = editText.getText().toString();
+            if (!input.isEmpty()) {
+                this.lock.add(editText.getId());
+            } else {
+                this.lock.remove(editText.getId());
+            }
+        }
+        turn();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQ_IMAGE && resultCode == Activity.RESULT_OK && data.getClipData() != null) {
             ListImage.onAcceptImage(resultCode, data.getClipData());
+            this.turn();
         }
     }
 

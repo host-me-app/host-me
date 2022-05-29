@@ -49,12 +49,13 @@ public final class Constants {
     public static final String PREVIEW_1_JPG = "/preview1.jpg";
     public static final String APARTMENTS = "apartments";
     public static final String FROM = "from";
+    public static final String FROM_CONTACT = "fromContact";
     public static final String BITMAP = "bitmap";
     public static final String BITMAP_FAV = "bitmapFav";
     public static final String FILTERS = "filters";
     public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";
-    public static final String FROM_NOTIFICATION = "from_notification";
+    public static final String FROM_NOTIFICATION = "fromNotification";
     public static final String PICK_CAM = "Pick from Camera";
     public static final String PICK_GALLERY = "Pick from Gallery";
     public static final String DELETE = "Delete";

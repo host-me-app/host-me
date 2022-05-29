@@ -208,7 +208,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                             doc.getString(KEY_LASTNAME),
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
                     Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
-                    newIntent.putExtra(Constants.FROM, apartID);
+                    newIntent.putExtra(Constants.FROM_CONTACT, apartID);
                     newIntent.putExtra(Constants.KEY_USER, user);
                     startActivity(newIntent);
                     getActivity().finish();

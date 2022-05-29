@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
 import static ch.epfl.sweng.hostme.utils.Constants.FROM;
+import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CONVERSATIONS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LAST_MESSAGE;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_TIMESTAMP;
@@ -198,24 +199,12 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadReceiverDetails() {
         this.receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
-        this.apartId = (String) getIntent().getSerializableExtra(FROM);
+        this.apartId = (String) getIntent().getSerializableExtra(FROM_CONTACT);
         this.textName.setText(receiverUser.name);
     }
 
     private void setListeners() {
         this.sendButt.setOnClickListener(v -> sendMessage(this.inputMessage.getText().toString(), false, ""));
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getIntent().getStringExtra(FROM) != null) {
-            startActivity(new Intent(this, MenuActivity.class));
-        } else {
-            Intent intent = new Intent(this, UsersActivity.class);
-            intent.putExtra(FROM, getIntent().getStringExtra(FROM));
-            startActivity(intent);
-            this.finish();
-        }
     }
 
     @NonNull
@@ -293,6 +282,15 @@ public class ChatActivity extends AppCompatActivity {
             String pathString = doc.getPath() + uid + "/" + doc.getFileName() + doc.getFileExtension();
             StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
             fileRef.getDownloadUrl().addOnSuccessListener(uri -> sendMessage(uri.toString(), true, doc.getDocumentName())).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents! \n Check in your wallet if documents are correctly uploaded!", Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent().getStringExtra(FROM_CONTACT) != null) {
+            startActivity(new Intent(this, MenuActivity.class));
+        } else if (getIntent().getStringExtra(FROM) != null){
+            super.onBackPressed();
         }
     }
 

@@ -71,6 +71,11 @@ public class CallActivity extends AppCompatActivity {
         public void onRemoteVideoStateChanged(final int uid, final int state, int reason, int elapsed) {
             runOnUiThread(() -> onRemoteUserVideoToggle(state));
         }
+
+        @Override
+        public void onLeaveChannel(RtcStats stats) {
+            onLeaveChannelClicked();
+        }
     };
 
     @Override
@@ -231,7 +236,7 @@ public class CallActivity extends AppCompatActivity {
 
     private void onAudioMuteClicked(View view) {
         ImageView btn = (ImageView) view;
-        changeButtonState(btn, R.drawable.btn_unmute, R.drawable.btn_mute);
+        changeButtonState(btn, R.drawable.btn_mute, R.drawable.btn_unmute);
         this.mRtcEngine.muteLocalAudioStream(btn.isSelected());
     }
 

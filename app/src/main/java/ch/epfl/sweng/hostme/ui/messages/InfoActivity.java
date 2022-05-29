@@ -1,8 +1,14 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -13,6 +19,7 @@ import java.util.Objects;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.databinding.ActivityInfoBinding;
+import ch.epfl.sweng.hostme.ui.search.GradeApartment;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.Profile;
@@ -26,10 +33,11 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityInfoBinding.inflate(getLayoutInflater());
-        Objects.requireNonNull(this.getSupportActionBar()).hide();
         setContentView(binding.getRoot());
         loadReceiverDetails();
         displayInfo();
+        // grade_button = binding.gradeButton;
+        //grade_button.setOnClickListener(this::goToGradeFragment);
     }
 
     private void loadReceiverDetails() {
@@ -61,5 +69,17 @@ public class InfoActivity extends AppCompatActivity {
         }else{
             addrText.setText(address);
         }
+    }
+
+    private void goToGradeFragment(View view) {
+        Bundle bundle = new Bundle();
+        Fragment fragment = new GradeApartment();
+        FragmentTransaction fragmentTransaction =
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        bundle.putString(APART_ID, this.apartId);
+        fragment.setArguments(bundle);
+        fragmentTransaction.add(R.id.infoContainer, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

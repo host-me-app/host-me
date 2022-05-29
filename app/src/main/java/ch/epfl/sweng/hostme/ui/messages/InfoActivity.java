@@ -36,8 +36,7 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         loadReceiverDetails();
         displayInfo();
-        // grade_button = binding.gradeButton;
-        //grade_button.setOnClickListener(this::goToGradeFragment);
+        binding.gradeButton.setOnClickListener(this::goToGradeFragment);
     }
 
     private void loadReceiverDetails() {

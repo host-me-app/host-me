@@ -35,8 +35,10 @@ public class InfoActivity extends AppCompatActivity {
         binding = ActivityInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         loadReceiverDetails();
-        displayInfo();
-        binding.gradeButton.setOnClickListener(this::goToGradeFragment);
+        if(!(apartId.contentEquals("user"))) {
+            displayInfo();
+            binding.gradeButton.setOnClickListener(this::goToGradeFragment);
+        }
     }
 
     private void loadReceiverDetails() {

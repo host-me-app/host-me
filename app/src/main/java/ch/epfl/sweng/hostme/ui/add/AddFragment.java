@@ -172,14 +172,8 @@ public class AddFragment extends Fragment {
         }
     }
 
-    private Apartment generateApartment() {
+    private JSONObject fillFields(String[] privacy, Button furn, Button pet, String path) {
         JSONObject fields = new JSONObject();
-        String[] privacy = getResources().getStringArray(R.array.privacy_enum);
-        Button furn = this.root.findViewById(this.selectFurnished.getCheckedRadioButtonId());
-        Button pet = this.root.findViewById(this.selectPets.getCheckedRadioButtonId());
-        String path = this.formPath(Objects.requireNonNull(this.formFields.get(Constants.PROPRIETOR)),
-                Objects.requireNonNull(this.formFields.get(Constants.NAME)),
-                Objects.requireNonNull(this.formFields.get(Constants.ROOM)));
 
         try {
             fields.put(Constants.NAME, Objects.requireNonNull(this.formFields.get(Constants.NAME)).getText().toString());
@@ -203,6 +197,19 @@ public class AddFragment extends Fragment {
             fields.put(Constants.DURATION, Objects.requireNonNull(this.formFields.get(Constants.DURATION)).getText().toString());
         } catch (Exception ignored) {
         }
+
+        return fields;
+    }
+
+    private Apartment generateApartment() {
+        String[] privacy = getResources().getStringArray(R.array.privacy_enum);
+        Button furn = this.root.findViewById(this.selectFurnished.getCheckedRadioButtonId());
+        Button pet = this.root.findViewById(this.selectPets.getCheckedRadioButtonId());
+        String path = this.formPath(Objects.requireNonNull(this.formFields.get(Constants.PROPRIETOR)),
+                Objects.requireNonNull(this.formFields.get(Constants.NAME)),
+                Objects.requireNonNull(this.formFields.get(Constants.ROOM)));
+
+        JSONObject fields = this.fillFields(privacy, furn, pet, path);
 
         ListImage.pushImages(path);
         Apartment ret = new Apartment(fields);
@@ -268,10 +275,10 @@ public class AddFragment extends Fragment {
                 }
 
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (!String.valueOf(s).isEmpty()) {
-                        lock.add(editText.getId());
-                    } else {
+                    if (String.valueOf(s).isEmpty()) {
                         lock.remove(editText.getId());
+                    } else {
+                        lock.add(editText.getId());
                     }
                     turn();
                 }

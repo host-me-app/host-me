@@ -5,14 +5,12 @@ import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
-import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -53,6 +51,7 @@ import ch.epfl.sweng.hostme.maps.StreetViewFragment;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 import ch.epfl.sweng.hostme.users.User;
+import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends Fragment implements IOnBackPressed {
 
@@ -78,33 +77,15 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.root = inflater.inflate(R.layout.display_apartment, container, false);
 
-        Button gradeButton = this.root.findViewById(R.id.grade_button);
-        gradeButton.setOnClickListener(this::goToGradeFragment);
-        Button mapsButton = this.root.findViewById(R.id.maps_button);
-        mapsButton.setOnClickListener(this::goToMapsFragment);
-        Button streetViewButton = this.root.findViewById(R.id.street_view_button);
-        streetViewButton.setOnClickListener(this::goToStreetViewFragment);
+        Button grade_button = this.root.findViewById(R.id.grade_button);
+        grade_button.setOnClickListener(this::goToGradeFragment);
+        Button maps_button = this.root.findViewById(R.id.maps_button);
+        maps_button.setOnClickListener(this::goToMapsFragment);
+        Button street_view_button = this.root.findViewById(R.id.street_view_button);
+        street_view_button.setOnClickListener(this::goToStreetViewFragment);
         this.bottomNav = this.requireActivity().findViewById(R.id.nav_view);
         this.bottomNav.setVisibility(View.GONE);
 
-        this.unpackBundle();
-
-        Button contactUser = this.root.findViewById(R.id.contact_user_button);
-        contactUser.setOnClickListener(view -> chatWithUser(uid));
-
-        changeText(String.valueOf(this.npa), R.id.npa);
-        changeText(this.city, R.id.city);
-        changeText(this.address, R.id.addr);
-        changeText(String.valueOf(this.area), R.id.area);
-        changeText(String.valueOf(this.rent), R.id.price);
-        changeText(this.lease, R.id.lease);
-        changeText(this.proprietor, R.id.proprietor);
-        setHorizontalScrollable(this.bitmap, imagePath);
-
-        return this.root;
-    }
-
-    private void unpackBundle() {
         Bundle bundle = this.getArguments();
         if (bundle != null && !bundle.isEmpty()) {
             this.apartID = bundle.getString(APART_ID);
@@ -121,6 +102,17 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             this.imagePath = bundle.getString(IMAGE_PATH);
             bundle.clear();
         }
+        Button contactUser = root.findViewById(R.id.contact_user_button);
+        contactUser.setOnClickListener(view -> chatWithUser(uid));
+        this.changeText(String.valueOf(npa), R.id.npa);
+        this.changeText(city, R.id.city);
+        this.changeText(address, R.id.addr);
+        this.changeText(String.valueOf(area), R.id.area);
+        this.changeText(String.valueOf(rent), R.id.price);
+        this.changeText(lease, R.id.lease);
+        this.changeText(proprietor, R.id.proprietor);
+        this.setHorizontalScrollable(bitmap, imagePath);
+        return this.root;
     }
 
     /**
@@ -161,34 +153,44 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         });
     }
 
-    private FragmentTransaction createTransition(View view, Fragment fragment, String key, String value) {
+    private void goToStreetViewFragment(View view) {
         Bundle bundle = new Bundle();
+        Fragment fragment = new StreetViewFragment();
         FragmentTransaction fragmentTransaction = ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        bundle.putString(key, value);
+        bundle.putString(ADDRESS, this.fullAddress);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);
-        fragmentTransaction.commit();
-        return fragmentTransaction;
-    }
-
-    private void goToStreetViewFragment(View view) {
-        FragmentTransaction fragmentTransaction = this.createTransition(view, new StreetViewFragment(), ADDRESS, this.fullAddress);
         fragmentTransaction.commit();
     }
 
     private void goToMapsFragment(View view) {
-        FragmentTransaction fragmentTransaction = this.createTransition(view, new MapsFragment(), ADDRESS, this.fullAddress);
+        Bundle bundle = new Bundle();
+        Fragment fragment = new MapsFragment();
+        FragmentTransaction fragmentTransaction =
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        bundle.putString(ADDRESS, this.fullAddress);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
     }
 
     private void goToGradeFragment(View view) {
-        FragmentTransaction fragmentTransaction = this.createTransition(view, new GradeApartment(), APART_ID, this.apartID);
+        Bundle bundle = new Bundle();
+        Fragment fragment = new GradeApartment();
+        FragmentTransaction fragmentTransaction =
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        bundle.putString(APART_ID, this.apartID);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
     }
 
     /**
-     * Launch the activity to chat with the owner of the apartment
+     * launch the activity to chat with the owner of the apartment
+     *
      */
     private void chatWithUser(String uid) {
         this.reference.get().addOnSuccessListener(result -> {
@@ -198,8 +200,8 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                             doc.getString(KEY_LASTNAME),
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
                     Intent newIntent = new Intent(this.requireActivity().getApplicationContext(), ChatActivity.class);
-                    newIntent.putExtra(FROM_CONTACT, apartID);
-                    newIntent.putExtra(KEY_USER, user);
+                    newIntent.putExtra(Constants.FROM, apartID);
+                    newIntent.putExtra(Constants.KEY_USER, user);
                     startActivity(newIntent);
                     this.requireActivity().finish();
                 }
@@ -209,7 +211,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
 
     /**
      * change the text view to display the data
-     *
      */
     private void changeText(String address, int id) {
         TextView addressText = this.root.findViewById(id);
@@ -218,7 +219,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
 
     @Override
     public boolean onBackPressed() {
-        bottomNav.setVisibility(View.VISIBLE);
+        this.bottomNav.setVisibility(View.VISIBLE);
         return false;
     }
 }

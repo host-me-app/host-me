@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Switch;
 
@@ -71,6 +72,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<Apartment> apartments;
     private String searchText;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
     private View root;
     private final LocationCallback mLocationCallback = new LocationCallback() {
@@ -100,6 +102,7 @@ public class SearchFragment extends Fragment {
         SearchView searchView = root.findViewById(R.id.search_view);
         clearFilters = root.findViewById(R.id.clear_filters);
         clearFilters.setVisibility(View.GONE);
+        progressBar = root.findViewById(R.id.progress_bar);
 
         apartments = new ArrayList<>();
         editor = getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
@@ -155,6 +158,20 @@ public class SearchFragment extends Fragment {
     }
 
     /**
+     * display a progress bar during the call to the DB
+     * @param isLoading if true show the progress bar otherwise hide
+     */
+    private void loading(Boolean isLoading) {
+        if (isLoading) {
+            recyclerView.setVisibility(View.GONE);
+            this.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            this.progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    /**
      * set the range bar to default values
      */
     private void setRangeBar() {
@@ -195,7 +212,9 @@ public class SearchFragment extends Fragment {
      */
     private void updateRecyclerView(Location location, float radius, float min, float max, float min2, float max2) {
         apartments = new ArrayList<>();
+        loading(true);
         reference.get().addOnSuccessListener(result -> {
+            loading(false);
             apartments.clear();
             QuerySnapshot snapshot = result;
             double latitude = 0;
@@ -231,10 +250,12 @@ public class SearchFragment extends Fragment {
      * Initialize the recycler view with no filtered apartments
      */
     private void setUpRecyclerView() {
+        loading(true);
         editor.putBoolean(IS_FROM_FILTERS, false);
         editor.apply();
         apartments = new ArrayList<>();
         reference.get().addOnSuccessListener(result -> {
+            loading(false);
             apartments.clear();
             QuerySnapshot snapshot = result;
             for (DocumentSnapshot doc : snapshot.getDocuments()) {

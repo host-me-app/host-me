@@ -192,14 +192,11 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
                 
-                <TextView
-                    android:layout_width="15dp"
-                    android:layout_height="0dp" />
-                
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/location_icon" />
+                    android:src="@drawable/location_icon"
+                    android:layout_marginHorizontal="15dp"/>
                 
             </LinearLayout>
             
@@ -225,15 +222,12 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:layout_width="5dp"
-                    android:layout_height="5dp" />
-
-                <TextView
                     android:id="@+id/city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:inputType="textCapWords"
+                    android:layout_marginHorizontal="5dp"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>

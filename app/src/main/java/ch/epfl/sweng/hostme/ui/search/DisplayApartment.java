@@ -5,12 +5,14 @@ import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -38,7 +40,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -52,7 +53,6 @@ import ch.epfl.sweng.hostme.maps.StreetViewFragment;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 import ch.epfl.sweng.hostme.users.User;
-import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends Fragment implements IOnBackPressed {
 
@@ -63,7 +63,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     private String apartID;
     private Bitmap bitmap;
     private String imagePath;
-    private String addr;
+    private String address;
     private int area;
     private int rent;
     private String lease;
@@ -75,55 +75,59 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     public DisplayApartment() {
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.display_apartment, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.root = inflater.inflate(R.layout.display_apartment, container, false);
 
-        Button grade_button = root.findViewById(R.id.grade_button);
-        grade_button.setOnClickListener(this::goToGradeFragment);
-        Button maps_button = root.findViewById(R.id.maps_button);
-        maps_button.setOnClickListener(this::goToMapsFragment);
-        Button street_view_button = root.findViewById(R.id.street_view_button);
-        street_view_button.setOnClickListener(this::goToStreetViewFragment);
-        bottomNav = requireActivity().findViewById(R.id.nav_view);
-        bottomNav.setVisibility(View.GONE);
+        Button gradeButton = this.root.findViewById(R.id.grade_button);
+        gradeButton.setOnClickListener(this::goToGradeFragment);
+        Button mapsButton = this.root.findViewById(R.id.maps_button);
+        mapsButton.setOnClickListener(this::goToMapsFragment);
+        Button streetViewButton = this.root.findViewById(R.id.street_view_button);
+        streetViewButton.setOnClickListener(this::goToStreetViewFragment);
+        this.bottomNav = this.requireActivity().findViewById(R.id.nav_view);
+        this.bottomNav.setVisibility(View.GONE);
 
+        this.unpackBundle();
+
+        Button contactUser = this.root.findViewById(R.id.contact_user_button);
+        contactUser.setOnClickListener(view -> chatWithUser(uid));
+
+        changeText(String.valueOf(this.npa), R.id.npa);
+        changeText(this.city, R.id.city);
+        changeText(this.address, R.id.addr);
+        changeText(String.valueOf(this.area), R.id.area);
+        changeText(String.valueOf(this.rent), R.id.price);
+        changeText(this.lease, R.id.lease);
+        changeText(this.proprietor, R.id.proprietor);
+        setHorizontalScrollable(this.bitmap, imagePath);
+
+        return this.root;
+    }
+
+    private void unpackBundle() {
         Bundle bundle = this.getArguments();
         if (bundle != null && !bundle.isEmpty()) {
-            apartID = bundle.getString(APART_ID);
-            addr = bundle.getString(ADDRESS);
-            area = bundle.getInt(AREA, 0);
-            rent = bundle.getInt(RENT, 0);
-            lease = bundle.getString(LEASE);
-            proprietor = bundle.getString(PROPRIETOR);
-            city = bundle.getString(CITY);
-            npa = bundle.getInt(NPA, 0);
-            fullAddress = addr + " " + city + " " + npa;
-            uid = bundle.getString(UID);
-            bitmap = bundle.getParcelable(BITMAP);
-            imagePath = bundle.getString(IMAGE_PATH);
+            this.apartID = bundle.getString(APART_ID);
+            this.address = bundle.getString(ADDRESS);
+            this.area = bundle.getInt(AREA, 0);
+            this.rent = bundle.getInt(RENT, 0);
+            this.lease = bundle.getString(LEASE);
+            this.proprietor = bundle.getString(PROPRIETOR);
+            this.city = bundle.getString(CITY);
+            this.npa = bundle.getInt(NPA, 0);
+            this.fullAddress = address + " " + city + " " + npa;
+            this.uid = bundle.getString(UID);
+            this.bitmap = bundle.getParcelable(BITMAP);
+            this.imagePath = bundle.getString(IMAGE_PATH);
             bundle.clear();
         }
-        Button contactUser = root.findViewById(R.id.contact_user_button);
-        contactUser.setOnClickListener(view -> chatWithUser(uid));
-        changeText(String.valueOf(npa), R.id.npa);
-        changeText(city, R.id.city);
-        changeText(addr, R.id.addr);
-        changeText(String.valueOf(area), R.id.area);
-        changeText(String.valueOf(rent), R.id.price);
-        changeText(lease, R.id.lease);
-        changeText(proprietor, R.id.proprietor);
-        setHorizontalScrollable(bitmap, imagePath);
-        return root;
     }
 
     /**
      * Set the horizontal scrollable view to have a list of images
-     * @param bitmap
-     * @param imagePath
      */
     private void setHorizontalScrollable(Bitmap bitmap, String imagePath) {
-        LinearLayout gallery = root.findViewById(R.id.gallery);
+        LinearLayout gallery = this.root.findViewById(R.id.gallery);
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View view = layoutInflater.inflate(R.layout.apart_image, gallery, false);
         ImageView image = view.findViewById(R.id.image_apart);
@@ -144,74 +148,60 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                     ProgressBar loading = newView.findViewById(R.id.loading);
                     loading.setVisibility(View.VISIBLE);
                     ref.getFile(localFile)
-                            .addOnSuccessListener(result -> {
-                                Bitmap newBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                                ImageView imageView = newView.findViewById(R.id.image_apart);
-                                imageView.setImageBitmap(newBitmap);
-                                gallery.addView(newView);
-                                loading.setVisibility(View.GONE);
-                            });
+                    .addOnSuccessListener(result -> {
+                        Bitmap newBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        ImageView imageView = newView.findViewById(R.id.image_apart);
+                        imageView.setImageBitmap(newBitmap);
+                        gallery.addView(newView);
+                        loading.setVisibility(View.GONE);
+                    });
                 } catch (IOException ignored) {
                 }
             }
         });
     }
 
-    private void goToStreetViewFragment(View view) {
+    private FragmentTransaction createTransition(View view, Fragment fragment, String key, String value) {
         Bundle bundle = new Bundle();
-        Fragment fragment = new StreetViewFragment();
-        FragmentTransaction fragmentTransaction =
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        bundle.putString("address", this.fullAddress);
+        bundle.putString(key, value);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
+        return fragmentTransaction;
+    }
+
+    private void goToStreetViewFragment(View view) {
+        FragmentTransaction fragmentTransaction = this.createTransition(view, new StreetViewFragment(), ADDRESS, this.fullAddress);
         fragmentTransaction.commit();
     }
 
     private void goToMapsFragment(View view) {
-        Bundle bundle = new Bundle();
-        Fragment fragment = new MapsFragment();
-        FragmentTransaction fragmentTransaction =
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        bundle.putString("address", this.fullAddress);
-        fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.main_container, fragment);
+        FragmentTransaction fragmentTransaction = this.createTransition(view, new MapsFragment(), ADDRESS, this.fullAddress);
         fragmentTransaction.commit();
     }
 
     private void goToGradeFragment(View view) {
-        Bundle bundle = new Bundle();
-        Fragment fragment = new GradeApartment();
-        FragmentTransaction fragmentTransaction =
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        bundle.putString(APART_ID, this.apartID);
-        fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.main_container, fragment);
+        FragmentTransaction fragmentTransaction = this.createTransition(view, new GradeApartment(), APART_ID, this.apartID);
         fragmentTransaction.commit();
     }
 
-
     /**
-     * launch the activity to chat with the owner of the apartment
-     *
-     * @param uid
+     * Launch the activity to chat with the owner of the apartment
      */
     private void chatWithUser(String uid) {
-        reference.get().addOnSuccessListener(result -> {
-            QuerySnapshot snapshot = result;
-            for (DocumentSnapshot doc : snapshot.getDocuments()) {
+        this.reference.get().addOnSuccessListener(result -> {
+            for (DocumentSnapshot doc : result.getDocuments()) {
                 if (doc.getId().equals(uid)) {
                     User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
                             doc.getString(KEY_LASTNAME),
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
-                    Intent newIntent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
-                    newIntent.putExtra(Constants.FROM, apartID);
-                    newIntent.putExtra(Constants.KEY_USER, user);
+                    Intent newIntent = new Intent(this.requireActivity().getApplicationContext(), ChatActivity.class);
+                    newIntent.putExtra(FROM_CONTACT, apartID);
+                    newIntent.putExtra(KEY_USER, user);
                     startActivity(newIntent);
-                    getActivity().finish();
+                    this.requireActivity().finish();
                 }
             }
         });
@@ -220,12 +210,10 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     /**
      * change the text view to display the data
      *
-     * @param addr
-     * @param id
      */
-    private void changeText(String addr, int id) {
-        TextView addrText = root.findViewById(id);
-        addrText.setText(addr);
+    private void changeText(String address, int id) {
+        TextView addressText = this.root.findViewById(id);
+        addressText.setText(address);
     }
 
     @Override

@@ -21,8 +21,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -211,11 +209,11 @@ public class SearchFragment extends Fragment {
             }
             for (DocumentSnapshot doc : result.getDocuments()) {
                 Apartment apartment = doc.toObject(Apartment.class);
-                Long rent = (Long) doc.get(RENT);
-                Long area = (Long) doc.get(AREA);
-                String city = (String) doc.get(CITY);
-                String address = (String) doc.get(ADDRESS);
-                Long npa = (Long) doc.get(NPA);
+                long rent = Objects.requireNonNull(doc.getLong(RENT));
+                long area = Objects.requireNonNull(doc.getLong(AREA));
+                String city = Objects.requireNonNull(doc.getString(CITY));
+                String address = Objects.requireNonNull(doc.getString(ADDRESS));
+                long npa = Objects.requireNonNull(doc.getLong(NPA));
                 String fullAddress = address + " " + city + " " + npa;
                 if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
                     if ((this.searchText == null) || (String.valueOf(npa).toLowerCase().contains(this.searchText) ||

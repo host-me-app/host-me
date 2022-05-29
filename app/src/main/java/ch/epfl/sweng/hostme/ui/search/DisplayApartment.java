@@ -31,7 +31,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -77,32 +76,18 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.root = inflater.inflate(R.layout.display_apartment, container, false);
 
-        Button grade_button = this.root.findViewById(R.id.grade_button);
-        grade_button.setOnClickListener(this::goToGradeFragment);
-        Button maps_button = this.root.findViewById(R.id.maps_button);
-        maps_button.setOnClickListener(this::goToMapsFragment);
-        Button street_view_button = this.root.findViewById(R.id.street_view_button);
-        street_view_button.setOnClickListener(this::goToStreetViewFragment);
+        Button gradeButton = this.root.findViewById(R.id.grade_button);
+        gradeButton.setOnClickListener(v -> this.goToGradeFragment());
+        Button mapsButton = this.root.findViewById(R.id.maps_button);
+        mapsButton.setOnClickListener(v -> this.goToMapsFragment());
+        Button streetViewButton = this.root.findViewById(R.id.street_view_button);
+        streetViewButton.setOnClickListener(v -> this.goToStreetViewFragment());
         this.bottomNav = this.requireActivity().findViewById(R.id.nav_view);
         this.bottomNav.setVisibility(View.GONE);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null && !bundle.isEmpty()) {
-            this.apartID = bundle.getString(APART_ID);
-            this.address = bundle.getString(ADDRESS);
-            this.area = bundle.getInt(AREA, 0);
-            this.rent = bundle.getInt(RENT, 0);
-            this.lease = bundle.getString(LEASE);
-            this.proprietor = bundle.getString(PROPRIETOR);
-            this.city = bundle.getString(CITY);
-            this.npa = bundle.getInt(NPA, 0);
-            this.fullAddress = address + " " + city + " " + npa;
-            this.uid = bundle.getString(UID);
-            this.bitmap = bundle.getParcelable(BITMAP);
-            this.imagePath = bundle.getString(IMAGE_PATH);
-            bundle.clear();
-        }
-        Button contactUser = root.findViewById(R.id.contact_user_button);
+        this.unpackBundle();
+
+        Button contactUser = this.root.findViewById(R.id.contact_user_button);
         contactUser.setOnClickListener(view -> chatWithUser(uid));
         this.changeText(String.valueOf(npa), R.id.npa);
         this.changeText(city, R.id.city);
@@ -113,6 +98,25 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         this.changeText(proprietor, R.id.proprietor);
         this.setHorizontalScrollable(bitmap, imagePath);
         return this.root;
+    }
+
+    private void unpackBundle() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null && !bundle.isEmpty()) {
+            this.apartID = bundle.getString(APART_ID);
+            this.address = bundle.getString(ADDRESS);
+            this.area = bundle.getInt(AREA, 0);
+            this.rent = bundle.getInt(RENT, 0);
+            this.lease = bundle.getString(LEASE);
+            this.proprietor = bundle.getString(PROPRIETOR);
+            this.city = bundle.getString(CITY);
+            this.npa = bundle.getInt(NPA, 0);
+            this.fullAddress = this.address + " " + this.city + " " + this.npa;
+            this.uid = bundle.getString(UID);
+            this.bitmap = bundle.getParcelable(BITMAP);
+            this.imagePath = bundle.getString(IMAGE_PATH);
+            bundle.clear();
+        }
     }
 
     /**
@@ -153,38 +157,28 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         });
     }
 
-    private void goToStreetViewFragment(View view) {
+    private FragmentTransaction createTransaction(Fragment fragment, String key, String value) {
         Bundle bundle = new Bundle();
-        Fragment fragment = new StreetViewFragment();
-        FragmentTransaction fragmentTransaction = ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = this.requireActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        bundle.putString(ADDRESS, this.fullAddress);
+        bundle.putString(key, value);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.main_container, fragment);
+        return fragmentTransaction;
+    }
+
+    private void goToStreetViewFragment() {
+        FragmentTransaction fragmentTransaction = this.createTransaction(new StreetViewFragment(), ADDRESS, this.fullAddress);
         fragmentTransaction.commit();
     }
 
-    private void goToMapsFragment(View view) {
-        Bundle bundle = new Bundle();
-        Fragment fragment = new MapsFragment();
-        FragmentTransaction fragmentTransaction =
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        bundle.putString(ADDRESS, this.fullAddress);
-        fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.main_container, fragment);
+    private void goToMapsFragment() {
+        FragmentTransaction fragmentTransaction = this.createTransaction(new MapsFragment(), ADDRESS, this.fullAddress);
         fragmentTransaction.commit();
     }
 
-    private void goToGradeFragment(View view) {
-        Bundle bundle = new Bundle();
-        Fragment fragment = new GradeApartment();
-        FragmentTransaction fragmentTransaction =
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        bundle.putString(APART_ID, this.apartID);
-        fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.main_container, fragment);
+    private void goToGradeFragment() {
+        FragmentTransaction fragmentTransaction = this.createTransaction(new GradeApartment(), APART_ID, this.apartID);
         fragmentTransaction.commit();
     }
 

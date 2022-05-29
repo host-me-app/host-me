@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     android:clickable="true">
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="6dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="right|top"
         android:orientation="vertical">
 
         <Button
@@ -20,6 +19,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="Add note" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
@@ -36,6 +45,7 @@
                 android:orientation="horizontal" />
 
         </HorizontalScrollView>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -200,7 +210,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_proprietor"
+                android:id="@+id/textProprietor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -214,6 +224,15 @@
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginVertical="30dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/contact_user_button"

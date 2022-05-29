@@ -25,9 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:fillViewport="true"
             android:padding="10dp"
-            android:scaleType="centerInside"
-            android:fillViewport="true">
+            android:scaleType="centerInside">
 
             <LinearLayout
                 android:id="@+id/gallery"

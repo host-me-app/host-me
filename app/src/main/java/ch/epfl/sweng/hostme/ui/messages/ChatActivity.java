@@ -67,21 +67,16 @@ public class ChatActivity extends AppCompatActivity {
     private List<ChatMessage> chatMessages;
     private ChatAdapter chatAdapter;
     private String conversionId = null;
-    private UserManager userManager;
-    private String uid;
-    private RecyclerView recyclerView;
-    private ProgressBar progressBar;
-    private EditText inputMessage;
-    private TextView textName;
-    private ImageView sendButt;
-
     private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
             this.conversionId = documentSnapshot.getId();
         }
     };
-
+    private UserManager userManager;
+    private String uid;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
@@ -117,6 +112,9 @@ public class ChatActivity extends AppCompatActivity {
             this.checkForConversion();
         }
     };
+    private EditText inputMessage;
+    private TextView textName;
+    private ImageView sendButt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

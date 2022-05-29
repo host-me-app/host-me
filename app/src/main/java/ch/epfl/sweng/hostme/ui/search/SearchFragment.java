@@ -75,8 +75,6 @@ public class SearchFragment extends Fragment {
     private ArrayList<Apartment> apartments;
     private String searchText;
     private RecyclerView recyclerView;
-    private Button clearFilters;
-    private FusedLocationProviderClient fusedLocationClient;
     private final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -84,6 +82,8 @@ public class SearchFragment extends Fragment {
             filterLocation(mLastLocation);
         }
     };
+    private Button clearFilters;
+    private FusedLocationProviderClient fusedLocationClient;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search, container, false);

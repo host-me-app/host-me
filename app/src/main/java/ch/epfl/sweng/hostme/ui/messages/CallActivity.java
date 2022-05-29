@@ -51,8 +51,6 @@ public class CallActivity extends AppCompatActivity {
     private ImageView audioButt;
     private ImageView videoButt;
     private User user;
-    private String result;
-
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
@@ -78,6 +76,7 @@ public class CallActivity extends AppCompatActivity {
             onLeaveChannelClicked();
         }
     };
+    private String result;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

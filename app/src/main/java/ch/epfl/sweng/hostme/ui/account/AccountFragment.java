@@ -79,10 +79,28 @@ public class AccountFragment extends Fragment {
     private Button saveButton;
     private Profile dbProfile;
     private String school;
-    private ImageView editProfilePicture;
-    private AccountUtils accountUtils;
-    private UserManager userManager;
+    /**
+     * Watcher for any modifications of the text in the fields of the profile
+     */
+    private final TextWatcher saveProfileWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            checkIfProfileIsModified();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
+    /**
+     * Watcher for any modifications of the gender button that is checked
+     */
+    private final RadioGroup.OnCheckedChangeListener saveProfileCheckWatcher = (group, checkedId) -> checkIfProfileIsModified();
+    private ImageView editProfilePicture;
     private final ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -120,29 +138,8 @@ public class AccountFragment extends Fragment {
                     }
                 }
             });
-
-    /**
-     * Watcher for any modifications of the text in the fields of the profile
-     */
-    private final TextWatcher saveProfileWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            checkIfProfileIsModified();
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    };
-
-    /**
-     * Watcher for any modifications of the gender button that is checked
-     */
-    private final RadioGroup.OnCheckedChangeListener saveProfileCheckWatcher = (group, checkedId) -> checkIfProfileIsModified();
+    private AccountUtils accountUtils;
+    private UserManager userManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);

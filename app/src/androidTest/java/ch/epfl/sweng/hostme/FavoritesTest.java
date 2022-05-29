@@ -46,7 +46,7 @@ public class FavoritesTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
-            onView(withId(R.id.recyclerView)).perform(
+            onView(withId(R.id.search_recycler_view)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
 
             Thread.sleep(1000);
@@ -71,7 +71,7 @@ public class FavoritesTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
-            onView(withId(R.id.recyclerView)).perform(
+            onView(withId(R.id.search_recycler_view)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
 
             Thread.sleep(1000);
@@ -105,9 +105,9 @@ public class FavoritesTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
-            onView(withId(R.id.recyclerView)).perform(
+            onView(withId(R.id.search_recycler_view)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
-            onView(withId(R.id.recyclerView)).perform(
+            onView(withId(R.id.search_recycler_view)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
 
             onView(withId(R.id.navigation_favorites))
@@ -139,7 +139,7 @@ public class FavoritesTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
-            onView(withId(R.id.recyclerView)).perform(
+            onView(withId(R.id.search_recycler_view)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
         }
         Intents.release();

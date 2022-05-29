@@ -59,7 +59,7 @@ public class CallTest {
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.recyclerView)).perform(
+            onView(withId(R.id.search_recycler_view)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(500);
             onView(withId(R.id.contact_user_button)).perform(click());

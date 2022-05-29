@@ -86,12 +86,12 @@ public class SearchFragment extends Fragment {
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.recycler_view, container, false);
+        View root = inflater.inflate(R.layout.fragment_search, container, false);
 
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity());
         this.radiusGpsLayout = root.findViewById(R.id.filter_gps);
-        this.gpsSwitch = root.findViewById(R.id.gpsSwitch);
-        this.recyclerView = root.findViewById(R.id.recyclerView);
+        this.gpsSwitch = root.findViewById(R.id.gps_switch);
+        this.recyclerView = root.findViewById(R.id.search_recycler_view);
         this.rangeBarGps = root.findViewById(R.id.range_bar_gps);
         this.rangeBarPrice = root.findViewById(R.id.range_bar_price);
         this.rangeBarArea = root.findViewById(R.id.range_bar_area);

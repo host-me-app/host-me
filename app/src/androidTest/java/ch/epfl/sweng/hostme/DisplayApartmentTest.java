@@ -62,12 +62,12 @@ public class DisplayApartmentTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.recyclerView))
+            onView(withId(R.id.search_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
             onView(isRoot()).perform(ViewActions.pressBack());
             Thread.sleep(1000);
-            onView(withId(R.id.recyclerView))
+            onView(withId(R.id.search_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
             onView(withId(R.id.contact_user_button)).perform(click());
@@ -137,7 +137,7 @@ public class DisplayApartmentTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.filters)).perform(click());
-            onView(withId(R.id.gpsSwitch)).perform(click());
+            onView(withId(R.id.gps_switch)).perform(click());
             onView(withId(R.id.filters)).perform(click());
             Thread.sleep(2000);
         } catch (InterruptedException e) {

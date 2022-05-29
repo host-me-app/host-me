@@ -26,6 +26,7 @@ import ch.epfl.sweng.hostme.database.Database;
 
 public class GradeApartment extends Fragment {
 
+    private final static String GRADES_SAVED = "Grades saved!";
     private final DocumentReference reference = Database.getCollection(KEY_COLLECTION_RATING).document(Auth.getUid());
     private RatingBar[] ratingBars;
     private String apartID;
@@ -70,7 +71,7 @@ public class GradeApartment extends Fragment {
                 data.put(apartID, grades);
                 reference.set(data);
             }
-            Toast.makeText(view.getContext(), "Grades saved!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), GRADES_SAVED, Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -14,6 +14,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.MAX_PRICE;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PERMISSION_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+import static ch.epfl.sweng.hostme.utils.Location.checkPositionAroundLocation;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -45,7 +46,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -220,7 +220,7 @@ public class SearchFragment extends Fragment {
                 if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
                     if ((this.searchText == null) || (String.valueOf(npa).toLowerCase().contains(this.searchText) ||
                             Objects.requireNonNull(address).toLowerCase().contains(this.searchText) || Objects.requireNonNull(city).toLowerCase().contains(searchText))) {
-                        if (location == null || checkPositionAroundLocation(fullAddress, latitude, longitude, radius)) {
+                        if (location == null || checkPositionAroundLocation(this.getContext(), fullAddress, latitude, longitude, radius)) {
                             this.apartments.add(apartment);
                         }
                     }
@@ -315,32 +315,6 @@ public class SearchFragment extends Fragment {
     private void filterLocation(Location location) {
         this.updateRecyclerView(location);
     }
-
-    private boolean checkPositionAroundLocation(String fullAddress, double latitude, double longitude, float radius) {
-        float radiusMeters = radius * 1000;
-        Geocoder coder = new Geocoder(this.getContext());
-        List<Address> address;
-        try {
-            address = coder.getFromLocationName(fullAddress, 1);
-            Address location = address.get(0);
-            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-            double earthRadius = 6371000;
-            double phyLoc = latitude * Math.PI / 180;
-            double phyApa = latlng.latitude * Math.PI / 180;
-            double deltaPhy = (latlng.latitude - latitude) * Math.PI / 180;
-            double deltaLambda = (latlng.longitude - longitude) * Math.PI / 180;
-
-            double sinDeltaPhy = Math.sin(deltaPhy / 2);
-            double sinDeltaLambda = Math.sin(deltaLambda / 2);
-            double a = sinDeltaPhy * sinDeltaPhy + Math.cos(phyLoc) * Math.cos(phyApa) * sinDeltaLambda * sinDeltaLambda;
-            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            double dist = earthRadius * c;
-            return radiusMeters >= dist;
-        } catch (Exception ignored) {
-        }
-        return false;
-    }
-
 
     /**
      * display or not all the filters

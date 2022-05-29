@@ -91,7 +91,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         holder.addr.setText(apartment.getAddress());
         holder.npa.setText(String.valueOf(apartment.getNpa()));
         holder.city.setText(apartment.getCity());
-        holder.price.setText(String.format("%s CHF/month", apartment.getRent()));
+        holder.price.setText(String.format("CHF %s.—", apartment.getRent()));
         holder.area.setText(String.format("%s m\u00B2", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));

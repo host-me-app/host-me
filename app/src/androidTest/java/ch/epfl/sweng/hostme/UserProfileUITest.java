@@ -31,10 +31,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -274,12 +270,9 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
-
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Camera"));
-            pick.click();
+            onView(withText("Pick from Camera")).perform(click());
             Thread.sleep(1000);
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -305,12 +298,10 @@ public class UserProfileUITest {
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick.click();
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -336,20 +327,18 @@ public class UserProfileUITest {
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick.click();
+
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiObject pick2 = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick2.click();
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
 
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -375,18 +364,15 @@ public class UserProfileUITest {
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick.click();
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
-            UiObject delete = device.findObject(new UiSelector().text("Delete"));
-            delete.click();
+            onView(withText("Delete")).perform(click());
             onView(withId(R.id.user_profile_save_button)).perform(click());
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();

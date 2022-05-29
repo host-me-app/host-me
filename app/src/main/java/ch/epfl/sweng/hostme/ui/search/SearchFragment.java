@@ -280,8 +280,8 @@ public class SearchFragment extends Fragment {
 
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
+        if (this.checkPermissions()) {
+            if (this.isLocationEnabled()) {
                 this.fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                     if (location == null) {
                         LocationRequest locationRequest = new LocationRequest();

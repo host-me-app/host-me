@@ -54,10 +54,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textPrice"
+                android:id="@+id/text_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price : "
+                android:text="CHF "
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -67,6 +67,24 @@
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/price_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=".—"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+
         </LinearLayout>
 
 
@@ -77,7 +95,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textAddr"
+                android:id="@+id/text_addr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -144,7 +162,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textArea"
+                android:id="@+id/text_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -157,6 +175,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/area_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" m²"
+                android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -166,19 +193,20 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textLease"
+                android:id="@+id/text_beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Current Lease : "
+                android:text="Number of beds : "
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/lease"
+                android:id="@+id/beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -188,29 +216,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textOccupants"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Number of occupants : "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/occupants"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textProprietor"
+                android:id="@+id/text_proprietor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

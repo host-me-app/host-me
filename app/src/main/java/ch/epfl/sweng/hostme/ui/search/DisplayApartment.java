@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme.ui.search;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
@@ -11,7 +12,6 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
-import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
@@ -66,7 +66,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     private String addr;
     private int area;
     private int rent;
-    private String lease;
+    private int beds;
     private String proprietor;
     private String city;
     private int npa;
@@ -94,9 +94,9 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             addr = bundle.getString(ADDRESS);
             area = bundle.getInt(AREA, 0);
             rent = bundle.getInt(RENT, 0);
-            lease = bundle.getString(LEASE);
             proprietor = bundle.getString(PROPRIETOR);
             city = bundle.getString(CITY);
+            beds = bundle.getInt(BEDS);
             npa = bundle.getInt(NPA, 0);
             fullAddress = addr + " " + city + " " + npa;
             uid = bundle.getString(UID);
@@ -107,11 +107,11 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         Button contactUser = root.findViewById(R.id.contact_user_button);
         contactUser.setOnClickListener(view -> chatWithUser(uid));
         changeText(String.valueOf(npa), R.id.npa);
+        changeText(String.valueOf(beds), R.id.beds);
         changeText(city, R.id.city);
         changeText(addr, R.id.addr);
         changeText(String.valueOf(area), R.id.area);
         changeText(String.valueOf(rent), R.id.price);
-        changeText(lease, R.id.lease);
         changeText(proprietor, R.id.proprietor);
         setHorizontalScrollable(bitmap, imagePath);
         return root;
@@ -220,12 +220,12 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     /**
      * change the text view to display the data
      *
-     * @param addr
+     * @param field
      * @param id
      */
-    private void changeText(String addr, int id) {
-        TextView addrText = root.findViewById(id);
-        addrText.setText(addr);
+    private void changeText(String field, int id) {
+        TextView fieldText = root.findViewById(id);
+        fieldText.setText(field);
     }
 
     @Override

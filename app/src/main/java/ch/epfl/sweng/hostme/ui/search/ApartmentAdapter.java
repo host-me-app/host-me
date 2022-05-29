@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
@@ -198,6 +199,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         FragmentTransaction fragmentTransaction =
                 ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
+        bundle.putInt(BEDS, apartment.getBeds());
         bundle.putString(APART_ID, apartment.getDocId());
         bundle.putString(UID, apartment.getUid());
         bundle.putString(ADDRESS, apartment.getAddress());

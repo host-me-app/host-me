@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static ch.epfl.sweng.hostme.utils.Constants.FROM_NOTIFICATION;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,7 +24,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Objects;
 
 import ch.epfl.sweng.hostme.MenuActivity;
-import ch.epfl.sweng.hostme.utils.Constants;
 
 public class MessageService extends FirebaseMessagingService {
     private final static String CHANNEL_NAME = "Channel human readable title";
@@ -70,7 +71,7 @@ public class MessageService extends FirebaseMessagingService {
         if (Objects.requireNonNull(remoteMessage.getData().get("title")).contentEquals("New Message")) {
             resultIntent = new Intent(this, MenuActivity.class);
         }
-        resultIntent.putExtra(Constants.FROM_NOTIFICATION, true);
+        resultIntent.putExtra(FROM_NOTIFICATION, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,

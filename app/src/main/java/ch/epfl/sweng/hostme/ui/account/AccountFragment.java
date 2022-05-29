@@ -4,6 +4,9 @@ import static ch.epfl.sweng.hostme.utils.Constants.CAMERA_PERM_CODE;
 import static ch.epfl.sweng.hostme.utils.Constants.DATA;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_NAME;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -47,7 +50,6 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.EmailValidator;
 import ch.epfl.sweng.hostme.utils.Profile;
 import ch.epfl.sweng.hostme.utils.UserManager;
@@ -265,9 +267,9 @@ public class AccountFragment extends Fragment {
         this.editEmail.setText(dbEmail);
         RadioButton selectButton = dbGender.equals(MALE) ? buttonM : buttonF;
         selectButton.setChecked(true);
-        this.userManager.putString(Constants.KEY_FIRSTNAME, dbProfile.getFirstName());
-        this.userManager.putString(Constants.KEY_LASTNAME, dbProfile.getLastName());
-        this.userManager.putString(Constants.KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
+        this.userManager.putString(KEY_FIRSTNAME, dbProfile.getFirstName());
+        this.userManager.putString(KEY_LASTNAME, dbProfile.getLastName());
+        this.userManager.putString(KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());
     }
 
     /**

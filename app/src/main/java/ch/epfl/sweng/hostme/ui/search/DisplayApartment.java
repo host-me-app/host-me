@@ -5,12 +5,14 @@ import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -50,7 +52,6 @@ import ch.epfl.sweng.hostme.maps.StreetViewFragment;
 import ch.epfl.sweng.hostme.ui.IOnBackPressed;
 import ch.epfl.sweng.hostme.ui.messages.ChatActivity;
 import ch.epfl.sweng.hostme.users.User;
-import ch.epfl.sweng.hostme.utils.Constants;
 
 public class DisplayApartment extends Fragment implements IOnBackPressed {
 
@@ -193,8 +194,8 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                             doc.getString(KEY_LASTNAME),
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
                     Intent newIntent = new Intent(this.requireActivity().getApplicationContext(), ChatActivity.class);
-                    newIntent.putExtra(Constants.FROM, apartID);
-                    newIntent.putExtra(Constants.KEY_USER, user);
+                    newIntent.putExtra(FROM, apartID);
+                    newIntent.putExtra(KEY_USER, user);
                     startActivity(newIntent);
                     this.requireActivity().finish();
                 }

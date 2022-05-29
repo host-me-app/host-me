@@ -1,5 +1,25 @@
 package ch.epfl.sweng.hostme.utils;
 
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
+import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BATH;
+import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
+import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.DEPOSIT;
+import static ch.epfl.sweng.hostme.utils.Constants.DURATION;
+import static ch.epfl.sweng.hostme.utils.Constants.FURNISHED;
+import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
+import static ch.epfl.sweng.hostme.utils.Constants.KITCHEN;
+import static ch.epfl.sweng.hostme.utils.Constants.LAUNDRY;
+import static ch.epfl.sweng.hostme.utils.Constants.NAME;
+import static ch.epfl.sweng.hostme.utils.Constants.NPA;
+import static ch.epfl.sweng.hostme.utils.Constants.PETS;
+import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+import static ch.epfl.sweng.hostme.utils.Constants.ROOM;
+import static ch.epfl.sweng.hostme.utils.Constants.UID;
+import static ch.epfl.sweng.hostme.utils.Constants.UTILITIES;
+
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
@@ -47,25 +67,25 @@ public class Apartment {
      */
     public Apartment(JSONObject fields) {
         try {
-            this.name = fields.getString(Constants.NAME);
-            this.room = fields.getString(Constants.ROOM);
-            this.address = fields.getString(Constants.ADDRESS);
-            this.npa = fields.getInt(Constants.NPA);
-            this.city = fields.getString(Constants.CITY);
-            this.rent = fields.getInt(Constants.RENT);
-            this.beds = fields.getInt(Constants.BEDS);
-            this.area = fields.getInt(Constants.AREA);
-            this.furnished = fields.getBoolean(Constants.FURNISHED);
-            this.bath = fields.getString(Constants.BATH);
-            this.kitchen = fields.getString(Constants.KITCHEN);
-            this.laundry = fields.getString(Constants.LAUNDRY);
-            this.pets = fields.getBoolean(Constants.PETS);
-            this.imagePath = fields.getString(Constants.IMAGE_PATH);
-            this.proprietor = fields.getString(Constants.PROPRIETOR);
-            this.uid = fields.getString(Constants.UID);
-            this.utilities = fields.getInt(Constants.UTILITIES);
-            this.deposit = fields.getInt(Constants.DEPOSIT);
-            this.duration = fields.getInt(Constants.DURATION);
+            this.name = fields.getString(NAME);
+            this.room = fields.getString(ROOM);
+            this.address = fields.getString(ADDRESS);
+            this.npa = fields.getInt(NPA);
+            this.city = fields.getString(CITY);
+            this.rent = fields.getInt(RENT);
+            this.beds = fields.getInt(BEDS);
+            this.area = fields.getInt(AREA);
+            this.furnished = fields.getBoolean(FURNISHED);
+            this.bath = fields.getString(BATH);
+            this.kitchen = fields.getString(KITCHEN);
+            this.laundry = fields.getString(LAUNDRY);
+            this.pets = fields.getBoolean(PETS);
+            this.imagePath = fields.getString(IMAGE_PATH);
+            this.proprietor = fields.getString(PROPRIETOR);
+            this.uid = fields.getString(UID);
+            this.utilities = fields.getInt(UTILITIES);
+            this.deposit = fields.getInt(DEPOSIT);
+            this.duration = fields.getInt(DURATION);
 
             this.available = true;
             this.currentLease = null;
@@ -258,26 +278,26 @@ public class Apartment {
     public JSONObject exportDoc() {
         JSONObject ret = new JSONObject();
         try {
-            ret.put(Constants.NAME, this.name);
-            ret.put(Constants.ROOM, this.room);
-            ret.put(Constants.ADDRESS, this.address);
-            ret.put(Constants.NPA, this.npa);
-            ret.put(Constants.CITY, this.city);
-            ret.put(Constants.RENT, this.rent);
-            ret.put(Constants.BEDS, this.beds);
-            ret.put(Constants.AREA, this.area);
-            ret.put(Constants.FURNISHED, this.furnished);
-            ret.put(Constants.BATH, this.bath);
-            ret.put(Constants.KITCHEN, this.kitchen);
-            ret.put(Constants.LAUNDRY, this.laundry);
-            ret.put(Constants.PETS, this.pets);
-            ret.put(Constants.IMAGE_PATH, this.imagePath);
+            ret.put(NAME, this.name);
+            ret.put(ROOM, this.room);
+            ret.put(ADDRESS, this.address);
+            ret.put(NPA, this.npa);
+            ret.put(CITY, this.city);
+            ret.put(RENT, this.rent);
+            ret.put(BEDS, this.beds);
+            ret.put(AREA, this.area);
+            ret.put(FURNISHED, this.furnished);
+            ret.put(BATH, this.bath);
+            ret.put(KITCHEN, this.kitchen);
+            ret.put(LAUNDRY, this.laundry);
+            ret.put(PETS, this.pets);
+            ret.put(IMAGE_PATH, this.imagePath);
             ret.put("available", this.available);
-            ret.put(Constants.PROPRIETOR, this.proprietor);
-            ret.put(Constants.UID, this.uid);
-            ret.put(Constants.UTILITIES, this.utilities);
-            ret.put(Constants.DEPOSIT, this.deposit);
-            ret.put(Constants.DURATION, this.duration);
+            ret.put(PROPRIETOR, this.proprietor);
+            ret.put(UID, this.uid);
+            ret.put(UTILITIES, this.utilities);
+            ret.put(DEPOSIT, this.deposit);
+            ret.put(DURATION, this.duration);
             ret.put("currentLease", this.currentLease);
             ret.put("docId", this.docId);
         } catch (Exception ignored) {

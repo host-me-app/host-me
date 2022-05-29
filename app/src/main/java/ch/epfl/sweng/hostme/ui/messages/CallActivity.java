@@ -3,6 +3,8 @@ package ch.epfl.sweng.hostme.ui.messages;
 import static ch.epfl.sweng.hostme.utils.Constants.CALL_PERM_CODE;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM_NOTIFICATION;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
+import static io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING;
+import static io.agora.rtc.IRtcEngineEventHandler.ClientRole.CLIENT_ROLE_BROADCASTER;
 
 import android.Manifest;
 import android.content.Intent;
@@ -30,7 +32,6 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.users.User;
-import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -174,14 +175,14 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void setupLocalVideoFeed() {
-        this.mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+        this.mRtcEngine.setChannelProfile(CHANNEL_PROFILE_LIVE_BROADCASTING);
         this.mRtcEngine.enableVideo();
         VideoEncoderConfiguration mVEC = new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360,
                 VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
                 VideoEncoderConfiguration.STANDARD_BITRATE,
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
         this.mRtcEngine.setVideoEncoderConfiguration(mVEC);
-        this.mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
+        this.mRtcEngine.setClientRole(CLIENT_ROLE_BROADCASTER);
         FrameLayout videoContainer = findViewById(R.id.floating_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
         videoSurface.setZOrderMediaOverlay(true);

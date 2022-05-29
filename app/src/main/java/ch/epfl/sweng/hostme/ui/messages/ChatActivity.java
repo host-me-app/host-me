@@ -1,10 +1,20 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CHAT;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CONVERSATIONS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_DOCUMENT_NAME;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_IS_DOCUMENT;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LAST_MESSAGE;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_MESSAGE;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_RECEIVER_ID;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_RECEIVER_NAME;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_ID;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_NAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_TIMESTAMP;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -46,7 +56,6 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.utils.Connection;
-import ch.epfl.sweng.hostme.utils.Constants;
 import ch.epfl.sweng.hostme.utils.UserManager;
 import ch.epfl.sweng.hostme.wallet.Document;
 
@@ -83,14 +92,14 @@ public class ChatActivity extends AppCompatActivity {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
                     ChatMessage chatMessage = new ChatMessage();
-                    chatMessage.senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
-                    chatMessage.receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                    chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
-                    chatMessage.isDocument = documentChange.getDocument().getBoolean(Constants.KEY_IS_DOCUMENT);
-                    chatMessage.documentName = documentChange.getDocument().getString(Constants.KEY_DOCUMENT_NAME);
+                    chatMessage.senderId = documentChange.getDocument().getString(KEY_SENDER_ID);
+                    chatMessage.receiverId = documentChange.getDocument().getString(KEY_RECEIVER_ID);
+                    chatMessage.message = documentChange.getDocument().getString(KEY_MESSAGE);
+                    chatMessage.isDocument = documentChange.getDocument().getBoolean(KEY_IS_DOCUMENT);
+                    chatMessage.documentName = documentChange.getDocument().getString(KEY_DOCUMENT_NAME);
                     chatMessage.dateTime = getReadableDataTime(documentChange.getDocument().getDate(KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
-                    chatMessage.apartId = documentChange.getDocument().getString(Constants.APART_ID);
+                    chatMessage.apartId = documentChange.getDocument().getString(APART_ID);
                     this.chatMessages.add(chatMessage);
                 }
             }
@@ -154,14 +163,14 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage(String messageStr, boolean isDocument, String documentName) {
         if (messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
-            message.put(Constants.KEY_SENDER_ID, uid);
-            message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            message.put(Constants.KEY_MESSAGE, messageStr.trim());
-            message.put(Constants.KEY_IS_DOCUMENT, isDocument);
-            message.put(Constants.KEY_DOCUMENT_NAME, documentName);
+            message.put(KEY_SENDER_ID, uid);
+            message.put(KEY_RECEIVER_ID, receiverUser.id);
+            message.put(KEY_MESSAGE, messageStr.trim());
+            message.put(KEY_IS_DOCUMENT, isDocument);
+            message.put(KEY_DOCUMENT_NAME, documentName);
             message.put(KEY_TIMESTAMP, new Date());
-            message.put(Constants.APART_ID, apartId);
-            Database.getCollection(Constants.KEY_COLLECTION_CHAT).add(message);
+            message.put(APART_ID, apartId);
+            Database.getCollection(KEY_COLLECTION_CHAT).add(message);
             this.addConversation(messageStr.trim());
             this.sendNotification();
         }
@@ -173,32 +182,32 @@ public class ChatActivity extends AppCompatActivity {
             this.inputMessage.setText(null);
         } else {
             HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_SENDER_ID, uid);
-            conversion.put(Constants.KEY_SENDER_NAME, userManager.getString(Constants.KEY_SENDER_NAME));
-            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+            conversion.put(KEY_SENDER_ID, uid);
+            conversion.put(KEY_SENDER_NAME, userManager.getString(KEY_SENDER_NAME));
+            conversion.put(KEY_RECEIVER_ID, receiverUser.id);
+            conversion.put(KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(KEY_LAST_MESSAGE, this.inputMessage.getText().toString());
             conversion.put(KEY_TIMESTAMP, new Date());
-            conversion.put(Constants.APART_ID, apartId);
+            conversion.put(APART_ID, apartId);
             this.addConversion(conversion);
         }
     }
 
     private void listenMessages() {
-        Database.getCollection(Constants.KEY_COLLECTION_CHAT)
-                .whereEqualTo(Constants.KEY_SENDER_ID, uid)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
-                .whereEqualTo(Constants.APART_ID, apartId)
+        Database.getCollection(KEY_COLLECTION_CHAT)
+                .whereEqualTo(KEY_SENDER_ID, uid)
+                .whereEqualTo(KEY_RECEIVER_ID, receiverUser.id)
+                .whereEqualTo(APART_ID, apartId)
                 .addSnapshotListener(eventListener);
-        Database.getCollection(Constants.KEY_COLLECTION_CHAT)
-                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.id)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, uid)
-                .whereEqualTo(Constants.APART_ID, apartId)
+        Database.getCollection(KEY_COLLECTION_CHAT)
+                .whereEqualTo(KEY_SENDER_ID, receiverUser.id)
+                .whereEqualTo(KEY_RECEIVER_ID, uid)
+                .whereEqualTo(APART_ID, apartId)
                 .addSnapshotListener(eventListener);
     }
 
     private void loadReceiverDetails() {
-        this.receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
+        this.receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
         this.apartId = (String) getIntent().getSerializableExtra(FROM_CONTACT);
         this.textName.setText(receiverUser.name);
     }
@@ -233,16 +242,16 @@ public class ChatActivity extends AppCompatActivity {
 
     private void checkForConversionRemotely(String senderId, String receiverId) {
         Database.getCollection(KEY_COLLECTION_CONVERSATIONS)
-                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
-                .whereEqualTo(Constants.APART_ID, apartId)
+                .whereEqualTo(KEY_SENDER_ID, senderId)
+                .whereEqualTo(KEY_RECEIVER_ID, receiverId)
+                .whereEqualTo(APART_ID, apartId)
                 .get()
                 .addOnCompleteListener(conversionOnCompleteListener);
     }
 
     private void sendNotification() {
         FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message",
-                " From : " + userManager.getString(Constants.KEY_SENDER_NAME), getApplicationContext(), ChatActivity.this);
+                " From : " + userManager.getString(KEY_SENDER_NAME), getApplicationContext(), ChatActivity.this);
         sender.sendNotifications();
         this.inputMessage.setText(null);
     }

@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_PREFERENCE_NAME;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -8,7 +10,7 @@ public class UserManager {
     private final SharedPreferences sharedPreferences;
 
     public UserManager(Context context) {
-        sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
 
     public void putString(String key, String value) {

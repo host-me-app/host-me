@@ -124,27 +124,27 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                 editor.putString(apartment.getDocId() + PRESSED, YES);
                 editor.apply();
                 documentRef.get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocId()));
-                    } else {
-                        HashMap<String, ArrayList> mapData = new HashMap<>();
-                        ArrayList<String> favorites = new ArrayList<>();
-                        favorites.add(apartment.getDocId());
-                        mapData.put(FAVORITES, favorites);
-                        documentRef.set(mapData);
-                    }
-                });
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocId()));
+                            } else {
+                                HashMap<String, ArrayList> mapData = new HashMap<>();
+                                ArrayList<String> favorites = new ArrayList<>();
+                                favorites.add(apartment.getDocId());
+                                mapData.put(FAVORITES, favorites);
+                                documentRef.set(mapData);
+                            }
+                        });
             } else {
                 bitmapPreferences.edit().remove(apartment.getDocId()).apply();
                 editor.putString(apartment.getDocId() + PRESSED, NO);
                 editor.apply();
                 documentRef.get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocId()));
-                    }
-                });
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocId()));
+                            }
+                        });
             }
         }
     }
@@ -179,7 +179,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Launch the fragment that displays the specific data for apartment
-     *
      */
     private void displayApartment(Apartment apartment, View view) {
         Bundle bundle = new Bundle();
@@ -208,7 +207,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Retrieve image from Firestore storage and display it
-     *
      */
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
@@ -240,7 +238,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Save the bitmap in shared preferences for caching the favorites apartments
-     *
      */
     private void saveBitmap(@NonNull Apartment model, Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

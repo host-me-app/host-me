@@ -42,7 +42,6 @@ public class FragmentCreationPage3 extends Fragment implements IOnBackPressed {
 
     /**
      * Change the fragment (next or previous)
-     *
      */
     private void changeFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();

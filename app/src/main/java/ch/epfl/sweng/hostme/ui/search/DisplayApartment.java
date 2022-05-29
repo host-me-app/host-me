@@ -144,13 +144,13 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                     ProgressBar loading = newView.findViewById(R.id.loading);
                     loading.setVisibility(View.VISIBLE);
                     ref.getFile(localFile)
-                    .addOnSuccessListener(result -> {
-                        Bitmap newBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        ImageView imageView = newView.findViewById(R.id.image_apart);
-                        imageView.setImageBitmap(newBitmap);
-                        gallery.addView(newView);
-                        loading.setVisibility(View.GONE);
-                    });
+                            .addOnSuccessListener(result -> {
+                                Bitmap newBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                ImageView imageView = newView.findViewById(R.id.image_apart);
+                                imageView.setImageBitmap(newBitmap);
+                                gallery.addView(newView);
+                                loading.setVisibility(View.GONE);
+                            });
                 } catch (IOException ignored) {
                 }
             }
@@ -184,7 +184,6 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
 
     /**
      * launch the activity to chat with the owner of the apartment
-     *
      */
     private void chatWithUser(String uid) {
         this.reference.get().addOnSuccessListener(result -> {

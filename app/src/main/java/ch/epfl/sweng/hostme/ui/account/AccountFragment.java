@@ -82,42 +82,42 @@ public class AccountFragment extends Fragment {
     private UserManager userManager;
 
     private final ActivityResultLauncher<Intent> activityResultLauncherCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    if (result.getData() != null) {
-                        Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get(DATA);
-                        editProfilePicture.setImageBitmap(imageBitmap);
-                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                        String path = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(), imageBitmap, "Title", null);
-                        uri_to_save = Uri.parse(path);
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        if (result.getData() != null) {
+                            Bitmap imageBitmap = (Bitmap) result.getData().getExtras().get(DATA);
+                            editProfilePicture.setImageBitmap(imageBitmap);
+                            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                            String path = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(), imageBitmap, "Title", null);
+                            uri_to_save = Uri.parse(path);
+                            deletePic = false;
+                            saveButton.setEnabled(true);
+                        }
+                    }
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        Uri selectedImage = result.getData().getData();
+                        Bitmap thumbnail = null;
+                        try {
+                            thumbnail = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImage);
+                        } catch (Exception ignored) {
+                        }
+                        editProfilePicture.setImageBitmap(thumbnail);
+                        uri_to_save = selectedImage;
                         deletePic = false;
                         saveButton.setEnabled(true);
                     }
                 }
-            }
-        });
-
-    private final ActivityResultLauncher<Intent> activityResultLauncherGallery = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                    Uri selectedImage = result.getData().getData();
-                    Bitmap thumbnail = null;
-                    try {
-                        thumbnail = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImage);
-                    } catch (Exception ignored) {
-                    }
-                    editProfilePicture.setImageBitmap(thumbnail);
-                    uri_to_save = selectedImage;
-                    deletePic = false;
-                    saveButton.setEnabled(true);
-                }
-            }
-        });
+            });
 
     /**
      * Watcher for any modifications of the text in the fields of the profile
@@ -192,15 +192,15 @@ public class AccountFragment extends Fragment {
         try {
             final File localFile = File.createTempFile("profile", "jpg");
             fileRef.getFile(localFile)
-            .addOnSuccessListener(result -> {
-                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                this.editProfilePicture.setImageBitmap(bitmap);
-                profilePicInDB = true;
-            })
-            .addOnFailureListener(error -> {
-                this.editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
-                profilePicInDB = false;
-            });
+                    .addOnSuccessListener(result -> {
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        this.editProfilePicture.setImageBitmap(bitmap);
+                        profilePicInDB = true;
+                    })
+                    .addOnFailureListener(error -> {
+                        this.editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
+                        profilePicInDB = false;
+                    });
         } catch (Exception ignored) {
         }
     }
@@ -311,31 +311,31 @@ public class AccountFragment extends Fragment {
      */
     private void saveUserProperties(Profile toUpdateUser) {
         Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid()).set(toUpdateUser)
-        .addOnSuccessListener(result -> {
-            this.dbProfile.setFirstName(toUpdateUser.getFirstName());
-            this.dbProfile.setLastName(toUpdateUser.getLastName());
-            this.dbProfile.setEmail(toUpdateUser.getEmail());
-            this.dbProfile.setGender(toUpdateUser.getGender());
+                .addOnSuccessListener(result -> {
+                    this.dbProfile.setFirstName(toUpdateUser.getFirstName());
+                    this.dbProfile.setLastName(toUpdateUser.getLastName());
+                    this.dbProfile.setEmail(toUpdateUser.getEmail());
+                    this.dbProfile.setGender(toUpdateUser.getGender());
 
-            Auth.updateEmail(toUpdateUser.getEmail())
-            .addOnSuccessListener(result2 -> {
-                this.dbProfile.setEmail(toUpdateUser.getEmail());
-                Toast.makeText(requireContext(), PROFILE_SUCCEED, Toast.LENGTH_SHORT).show();
-            }).addOnFailureListener(error2 -> Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
+                    Auth.updateEmail(toUpdateUser.getEmail())
+                            .addOnSuccessListener(result2 -> {
+                                this.dbProfile.setEmail(toUpdateUser.getEmail());
+                                Toast.makeText(requireContext(), PROFILE_SUCCEED, Toast.LENGTH_SHORT).show();
+                            }).addOnFailureListener(error2 -> Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
 
-            String pathString = "profilePicture/" + Auth.getUid() + "/" + "profile.jpg";
-            StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
+                    String pathString = "profilePicture/" + Auth.getUid() + "/" + "profile.jpg";
+                    StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
 
-            if (deletePic && uri_to_save == null && profilePicInDB) {
-                fileRef.delete()
-                .addOnSuccessListener(taskSnapshot -> changePicture(true, DELETE_SUCCEED, false)).addOnFailureListener(exception -> Toast.makeText(requireContext(), DELETE_FAILED, Toast.LENGTH_SHORT).show());
-            }
+                    if (deletePic && uri_to_save == null && profilePicInDB) {
+                        fileRef.delete()
+                                .addOnSuccessListener(taskSnapshot -> changePicture(true, DELETE_SUCCEED, false)).addOnFailureListener(exception -> Toast.makeText(requireContext(), DELETE_FAILED, Toast.LENGTH_SHORT).show());
+                    }
 
-            if (uri_to_save != null && !deletePic) {
-                fileRef.putFile(uri_to_save)
-                .addOnSuccessListener(taskSnapshot -> changePicture(true, UPDATE_SUCCEED, true)).addOnFailureListener(exception -> Toast.makeText(requireContext(), UPDATE_FAILED, Toast.LENGTH_SHORT).show());
-            }
-        }).addOnFailureListener(error ->Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
+                    if (uri_to_save != null && !deletePic) {
+                        fileRef.putFile(uri_to_save)
+                                .addOnSuccessListener(taskSnapshot -> changePicture(true, UPDATE_SUCCEED, true)).addOnFailureListener(exception -> Toast.makeText(requireContext(), UPDATE_FAILED, Toast.LENGTH_SHORT).show());
+                    }
+                }).addOnFailureListener(error -> Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
     }
 
     private void changePicture(boolean displayMessage, String message, boolean inDB) {

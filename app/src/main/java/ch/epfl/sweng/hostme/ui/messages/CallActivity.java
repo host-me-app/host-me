@@ -180,7 +180,7 @@ public class CallActivity extends AppCompatActivity {
                 VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
                 VideoEncoderConfiguration.STANDARD_BITRATE,
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
-        this. mRtcEngine.setVideoEncoderConfiguration(mVEC);
+        this.mRtcEngine.setVideoEncoderConfiguration(mVEC);
         this.mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
         FrameLayout videoContainer = findViewById(R.id.floating_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
@@ -206,7 +206,7 @@ public class CallActivity extends AppCompatActivity {
     private void onJoinChannelClicked() {
         String channelName = currUserID;
         initToken(channelName);
-        this. mRtcEngine.joinChannel(this.result, channelName, null, 0);
+        this.mRtcEngine.joinChannel(this.result, channelName, null, 0);
         setupLocalVideoFeed();
     }
 
@@ -243,7 +243,7 @@ public class CallActivity extends AppCompatActivity {
     private void onVideoMuteClicked(View view) {
         ImageView btn = (ImageView) view;
         changeButtonState(btn, R.drawable.video_toggle_active_btn, R.drawable.video_toggle_btn);
-        this. mRtcEngine.muteLocalVideoStream(btn.isSelected());
+        this.mRtcEngine.muteLocalVideoStream(btn.isSelected());
         FrameLayout container = findViewById(R.id.floating_video_container);
         container.setVisibility(btn.isSelected() ? View.GONE : View.VISIBLE);
         SurfaceView videoSurface = (SurfaceView) container.getChildAt(0);

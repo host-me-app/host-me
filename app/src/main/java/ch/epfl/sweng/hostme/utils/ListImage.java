@@ -30,7 +30,7 @@ public class ListImage {
     private static int ext;
     private static ArrayList<Uri> imagesUri;
 
-    public static void init( Fragment f, Context c) {
+    public static void init(Fragment f, Context c) {
         fragment = f;
         context = c;
         ext = 0;

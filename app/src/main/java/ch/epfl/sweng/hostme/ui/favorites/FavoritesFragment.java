@@ -64,22 +64,22 @@ public class FavoritesFragment extends Fragment {
     private void setUpRecyclerView(List<Apartment> apartments) {
         String uid = Auth.getUid();
         this.reference.document(uid).get()
-        .addOnSuccessListener(result -> {
-            apartments.clear();
-            List<String> apartIDs = (List<String>) result.get(FAVORITES);
-            if (Objects.requireNonNull(apartIDs).isEmpty()) {
-                this.bitmapPreferences.edit().clear().apply();
-                apartments.clear();
-                this.noFavMessage.setVisibility(View.VISIBLE);
-                this.recyclerView.setVisibility(View.GONE);
-            } else {
-                this.noFavMessage.setVisibility(View.GONE);
-                this.recyclerView.setVisibility(View.VISIBLE);
-                for (String apartID : apartIDs) {
-                    getCorrespondingApartAndDisplay(apartID, apartments);
-                }
-            }
-        });
+                .addOnSuccessListener(result -> {
+                    apartments.clear();
+                    List<String> apartIDs = (List<String>) result.get(FAVORITES);
+                    if (Objects.requireNonNull(apartIDs).isEmpty()) {
+                        this.bitmapPreferences.edit().clear().apply();
+                        apartments.clear();
+                        this.noFavMessage.setVisibility(View.VISIBLE);
+                        this.recyclerView.setVisibility(View.GONE);
+                    } else {
+                        this.noFavMessage.setVisibility(View.GONE);
+                        this.recyclerView.setVisibility(View.VISIBLE);
+                        for (String apartID : apartIDs) {
+                            getCorrespondingApartAndDisplay(apartID, apartments);
+                        }
+                    }
+                });
     }
 
     /**
@@ -87,11 +87,11 @@ public class FavoritesFragment extends Fragment {
      */
     private void getCorrespondingApartAndDisplay(String apartID, List<Apartment> apartments) {
         this.apartReference.document(apartID).get()
-        .addOnSuccessListener(result -> {
-            Apartment apartment = result.toObject(Apartment.class);
-            apartments.add(apartment);
-            displayRecycler(apartments);
-        });
+                .addOnSuccessListener(result -> {
+                    Apartment apartment = result.toObject(Apartment.class);
+                    apartments.add(apartment);
+                    displayRecycler(apartments);
+                });
     }
 
     /**

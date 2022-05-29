@@ -256,7 +256,7 @@ public class SearchFragment extends Fragment {
         this.recyclerView.setLayoutManager(linearLayoutManager);
         this.recyclerView.setItemViewCacheSize(20);
         this.recyclerView.setDrawingCacheEnabled(true);
-        this. recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        this.recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         this.recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -322,6 +322,7 @@ public class SearchFragment extends Fragment {
     private void changeFilterVisibility(int visible) {
         this.filters.setVisibility(visible);
     }
+
     @Override
     public void onResume() {
         super.onResume();

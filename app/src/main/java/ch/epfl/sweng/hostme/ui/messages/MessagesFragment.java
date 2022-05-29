@@ -119,7 +119,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         userManager.putString(Constants.KEY_FCM_TOKEN, token);
         DocumentReference documentReference = Database.getCollection(Constants.KEY_COLLECTION_USERS).document(Auth.getUid());
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-        .addOnFailureListener(error -> Toast.makeText(getApplicationContext(), TOKEN_FAILED, Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(error -> Toast.makeText(getApplicationContext(), TOKEN_FAILED, Toast.LENGTH_SHORT).show());
     }
 
     private void listenConversations() {

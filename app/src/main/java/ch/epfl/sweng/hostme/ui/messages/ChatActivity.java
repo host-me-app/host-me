@@ -266,14 +266,14 @@ public class ChatActivity extends AppCompatActivity {
         String[] items = getDocumentsNames();
         ArrayList<Document> itemsSelected = new ArrayList<>();
         builder.setMultiChoiceItems(items, null,
-                (dialog, selectedItemId, isSelected) -> {
-                    if (isSelected) {
-                        itemsSelected.add(Document.values()[selectedItemId]);
-                    } else itemsSelected.remove(Document.values()[selectedItemId]);
-                })
-        .setPositiveButton("Share", (dialog, id) -> sendDocuments(itemsSelected))
-        .setNegativeButton("Cancel", (dialog, id) -> {
-        });
+                        (dialog, selectedItemId, isSelected) -> {
+                            if (isSelected) {
+                                itemsSelected.add(Document.values()[selectedItemId]);
+                            } else itemsSelected.remove(Document.values()[selectedItemId]);
+                        })
+                .setPositiveButton("Share", (dialog, id) -> sendDocuments(itemsSelected))
+                .setNegativeButton("Cancel", (dialog, id) -> {
+                });
         builder.create().show();
     }
 
@@ -289,7 +289,7 @@ public class ChatActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (getIntent().getStringExtra(FROM_CONTACT) != null) {
             startActivity(new Intent(this, MenuActivity.class));
-        } else if (getIntent().getStringExtra(FROM) != null){
+        } else if (getIntent().getStringExtra(FROM) != null) {
             super.onBackPressed();
         }
     }

@@ -44,44 +44,47 @@ public class GradeApartment extends Fragment {
         RatingBar gardenRatingBar = root.findViewById(R.id.garden_rating_bar);
         RatingBar utilityRatingBar = root.findViewById(R.id.utility_rating_bar);
         RatingBar overallRatingBar = root.findViewById(R.id.overall_rating_bar);
-        ratingBars = new RatingBar[]{kitchenRatingBar, loungeRatingBar, bedRoomRatingBar, bathRoomRatingBar, gardenRatingBar, utilityRatingBar, overallRatingBar};
+        this.ratingBars = new RatingBar[]{kitchenRatingBar, loungeRatingBar, bedRoomRatingBar, bathRoomRatingBar, gardenRatingBar, utilityRatingBar, overallRatingBar};
+
         Button saveRatingButton = root.findViewById(R.id.save_rating);
         saveRatingButton.setOnClickListener(this::saveRatingInfo);
 
         Bundle bundle = this.getArguments();
         if (bundle != null && !bundle.isEmpty()) {
-            apartID = bundle.getString(APART_ID);
+            this.apartID = bundle.getString(APART_ID);
             bundle.clear();
         }
-        retrieveGradesFromDB();
+
+        this.retrieveGradesFromDB();
+
         return root;
     }
 
     private void saveRatingInfo(View view) {
         ArrayList<Float> grades = new ArrayList<>();
-        for (RatingBar ratingBar : ratingBars) {
+        for (RatingBar ratingBar : this.ratingBars) {
             grades.add(ratingBar.getRating());
         }
 
-        reference.get().addOnSuccessListener(documentSnapshot -> {
+        this.reference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                reference.update(apartID, grades);
+                this.reference.update(apartID, grades);
             } else {
                 Map<String, Object> data = new HashMap<>();
-                data.put(apartID, grades);
-                reference.set(data);
+                data.put(this.apartID, grades);
+                this.reference.set(data);
             }
             Toast.makeText(view.getContext(), GRADES_SAVED, Toast.LENGTH_SHORT).show();
         });
     }
 
     private void retrieveGradesFromDB() {
-        reference.get().addOnSuccessListener(documentSnapshot -> {
+        this.reference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                ArrayList<Double> grades = (ArrayList<Double>) documentSnapshot.get(apartID);
+                ArrayList<Double> grades = (ArrayList<Double>) documentSnapshot.get(this.apartID);
                 if (grades != null) {
-                    for (int i = 0; i < ratingBars.length; ++i) {
-                        ratingBars[i].setRating(grades.get(i).floatValue());
+                    for (int i = 0; i < this.ratingBars.length; ++i) {
+                        this.ratingBars[i].setRating(grades.get(i).floatValue());
                     }
                 }
             }

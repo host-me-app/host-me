@@ -56,6 +56,8 @@ public final class Constants {
     public static final String FILTERS = "filters";
     public static final String IS_FROM_FILTERS = "isFromFilters";
     public static final String FAVORITES = "favorites";
+    public static final String IS_FAVORITE = "isFavorite";
+    public static final String FAVORITE_FRAGMENT = "FavoriteFragment";
     public static final String FROM_NOTIFICATION = "fromNotification";
     public static final String PICK_CAM = "Pick from Camera";
     public static final String PICK_GALLERY = "Pick from Gallery";
@@ -63,4 +65,7 @@ public final class Constants {
     public static final int REQ_IMAGE = 105;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CALL_PERM_CODE = 22;
+    public final static int PERMISSION_ID = 44;
+    public static final float MAX_AREA = 3000f;
+    public static final float MAX_PRICE = 5000f;
 }

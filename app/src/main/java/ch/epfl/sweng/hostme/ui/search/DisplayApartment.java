@@ -78,14 +78,14 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.root = inflater.inflate(R.layout.display_apartment, container, false);
 
-        this.bottomNav = requireActivity().findViewById(R.id.nav_view);
+        this.bottomNav = this.requireActivity().findViewById(R.id.nav_view);
         this.bottomNav.setVisibility(View.GONE);
-        Button grade_button = this.root.findViewById(R.id.grade_button);
-        grade_button.setOnClickListener(this::goToGradeFragment);
-        Button maps_button = this.root.findViewById(R.id.maps_button);
-        maps_button.setOnClickListener(this::goToMapsFragment);
-        Button street_view_button = this.root.findViewById(R.id.street_view_button);
-        street_view_button.setOnClickListener(this::goToStreetViewFragment);
+        Button gradeButton = this.root.findViewById(R.id.grade_button);
+        gradeButton.setOnClickListener(this::goToGradeFragment);
+        Button mapsButton = this.root.findViewById(R.id.maps_button);
+        mapsButton.setOnClickListener(this::goToMapsFragment);
+        Button streetViewButton = this.root.findViewById(R.id.street_view_button);
+        streetViewButton.setOnClickListener(this::goToStreetViewFragment);
 
         this.unpackBundle();
 
@@ -101,7 +101,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         changeText(this.proprietor, R.id.proprietor);
         setHorizontalScrollable(this.bitmap, imagePath);
 
-        return root;
+        return this.root;
     }
 
     private void unpackBundle() {
@@ -197,7 +197,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                     User user = new User(doc.getString(KEY_FIRSTNAME) + " " +
                             doc.getString(KEY_LASTNAME),
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
-                    Intent newIntent = new Intent(requireActivity().getApplicationContext(), ChatActivity.class);
+                    Intent newIntent = new Intent(this.requireActivity().getApplicationContext(), ChatActivity.class);
                     newIntent.putExtra(FROM_CONTACT, apartID);
                     newIntent.putExtra(KEY_USER, user);
                     startActivity(newIntent);

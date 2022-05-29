@@ -8,8 +8,10 @@ import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
+import static ch.epfl.sweng.hostme.utils.Constants.FAVORITE_FRAGMENT;
 import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
+import static ch.epfl.sweng.hostme.utils.Constants.IS_FAVORITE;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
@@ -65,7 +67,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private final static String NO = "no";
     private final static String BUTTON = "Button";
     private final static String PRESSED = "pressed";
-    private final static String IS_FAVORITE = "isFavorite";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_FAV);
     private final List<Apartment> apartments;
     private final HashMap<String, Bitmap> hashMap = new HashMap<>();
@@ -153,7 +154,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
      * if we are we will load the data but if we are in the main recyclerview we will not
      */
     private void setPreferences(Context context, boolean isFavFragment) {
-        SharedPreferences prefFragment = context.getSharedPreferences("FavoriteFragment", MODE_PRIVATE);
+        SharedPreferences prefFragment = context.getSharedPreferences(FAVORITE_FRAGMENT, MODE_PRIVATE);
         if (isFavFragment) {
             SharedPreferences.Editor editor1 = prefFragment.edit();
             editor1.putBoolean(IS_FAVORITE, true);

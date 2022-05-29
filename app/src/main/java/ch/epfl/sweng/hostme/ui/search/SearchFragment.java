@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment {
         SearchView searchView = root.findViewById(R.id.search_view);
 
         this.apartments = new ArrayList<>();
-        this.editor = this.requireContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
+        this.editor = this.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
         this.setUpRecyclerView();
 
         this.gpsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {

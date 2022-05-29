@@ -5,6 +5,7 @@ public final class Constants {
     public static final String KEY_COLLECTION_USERS = "users";
     public static final String KEY_COLLECTION_FAV = "favorite_apart";
     public static final String KEY_COLLECTION_APARTMENTS = "apartments";
+    public static final String KEY_COLLECTION_RATING = "rating";
     public static final String DATA = "data";
     public static final String KEY_FIRSTNAME = "firstName";
     public static final String KEY_LASTNAME = "lastName";

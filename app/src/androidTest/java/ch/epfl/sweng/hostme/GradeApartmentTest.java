@@ -56,13 +56,13 @@ public class GradeApartmentTest {
             Thread.sleep(1000);
             onView(withId(R.id.grade_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.saveRating)).perform(click());
+            onView(withId(R.id.save_rating)).perform(click());
             Thread.sleep(1000);
             onView(isRoot()).perform(ViewActions.pressBack());
             Thread.sleep(1000);
             onView(withId(R.id.grade_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.saveRating)).perform(click());
+            onView(withId(R.id.save_rating)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();

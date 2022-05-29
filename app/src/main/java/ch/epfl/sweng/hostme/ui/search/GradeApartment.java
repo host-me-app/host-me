@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.ui.search;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_RATING;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,26 +26,25 @@ import ch.epfl.sweng.hostme.database.Database;
 
 public class GradeApartment extends Fragment {
 
-    private final DocumentReference reference = Database.getCollection("rating").document(Auth.getUid());
+    private final DocumentReference reference = Database.getCollection(KEY_COLLECTION_RATING).document(Auth.getUid());
     private RatingBar[] ratingBars;
     private String apartID;
 
     public GradeApartment() {
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.grade_apartment, container, false);
 
-        RatingBar kitchenRatingBar = root.findViewById(R.id.kitchenRatingBar);
-        RatingBar loungeRatingBar = root.findViewById(R.id.loungeRatingBar);
-        RatingBar bedRoomRatingBar = root.findViewById(R.id.bedRoomRatingBar);
-        RatingBar bathRoomRatingBar = root.findViewById(R.id.bathRoomRatingBar);
-        RatingBar gardenRatingBar = root.findViewById(R.id.gardenRatingBar);
-        RatingBar utilityRatingBar = root.findViewById(R.id.utilityRatingBar);
-        RatingBar overallRatingBar = root.findViewById(R.id.overallRatingBar);
+        RatingBar kitchenRatingBar = root.findViewById(R.id.kitchen_rating_bar);
+        RatingBar loungeRatingBar = root.findViewById(R.id.lounge_rating_bar);
+        RatingBar bedRoomRatingBar = root.findViewById(R.id.bed_room_rating_bar);
+        RatingBar bathRoomRatingBar = root.findViewById(R.id.bath_room_rating_bar);
+        RatingBar gardenRatingBar = root.findViewById(R.id.garden_rating_bar);
+        RatingBar utilityRatingBar = root.findViewById(R.id.utility_rating_bar);
+        RatingBar overallRatingBar = root.findViewById(R.id.overall_rating_bar);
         ratingBars = new RatingBar[]{kitchenRatingBar, loungeRatingBar, bedRoomRatingBar, bathRoomRatingBar, gardenRatingBar, utilityRatingBar, overallRatingBar};
-        Button saveRatingButton = root.findViewById(R.id.saveRating);
+        Button saveRatingButton = root.findViewById(R.id.save_rating);
         saveRatingButton.setOnClickListener(this::saveRatingInfo);
 
         Bundle bundle = this.getArguments();

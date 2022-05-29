@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment {
         SearchView searchView = root.findViewById(R.id.search_view);
 
         this.apartments = new ArrayList<>();
-        this.editor = this.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
+        this.editor = root.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
         this.setUpRecyclerView();
 
         this.gpsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment {
         this.setRangeBar();
 
         favReference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
-            SharedPreferences pref = this.requireContext().getSharedPreferences(FAVORITE_FRAGMENT, Context.MODE_PRIVATE);
+            SharedPreferences pref = root.getContext().getSharedPreferences(FAVORITE_FRAGMENT, Context.MODE_PRIVATE);
             if (value != null && value.exists() && pref.getBoolean(IS_FAVORITE, false)) {
                 setUpRecyclerView();
             }

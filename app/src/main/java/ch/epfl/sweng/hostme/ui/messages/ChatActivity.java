@@ -98,6 +98,11 @@ public class ChatActivity extends AppCompatActivity {
                     chatMessage.dateTime = getReadableDataTime(documentChange.getDocument().getDate(KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
                     chatMessage.apartId = documentChange.getDocument().getString(APART_ID);
+                    if ((chatMessage.senderId).equals(Auth.getUid())) {
+                        chatMessage.image = "profilePicture/" + chatMessage.receiverId + "/profile.jpg";
+                    } else {
+                        chatMessage.image = "profilePicture/" + chatMessage.senderId + "/profile.jpg";
+                    }
                     this.chatMessages.add(chatMessage);
                 }
             }
@@ -158,7 +163,7 @@ public class ChatActivity extends AppCompatActivity {
                 this.showToast();
             } else {
                 Intent intent = new Intent(this, CallActivity.class);
-                intent.putExtra("user", receiverUser);
+                intent.putExtra(KEY_USER, receiverUser);
                 startActivity(intent);
             }
         });
@@ -168,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
         if (messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
             message.put(KEY_SENDER_ID, this.uid);
-            message.put(KEY_RECEIVER_ID, this.receiverUser.id);
+            message.put(KEY_RECEIVER_ID, this.receiverUser.getId());
             message.put(KEY_MESSAGE, messageStr.trim());
             message.put(KEY_IS_DOCUMENT, isDocument);
             message.put(KEY_DOCUMENT_NAME, documentName);
@@ -188,8 +193,8 @@ public class ChatActivity extends AppCompatActivity {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(KEY_SENDER_ID, uid);
             conversion.put(KEY_SENDER_NAME, userManager.getString(KEY_SENDER_NAME));
-            conversion.put(KEY_RECEIVER_ID, receiverUser.id);
-            conversion.put(KEY_RECEIVER_NAME, receiverUser.name);
+            conversion.put(KEY_RECEIVER_ID, receiverUser.getId());
+            conversion.put(KEY_RECEIVER_NAME, receiverUser.getName());
             conversion.put(KEY_LAST_MESSAGE, this.inputMessage.getText().toString());
             conversion.put(KEY_TIMESTAMP, new Date());
             conversion.put(APART_ID, apartId);
@@ -200,11 +205,11 @@ public class ChatActivity extends AppCompatActivity {
     private void listenMessages() {
         Database.getCollection(KEY_COLLECTION_CHAT)
                 .whereEqualTo(KEY_SENDER_ID, uid)
-                .whereEqualTo(KEY_RECEIVER_ID, receiverUser.id)
+                .whereEqualTo(KEY_RECEIVER_ID, receiverUser.getId())
                 .whereEqualTo(APART_ID, apartId)
                 .addSnapshotListener(eventListener);
         Database.getCollection(KEY_COLLECTION_CHAT)
-                .whereEqualTo(KEY_SENDER_ID, receiverUser.id)
+                .whereEqualTo(KEY_SENDER_ID, receiverUser.getId())
                 .whereEqualTo(KEY_RECEIVER_ID, uid)
                 .whereEqualTo(APART_ID, apartId)
                 .addSnapshotListener(eventListener);
@@ -216,7 +221,7 @@ public class ChatActivity extends AppCompatActivity {
         if (this.apartId == null || this.apartId.isEmpty()) {
             this.chatInfo.setVisibility(View.INVISIBLE);
         }
-        this.textName.setText(receiverUser.name);
+        this.textName.setText(receiverUser.getName());
     }
 
     private void setListeners() {
@@ -243,8 +248,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void checkForConversion() {
         if (chatMessages.size() != 0) {
-            this.checkForConversionRemotely(uid, receiverUser.id);
-            this.checkForConversionRemotely(receiverUser.id, uid);
+            this.checkForConversionRemotely(uid, receiverUser.getId());
+            this.checkForConversionRemotely(receiverUser.getId(), uid);
         }
     }
 
@@ -258,7 +263,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendNotification() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.token, "New Message",
+        FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.getToken(), "New Message",
                 " From : " + userManager.getString(KEY_SENDER_NAME), getApplicationContext(), ChatActivity.this);
         sender.sendNotifications();
         this.inputMessage.setText(null);

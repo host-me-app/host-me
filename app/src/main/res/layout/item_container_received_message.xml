@@ -6,8 +6,8 @@
     android:layout_marginTop="8dp"
     android:padding="4dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageSender"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_sender"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@drawable/background_icon"
@@ -27,7 +27,7 @@
         android:paddingBottom="8dp"
         android:textColor="@color/white"
         android:textSize="13sp"
-        app:layout_constraintStart_toEndOf="@id/imageSender"
+        app:layout_constraintStart_toEndOf="@id/image_sender"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_max="wrap"
         app:layout_constraintWidth_percent="0.75" />

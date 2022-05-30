@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="30dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_profile"
         android:layout_width="40dp"
         android:layout_height="40dp"

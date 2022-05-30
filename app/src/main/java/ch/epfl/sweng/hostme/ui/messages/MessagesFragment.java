@@ -75,9 +75,11 @@ public class MessagesFragment extends Fragment implements ConversionListener {
                     if (Auth.getUid().equals(senderId)) {
                         chatMessage.conversionId = documentChange.getDocument().getString(KEY_RECEIVER_ID);
                         chatMessage.conversionName = documentChange.getDocument().getString(KEY_RECEIVER_NAME);
+                        chatMessage.image = "profilePicture/" + receiverId + "/profile.jpg";
                     } else {
                         chatMessage.conversionId = documentChange.getDocument().getString(KEY_SENDER_ID);
                         chatMessage.conversionName = documentChange.getDocument().getString(KEY_SENDER_NAME);
+                        chatMessage.image = "profilePicture/" + senderId + "/profile.jpg";
                     }
                     chatMessage.message = documentChange.getDocument().getString(KEY_LAST_MESSAGE);
                     chatMessage.dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
@@ -106,8 +108,8 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         this.root = inflater.inflate(R.layout.fragment_messages, container, false);
+
         this.userManager = new UserManager(this.requireContext());
         this.recyclerView = this.root.findViewById(R.id.conversation_recycler);
         this.conversations = new ArrayList<>();

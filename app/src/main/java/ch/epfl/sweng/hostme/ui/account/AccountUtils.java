@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.ui.account;
 
 import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-
 import static ch.epfl.sweng.hostme.utils.Constants.CAMERA_PERM_CODE;
 import static ch.epfl.sweng.hostme.utils.Constants.DELETE;
 import static ch.epfl.sweng.hostme.utils.Constants.PICK_CAM;

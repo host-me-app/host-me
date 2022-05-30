@@ -1,82 +1,84 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
+import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.FROM;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
+import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
+import static ch.epfl.sweng.hostme.utils.Constants.NPA;
+import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-
-import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.databinding.ActivityInfoBinding;
 import ch.epfl.sweng.hostme.ui.search.GradeApartment;
 import ch.epfl.sweng.hostme.users.User;
-import ch.epfl.sweng.hostme.utils.Constants;
-import ch.epfl.sweng.hostme.utils.Profile;
 
 public class InfoActivity extends AppCompatActivity {
 
-    private ActivityInfoBinding binding;
-    private User receiverUser;
+    private TextView chatName;
     private String apartId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityInfoBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        loadReceiverDetails();
-        if(!(apartId.contentEquals("user"))) {
-            displayInfo();
-            binding.gradeButton.setOnClickListener(this::goToGradeFragment);
+        setContentView(R.layout.activity_info);
+
+        this.chatName = findViewById(R.id.chat_name);
+        this.loadReceiverDetails();
+        if (this.apartId != null && !this.apartId.isEmpty()) {
+            this.displayInfo();
+            Button gradeButton = findViewById(R.id.grade_button_info);
+            gradeButton.setOnClickListener(v -> this.goToGradeFragment());
         }
     }
 
     private void loadReceiverDetails() {
-        receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
-        apartId = (String) getIntent().getSerializableExtra(Constants.FROM);
-        binding.chatName.setText(receiverUser.name);
+        User receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
+        this.apartId = getIntent().getStringExtra(FROM);
+        this.chatName.setText(receiverUser.name);
     }
 
-    private void displayInfo(){
-        DocumentReference docRef = Database.getCollection(Constants.APARTMENTS).document(apartId);
-        docRef.get().addOnSuccessListener(
-                result -> {
-                    changeText(result.get("npa"), R.id.npa);
-                    changeText(result.get("city"), R.id.city);
-                    changeText(result.get("address"), R.id.addr);
-                    changeText(result.get("area"), R.id.area);
-                    changeText(result.get("rent"), R.id.price);
-                    changeText(result.get("currentLease"), R.id.lease);
-                    changeText(result.get("proprietor"), R.id.proprietor);
-                }
-        );
+    private void displayInfo() {
+        DocumentReference docRef = Database.getCollection(APARTMENTS).document(this.apartId);
+        docRef.get()
+                .addOnSuccessListener(result -> {
+                    changeText(result.get(NPA), R.id.npa);
+                    changeText(result.get(CITY), R.id.city);
+                    changeText(result.get(ADDRESS), R.id.address);
+                    changeText(result.get(AREA), R.id.area);
+                    changeText(result.get(RENT), R.id.price);
+                    changeText(result.get(LEASE), R.id.lease);
+                    changeText(result.get(PROPRIETOR), R.id.proprietor);
+                });
     }
 
-    private void changeText(Object addr, int id) {
-        TextView addrText = binding.getRoot().findViewById(id);
-        String address = "null";
-        if(addr != null){
-            addrText.setText(addr.toString());
-        }else{
-            addrText.setText(address);
+    private void changeText(Object value, int id) {
+        TextView key = findViewById(id);
+        if (value != null) {
+            key.setText(value.toString());
+        } else {
+            key.setText("");
         }
     }
 
-    private void goToGradeFragment(View view) {
+    private void goToGradeFragment() {
         Bundle bundle = new Bundle();
         Fragment fragment = new GradeApartment();
-        FragmentTransaction fragmentTransaction =
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
         bundle.putString(APART_ID, this.apartId);
         fragment.setArguments(bundle);
         fragmentTransaction.add(R.id.infoContainer, fragment);

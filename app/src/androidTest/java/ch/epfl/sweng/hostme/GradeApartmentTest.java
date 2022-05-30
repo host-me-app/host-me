@@ -51,18 +51,18 @@ public class GradeApartmentTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.recyclerView))
+            onView(withId(R.id.search_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
             onView(withId(R.id.grade_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.saveRating)).perform(click());
+            onView(withId(R.id.save_rating)).perform(click());
             Thread.sleep(1000);
             onView(isRoot()).perform(ViewActions.pressBack());
             Thread.sleep(1000);
             onView(withId(R.id.grade_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.saveRating)).perform(click());
+            onView(withId(R.id.save_rating)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();

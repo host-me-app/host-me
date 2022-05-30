@@ -6,14 +6,12 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -44,44 +42,11 @@ public class InfoActivityTest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
-    @AfterClass
-    public static void after_class() {
-        Intents.release();
-    }
-
     @Test
-    public void goToChatInfo() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.contact_button)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.users_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.chat_info)).check(matches(isDisplayed()));
-            onView(withId(R.id.chat_info)).perform(click());
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
     public void chatInfoButtonsDisplayed() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 
@@ -89,53 +54,14 @@ public class InfoActivityTest {
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
-
-            onView(withId(R.id.navigation_messages)).perform(click());
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.contact_user_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.contact_button)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.users_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.chat_info)).check(matches(isDisplayed()));
             onView(withId(R.id.chat_info)).perform(click());
             Thread.sleep(1000);
-
-            onView(withId(R.id.chatName)).check(matches(isDisplayed()));
-            onView(withId(R.id.viewSupporter)).check(matches(isDisplayed()));
-            onView(withId(R.id.linearLayout)).check(matches(isDisplayed()));
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    public void clickAddNote() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-            String mail = "testlogin@gmail.com";
-            String password = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
+            onView(withId(R.id.grade_button_info)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.contact_button)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.users_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.chat_info)).check(matches(isDisplayed()));
-            onView(withId(R.id.chat_info)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.gradeButton)).check(matches(isDisplayed()));
-            onView(withId(R.id.gradeButton)).perform(click());
-            Thread.sleep(1000);
-            
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

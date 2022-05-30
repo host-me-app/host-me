@@ -42,8 +42,9 @@ public class FcmNotificationsSender {
             notificationObject.put("content", this.body);
             notificationObject.put("image", R.mipmap.ic_launcher);
             mainObj.put("data", notificationObject);
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, POST_URL, mainObj, response -> {}, error -> {})
-            {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, POST_URL, mainObj, response -> {
+            }, error -> {
+            }) {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> header = new HashMap<>();

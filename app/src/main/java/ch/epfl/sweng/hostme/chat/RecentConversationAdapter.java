@@ -1,5 +1,8 @@
 package ch.epfl.sweng.hostme.chat;
 
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,6 @@ import java.util.List;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.users.User;
-import ch.epfl.sweng.hostme.utils.Constants;
 
 public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConversationAdapter.ConversionViewHolder> {
 
@@ -65,12 +67,12 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
             this.textName.setText(chatMessage.conversionName);
             this.textRecentMessage.setText(chatMessage.message);
             DocumentReference docRef =
-                    Database.getCollection(Constants.KEY_COLLECTION_USERS).document(chatMessage.conversionId);
+                    Database.getCollection(KEY_COLLECTION_USERS).document(chatMessage.conversionId);
             docRef.get().addOnSuccessListener(result -> this.itemView.setOnClickListener(v -> {
                 User user = new User();
                 user.id = chatMessage.conversionId;
                 user.name = chatMessage.conversionName;
-                user.token = result.getString(Constants.KEY_FCM_TOKEN);
+                user.token = result.getString(KEY_FCM_TOKEN);
                 conversionListener.onConversionClicked(user, chatMessage.apartId);
             }));
         }

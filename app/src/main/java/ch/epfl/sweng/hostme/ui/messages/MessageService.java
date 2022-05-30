@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
+import static ch.epfl.sweng.hostme.utils.Constants.FROM_NOTIFICATION;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,8 +21,9 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
 import ch.epfl.sweng.hostme.MenuActivity;
-import ch.epfl.sweng.hostme.utils.Constants;
 
 public class MessageService extends FirebaseMessagingService {
     private final static String CHANNEL_NAME = "Channel human readable title";
@@ -65,14 +68,14 @@ public class MessageService extends FirebaseMessagingService {
         builder.setSmallIcon(resourceImage);
 
         Intent resultIntent = new Intent(this, CallActivity.class);
-        if (remoteMessage.getData().get("title").contentEquals("New Message")) {
+        if (Objects.requireNonNull(remoteMessage.getData().get("title")).contentEquals("New Message")) {
             resultIntent = new Intent(this, MenuActivity.class);
         }
-        resultIntent.putExtra(Constants.FROM_NOTIFICATION, true);
+        resultIntent.putExtra(FROM_NOTIFICATION, true);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
-            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         builder.setContentTitle(remoteMessage.getData().get("title"));
         builder.setContentText(remoteMessage.getData().get("content"));

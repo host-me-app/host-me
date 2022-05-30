@@ -25,9 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:fillViewport="true"
             android:padding="10dp"
-            android:scaleType="centerInside"
-            android:fillViewport="true">
+            android:scaleType="centerInside">
 
             <LinearLayout
                 android:id="@+id/gallery"
@@ -44,7 +44,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textPrice"
+                android:id="@+id/text_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Price : "
@@ -67,7 +67,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textAddr"
+                android:id="@+id/text_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -75,7 +75,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/addr"
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -134,7 +134,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textArea"
+                android:id="@+id/text_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -156,7 +156,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textLease"
+                android:id="@+id/text_lease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

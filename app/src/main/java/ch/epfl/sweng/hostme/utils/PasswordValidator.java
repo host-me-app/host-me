@@ -10,10 +10,6 @@ public class PasswordValidator {
                     + "(?=.*[!@#&()–:;',?/*~$^+=<>]).{8,20}$";
     private static final Pattern PATTERN = Pattern.compile(PASSWORD_PATTERN);
 
-    public PasswordValidator() {
-
-    }
-
     /**
      * Check if the password has a valid pattern
      *

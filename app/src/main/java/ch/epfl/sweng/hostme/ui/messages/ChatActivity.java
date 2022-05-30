@@ -29,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -113,7 +114,7 @@ public class ChatActivity extends AppCompatActivity {
                 this.chatAdapter.notifyItemRangeInserted(chatMessages.size(), chatMessages.size());
                 this.recyclerView.smoothScrollToPosition(chatMessages.size() - 1);
             }
-            this.recyclerView.setVisibility(View.VISIBLE);
+            this.displayRecycler();
         }
         this.progressBar.setVisibility(View.GONE);
         if (conversionId == null) {
@@ -141,7 +142,6 @@ public class ChatActivity extends AppCompatActivity {
 
         this.chatMessages = new ArrayList<>();
         this.chatAdapter = new ChatAdapter(chatMessages, uid);
-        this.recyclerView.setAdapter(chatAdapter);
 
         this.setListeners();
         this.loadReceiverDetails();
@@ -167,6 +167,14 @@ public class ChatActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void displayRecycler() {
+        this.recyclerView.setItemViewCacheSize(20);
+        this.recyclerView.setDrawingCacheEnabled(true);
+        this.recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        this.recyclerView.setVisibility(View.VISIBLE);
+        this.recyclerView.setAdapter(chatAdapter);
     }
 
     private void sendMessage(String messageStr, boolean isDocument, String documentName) {

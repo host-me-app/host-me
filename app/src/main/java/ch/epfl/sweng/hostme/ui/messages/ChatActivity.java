@@ -64,7 +64,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText inputMessage;
     private TextView textName;
     private ImageView sendButt;
-
+    private ImageView chatInfo;
     private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
@@ -120,6 +120,7 @@ public class ChatActivity extends AppCompatActivity {
         this.inputMessage = findViewById(R.id.input_message);
         this.textName = findViewById(R.id.text_name);
         this.sendButt = findViewById(R.id.send_button);
+        this.chatInfo = findViewById(R.id.chat_info);
 
         this.chatMessages = new ArrayList<>();
         this.chatAdapter = new ChatAdapter(chatMessages, uid);
@@ -204,6 +205,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setListeners() {
         this.sendButt.setOnClickListener(v -> sendMessage(this.inputMessage.getText().toString(), false, ""));
+        this.chatInfo.setOnClickListener(v -> goInfo());
     }
 
     @Override
@@ -294,6 +296,13 @@ public class ChatActivity extends AppCompatActivity {
             StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
             fileRef.getDownloadUrl().addOnSuccessListener(uri -> sendMessage(uri.toString(), true, doc.getDocumentName())).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents! \n Check in your wallet if documents are correctly uploaded!", Toast.LENGTH_SHORT).show());
         }
+    }
+
+    private void goInfo(){
+        Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+        intent.putExtra(Constants.FROM, apartId);
+        intent.putExtra(Constants.KEY_USER, receiverUser);
+        startActivity(intent);
     }
 
 }

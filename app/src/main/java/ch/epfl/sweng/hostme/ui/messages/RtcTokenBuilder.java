@@ -32,6 +32,7 @@ public class RtcTokenBuilder {
         Role_Admin(101);
 
         public int initValue;
+
         Role(int initValue) {
             this.initValue = initValue;
         }

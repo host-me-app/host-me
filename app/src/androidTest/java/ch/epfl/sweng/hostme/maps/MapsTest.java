@@ -51,7 +51,7 @@ public class MapsTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.recyclerView))
+            onView(withId(R.id.search_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
             onView(withId(R.id.maps_button)).perform(click());
@@ -77,7 +77,7 @@ public class MapsTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.recyclerView))
+            onView(withId(R.id.search_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
             onView(withId(R.id.maps_button)).perform(click());
@@ -102,7 +102,7 @@ public class MapsTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.recyclerView))
+            onView(withId(R.id.search_recycler_view))
                     .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Thread.sleep(1000);
             onView(withId(R.id.street_view_button)).perform(click());

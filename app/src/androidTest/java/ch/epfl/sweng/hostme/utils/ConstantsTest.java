@@ -67,7 +67,7 @@ public class ConstantsTest {
         assertEquals("address", ADDRESS);
         assertEquals("rent", RENT);
         assertEquals("area", AREA);
-        assertEquals("lease", LEASE);
+        assertEquals("currentLease", LEASE);
         assertEquals("npa", NPA);
         assertEquals("city", CITY);
         assertEquals("beds", BEDS);

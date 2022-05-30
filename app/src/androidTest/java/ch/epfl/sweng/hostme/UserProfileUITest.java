@@ -12,7 +12,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
 
 import android.app.Activity;
@@ -31,10 +30,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
 
 import com.google.firebase.FirebaseApp;
 
@@ -54,6 +49,9 @@ import ch.epfl.sweng.hostme.database.Storage;
 @RunWith(AndroidJUnit4.class)
 public class UserProfileUITest {
 
+    @Rule
+    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA);
+
     @BeforeClass
     public static void setUp() {
         Auth.setTest();
@@ -63,8 +61,19 @@ public class UserProfileUITest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
-    @Rule
-    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA);
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
 
     @Test
     public void ProfileInfoIsDisplayedTest() {
@@ -274,12 +283,9 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
-
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Camera"));
-            pick.click();
+            onView(withText("Pick from Camera")).perform(click());
             Thread.sleep(1000);
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -305,12 +311,10 @@ public class UserProfileUITest {
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick.click();
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -336,20 +340,18 @@ public class UserProfileUITest {
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick.click();
+
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiObject pick2 = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick2.click();
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
 
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -375,18 +377,15 @@ public class UserProfileUITest {
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
-            UiDevice device = UiDevice.getInstance(getInstrumentation());
-            UiObject pick = device.findObject(new UiSelector().text("Pick from Gallery"));
-            pick.click();
+            onView(withText("Pick from Gallery")).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
-            UiObject delete = device.findObject(new UiSelector().text("Delete"));
-            delete.click();
+            onView(withText("Delete")).perform(click());
             onView(withId(R.id.user_profile_save_button)).perform(click());
-        } catch (InterruptedException | UiObjectNotFoundException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Intents.release();
@@ -402,7 +401,6 @@ public class UserProfileUITest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
-
     private Instrumentation.ActivityResult getImageUriResult() {
         Intent resultData = new Intent();
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
@@ -410,20 +408,6 @@ public class UserProfileUITest {
         Uri uri = Uri.fromFile(file);
         resultData.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-    }
-
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
     }
 
     private void savePickedImage() {

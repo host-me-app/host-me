@@ -8,17 +8,17 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.uiautomator.UiDevice;
 
 import com.google.firebase.FirebaseApp;
 
@@ -142,24 +142,23 @@ public class UserCreationTest {
             String email = "host.me.test2022@gmail.com";
             String pwd = "fakePassword1!";
 
-            UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
             onView(withId(R.id.genderNextButton)).perform(click());
-            mDevice.pressBack();
+            onView(isRoot()).perform(ViewActions.pressBack());
             onView(withId(R.id.genderNextButton)).perform(click());
             onView(withId(R.id.next_button_first_name)).perform(click());
-            mDevice.pressBack();
+            onView(isRoot()).perform(ViewActions.pressBack());
             onView(withId(R.id.next_button_first_name)).perform(click());
             onView(withId(R.id.next_button_last_name)).perform(click());
-            mDevice.pressBack();
+            onView(isRoot()).perform(ViewActions.pressBack());
             onView(withId(R.id.next_button_last_name)).perform(click());
             onView(withId(R.id.next_button_school)).perform(click());
-            mDevice.pressBack();
+            onView(isRoot()).perform(ViewActions.pressBack());
             onView(withId(R.id.next_button_school)).perform(click());
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
             onView(withId(R.id.next_button_mail_account)).perform(click());
-            mDevice.pressBack();
+            onView(isRoot()).perform(ViewActions.pressBack());
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
-            mDevice.pressBack();
+            onView(isRoot()).perform(ViewActions.pressBack());
         }
         Intents.release();
     }

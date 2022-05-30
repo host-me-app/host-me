@@ -49,30 +49,30 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
     private void getUsers() {
         loading(true);
         Database.getCollection(KEY_COLLECTION_USERS).get()
-        .addOnSuccessListener(result -> {
-            loading(false);
-            String currentUserId = Auth.getUid();
-            List<User> users = new ArrayList<>();
-            for (QueryDocumentSnapshot queryDocumentSnapshot : result) {
-                if (currentUserId.equals(queryDocumentSnapshot.getId())) {
-                    continue;
-                }
-                User user = new User();
-                user.name = queryDocumentSnapshot.getString(KEY_FIRSTNAME)
-                        + " " + queryDocumentSnapshot.getString(KEY_LASTNAME);
-                user.email = queryDocumentSnapshot.getString(KEY_EMAIL);
-                user.token = queryDocumentSnapshot.getString(KEY_FCM_TOKEN);
-                user.id = queryDocumentSnapshot.getId();
-                users.add(user);
-            }
-            if (users.size() > 0) {
-                UsersAdapter usersAdapter = new UsersAdapter(users, this);
-                this.recyclerView.setAdapter(usersAdapter);
-                this.recyclerView.setVisibility(View.VISIBLE);
-            } else {
-                showErrorMessage();
-            }
-        }).addOnFailureListener(error -> showErrorMessage());
+                .addOnSuccessListener(result -> {
+                    loading(false);
+                    String currentUserId = Auth.getUid();
+                    List<User> users = new ArrayList<>();
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : result) {
+                        if (currentUserId.equals(queryDocumentSnapshot.getId())) {
+                            continue;
+                        }
+                        User user = new User();
+                        user.name = queryDocumentSnapshot.getString(KEY_FIRSTNAME)
+                                + " " + queryDocumentSnapshot.getString(KEY_LASTNAME);
+                        user.email = queryDocumentSnapshot.getString(KEY_EMAIL);
+                        user.token = queryDocumentSnapshot.getString(KEY_FCM_TOKEN);
+                        user.id = queryDocumentSnapshot.getId();
+                        users.add(user);
+                    }
+                    if (users.size() > 0) {
+                        UsersAdapter usersAdapter = new UsersAdapter(users, this);
+                        this.recyclerView.setAdapter(usersAdapter);
+                        this.recyclerView.setVisibility(View.VISIBLE);
+                    } else {
+                        showErrorMessage();
+                    }
+                }).addOnFailureListener(error -> showErrorMessage());
     }
 
     private void showErrorMessage() {
@@ -91,7 +91,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
     @Override
     public void onUserClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-        intent.putExtra(FROM, KEY_USER);
+        intent.putExtra(FROM, "");
         intent.putExtra(KEY_USER, user);
         startActivity(intent);
         finish();

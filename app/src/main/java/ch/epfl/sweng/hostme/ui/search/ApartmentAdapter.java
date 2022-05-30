@@ -9,9 +9,12 @@ import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
+import static ch.epfl.sweng.hostme.utils.Constants.FAVORITE_FRAGMENT;
 import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
+import static ch.epfl.sweng.hostme.utils.Constants.IS_FAVORITE;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
@@ -33,7 +36,6 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -53,7 +55,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -63,12 +64,14 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.ViewHolder> {
 
-    private final CollectionReference reference = Database.getCollection("favorite_apart");
-    private List<Apartment> apartments;
-    private HashMap<String, Bitmap> hashMap = new HashMap<>();
-    private View view;
+    private final static String YES = "yes";
+    private final static String NO = "no";
+    private final static String BUTTON = "Button";
+    private final static String PRESSED = "pressed";
+    private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_FAV);
+    private final List<Apartment> apartments;
+    private final HashMap<String, Bitmap> hashMap = new HashMap<>();
     private boolean isFavFragment;
-    private HashMap<String, Boolean> favMap = new HashMap<>();
     private SharedPreferences preferences;
     private SharedPreferences bitmapPreferences;
 
@@ -79,7 +82,8 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+
         preferences = view.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE);
         bitmapPreferences = view.getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
         return new ViewHolder(view);
@@ -88,20 +92,19 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Apartment apartment = apartments.get(position);
-        holder.addr.setText(apartment.getAddress());
+        holder.address.setText(apartment.getAddress());
         holder.npa.setText(String.valueOf(apartment.getNpa()));
         holder.city.setText(apartment.getCity());
         holder.price.setText(String.format("CHF %s.—", apartment.getRent()));
         holder.area.setText(String.format("%s m\u00B2", apartment.getArea()));
         retrieveAndDisplayImage(holder, apartment, holder.loadingBar);
         holder.itemView.setOnClickListener(view -> displayApartment(apartment, view));
-        SharedPreferences pref = holder.itemView.getContext()
-                .getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE);
-        String state = pref.getString(apartment.getDocId() + "pressed", "no");
+        SharedPreferences pref = holder.itemView.getContext().getSharedPreferences(Auth.getUid() + BUTTON, MODE_PRIVATE);
+        String state = pref.getString(apartment.getDocId() + PRESSED, NO);
         if (isFavFragment) {
             holder.favouriteButton.setChecked(true);
         } else {
-            holder.favouriteButton.setChecked(state.equals("yes"));
+            holder.favouriteButton.setChecked(state.equals(YES));
         }
         holder.favouriteButton.setOnCheckedChangeListener((compoundButton, b) -> {
             compoundButton.startAnimation(createToggleAnimation());
@@ -109,40 +112,33 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         });
     }
 
-
     /**
      * Save a favourite apartment in the database
      */
-    private void updateApartDB(Context context, Apartment apartment,
-                               boolean isAdded, boolean isFavFragment) {
+    private void updateApartDB(Context context, Apartment apartment, boolean isAdded, boolean isFavFragment) {
         String uid = Auth.getUid();
         DocumentReference documentRef = reference.document(uid);
         setPreferences(context, isFavFragment);
-        SharedPreferences.Editor editor = context.
-                getSharedPreferences(Auth.getUid() + "Button", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences(Auth.getUid() + BUTTON, MODE_PRIVATE).edit();
         if (!preferences.getBoolean(IS_FROM_FILTERS, true)) {
             if (isAdded) {
-                favMap.put(apartment.getDocId(), true);
-                editor.putString(apartment.getDocId() + "pressed", "yes");
+                editor.putString(apartment.getDocId() + PRESSED, YES);
                 editor.apply();
                 documentRef.get()
                         .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {
                                 documentRef.update(FAVORITES, FieldValue.arrayUnion(apartment.getDocId()));
                             } else {
-                                Map<String, ArrayList> mapData = new HashMap<>();
+                                HashMap<String, ArrayList> mapData = new HashMap<>();
                                 ArrayList<String> favorites = new ArrayList<>();
                                 favorites.add(apartment.getDocId());
                                 mapData.put(FAVORITES, favorites);
                                 documentRef.set(mapData);
                             }
-                            Toast.makeText(view.getContext(), "Apartment added to your favorites",
-                                    Toast.LENGTH_SHORT).show();
                         });
             } else {
                 bitmapPreferences.edit().remove(apartment.getDocId()).apply();
-                favMap.put(apartment.getDocId(), false);
-                editor.putString(apartment.getDocId() + "pressed", "no");
+                editor.putString(apartment.getDocId() + PRESSED, NO);
                 editor.apply();
                 documentRef.get()
                         .addOnSuccessListener(documentSnapshot -> {
@@ -150,8 +146,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
                                 documentRef.update(FAVORITES, FieldValue.arrayRemove(apartment.getDocId()));
                             }
                         });
-                Toast.makeText(view.getContext(), "Apartment removed from your favorites",
-                        Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -159,19 +153,16 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     /**
      * Change the preference to know if we are in the favorite fragment or not,
      * if we are we will load the data but if we are in the main recyclerview we will not
-     *
-     * @param context
-     * @param isFavFragment
      */
     private void setPreferences(Context context, boolean isFavFragment) {
-        SharedPreferences prefFragment = context.getSharedPreferences("FavoriteFragment", MODE_PRIVATE);
+        SharedPreferences prefFragment = context.getSharedPreferences(FAVORITE_FRAGMENT, MODE_PRIVATE);
         if (isFavFragment) {
             SharedPreferences.Editor editor1 = prefFragment.edit();
-            editor1.putBoolean("isFavorite", true);
+            editor1.putBoolean(IS_FAVORITE, true);
             editor1.apply();
         } else {
             SharedPreferences.Editor editor2 = prefFragment.edit();
-            editor2.putBoolean("isFavorite", false);
+            editor2.putBoolean(IS_FAVORITE, false);
             editor2.apply();
         }
     }
@@ -189,15 +180,11 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Launch the fragment that displays the specific data for apartment
-     *
-     * @param apartment
-     * @param view
      */
     private void displayApartment(Apartment apartment, View view) {
         Bundle bundle = new Bundle();
         Fragment fragment = new DisplayApartment();
-        FragmentTransaction fragmentTransaction =
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         bundle.putInt(BEDS, apartment.getBeds());
         bundle.putString(APART_ID, apartment.getDocId());
@@ -222,10 +209,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Retrieve image from Firestore storage and display it
-     *
-     * @param holder
-     * @param model
-     * @param loadingBar
      */
     public void retrieveAndDisplayImage(@NonNull ViewHolder holder, @NonNull Apartment model, ProgressBar loadingBar) {
         loadingBar.setVisibility(View.VISIBLE);
@@ -257,14 +240,11 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
 
     /**
      * Save the bitmap in shared preferences for caching the favorites apartments
-     *
-     * @param model
-     * @param bitmap
      */
     private void saveBitmap(@NonNull Apartment model, Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] compressImage = baos.toByteArray();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        byte[] compressImage = outputStream.toByteArray();
         String sEncodedImage = Base64.encodeToString(compressImage, Base64.DEFAULT);
         bitmapPreferences.edit().putString(model.getDocId(), sEncodedImage).apply();
     }
@@ -275,16 +255,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     }
 
     /**
-     * Set the apartments list
-     *
-     * @param apartments
-     */
-    public void setApartments(List<Apartment> apartments) {
-        this.apartments = apartments;
-        notifyDataSetChanged();
-    }
-
-    /**
      * hide the favorite button if you are in favorite fragment
      */
     public void setFavFragment() {
@@ -292,10 +262,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView price;
-        public TextView addr;
+        public TextView address;
         public TextView area;
         public TextView city;
         public TextView npa;
@@ -307,7 +277,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             this.price = itemView.findViewById(R.id.list_price);
-            this.addr = itemView.findViewById(R.id.list_address);
+            this.address = itemView.findViewById(R.id.list_address);
             this.area = itemView.findViewById(R.id.list_area);
             this.npa = itemView.findViewById(R.id.list_npa);
             this.city = itemView.findViewById(R.id.list_city);
@@ -316,6 +286,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             this.loadingBar = itemView.findViewById(R.id.loading_bar);
             cardView = itemView.findViewById(R.id.cardView);
         }
-
     }
+
 }

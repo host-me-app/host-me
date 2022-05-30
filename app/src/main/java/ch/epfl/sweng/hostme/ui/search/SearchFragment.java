@@ -1,16 +1,26 @@
 package ch.epfl.sweng.hostme.ui.search;
 
+import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
+import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.FAVORITE_FRAGMENT;
 import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.IS_FAVORITE;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_FAV;
+import static ch.epfl.sweng.hostme.utils.Constants.MAX_AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.MAX_PRICE;
+import static ch.epfl.sweng.hostme.utils.Constants.NPA;
+import static ch.epfl.sweng.hostme.utils.Constants.PERMISSION_ID;
+import static ch.epfl.sweng.hostme.utils.Constants.RENT;
+import static ch.epfl.sweng.hostme.utils.Location.checkPositionAroundLocation;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -35,15 +45,14 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -52,18 +61,13 @@ import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class SearchFragment extends Fragment {
 
-    public static final float MAX_AREA = 3000f;
-    public static final float MAX_PRICE = 5000f;
-    public static final String IS_FAVORITE = "isFavorite";
-    public static final String FAVORITE_FRAGMENT = "FavoriteFragment";
-    private final static CollectionReference favReference = Database.getCollection("favorite_apart");
-    private final static int PERMISSION_ID = 44;
+    private final static CollectionReference favReference = Database.getCollection(KEY_COLLECTION_FAV);
     private final CollectionReference reference = Database.getCollection(APARTMENTS);
     private SharedPreferences.Editor editor;
-    private ApartmentAdapter recyclerAdapter;
     private Button filterButt;
     private boolean filterIsClicked;
     private LinearLayout radiusGpsLayout;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch gpsSwitch;
     private RangeSlider rangeBarGps;
     private RangeSlider rangeBarPrice;
@@ -72,47 +76,45 @@ public class SearchFragment extends Fragment {
     private ArrayList<Apartment> apartments;
     private String searchText;
     private RecyclerView recyclerView;
-    private ProgressBar progressBar;
-    private LinearLayoutManager linearLayoutManager;
-    private View root;
-    private final LocationCallback mLocationCallback = new LocationCallback() {
+    private final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
             filterLocation(mLastLocation);
         }
     };
+    private ProgressBar progressBar;
     private Button clearFilters;
-    private FusedLocationProviderClient mFusedLocationClient;
+    private FusedLocationProviderClient fusedLocationClient;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_search, container, false);
 
-        root = inflater.inflate(R.layout.recycler_view, container, false);
+        this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity());
+        this.radiusGpsLayout = root.findViewById(R.id.filter_gps);
+        this.gpsSwitch = root.findViewById(R.id.gps_switch);
+        this.recyclerView = root.findViewById(R.id.search_recycler_view);
+        this.rangeBarGps = root.findViewById(R.id.range_bar_gps);
+        this.rangeBarPrice = root.findViewById(R.id.range_bar_price);
+        this.rangeBarArea = root.findViewById(R.id.range_bar_area);
+        this.filterButt = root.findViewById(R.id.filters);
+        this.filters = root.findViewById(R.id.all_filters);
+        this.clearFilters = root.findViewById(R.id.clear_filters);
+        this.clearFilters.setVisibility(View.GONE);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity());
-        radiusGpsLayout = root.findViewById(R.id.filter_gps);
-        gpsSwitch = root.findViewById(R.id.gpsSwitch);
-        recyclerView = root.findViewById(R.id.recyclerView);
-        rangeBarGps = root.findViewById(R.id.range_bar_gps);
-        rangeBarPrice = root.findViewById(R.id.range_bar_price);
-        rangeBarArea = root.findViewById(R.id.range_bar_area);
-        filterButt = root.findViewById(R.id.filters);
-        filters = root.findViewById(R.id.all_filters);
         SearchView searchView = root.findViewById(R.id.search_view);
-        clearFilters = root.findViewById(R.id.clear_filters);
-        clearFilters.setVisibility(View.GONE);
-        progressBar = root.findViewById(R.id.progress_bar);
 
-        apartments = new ArrayList<>();
-        editor = getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
-        setUpRecyclerView();
+        this.progressBar = root.findViewById(R.id.progress_bar);
 
-        gpsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        this.apartments = new ArrayList<>();
+        this.editor = root.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
+        this.setUpRecyclerView();
+
+        this.gpsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                radiusGpsLayout.setVisibility(View.VISIBLE);
+                this.radiusGpsLayout.setVisibility(View.VISIBLE);
             } else {
-                radiusGpsLayout.setVisibility(View.GONE);
+                this.radiusGpsLayout.setVisibility(View.GONE);
             }
         });
 
@@ -129,24 +131,23 @@ public class SearchFragment extends Fragment {
                 if (gpsSwitch.isChecked()) {
                     getLastLocation();
                 } else {
-                    updateRecyclerView(null, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
-                            rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
+                    updateRecyclerView(null);
                 }
                 editor.putBoolean(IS_FROM_FILTERS, false).apply();
                 return true;
             }
         });
 
-        filterIsClicked = false;
-        filterButt.setOnClickListener(view -> changeFiltersViewAndUpdate());
-        clearFilters.setOnClickListener(view -> {
+        this.filterIsClicked = false;
+        this.filterButt.setOnClickListener(view -> changeFiltersViewAndUpdate());
+        this.clearFilters.setOnClickListener(view -> {
             searchView.setQuery("", false);
             searchView.clearFocus();
             setRangeBar();
         });
 
-        changeFilterVisibility(View.GONE);
-        setRangeBar();
+        this.changeFilterVisibility(View.GONE);
+        this.setRangeBar();
 
         favReference.document(Auth.getUid()).addSnapshotListener((value, error) -> {
             SharedPreferences pref = root.getContext().getSharedPreferences(FAVORITE_FRAGMENT, Context.MODE_PRIVATE);
@@ -175,34 +176,33 @@ public class SearchFragment extends Fragment {
      * set the range bar to default values
      */
     private void setRangeBar() {
-        gpsSwitch.setChecked(false);
-        rangeBarPrice.setValues(0f, MAX_PRICE);
-        rangeBarPrice.setLabelFormatter(value -> value + " CHF");
-        rangeBarArea.setValues(0f, MAX_AREA);
-        rangeBarArea.setLabelFormatter(value -> value + " m²");
+        this.gpsSwitch.setChecked(false);
+        this.rangeBarPrice.setValues(0f, MAX_PRICE);
+        this.rangeBarPrice.setLabelFormatter(value -> value + " CHF");
+        this.rangeBarArea.setValues(0f, MAX_AREA);
+        this.rangeBarArea.setLabelFormatter(value -> value + " m²");
     }
 
     /**
      * Close or open the filters and update if necessary
      */
     private void changeFiltersViewAndUpdate() {
-        if (!filterIsClicked) {
-            clearFilters.setVisibility(View.VISIBLE);
-            changeFilterVisibility(View.VISIBLE);
-            filterButt.setText(R.string.apply_filters);
-            filterIsClicked = true;
+        if (!this.filterIsClicked) {
+            this.clearFilters.setVisibility(View.VISIBLE);
+            this.changeFilterVisibility(View.VISIBLE);
+            this.filterButt.setText(R.string.apply_filters);
+            this.filterIsClicked = true;
         } else {
-            clearFilters.setVisibility(View.GONE);
-            changeFilterVisibility(View.GONE);
-            filterButt.setText(R.string.filters_text);
-            filterIsClicked = false;
-            if (gpsSwitch.isChecked()) {
-                getLastLocation();
+            this.clearFilters.setVisibility(View.GONE);
+            this.changeFilterVisibility(View.GONE);
+            this.filterButt.setText(R.string.filters_text);
+            this.filterIsClicked = false;
+            if (this.gpsSwitch.isChecked()) {
+                this.getLastLocation();
             } else {
-                editor.putBoolean(IS_FROM_FILTERS, true).apply();
-                updateRecyclerView(null, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
-                        rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
-                editor.putBoolean(IS_FROM_FILTERS, false).apply();
+                this.editor.putBoolean(IS_FROM_FILTERS, true).apply();
+                this.updateRecyclerView(null);
+                this.editor.putBoolean(IS_FROM_FILTERS, false).apply();
             }
         }
     }
@@ -210,39 +210,41 @@ public class SearchFragment extends Fragment {
     /**
      * set up or update the recycler view
      */
-    private void updateRecyclerView(Location location, float radius, float min, float max, float min2, float max2) {
-        apartments = new ArrayList<>();
+    private void updateRecyclerView(Location location) {
+        this.apartments = new ArrayList<>();
         loading(true);
-        reference.get().addOnSuccessListener(result -> {
+        float radius = this.rangeBarGps.getValues().get(0);
+        float min = this.rangeBarPrice.getValues().get(0);
+        float max = this.rangeBarPrice.getValues().get(1);
+        float min2 = this.rangeBarArea.getValues().get(0);
+        float max2 = this.rangeBarArea.getValues().get(1);
+        this.reference.get().addOnSuccessListener(result -> {
             loading(false);
-            apartments.clear();
-            QuerySnapshot snapshot = result;
+            this.apartments.clear();
             double latitude = 0;
             double longitude = 0;
             if (location != null) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
             }
-            for (DocumentSnapshot doc : snapshot.getDocuments()) {
+            for (DocumentSnapshot doc : result.getDocuments()) {
                 Apartment apartment = doc.toObject(Apartment.class);
-                Long rent = (Long) doc.get("rent");
-                Long area = (Long) doc.get("area");
-                String city = (String) doc.get("city");
-                String address = (String) doc.get("address");
-                Long npa = (Long) doc.get("npa");
+                long rent = Objects.requireNonNull(doc.getLong(RENT));
+                long area = Objects.requireNonNull(doc.getLong(AREA));
+                String city = Objects.requireNonNull(doc.getString(CITY));
+                String address = Objects.requireNonNull(doc.getString(ADDRESS));
+                long npa = Objects.requireNonNull(doc.getLong(NPA));
                 String fullAddress = address + " " + city + " " + npa;
                 if ((min <= rent) && (rent <= max) && (min2 <= area) && (area <= max2)) {
-                    if ((searchText == null) || (String.valueOf(npa).toLowerCase().contains(searchText) ||
-                            address.toLowerCase().contains(searchText) || city.toLowerCase().contains(searchText))) {
-                        if (location == null || checkPositionAroundLocation(fullAddress, latitude, longitude, radius)) {
-                            if (apartments.size() < 10) {
-                                apartments.add(apartment);
-                            }
+                    if ((this.searchText == null) || (String.valueOf(npa).toLowerCase().contains(this.searchText) ||
+                            Objects.requireNonNull(address).toLowerCase().contains(this.searchText) || Objects.requireNonNull(city).toLowerCase().contains(searchText))) {
+                        if (location == null || checkPositionAroundLocation(this.getContext(), fullAddress, latitude, longitude, radius)) {
+                            this.apartments.add(apartment);
                         }
                     }
                 }
             }
-            displayRecycler();
+            this.displayRecycler();
         });
     }
 
@@ -251,18 +253,15 @@ public class SearchFragment extends Fragment {
      */
     private void setUpRecyclerView() {
         loading(true);
-        editor.putBoolean(IS_FROM_FILTERS, false);
-        editor.apply();
-        apartments = new ArrayList<>();
-        reference.get().addOnSuccessListener(result -> {
+        this.editor.putBoolean(IS_FROM_FILTERS, false);
+        this.editor.apply();
+        this.apartments = new ArrayList<>();
+        this.reference.get().addOnSuccessListener(result -> {
             loading(false);
-            apartments.clear();
-            QuerySnapshot snapshot = result;
-            for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                if (apartments.size() < 10) {
-                    Apartment apartment = doc.toObject(Apartment.class);
-                    apartments.add(apartment);
-                }
+            this.apartments.clear();
+            for (DocumentSnapshot doc : result.getDocuments()) {
+                Apartment apartment = doc.toObject(Apartment.class);
+                this.apartments.add(apartment);
             }
             displayRecycler();
         });
@@ -273,14 +272,14 @@ public class SearchFragment extends Fragment {
      */
     private void displayRecycler() {
         List<Apartment> apartmentsWithoutDuplicate = new ArrayList<>(new HashSet<>(apartments));
-        recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
-        recyclerView.setHasFixedSize(true);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setItemViewCacheSize(20);
-        recyclerView.setDrawingCacheEnabled(true);
-        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        recyclerView.setAdapter(recyclerAdapter);
+        ApartmentAdapter recyclerAdapter = new ApartmentAdapter(apartmentsWithoutDuplicate);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        this.recyclerView.setHasFixedSize(true);
+        this.recyclerView.setLayoutManager(linearLayoutManager);
+        this.recyclerView.setItemViewCacheSize(20);
+        this.recyclerView.setDrawingCacheEnabled(true);
+        this.recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        this.recyclerView.setAdapter(recyclerAdapter);
     }
 
 
@@ -292,7 +291,6 @@ public class SearchFragment extends Fragment {
     public void
     onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (requestCode == PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
@@ -302,24 +300,24 @@ public class SearchFragment extends Fragment {
 
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+        if (this.checkPermissions()) {
+            if (this.isLocationEnabled()) {
+                this.fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                     if (location == null) {
-                        LocationRequest mLocationRequest = new LocationRequest();
-                        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                        mLocationRequest.setInterval(5);
-                        mLocationRequest.setFastestInterval(0);
-                        mLocationRequest.setNumUpdates(1);
-                        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity());
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                        LocationRequest locationRequest = new LocationRequest();
+                        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                        locationRequest.setInterval(5);
+                        locationRequest.setFastestInterval(0);
+                        locationRequest.setNumUpdates(1);
+                        this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity());
+                        this.fusedLocationClient.requestLocationUpdates(locationRequest, this.locationCallback, Looper.myLooper());
                     } else {
-                        filterLocation(location);
+                        this.filterLocation(location);
                     }
                 });
             }
         } else {
-            requestPermissionsForLocation();
+            this.requestPermissionsForLocation();
         }
     }
 
@@ -335,35 +333,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void filterLocation(Location location) {
-        updateRecyclerView(location, rangeBarGps.getValues().get(0), rangeBarPrice.getValues().get(0), rangeBarPrice.getValues().get(1),
-                rangeBarArea.getValues().get(0), rangeBarArea.getValues().get(1));
+        this.updateRecyclerView(location);
     }
-
-    private boolean checkPositionAroundLocation(String fullAddress, double latitude, double longitude, float radius) {
-        float radiusMeters = radius * 1000;
-        Geocoder coder = new Geocoder(this.getContext());
-        List<Address> address;
-        try {
-            address = coder.getFromLocationName(fullAddress, 1);
-            Address location = address.get(0);
-            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-            double earthRadius = 6371000;
-            double phyLoc = latitude * Math.PI / 180;
-            double phyApa = latlng.latitude * Math.PI / 180;
-            double deltaPhy = (latlng.latitude - latitude) * Math.PI / 180;
-            double deltaLambda = (latlng.longitude - longitude) * Math.PI / 180;
-
-            double sinDeltaPhy = Math.sin(deltaPhy / 2);
-            double sinDeltaLambda = Math.sin(deltaLambda / 2);
-            double a = sinDeltaPhy * sinDeltaPhy + Math.cos(phyLoc) * Math.cos(phyApa) * sinDeltaLambda * sinDeltaLambda;
-            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            double dist = earthRadius * c;
-            return radiusMeters >= dist;
-        } catch (Exception ignored) {
-        }
-        return false;
-    }
-
 
     /**
      * display or not all the filters
@@ -371,9 +342,8 @@ public class SearchFragment extends Fragment {
      * @param visible GONE or INVISIBLE
      */
     private void changeFilterVisibility(int visible) {
-        filters.setVisibility(visible);
+        this.filters.setVisibility(visible);
     }
-
 
     @Override
     public void onResume() {

@@ -3,6 +3,8 @@ package ch.epfl.sweng.hostme.ui.messages;
 import static ch.epfl.sweng.hostme.utils.Constants.CALL_PERM_CODE;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM_NOTIFICATION;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
+import static io.agora.rtc.Constants.CHANNEL_PROFILE_LIVE_BROADCASTING;
+import static io.agora.rtc.IRtcEngineEventHandler.ClientRole.CLIENT_ROLE_BROADCASTER;
 
 import android.Manifest;
 import android.content.Intent;
@@ -30,7 +32,6 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.users.User;
-import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -50,8 +51,6 @@ public class CallActivity extends AppCompatActivity {
     private ImageView audioButt;
     private ImageView videoButt;
     private User user;
-    private String result;
-
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
         @Override
         public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
@@ -71,7 +70,13 @@ public class CallActivity extends AppCompatActivity {
         public void onRemoteVideoStateChanged(final int uid, final int state, int reason, int elapsed) {
             runOnUiThread(() -> onRemoteUserVideoToggle(state));
         }
+
+        @Override
+        public void onLeaveChannel(RtcStats stats) {
+            onLeaveChannelClicked();
+        }
     };
+    private String result;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,13 +99,6 @@ public class CallActivity extends AppCompatActivity {
 
     private void onSwitchCamera() {
         this.mRtcEngine.switchCamera();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.mRtcEngine.leaveChannel();
-        RtcEngine.destroy();
     }
 
     private void checkPermissionsAndInitEngine() {
@@ -127,7 +125,7 @@ public class CallActivity extends AppCompatActivity {
         reference.document(this.user.id).update(ROOM_NAME, currUserID);
     }
 
-    public void joinChannel() {
+    private void joinChannel() {
         reference.document(Auth.getUid()).get().addOnSuccessListener(res -> {
             if (res.exists()) {
                 String roomName = res.getString(ROOM_NAME);
@@ -176,14 +174,14 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void setupLocalVideoFeed() {
-        this.mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
+        this.mRtcEngine.setChannelProfile(CHANNEL_PROFILE_LIVE_BROADCASTING);
         this.mRtcEngine.enableVideo();
         VideoEncoderConfiguration mVEC = new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360,
                 VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
                 VideoEncoderConfiguration.STANDARD_BITRATE,
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
-        this. mRtcEngine.setVideoEncoderConfiguration(mVEC);
-        this.mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER);
+        this.mRtcEngine.setVideoEncoderConfiguration(mVEC);
+        this.mRtcEngine.setClientRole(CLIENT_ROLE_BROADCASTER);
         FrameLayout videoContainer = findViewById(R.id.floating_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
         videoSurface.setZOrderMediaOverlay(true);
@@ -205,10 +203,10 @@ public class CallActivity extends AppCompatActivity {
         videoSurface.setVisibility(state == 0 ? View.GONE : View.VISIBLE);
     }
 
-    public void onJoinChannelClicked() {
+    private void onJoinChannelClicked() {
         String channelName = currUserID;
         initToken(channelName);
-        this. mRtcEngine.joinChannel(this.result, channelName, null, 0);
+        this.mRtcEngine.joinChannel(this.result, channelName, null, 0);
         setupLocalVideoFeed();
     }
 
@@ -219,7 +217,7 @@ public class CallActivity extends AppCompatActivity {
                 channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
     }
 
-    public void onLeaveChannelClicked() {
+    private void onLeaveChannelClicked() {
         this.mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
@@ -236,35 +234,38 @@ public class CallActivity extends AppCompatActivity {
         videoContainer.removeAllViews();
     }
 
-    public void onAudioMuteClicked(View view) {
+    private void onAudioMuteClicked(View view) {
         ImageView btn = (ImageView) view;
-        if (btn.isSelected()) {
-            btn.setSelected(false);
-            btn.setImageResource(R.drawable.btn_mute);
-        } else {
-            btn.setSelected(true);
-            btn.setImageResource(R.drawable.btn_unmute);
-        }
-
+        changeButtonState(btn, R.drawable.btn_mute, R.drawable.btn_unmute);
         this.mRtcEngine.muteLocalAudioStream(btn.isSelected());
     }
 
-    public void onVideoMuteClicked(View view) {
+    private void onVideoMuteClicked(View view) {
         ImageView btn = (ImageView) view;
-        if (btn.isSelected()) {
-            btn.setSelected(false);
-            btn.setImageResource(R.drawable.video_toggle_btn);
-        } else {
-            btn.setSelected(true);
-            btn.setImageResource(R.drawable.video_toggle_active_btn);
-        }
-
-        this. mRtcEngine.muteLocalVideoStream(btn.isSelected());
+        changeButtonState(btn, R.drawable.video_toggle_active_btn, R.drawable.video_toggle_btn);
+        this.mRtcEngine.muteLocalVideoStream(btn.isSelected());
         FrameLayout container = findViewById(R.id.floating_video_container);
         container.setVisibility(btn.isSelected() ? View.GONE : View.VISIBLE);
         SurfaceView videoSurface = (SurfaceView) container.getChildAt(0);
         videoSurface.setZOrderMediaOverlay(!btn.isSelected());
         videoSurface.setVisibility(btn.isSelected() ? View.GONE : View.VISIBLE);
+    }
+
+    private void changeButtonState(ImageView btn, int active, int inactive) {
+        if (btn.isSelected()) {
+            btn.setSelected(false);
+            btn.setImageResource(inactive);
+        } else {
+            btn.setSelected(true);
+            btn.setImageResource(active);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mRtcEngine.leaveChannel();
+        RtcEngine.destroy();
     }
 
     @Override

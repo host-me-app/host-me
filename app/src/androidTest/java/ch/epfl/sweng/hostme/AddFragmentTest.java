@@ -1,25 +1,21 @@
 package ch.epfl.sweng.hostme;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.matcher.ViewMatchers.Visibility;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertNotNull;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -51,6 +47,9 @@ import ch.epfl.sweng.hostme.database.Storage;
 @RunWith(AndroidJUnit4.class)
 public class AddFragmentTest {
 
+    @Rule
+    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE);
+
     @BeforeClass
     public static void setUp() {
         Auth.setTest();
@@ -59,10 +58,6 @@ public class AddFragmentTest {
         FirebaseApp.clearInstancesForTest();
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
-
-    @Rule
-    public GrantPermissionRule accessRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE);
-
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
 
@@ -76,154 +71,6 @@ public class AddFragmentTest {
         drawable.draw(canvas);
 
         return bitmap;
-    }
-
-    @Test
-    public void initialStateTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.add_new)).check(matches(isDisplayed()));
-            onView(withId(R.id.add_new)).check(matches(isClickable()));
-            onView(withId(R.id.add_form)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-            onView(withId(R.id.add_buttons)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
-    public void openFormTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.add_new)).perform((click()));
-
-            onView(withId(R.id.add_form)).check(matches(isDisplayed()));
-            onView(withId(R.id.add_buttons)).check(matches(isDisplayed()));
-            onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
-            onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
-    public void incompleteFormTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.add_new)).perform((click()));
-
-            onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
-            onView(withId(R.id.enter_name)).perform(typeText("b"), closeSoftKeyboard());
-            onView(withId(R.id.enter_room)).perform(typeText("c"), closeSoftKeyboard());
-            onView(withId(R.id.enter_address)).perform(typeText("d"), closeSoftKeyboard());
-            onView(withId(R.id.enter_npa)).perform(typeText("1"), closeSoftKeyboard());
-            onView(withId(R.id.enter_city)).perform(typeText("e"), closeSoftKeyboard());
-            onView(withId(R.id.enter_rent)).perform(typeText("2"), closeSoftKeyboard());
-            onView(withId(R.id.enter_utilities)).perform(typeText("3"), closeSoftKeyboard());
-            onView(withId(R.id.enter_deposit)).perform(typeText("4"), closeSoftKeyboard());
-            onView(withId(R.id.enter_beds)).perform(typeText("5"), closeSoftKeyboard());
-            onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-            onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
-
-            onView(withId(R.id.enter_images)).check(matches(isNotEnabled()));
-            onView(withId(R.id.add_submit)).check(matches(isNotEnabled()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
-    public void openAndCloseForm() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.add_new)).perform((click()));
-            onView(withId(R.id.add_new)).perform((click()));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
-    public void removeFieldApartmentTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-
-            String usr = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.add_new)).perform((click()));
-
-            onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
-            onView(withId(R.id.enter_name)).perform(typeText("b"), closeSoftKeyboard());
-            onView(withId(R.id.enter_room)).perform(typeText("c"), closeSoftKeyboard());
-            onView(withId(R.id.enter_address)).perform(typeText("d"), closeSoftKeyboard());
-            onView(withId(R.id.enter_npa)).perform(typeText("1"), closeSoftKeyboard());
-            onView(withId(R.id.enter_city)).perform(typeText("e"), closeSoftKeyboard());
-            onView(withId(R.id.enter_rent)).perform(typeText("2"), closeSoftKeyboard());
-            onView(withId(R.id.enter_utilities)).perform(typeText("3"), closeSoftKeyboard());
-            onView(withId(R.id.enter_deposit)).perform(typeText("4"), closeSoftKeyboard());
-            onView(withId(R.id.enter_beds)).perform(typeText("5"), closeSoftKeyboard());
-            onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-            onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
-            onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
-            onView(withId(R.id.enter_area)).perform(clearText());
-            onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
     }
 
     @Test
@@ -245,24 +92,34 @@ public class AddFragmentTest {
 
             onView(withId(R.id.add_new)).perform((click()));
 
+            onView(withId(R.id.enter_proprietor)).perform(click());
             onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
+            onView(withId(R.id.enter_name)).perform(click());
             onView(withId(R.id.enter_name)).perform(typeText("b"), closeSoftKeyboard());
+            onView(withId(R.id.enter_room)).perform(click());
             onView(withId(R.id.enter_room)).perform(typeText("c"), closeSoftKeyboard());
+            onView(withId(R.id.enter_address)).perform(click());
             onView(withId(R.id.enter_address)).perform(typeText("d"), closeSoftKeyboard());
+            onView(withId(R.id.enter_npa)).perform(click());
             onView(withId(R.id.enter_npa)).perform(typeText("1"), closeSoftKeyboard());
+            onView(withId(R.id.enter_city)).perform(click());
             onView(withId(R.id.enter_city)).perform(typeText("e"), closeSoftKeyboard());
+            onView(withId(R.id.enter_rent)).perform(click());
             onView(withId(R.id.enter_rent)).perform(typeText("2"), closeSoftKeyboard());
+            onView(withId(R.id.enter_utilities)).perform(click());
             onView(withId(R.id.enter_utilities)).perform(typeText("3"), closeSoftKeyboard());
+            onView(withId(R.id.enter_deposit)).perform(click());
             onView(withId(R.id.enter_deposit)).perform(typeText("4"), closeSoftKeyboard());
+            onView(withId(R.id.enter_beds)).perform(click());
             onView(withId(R.id.enter_beds)).perform(typeText("5"), closeSoftKeyboard());
+            onView(withId(R.id.enter_area)).perform(click());
             onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
+            onView(withId(R.id.enter_duration)).perform(click());
             onView(withId(R.id.enter_duration)).perform(typeText("7"), closeSoftKeyboard());
-            onView(withId(R.id.enter_area)).perform(typeText("6"), closeSoftKeyboard());
             Thread.sleep(1000);
             onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(click());
             Thread.sleep(1000);
         } catch (Exception e) {
@@ -276,7 +133,8 @@ public class AddFragmentTest {
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult2.jpeg");
         Uri uri = Uri.fromFile(file);
-        resultData.setData(uri);
+        ClipData clip = new ClipData(new ClipDescription(ClipDescription.MIMETYPE_TEXT_URILIST, new String[]{"uri"}), new ClipData.Item(uri));
+        resultData.setClipData(clip);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
@@ -295,50 +153,6 @@ public class AddFragmentTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Test
-    public void listingOwnedTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "testlogin@gmail.com";
-            String pwd = "fakePassword1!";
-
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.owner_view)).check(matches(isDisplayed()));
-            onView(withId(R.id.add_first)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
-    public void notOwnerTest() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
-        Intents.init();
-        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            String usr = "testchat@gmail.com";
-            String pwd = "Hostme@2022";
-
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
-            onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
-            onView(withId(R.id.log_in_button)).perform(click());
-
-            onView(withId(R.id.navigation_add)).perform(click());
-
-            onView(withId(R.id.add_first)).check(matches(isDisplayed()));
-            onView(withId(R.id.owner_view)).check(matches(withEffectiveVisibility(Visibility.GONE)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Intents.release();
     }
 
 }

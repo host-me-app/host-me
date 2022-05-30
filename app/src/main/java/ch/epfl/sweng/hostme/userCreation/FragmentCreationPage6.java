@@ -30,13 +30,12 @@ import ch.epfl.sweng.hostme.utils.Profile;
 
 public class FragmentCreationPage6 extends Fragment implements IOnBackPressed {
 
+    public final static Map<String, String> DATA = new HashMap<>();
     private static final String PREF_USER_NAME = "username";
     private static final String INVALID_PWD = "The password must be at least 8 characters and contains at " +
             "least 1 uppercase character and 1 special character";
     private static final String INVALID_CONFIRM_PWD = "The passwords should be identical";
     private static final String AUTH_FAILED = "Authentication failed";
-
-    public final static Map<String, String> DATA = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

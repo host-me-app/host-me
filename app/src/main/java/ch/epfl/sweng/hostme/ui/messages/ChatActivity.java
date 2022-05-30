@@ -62,6 +62,9 @@ import ch.epfl.sweng.hostme.wallet.Document;
 public class ChatActivity extends AppCompatActivity {
 
     private static final String NO_INTERNET_MESSAGE = "You have no Internet connection";
+    private static final String SHARE_DOCUMENTS_TITLE = "Documents you want to share";
+    private static final String SHARE = "Share";
+    private static final String CANCEL = "Cancel";
     private User receiverUser;
     private String apartId;
     private List<ChatMessage> chatMessages;
@@ -115,6 +118,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText inputMessage;
     private TextView textName;
     private ImageView sendButt;
+    private ImageView chatInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +132,7 @@ public class ChatActivity extends AppCompatActivity {
         this.inputMessage = findViewById(R.id.input_message);
         this.textName = findViewById(R.id.text_name);
         this.sendButt = findViewById(R.id.send_button);
+        this.chatInfo = findViewById(R.id.chat_info);
 
         this.chatMessages = new ArrayList<>();
         this.chatAdapter = new ChatAdapter(chatMessages, uid);
@@ -161,13 +166,13 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessage(String messageStr, boolean isDocument, String documentName) {
         if (messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
-            message.put(KEY_SENDER_ID, uid);
-            message.put(KEY_RECEIVER_ID, receiverUser.id);
+            message.put(KEY_SENDER_ID, this.uid);
+            message.put(KEY_RECEIVER_ID, this.receiverUser.id);
             message.put(KEY_MESSAGE, messageStr.trim());
             message.put(KEY_IS_DOCUMENT, isDocument);
             message.put(KEY_DOCUMENT_NAME, documentName);
             message.put(KEY_TIMESTAMP, new Date());
-            message.put(APART_ID, apartId);
+            message.put(APART_ID, this.apartId);
             Database.getCollection(KEY_COLLECTION_CHAT).add(message);
             this.addConversation(messageStr.trim());
             this.sendNotification();
@@ -206,12 +211,16 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadReceiverDetails() {
         this.receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
-        this.apartId = (String) getIntent().getSerializableExtra(FROM_CONTACT);
+        this.apartId = getIntent().getStringExtra(FROM_CONTACT);
+        if (this.apartId == null) {
+            this.chatInfo.setVisibility(View.INVISIBLE);
+        }
         this.textName.setText(receiverUser.name);
     }
 
     private void setListeners() {
         this.sendButt.setOnClickListener(v -> sendMessage(this.inputMessage.getText().toString(), false, ""));
+        this.chatInfo.setOnClickListener(v -> goInfo());
     }
 
     @NonNull
@@ -269,18 +278,18 @@ public class ChatActivity extends AppCompatActivity {
 
     private void chooseDocumentsToShare() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Documents you want to share");
+        builder.setTitle(SHARE_DOCUMENTS_TITLE);
         String[] items = getDocumentsNames();
         ArrayList<Document> itemsSelected = new ArrayList<>();
         builder.setMultiChoiceItems(items, null,
-                        (dialog, selectedItemId, isSelected) -> {
-                            if (isSelected) {
-                                itemsSelected.add(Document.values()[selectedItemId]);
-                            } else itemsSelected.remove(Document.values()[selectedItemId]);
-                        })
-                .setPositiveButton("Share", (dialog, id) -> sendDocuments(itemsSelected))
-                .setNegativeButton("Cancel", (dialog, id) -> {
-                });
+            (dialog, selectedItemId, isSelected) -> {
+                if (isSelected) {
+                    itemsSelected.add(Document.values()[selectedItemId]);
+                } else itemsSelected.remove(Document.values()[selectedItemId]);
+            })
+        .setPositiveButton(SHARE, (dialog, id) -> sendDocuments(itemsSelected))
+        .setNegativeButton(CANCEL, (dialog, id) -> {
+        });
         builder.create().show();
     }
 
@@ -290,6 +299,13 @@ public class ChatActivity extends AppCompatActivity {
             StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
             fileRef.getDownloadUrl().addOnSuccessListener(uri -> sendMessage(uri.toString(), true, doc.getDocumentName())).addOnFailureListener(exception -> Toast.makeText(this, "Failed to share some documents! \n Check in your wallet if documents are correctly uploaded!", Toast.LENGTH_SHORT).show());
         }
+    }
+
+    private void goInfo() {
+        Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+        intent.putExtra(FROM_CONTACT, this.apartId);
+        intent.putExtra(KEY_USER, this.receiverUser);
+        startActivity(intent);
     }
 
     @Override

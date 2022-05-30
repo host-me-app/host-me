@@ -31,7 +31,7 @@ public final class Constants {
     public static final String RENT = "rent";
     public static final String AREA = "area";
     public static final String APART_ID = "apart_id";
-    public static final String LEASE = "lease";
+    public static final String LEASE = "currentLease";
     public static final String NPA = "npa";
     public static final String CITY = "city";
     public static final String BEDS = "beds";

@@ -5,7 +5,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
-import static ch.epfl.sweng.hostme.utils.Constants.FROM;
+import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
@@ -92,7 +92,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         contactUser.setOnClickListener(view -> chatWithUser(uid));
         this.changeText(String.valueOf(npa), R.id.npa);
         this.changeText(city, R.id.city);
-        this.changeText(address, R.id.addr);
+        this.changeText(address, R.id.address);
         this.changeText(String.valueOf(area), R.id.area);
         this.changeText(String.valueOf(rent), R.id.price);
         this.changeText(lease, R.id.lease);
@@ -194,7 +194,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                             doc.getString(KEY_LASTNAME),
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
                     Intent newIntent = new Intent(this.requireActivity().getApplicationContext(), ChatActivity.class);
-                    newIntent.putExtra(FROM, apartID);
+                    newIntent.putExtra(FROM_CONTACT, apartID);
                     newIntent.putExtra(KEY_USER, user);
                     startActivity(newIntent);
                     this.requireActivity().finish();

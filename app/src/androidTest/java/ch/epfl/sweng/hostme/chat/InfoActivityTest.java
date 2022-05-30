@@ -42,10 +42,11 @@ public class InfoActivityTest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
+    @Test
     public void chatInfoButtonsDisplayed() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
-        try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
 

@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/infoContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/infoContainer"
     tools:context=".ui.messages.InfoActivity">
 
     <TextView
@@ -18,10 +18,10 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/view_supporter_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/view_supporter_info"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view_supporter_info"

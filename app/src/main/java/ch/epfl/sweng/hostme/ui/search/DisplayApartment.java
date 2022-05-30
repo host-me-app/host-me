@@ -5,6 +5,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
@@ -194,8 +195,9 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
                             doc.getString(KEY_LASTNAME),
                             null, doc.getString(KEY_EMAIL), doc.getString(KEY_FCM_TOKEN), uid);
                     Intent newIntent = new Intent(this.requireActivity().getApplicationContext(), ChatActivity.class);
-                    newIntent.putExtra(FROM_CONTACT, apartID);
+                    newIntent.putExtra(FROM, apartID);
                     newIntent.putExtra(KEY_USER, user);
+                    newIntent.putExtra(FROM_CONTACT, true);
                     startActivity(newIntent);
                     this.requireActivity().finish();
                 }

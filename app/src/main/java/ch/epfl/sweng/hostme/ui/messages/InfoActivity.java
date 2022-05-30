@@ -5,7 +5,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
-import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
+import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
 import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
@@ -39,7 +39,7 @@ public class InfoActivity extends AppCompatActivity {
 
         this.chatName = findViewById(R.id.chat_name);
         this.loadReceiverDetails();
-        if (this.apartId != null && !(this.apartId.contentEquals(KEY_USER))) {
+        if (this.apartId != null && !this.apartId.isEmpty()) {
             this.displayInfo();
             Button gradeButton = findViewById(R.id.grade_button_info);
             gradeButton.setOnClickListener(v -> this.goToGradeFragment());
@@ -48,22 +48,22 @@ public class InfoActivity extends AppCompatActivity {
 
     private void loadReceiverDetails() {
         User receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
-        this.apartId = getIntent().getStringExtra(FROM_CONTACT);
+        this.apartId = getIntent().getStringExtra(FROM);
         this.chatName.setText(receiverUser.name);
     }
 
     private void displayInfo() {
         DocumentReference docRef = Database.getCollection(APARTMENTS).document(this.apartId);
         docRef.get()
-        .addOnSuccessListener(result -> {
-            changeText(result.get(NPA), R.id.npa);
-            changeText(result.get(CITY), R.id.city);
-            changeText(result.get(ADDRESS), R.id.address);
-            changeText(result.get(AREA), R.id.area);
-            changeText(result.get(RENT), R.id.price);
-            changeText(result.get(LEASE), R.id.lease);
-            changeText(result.get(PROPRIETOR), R.id.proprietor);
-        });
+                .addOnSuccessListener(result -> {
+                    changeText(result.get(NPA), R.id.npa);
+                    changeText(result.get(CITY), R.id.city);
+                    changeText(result.get(ADDRESS), R.id.address);
+                    changeText(result.get(AREA), R.id.area);
+                    changeText(result.get(RENT), R.id.price);
+                    changeText(result.get(LEASE), R.id.lease);
+                    changeText(result.get(PROPRIETOR), R.id.proprietor);
+                });
     }
 
     private void changeText(Object value, int id) {

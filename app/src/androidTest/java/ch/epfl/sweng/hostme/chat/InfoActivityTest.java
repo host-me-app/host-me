@@ -133,7 +133,7 @@ public class InfoActivityTest {
             onView(withId(R.id.grade_button_info)).check(matches(isDisplayed()));
             onView(withId(R.id.grade_button_info)).perform(click());
             Thread.sleep(1000);
-            
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

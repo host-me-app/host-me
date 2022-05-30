@@ -137,6 +137,7 @@ public class ChatActivity extends AppCompatActivity {
         this.chatMessages = new ArrayList<>();
         this.chatAdapter = new ChatAdapter(chatMessages, uid);
         this.recyclerView.setAdapter(chatAdapter);
+
         this.setListeners();
         this.loadReceiverDetails();
         this.listenMessages();
@@ -211,8 +212,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadReceiverDetails() {
         this.receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
-        this.apartId = getIntent().getStringExtra(FROM_CONTACT);
-        if (this.apartId == null) {
+        this.apartId = getIntent().getStringExtra(FROM);
+        if (this.apartId == null || this.apartId.isEmpty()) {
             this.chatInfo.setVisibility(View.INVISIBLE);
         }
         this.textName.setText(receiverUser.name);
@@ -282,14 +283,14 @@ public class ChatActivity extends AppCompatActivity {
         String[] items = getDocumentsNames();
         ArrayList<Document> itemsSelected = new ArrayList<>();
         builder.setMultiChoiceItems(items, null,
-            (dialog, selectedItemId, isSelected) -> {
-                if (isSelected) {
-                    itemsSelected.add(Document.values()[selectedItemId]);
-                } else itemsSelected.remove(Document.values()[selectedItemId]);
-            })
-        .setPositiveButton(SHARE, (dialog, id) -> sendDocuments(itemsSelected))
-        .setNegativeButton(CANCEL, (dialog, id) -> {
-        });
+                        (dialog, selectedItemId, isSelected) -> {
+                            if (isSelected) {
+                                itemsSelected.add(Document.values()[selectedItemId]);
+                            } else itemsSelected.remove(Document.values()[selectedItemId]);
+                        })
+                .setPositiveButton(SHARE, (dialog, id) -> sendDocuments(itemsSelected))
+                .setNegativeButton(CANCEL, (dialog, id) -> {
+                });
         builder.create().show();
     }
 
@@ -303,16 +304,16 @@ public class ChatActivity extends AppCompatActivity {
 
     private void goInfo() {
         Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
-        intent.putExtra(FROM_CONTACT, this.apartId);
+        intent.putExtra(FROM, this.apartId);
         intent.putExtra(KEY_USER, this.receiverUser);
         startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
-        if (getIntent().getStringExtra(FROM_CONTACT) != null) {
+        if (getIntent().getSerializableExtra(FROM_CONTACT) != null) {
             startActivity(new Intent(this, MenuActivity.class));
-        } else if (getIntent().getStringExtra(FROM) != null) {
+        } else {
             super.onBackPressed();
         }
     }

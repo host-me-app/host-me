@@ -12,6 +12,7 @@
         android:layout_height="25dp"
         android:background="@drawable/background_icon"
         android:scaleType="centerCrop"
+        android:src="@drawable/account_icon"
         app:layout_constraintBottom_toBottomOf="@id/text_message"
         app:layout_constraintStart_toStartOf="parent" />
 

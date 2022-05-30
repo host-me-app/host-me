@@ -7,21 +7,6 @@
     android:background="@color/white"
     tools:context=".ui.messages.MessagesFragment">
 
-    <ImageView
-        android:id="@+id/image_profile_chat"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:width="275dp"
-        android:background="@drawable/background_icon"
-        android:src="@drawable/account_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022"
-        app:tint="@color/black" />
-
     <TextView
         android:id="@+id/text_home"
         android:layout_width="wrap_content"
@@ -34,13 +19,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/contact_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/image_profile_chat" />
+        app:layout_constraintTop_toTopOf="@id/contact_button" />
 
     <ImageButton
         android:id="@+id/contact_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/light_purple"
+        android:backgroundTint="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.955"
@@ -57,7 +42,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/content_bottom_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_profile_chat">
+        app:layout_constraintTop_toBottomOf="@id/contact_button">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/conversation_recycler"

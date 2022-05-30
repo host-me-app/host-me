@@ -57,13 +57,8 @@ public class InfoActivityTest {
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.contact_user_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.chat_info)).check(matches(isDisplayed()));
             onView(withId(R.id.chat_info)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.chat_name)).check(matches(isDisplayed()));
-            onView(withId(R.id.view_supporter_info)).check(matches(isDisplayed()));
-            onView(withId(R.id.linear_layout_info)).check(matches(isDisplayed()));
-            onView(withId(R.id.grade_button_info)).check(matches(isDisplayed()));
             onView(withId(R.id.grade_button_info)).perform(click());
             Thread.sleep(1000);
 

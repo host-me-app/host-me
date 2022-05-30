@@ -108,16 +108,20 @@
 
         <Button
             android:id="@+id/clear_filters"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginHorizontal="10dp"
+            android:textSize="14sp"
             android:enabled="true"
             android:text="Clear filters" />
 
         <Button
             android:id="@+id/filters"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp"
             android:enabled="true"
             android:text="Filters" />
 

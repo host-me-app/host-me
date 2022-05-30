@@ -5,7 +5,6 @@
     android:id="@+id/add_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg1"
     android:paddingHorizontal="8dp"
     android:paddingVertical="8dp"
     tools:context=".ui.add.AddFragment">
@@ -35,6 +34,8 @@
         android:clickable="true"
         android:contentDescription="@string/add_apt"
         android:src="@drawable/add_icon"
+        android:backgroundTint="@color/purple_500"
+        app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
@@ -48,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
+        android:paddingBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +60,7 @@
         android:id="@+id/add_form"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:background="@color/purple_100"
+        android:background="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add_new"
@@ -70,11 +72,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="30dp"
             android:divider="@drawable/empty_divider"
             android:orientation="vertical"
-            android:padding="6dp"
+            android:padding="8dp"
             android:showDividers="middle">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="80dp">
+
+                <TextView
+                    android:paddingVertical="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Rent your apartment !"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -94,8 +112,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="What name would you like displayed as the owner of this residence?"
-                        android:textSize="12sp" />
+                        android:text="- What name would you like displayed as the owner of this residence?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
 
                     <EditText
                         android:id="@+id/enter_proprietor"
@@ -105,8 +125,8 @@
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/enter_proprietor_hint"
                         android:inputType="textCapWords|text"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -128,8 +148,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="What is the name of the building in which the residence resides?"
-                        android:textSize="12sp" />
+                        android:text="- What is the name of the building in which the residence resides?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
 
                     <EditText
                         android:id="@+id/enter_name"
@@ -139,8 +161,8 @@
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/enter_name_hint"
                         android:inputType="textCapWords|text"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -162,8 +184,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="What is number (or alternatively, name) of the room?"
-                        android:textSize="12sp" />
+                        android:text="- What is the number (or alternatively, name) of the room?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
 
                     <EditText
                         android:id="@+id/enter_room"
@@ -171,10 +195,10 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:fontFamily="@font/roboto_light"
+                        android:layout_gravity="center_vertical"
                         android:hint="@string/enter_room_hint"
                         android:inputType="text"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -196,19 +220,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="What is the postal address of the residence? (Vaud, CH is assumed)"
-                        android:textSize="12sp" />
+                        android:text="- What is the postal address of the residence? (Vaud, CH is assumed)"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <EditText
                         android:id="@+id/enter_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:background="@color/white"
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/enter_address_hint"
                         android:inputType="textPostalAddress|text"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
@@ -221,25 +248,25 @@
                             android:id="@+id/enter_npa"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:background="@color/white"
                             android:fontFamily="@font/roboto_light"
                             android:hint="@string/enter_npa_hint"
                             android:inputType="number"
-                            android:paddingHorizontal="4dp"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <EditText
                             android:id="@+id/enter_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="4"
                             android:background="@color/white"
                             android:fontFamily="@font/roboto_light"
                             android:hint="@string/enter_city_hint"
                             android:inputType="text"
-                            android:paddingHorizontal="4dp"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
@@ -262,20 +289,23 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/roboto"
-                        android:text="How much must a renter pay monthly for rent?"
-                        android:textSize="12sp" />
+                        android:text="- How much must a renter pay \n monthly for rent?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <EditText
                         android:id="@+id/enter_rent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
                         android:background="@color/white"
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/chf_per_month"
                         android:inputType="number"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -296,8 +326,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/roboto"
-                        android:text="How much, if any, must a renter pay monthly\nfor utility costs?"
-                        android:textSize="12sp" />
+                        android:text="- How much must a renter \n pay monthly for utility costs?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <EditText
                         android:id="@+id/enter_utilities"
@@ -309,8 +342,7 @@
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/chf_per_month"
                         android:inputType="number"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -331,8 +363,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="How much, if any, is the security deposit for a lease?"
-                        android:textSize="12sp" />
+                        android:text="- How much is the security \n deposit for a lease?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <EditText
                         android:id="@+id/enter_deposit"
@@ -342,9 +377,9 @@
                         android:background="@color/white"
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/chf_once"
+                        android:layout_gravity="center_vertical"
                         android:inputType="number"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -365,19 +400,22 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/roboto"
-                        android:text="How many beds are there in the residence?"
-                        android:textSize="12sp" />
+                        android:text="- How many beds are there in the residence?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <EditText
                         android:id="@+id/enter_beds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@color/white"
                         android:fontFamily="@font/roboto_light"
                         android:inputType="number"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -398,20 +436,23 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="What is the approximate area of the residence?"
-                        android:textSize="12sp" />
+                        android:text="- What is the approximate area of the residence?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <EditText
                         android:id="@+id/enter_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@color/white"
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/enter_area_hint"
                         android:inputType="number"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -432,20 +473,23 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:fontFamily="@font/roboto"
-                        android:text="What is the minimum duration of a lease?"
-                        android:textSize="12sp" />
+                        android:text="- What is the minimum duration of a lease?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <EditText
                         android:id="@+id/enter_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@color/white"
                         android:fontFamily="@font/roboto_light"
                         android:hint="@string/enter_duration_hint"
                         android:inputType="number"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
 
@@ -467,8 +511,11 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Is the residence already furnished?"
-                        android:textSize="12sp" />
+                        android:text="- Is the residence already furnished?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <RadioGroup
                         android:id="@+id/select_furnished"
@@ -476,10 +523,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checkedButton="@id/furnished_yes"
-                        android:divider="@drawable/center_divider"
+                        android:layout_marginHorizontal="10dp"
                         android:gravity="center"
-                        android:orientation="horizontal"
-                        android:showDividers="middle">
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/furnished_yes"
@@ -488,7 +534,8 @@
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
                             android:text="@string/yes"
-                            android:textSize="16sp" />
+                            android:textSize="14sp"
+                            android:layout_marginHorizontal="5dp"/>
 
                         <RadioButton
                             android:id="@+id/furnished_no"
@@ -497,7 +544,7 @@
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
                             android:text="@string/no"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </RadioGroup>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
@@ -519,8 +566,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Does the renter have a private or shared\nbathroom?"
-                        android:textSize="12sp" />
+                        android:text="- Does the renter have a private or \n shared bathroom?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <Spinner
                         android:id="@+id/select_bath"
@@ -548,8 +598,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Is the kitchen private or shared?"
-                        android:textSize="12sp" />
+                        android:text="- Is the kitchen private or shared?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <Spinner
                         android:id="@+id/select_kitchen"
@@ -576,8 +629,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Is laundry equipment included? If so, where\nis it?"
-                        android:textSize="12sp" />
+                        android:text="- Is laundry equipment included?\n If so, where is it?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <Spinner
                         android:id="@+id/select_laundry"
@@ -598,6 +654,7 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -606,8 +663,11 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Do you allow renters to have pets?"
-                        android:textSize="12sp" />
+                        android:text="- Do you allow renters to have pets?"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:paddingVertical="5dp"/>
+
 
                     <RadioGroup
                         android:id="@+id/select_pets"
@@ -615,10 +675,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checkedButton="@id/pets_no"
-                        android:divider="@drawable/center_divider"
+                        android:layout_marginHorizontal="10dp"
                         android:gravity="center"
-                        android:orientation="horizontal"
-                        android:showDividers="middle">
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/pets_yes"
@@ -627,7 +686,8 @@
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
                             android:text="@string/yes"
-                            android:textSize="16sp" />
+                            android:textSize="14sp"
+                            android:layout_marginHorizontal="5dp"/>
 
                         <RadioButton
                             android:id="@+id/pets_no"
@@ -636,7 +696,7 @@
                             android:buttonTint="@color/white"
                             android:fontFamily="@font/roboto"
                             android:text="@string/no"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </RadioGroup>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.cardview.widget.CardView>
@@ -647,7 +707,7 @@
         android:id="@+id/add_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_100"
+        android:background="@color/white"
         android:divider="@drawable/center_divider"
         android:orientation="horizontal"
         android:paddingHorizontal="10dp"
@@ -664,10 +724,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/teal_200"
+            android:backgroundTint="@color/purple_500"
             android:enabled="false"
             android:fontFamily="@font/roboto"
             android:text="@string/upload_images"
+            android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/add_submit"
@@ -675,12 +736,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/add_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:backgroundTint="@color/purple_500"
+            android:textColor="@color/white"
             android:enabled="false"
             android:fontFamily="@font/roboto"
             android:text="@string/terminate"

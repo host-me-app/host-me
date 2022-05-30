@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Switch;
 
@@ -82,6 +83,7 @@ public class SearchFragment extends Fragment {
             filterLocation(mLastLocation);
         }
     };
+    private ProgressBar progressBar;
     private Button clearFilters;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -101,6 +103,8 @@ public class SearchFragment extends Fragment {
         this.clearFilters.setVisibility(View.GONE);
 
         SearchView searchView = root.findViewById(R.id.search_view);
+
+        this.progressBar = root.findViewById(R.id.progress_bar);
 
         this.apartments = new ArrayList<>();
         this.editor = root.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE).edit();
@@ -155,6 +159,20 @@ public class SearchFragment extends Fragment {
     }
 
     /**
+     * display a progress bar during the call to the DB
+     * @param isLoading if true show the progress bar otherwise hide
+     */
+    private void loading(Boolean isLoading) {
+        if (isLoading) {
+            recyclerView.setVisibility(View.GONE);
+            this.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            this.progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    /**
      * set the range bar to default values
      */
     private void setRangeBar() {
@@ -194,12 +212,14 @@ public class SearchFragment extends Fragment {
      */
     private void updateRecyclerView(Location location) {
         this.apartments = new ArrayList<>();
+        loading(true);
         float radius = this.rangeBarGps.getValues().get(0);
         float min = this.rangeBarPrice.getValues().get(0);
         float max = this.rangeBarPrice.getValues().get(1);
         float min2 = this.rangeBarArea.getValues().get(0);
         float max2 = this.rangeBarArea.getValues().get(1);
         this.reference.get().addOnSuccessListener(result -> {
+            loading(false);
             this.apartments.clear();
             double latitude = 0;
             double longitude = 0;
@@ -232,10 +252,12 @@ public class SearchFragment extends Fragment {
      * Initialize the recycler view with no filtered apartments
      */
     private void setUpRecyclerView() {
+        loading(true);
         this.editor.putBoolean(IS_FROM_FILTERS, false);
         this.editor.apply();
         this.apartments = new ArrayList<>();
         this.reference.get().addOnSuccessListener(result -> {
+            loading(false);
             this.apartments.clear();
             for (DocumentSnapshot doc : result.getDocuments()) {
                 Apartment apartment = doc.toObject(Apartment.class);

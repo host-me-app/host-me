@@ -60,7 +60,7 @@
         android:id="@+id/add_form"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:background="@color/gray"
+        android:background="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add_new"
@@ -75,7 +75,7 @@
             android:layout_marginTop="30dp"
             android:divider="@drawable/empty_divider"
             android:orientation="vertical"
-            android:padding="6dp"
+            android:padding="8dp"
             android:showDividers="middle">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -114,6 +114,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- What name would you like displayed as the owner of this residence?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
                     <EditText
@@ -149,6 +150,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- What is the name of the building in which the residence resides?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
                     <EditText
@@ -184,6 +186,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- What is the number (or alternatively, name) of the room?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
                     <EditText
@@ -219,6 +222,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- What is the postal address of the residence? (Vaud, CH is assumed)"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -287,6 +291,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- How much must a renter pay \n monthly for rent?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -321,8 +326,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/roboto"
-                        android:text="- How much, if any, must a renter \n pay monthly for utility costs?"
+                        android:text="- How much must a renter \n pay monthly for utility costs?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -357,8 +363,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="- How much, if any, is the security \n deposit for a lease?"
+                        android:text="- How much is the security \n deposit for a lease?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -395,6 +402,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- How many beds are there in the residence?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -430,6 +438,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- What is the approximate area of the residence?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -466,6 +475,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- What is the minimum duration of a lease?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -503,6 +513,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- Is the residence already furnished?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -557,6 +568,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- Does the renter have a private or \n shared bathroom?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -588,6 +600,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- Is the kitchen private or shared?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -618,6 +631,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- Is laundry equipment included?\n If so, where is it?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -651,6 +665,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="- Do you allow renters to have pets?"
                         android:textSize="15sp"
+                        android:textStyle="bold"
                         android:paddingVertical="5dp"/>
 
 
@@ -692,7 +707,7 @@
         android:id="@+id/add_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
+        android:background="@color/white"
         android:divider="@drawable/center_divider"
         android:orientation="horizontal"
         android:paddingHorizontal="10dp"
@@ -721,7 +736,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/add_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

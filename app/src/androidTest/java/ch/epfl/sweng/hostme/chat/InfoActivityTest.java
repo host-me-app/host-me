@@ -57,6 +57,10 @@ public class InfoActivityTest {
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.contact_user_button)).perform(click());
             Thread.sleep(1000);
+            onView(withId(R.id.chat_info)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.grade_button_info)).perform(click());
+            Thread.sleep(1000);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

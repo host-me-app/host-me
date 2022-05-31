@@ -128,15 +128,15 @@
 
         <Button
             android:id="@+id/user_profile_save_button"
-            android:layout_width="116dp"
-            android:layout_height="54dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:width="275dp"
             android:background="@drawable/button_gradient"
             android:fontFamily="@font/roboto_family"
             android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.769"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_profile_radio_g"
             tools:ignore="TextContrastCheck" />

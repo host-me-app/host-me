@@ -69,24 +69,6 @@ public class MessagesFragmentTest {
     }
 
     @Test
-    public void CheckImageProfileDisplayed() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
-        Intents.init();
-        try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
-
-            onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
-
-            onView(withId(R.id.image_profile_chat)).check(matches(isDisplayed()));
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
     public void CheckTextDisplayed() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
         Intents.init();

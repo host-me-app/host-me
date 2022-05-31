@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentChange;
@@ -36,6 +37,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
@@ -45,6 +47,7 @@ import ch.epfl.sweng.hostme.chat.RecentConversationAdapter;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.users.User;
+import ch.epfl.sweng.hostme.users.UsersAdapter;
 import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class MessagesFragment extends Fragment implements ConversionListener {
@@ -75,44 +78,43 @@ public class MessagesFragment extends Fragment implements ConversionListener {
                     if (Auth.getUid().equals(senderId)) {
                         chatMessage.conversionId = documentChange.getDocument().getString(KEY_RECEIVER_ID);
                         chatMessage.conversionName = documentChange.getDocument().getString(KEY_RECEIVER_NAME);
+                        chatMessage.image = "profilePicture/" + receiverId + "/profile.jpg";
                     } else {
                         chatMessage.conversionId = documentChange.getDocument().getString(KEY_SENDER_ID);
                         chatMessage.conversionName = documentChange.getDocument().getString(KEY_SENDER_NAME);
+                        chatMessage.image = "profilePicture/" + senderId + "/profile.jpg";
                     }
                     chatMessage.message = documentChange.getDocument().getString(KEY_LAST_MESSAGE);
                     chatMessage.dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
-                    conversations.add(chatMessage);
+                    this.conversations.add(chatMessage);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     for (int i = 0; i < conversations.size(); i++) {
                         String senderId = documentChange.getDocument().getString(KEY_SENDER_ID);
                         String receiverId = documentChange.getDocument().getString(KEY_RECEIVER_ID);
-                        if (conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)) {
-                            conversations.get(i).message = documentChange.getDocument().getString(KEY_LAST_MESSAGE);
-                            conversations.get(i).dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
+                        if (this.conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)) {
+                            this.conversations.get(i).message = documentChange.getDocument().getString(KEY_LAST_MESSAGE);
+                            this.conversations.get(i).dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
                             break;
                         }
                     }
                 }
             }
-            Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
-            conversationAdapter.notifyDataSetChanged();
-
+            Collections.sort(this.conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+            this.conversationAdapter.notifyDataSetChanged();
             if (this.root != null) {
-                this.recyclerView.smoothScrollToPosition(0);
-                this.recyclerView.setVisibility(View.VISIBLE);
+                this.displayRecycler();
                 this.progressBar.setVisibility(View.GONE);
             }
         }
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         this.root = inflater.inflate(R.layout.fragment_messages, container, false);
+
         this.userManager = new UserManager(this.requireContext());
         this.recyclerView = this.root.findViewById(R.id.conversation_recycler);
         this.conversations = new ArrayList<>();
-        this.conversationAdapter = new RecentConversationAdapter(conversations, this);
-        this.recyclerView.setAdapter(conversationAdapter);
+        this.conversationAdapter = new RecentConversationAdapter(this.conversations, this);
         this.progressBar = this.root.findViewById(R.id.progress_bar);
         this.requireActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
         ImageButton contactButton = this.root.findViewById(R.id.contact_button);
@@ -120,6 +122,17 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         this.getToken();
         this.listenConversations();
         return root;
+    }
+
+    private void displayRecycler() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        this.recyclerView.setHasFixedSize(true);
+        this.recyclerView.setLayoutManager(linearLayoutManager);
+        this.recyclerView.setItemViewCacheSize(20);
+        this.recyclerView.setDrawingCacheEnabled(true);
+        this.recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        this.recyclerView.setVisibility(View.VISIBLE);
+        this.recyclerView.setAdapter(conversationAdapter);
     }
 
     private void getToken() {

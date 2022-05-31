@@ -1,16 +1,23 @@
 package ch.epfl.sweng.hostme.users;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.database.Storage;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
@@ -31,7 +38,24 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        holder.setUserData(users.get(position));
+        User user = users.get(position);
+        holder.textName.setText(user.getName());
+        holder.textEmail.setText(user.getEmail());
+        setUserData(user, holder);
+    }
+
+    void setUserData(@NonNull User user, UserViewHolder holder) {
+        StorageReference fileRef = Storage.getStorageReferenceByChild(user.getImage());
+        try {
+            final File localFile = File.createTempFile("profile", "jpg");
+            fileRef.getFile(localFile)
+            .addOnSuccessListener(result -> {
+                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                holder.imageView.setImageBitmap(bitmap);
+            });
+        } catch (Exception ignored) {
+        }
+        holder.itemView.setOnClickListener(v -> userListener.onUserClicked(user));
     }
 
     @Override
@@ -44,18 +68,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         View itemView;
         TextView textName;
         TextView textEmail;
+        ImageView imageView;
 
         UserViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             this.textName = itemView.findViewById(R.id.text_name);
             this.textEmail = itemView.findViewById(R.id.text_email);
+            this.imageView = itemView.findViewById(R.id.image_profile);
         }
 
-        void setUserData(@NonNull User user) {
-            this.textName.setText(user.name);
-            this.textEmail.setText(user.email);
-            this.itemView.setOnClickListener(v -> userListener.onUserClicked(user));
-        }
     }
 }

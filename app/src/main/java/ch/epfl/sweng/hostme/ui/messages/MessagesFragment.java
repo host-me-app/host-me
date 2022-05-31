@@ -101,8 +101,10 @@ public class MessagesFragment extends Fragment implements ConversionListener {
             }
             Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
             conversationAdapter.notifyDataSetChanged();
-            this.displayRecycler();
-            this.progressBar.setVisibility(View.GONE);
+            if (this.root != null) {
+                this.displayRecycler();
+                this.progressBar.setVisibility(View.GONE);
+            }
         }
     };
 

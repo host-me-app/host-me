@@ -125,7 +125,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
     }
 
     private void displayRecycler() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.requireContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         this.recyclerView.setHasFixedSize(true);
         this.recyclerView.setLayoutManager(linearLayoutManager);
         this.recyclerView.setItemViewCacheSize(20);

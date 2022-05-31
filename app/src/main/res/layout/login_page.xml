@@ -8,28 +8,33 @@
     tools:context=".LogInActivity">
 
 
-    <TextView
+    <androidx.cardview.widget.CardView
         android:id="@+id/app_name"
-        android:layout_width="153dp"
-        android:layout_height="48dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginStart="130dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="122dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/host_me"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/black"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="101dp"
+        app:cardCornerRadius="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_launcher_round" />
+
+    </androidx.cardview.widget.CardView>
 
     <EditText
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="101dp"
         android:autofillHints=""
         android:ems="10"

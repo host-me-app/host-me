@@ -3,9 +3,11 @@ package ch.epfl.sweng.hostme.ui.search;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BATH;
 import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.DEPOSIT;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
@@ -15,7 +17,9 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
+import static ch.epfl.sweng.hostme.utils.Constants.KITCHEN;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
+import static ch.epfl.sweng.hostme.utils.Constants.PETS;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
 import static ch.epfl.sweng.hostme.utils.Constants.UID;
@@ -71,6 +75,10 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     private String city;
     private int npa;
     private String uid;
+    private String bath;
+    private String kitchen;
+    private int deposit;
+    private boolean pets;
 
     public DisplayApartment() {
     }
@@ -98,7 +106,11 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
         changeText(String.valueOf(area), R.id.area);
         changeText(String.valueOf(rent), R.id.price);
         changeText(proprietor, R.id.proprietor);
+        changeText(kitchen, R.id.kitchen);
+        changeText(bath, R.id.bathroom);
+        changeText(String.valueOf(deposit), R.id.deposit);
         setHorizontalScrollable(bitmap, imagePath);
+        if (!pets) changeText("not", R.id.pets);
         return this.root;
     }
 
@@ -117,6 +129,10 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
             uid = bundle.getString(UID);
             bitmap = bundle.getParcelable(BITMAP);
             imagePath = bundle.getString(IMAGE_PATH);
+            bath = bundle.getString(BATH);
+            kitchen = bundle.getString(KITCHEN);
+            deposit = bundle.getInt(DEPOSIT);
+            pets = bundle.getBoolean(PETS);
             bundle.clear();
         }
     }

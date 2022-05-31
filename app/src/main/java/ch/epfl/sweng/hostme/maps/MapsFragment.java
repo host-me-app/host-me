@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -40,19 +41,21 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
     HashMap<String, LatLng> schools = new HashMap<>();
     Button dailyRoute;
     private String fullAddress;
+    private ProgressBar progressBar;
 
     public MapsFragment() {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.maps, container, false);
+        progressBar = root.findViewById(R.id.progress_map);
+        this.dailyRoute = root.findViewById(R.id.daily_route_maps);
+        loading(true);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             this.fullAddress = bundle.getString(ADDRESS);
         }
-
-        this.dailyRoute = root.findViewById(R.id.daily_route_maps);
 
         this.schools.put("EPFL", new LatLng(46.5197, 6.5657));
         this.schools.put("EHL", new LatLng(46.5604818, 6.6827063));
@@ -61,14 +64,28 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         Objects.requireNonNull(mapFragment).getMapAsync(this);
-
         return root;
+    }
+
+    /**
+     * display a progress bar during the call to the DB
+     * @param isLoading if true show the progress bar otherwise hide
+     */
+    private void loading(Boolean isLoading) {
+        if (isLoading) {
+            this.dailyRoute.setVisibility(View.GONE);
+            this.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            this.dailyRoute.setVisibility(View.VISIBLE);
+            this.progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         DocumentReference docRef = Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid());
         docRef.get().addOnSuccessListener(result -> {
+            loading(false);
             Profile dbProfile = result.toObject(Profile.class);
             String school = Objects.requireNonNull(dbProfile).getSchool();
             Geocoder coder = new Geocoder(this.getContext());

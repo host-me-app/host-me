@@ -264,7 +264,7 @@ public class AccountFragment extends Fragment {
         this.editLastName.setText(dbLastName);
         this.editEmail.setText(dbEmail);
         RadioButton selectButton = dbGender.equals(MALE) ? buttonM : buttonF;
-        selectButton.setSelected(true);
+        selectButton.setChecked(true);
         this.userManager.putString(KEY_FIRSTNAME, dbProfile.getFirstName());
         this.userManager.putString(KEY_LASTNAME, dbProfile.getLastName());
         this.userManager.putString(KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());

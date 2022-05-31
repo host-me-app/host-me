@@ -86,20 +86,20 @@ public class MessagesFragment extends Fragment implements ConversionListener {
                     }
                     chatMessage.message = documentChange.getDocument().getString(KEY_LAST_MESSAGE);
                     chatMessage.dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
-                    conversations.add(chatMessage);
+                    this.conversations.add(chatMessage);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     for (int i = 0; i < conversations.size(); i++) {
                         String senderId = documentChange.getDocument().getString(KEY_SENDER_ID);
                         String receiverId = documentChange.getDocument().getString(KEY_RECEIVER_ID);
-                        if (conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)) {
-                            conversations.get(i).message = documentChange.getDocument().getString(KEY_LAST_MESSAGE);
-                            conversations.get(i).dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
+                        if (this.conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)) {
+                            this.conversations.get(i).message = documentChange.getDocument().getString(KEY_LAST_MESSAGE);
+                            this.conversations.get(i).dateObject = documentChange.getDocument().getDate(KEY_TIMESTAMP);
                             break;
                         }
                     }
                 }
             }
-            Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+            Collections.sort(this.conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
             this.conversationAdapter.notifyDataSetChanged();
             if (this.root != null) {
                 this.displayRecycler();
@@ -114,7 +114,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         this.userManager = new UserManager(this.requireContext());
         this.recyclerView = this.root.findViewById(R.id.conversation_recycler);
         this.conversations = new ArrayList<>();
-        this.conversationAdapter = new RecentConversationAdapter(conversations, this);
+        this.conversationAdapter = new RecentConversationAdapter(this.conversations, this);
         this.progressBar = this.root.findViewById(R.id.progress_bar);
         this.requireActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
         ImageButton contactButton = this.root.findViewById(R.id.contact_button);

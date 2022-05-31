@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     android:clickable="true">
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="6dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="right|top"
         android:orientation="vertical">
 
         <Button
@@ -21,13 +20,23 @@
             android:layout_gravity="right"
             android:text="Add note" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
+
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:fillViewport="true"
             android:padding="10dp"
-            android:scaleType="centerInside">
+            android:scaleType="centerInside"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:id="@+id/gallery"
@@ -36,6 +45,7 @@
                 android:orientation="horizontal" />
 
         </HorizontalScrollView>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,7 +57,7 @@
                 android:id="@+id/text_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price : "
+                android:text="CHF "
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -57,8 +67,20 @@
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/price_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=".—"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -66,64 +88,6 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Address : "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text_npa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="NPA : "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/npa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="City : "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="16sp" />
         </LinearLayout>
 
 
@@ -147,6 +111,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/area_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" m²"
+                android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -156,41 +129,20 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_lease"
+                android:id="@+id/text_beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Current Lease : "
+                android:text="Number of beds : "
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/lease"
+                android:id="@+id/beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textOccupants"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Number of occupants : "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/occupants"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -212,8 +164,82 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:inputType="textCapWords"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/location_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/location"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/location_icon"
+                    android:layout_marginHorizontal="15dp"/>
+                
+            </LinearLayout>
+            
+
+            <TextView
+                android:id="@+id/addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:inputType="textCapWords"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/npa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapWords"
+                    android:layout_marginHorizontal="5dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginVertical="30dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/contact_user_button"

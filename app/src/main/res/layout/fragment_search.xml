@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
@@ -107,21 +108,31 @@
 
         <Button
             android:id="@+id/clear_filters"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginHorizontal="10dp"
+            android:textSize="14sp"
             android:enabled="true"
             android:text="Clear filters" />
 
         <Button
             android:id="@+id/filters"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
             android:enabled="true"
             android:text="Filters" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="170dp"/>
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -132,5 +143,6 @@
         android:paddingBottom="50dp"
         android:scrollbars="vertical"
         tools:context=".ui.search.SearchFragment" />
+
 
 </LinearLayout>

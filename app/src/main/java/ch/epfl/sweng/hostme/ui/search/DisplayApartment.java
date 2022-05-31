@@ -3,6 +3,7 @@ package ch.epfl.sweng.hostme.ui.search;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM;
@@ -14,7 +15,6 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
-import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
@@ -66,7 +66,7 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     private String address;
     private int area;
     private int rent;
-    private String lease;
+    private int beds;
     private String proprietor;
     private String city;
     private int npa;
@@ -89,34 +89,34 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
 
         this.unpackBundle();
 
-        Button contactUser = this.root.findViewById(R.id.contact_user_button);
+        Button contactUser = root.findViewById(R.id.contact_user_button);
         contactUser.setOnClickListener(view -> chatWithUser(uid));
-        this.changeText(String.valueOf(npa), R.id.npa);
-        this.changeText(city, R.id.city);
-        this.changeText(address, R.id.address);
-        this.changeText(String.valueOf(area), R.id.area);
-        this.changeText(String.valueOf(rent), R.id.price);
-        this.changeText(lease, R.id.lease);
-        this.changeText(proprietor, R.id.proprietor);
-        this.setHorizontalScrollable(bitmap, imagePath);
+        changeText(String.valueOf(npa), R.id.npa);
+        changeText(String.valueOf(beds), R.id.beds);
+        changeText(city, R.id.city);
+        changeText(address, R.id.addr);
+        changeText(String.valueOf(area), R.id.area);
+        changeText(String.valueOf(rent), R.id.price);
+        changeText(proprietor, R.id.proprietor);
+        setHorizontalScrollable(bitmap, imagePath);
         return this.root;
     }
 
     private void unpackBundle() {
         Bundle bundle = this.getArguments();
         if (bundle != null && !bundle.isEmpty()) {
-            this.apartID = bundle.getString(APART_ID);
-            this.address = bundle.getString(ADDRESS);
-            this.area = bundle.getInt(AREA, 0);
-            this.rent = bundle.getInt(RENT, 0);
-            this.lease = bundle.getString(LEASE);
-            this.proprietor = bundle.getString(PROPRIETOR);
-            this.city = bundle.getString(CITY);
-            this.npa = bundle.getInt(NPA, 0);
-            this.fullAddress = this.address + " " + this.city + " " + this.npa;
-            this.uid = bundle.getString(UID);
-            this.bitmap = bundle.getParcelable(BITMAP);
-            this.imagePath = bundle.getString(IMAGE_PATH);
+            apartID = bundle.getString(APART_ID);
+            address = bundle.getString(ADDRESS);
+            area = bundle.getInt(AREA, 0);
+            rent = bundle.getInt(RENT, 0);
+            proprietor = bundle.getString(PROPRIETOR);
+            city = bundle.getString(CITY);
+            beds = bundle.getInt(BEDS);
+            npa = bundle.getInt(NPA, 0);
+            fullAddress = address + " " + city + " " + npa;
+            uid = bundle.getString(UID);
+            bitmap = bundle.getParcelable(BITMAP);
+            imagePath = bundle.getString(IMAGE_PATH);
             bundle.clear();
         }
     }
@@ -208,9 +208,9 @@ public class DisplayApartment extends Fragment implements IOnBackPressed {
     /**
      * change the text view to display the data
      */
-    private void changeText(String address, int id) {
-        TextView addressText = this.root.findViewById(id);
-        addressText.setText(address);
+    private void changeText(String field, int id) {
+        TextView fieldText = root.findViewById(id);
+        fieldText.setText(field);
     }
 
     @Override

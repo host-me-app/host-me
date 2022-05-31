@@ -1,4 +1,5 @@
 <resources>
+    <string name="location"><u>Location</u></string>
     <string name="app_name">Host me</string>
     <string name="next">Next</string>
     <string name="female">Female</string>

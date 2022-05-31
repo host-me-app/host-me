@@ -13,20 +13,20 @@
         android:id="@+id/text_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select User"
+        android:gravity="center"
+        android:text="Select Contact"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:layout_marginTop="5dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/content_bottom_icon"
         app:layout_constraintBottom_toBottomOf="parent">
 

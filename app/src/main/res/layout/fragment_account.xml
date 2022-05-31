@@ -5,236 +5,267 @@
     android:id="@+id/account_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_700"
     tools:context=".ui.account.AccountFragment">
 
-
-    <EditText
-        android:id="@+id/user_profile_first_name"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:fontFamily="@font/roboto_light"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.635"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.236"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <TextView
-        android:id="@+id/user_profile_field_last_name"
+        android:id="@+id/text_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/last_name"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/user_profile_last_name"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.337" />
-
-    <Button
-        android:id="@+id/user_profile_log_out_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:width="275dp"
-        android:background="@drawable/button_gradient"
-        android:fontFamily="@font/roboto_family"
-        android:text="@string/log_out"
+        android:gravity="center"
+        android:text="Your profile"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_profile_change_password_button"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/user_profile_field_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/email"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/user_profile_email"
-        app:layout_constraintHorizontal_bias="0.58"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.438" />
-
-    <TextView
-        android:id="@+id/user_profile_field_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_light"
-        android:text="@string/gender"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/user_profile_radio_g"
-        app:layout_constraintHorizontal_bias="0.807"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.534" />
-
-    <Button
-        android:id="@+id/user_profile_save_button"
-        android:layout_width="116dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="8dp"
-        android:width="275dp"
-        android:background="@drawable/button_gradient"
-        android:fontFamily="@font/roboto_family"
-        android:text="@string/save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.769"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_profile_radio_g"
-        tools:ignore="TextContrastCheck" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/user_profile_change_photo_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="84dp"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_add_a_photo_24"
-        app:fabCustomSize="50dp"
-        app:layout_constraintStart_toStartOf="@+id/user_profile_image"
-        app:layout_constraintTop_toTopOf="@+id/user_profile_image"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <RadioGroup
-        android:id="@+id/user_profile_radio_g"
-        android:layout_width="225dp"
-        android:layout_height="51dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.72"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.529">
-
-        <RadioButton
-            android:id="@+id/user_profile_gender_m"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="50dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/male" />
-
-        <RadioButton
-            android:id="@+id/user_profile_gender_f"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/female" />
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/user_profile_change_password_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:width="275dp"
-        android:background="@drawable/button_gradient"
-        android:fontFamily="@font/roboto_family"
-        android:text="@string/change_password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_profile_save_button"
-        tools:ignore="TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/user_profile_last_name"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:fontFamily="@font/roboto_light"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.635"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.335"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <EditText
-        android:id="@+id/user_profile_email"
-        android:layout_width="200dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:fontFamily="@font/roboto_light"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.635"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/user_profile_field_first_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/first_name"
-        android:textColor="#212121"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/user_profile_last_name"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251" />
-
-
-    <Button
+    <ImageButton
         android:id="@+id/wallet_button"
-        android:layout_width="125dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="28dp"
-        android:width="275dp"
-        android:background="@drawable/button_shape"
-        android:fontFamily="@font/roboto_family"
-        android:text="Wallet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.961"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_profile_image"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:clickable="false"
-        android:src="@drawable/ic_baseline_account_circle_24"
-        app:civ_border_color="#000"
-        app:civ_border_width="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:backgroundTint="@color/purple_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintVertical_bias="0.02"
+        app:srcCompat="@drawable/add_icon"
+        app:tint="@color/white" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/content_bottom_icon"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.account.AccountFragment">
+
+        <EditText
+            android:id="@+id/user_profile_first_name"
+            android:layout_width="200dp"
+            android:layout_height="51dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto_light"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.635"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.236"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/user_profile_field_last_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/last_name"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/user_profile_last_name"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.337" />
+
+        <Button
+            android:id="@+id/user_profile_log_out_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:width="275dp"
+            android:background="@drawable/button_gradient"
+            android:fontFamily="@font/roboto_family"
+            android:text="@string/log_out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_profile_change_password_button"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/user_profile_field_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/email"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/user_profile_email"
+            app:layout_constraintHorizontal_bias="0.58"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.438" />
+
+        <TextView
+            android:id="@+id/user_profile_field_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/gender"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/user_profile_radio_g"
+            app:layout_constraintHorizontal_bias="0.807"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.534" />
+
+        <Button
+            android:id="@+id/user_profile_save_button"
+            android:layout_width="116dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="8dp"
+            android:width="275dp"
+            android:background="@drawable/button_gradient"
+            android:fontFamily="@font/roboto_family"
+            android:text="@string/save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.769"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_profile_radio_g"
+            tools:ignore="TextContrastCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/user_profile_change_photo_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="84dp"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_add_a_photo_24"
+            app:fabCustomSize="50dp"
+            app:layout_constraintStart_toStartOf="@+id/user_profile_image"
+            app:layout_constraintTop_toTopOf="@+id/user_profile_image"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <RadioGroup
+            android:id="@+id/user_profile_radio_g"
+            android:layout_width="225dp"
+            android:layout_height="51dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.72"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.529">
+
+            <RadioButton
+                android:id="@+id/user_profile_gender_m"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/male" />
+
+            <RadioButton
+                android:id="@+id/user_profile_gender_f"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/female" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/user_profile_change_password_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:width="275dp"
+            android:background="@drawable/button_gradient"
+            android:fontFamily="@font/roboto_family"
+            android:text="@string/change_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_profile_save_button"
+            tools:ignore="TextContrastCheck" />
+
+        <EditText
+            android:id="@+id/user_profile_last_name"
+            android:layout_width="200dp"
+            android:layout_height="51dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto_light"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.635"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.335"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/user_profile_email"
+            android:layout_width="200dp"
+            android:layout_height="51dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto_light"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.635"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.436"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/user_profile_field_first_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/first_name"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/user_profile_last_name"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.251" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_profile_image"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:clickable="false"
+            android:src="@drawable/ic_baseline_account_circle_24"
+            app:civ_border_color="#000"
+            app:civ_border_width="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.026" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

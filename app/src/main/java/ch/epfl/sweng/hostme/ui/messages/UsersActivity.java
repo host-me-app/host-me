@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme.ui.messages;
 
-import static androidx.test.InstrumentationRegistry.getContext;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
@@ -10,8 +9,6 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -22,9 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,12 +27,9 @@ import java.util.List;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
-import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.ui.search.ApartmentAdapter;
 import ch.epfl.sweng.hostme.users.User;
 import ch.epfl.sweng.hostme.users.UserListener;
 import ch.epfl.sweng.hostme.users.UsersAdapter;
-import ch.epfl.sweng.hostme.utils.Apartment;
 
 public class UsersActivity extends AppCompatActivity implements UserListener {
 

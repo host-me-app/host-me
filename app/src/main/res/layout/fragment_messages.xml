@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/purple_700"
     tools:context=".ui.messages.MessagesFragment">
 
     <TextView
@@ -13,33 +13,34 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Messages"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="20dp"
+        android:layout_marginTop="5dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/contact_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/contact_button" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/contact_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/purple_500"
+        android:background="@null"
+        android:backgroundTint="@color/purple_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.021"
+        app:layout_constraintVertical_bias="0.02"
         app:srcCompat="@drawable/contacts_icon"
         app:tint="@color/white" />
 
     <FrameLayout
         android:id="@+id/frame_conv"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:background="@drawable/content_bottom_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contact_button">
@@ -56,6 +57,7 @@
             android:paddingStart="20dp"
             android:paddingTop="20dp"
             android:visibility="gone"
+            android:layout_marginTop="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar

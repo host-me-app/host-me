@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -170,7 +171,7 @@ public class AccountFragment extends Fragment {
         FloatingActionButton changePictureButton = view.findViewById(R.id.user_profile_change_photo_button);
         changePictureButton.setOnClickListener(v -> accountUtils.showImagePickDialog());
 
-        Button wallet_button = view.findViewById(R.id.wallet_button);
+        ImageButton wallet_button = view.findViewById(R.id.wallet_button);
         wallet_button.setOnClickListener(v -> this.goToWalletFragment());
 
         this.loadProfileFieldsDB();

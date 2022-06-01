@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
 import static android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
 import static ch.epfl.sweng.hostme.utils.Constants.REQ_IMAGE;
 
 import android.annotation.SuppressLint;
@@ -12,16 +13,26 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
+import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 
 public class ListImage {
     private final static String COMPLETE = "File upload complete";
     private final static String PREVIEW = "preview";
+    private static final String ADDED = "Listing created !";
+    private static final String DOC_ID = "docId";
+    private final static CollectionReference DB = Database.getCollection(APARTMENTS);
 
     @SuppressLint("StaticFieldLeak")
     private static Fragment fragment;
@@ -68,12 +79,27 @@ public class ListImage {
         imagesUri.add(image);
     }
 
-    public static void pushImages(String path) {
+    @SuppressLint("NotifyDataSetChanged")
+    public static void pushImages(String path, Apartment apartment, List<Apartment> myListings, RecyclerView.Adapter adapter) {
         for (Uri uri : imagesUri) {
-            ext++;
+            int i = ext++;
             @SuppressLint("DefaultLocale") String ref = String.format("%s/%s%d.jpg", path, PREVIEW, ext);
             StorageReference target = Storage.getStorageReferenceByChild(ref);
-            target.putFile(uri).addOnSuccessListener(done -> Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show());
+            target.putFile(uri).addOnSuccessListener(done -> {
+                System.out.println(i);
+                Toast.makeText(context, COMPLETE, Toast.LENGTH_SHORT).show();
+                if (i == imagesUri.size()) {
+                    DB.add(apartment).addOnSuccessListener(doc -> {
+                        Map<String, Object> addition = new HashMap<>();
+                        addition.put(DOC_ID, doc.getId());
+                        doc.update(addition);
+                        apartment.setDocId(doc.getId());
+                        myListings.add(apartment);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(context, ADDED, Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
         }
     }
 }

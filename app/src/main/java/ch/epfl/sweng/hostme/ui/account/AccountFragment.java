@@ -149,7 +149,6 @@ public class AccountFragment extends Fragment {
         this.accountUtils = new AccountUtils(this, activityResultLauncherGallery, activityResultLauncherCamera, view);
 
         this.userManager = new UserManager(requireContext());
-
         this.editFirstName = view.findViewById(R.id.user_profile_first_name);
         this.editLastName = view.findViewById(R.id.user_profile_last_name);
         this.editEmail = view.findViewById(R.id.user_profile_email);
@@ -171,7 +170,7 @@ public class AccountFragment extends Fragment {
         FloatingActionButton changePictureButton = view.findViewById(R.id.user_profile_change_photo_button);
         changePictureButton.setOnClickListener(v -> accountUtils.showImagePickDialog());
 
-        FloatingActionButton wallet_button = view.findViewById(R.id.wallet_button);
+        ImageButton wallet_button = view.findViewById(R.id.wallet_button);
         wallet_button.setOnClickListener(v -> this.goToWalletFragment());
 
         this.loadProfileFieldsDB();
@@ -264,8 +263,7 @@ public class AccountFragment extends Fragment {
         this.editLastName.setText(dbLastName);
         this.editEmail.setText(dbEmail);
         RadioButton selectButton = dbGender.equals(MALE) ? buttonM : buttonF;
-        selectButton.setSelected(false);
-        selectButton.setSelected(true);
+        selectButton.setChecked(true);
         this.userManager.putString(KEY_FIRSTNAME, dbProfile.getFirstName());
         this.userManager.putString(KEY_LASTNAME, dbProfile.getLastName());
         this.userManager.putString(KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());

@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -263,7 +264,8 @@ public class AccountFragment extends Fragment {
         this.editLastName.setText(dbLastName);
         this.editEmail.setText(dbEmail);
         RadioButton selectButton = dbGender.equals(MALE) ? buttonM : buttonF;
-        selectButton.setChecked(true);
+        selectButton.setSelected(false);
+        selectButton.setSelected(true);
         this.userManager.putString(KEY_FIRSTNAME, dbProfile.getFirstName());
         this.userManager.putString(KEY_LASTNAME, dbProfile.getLastName());
         this.userManager.putString(KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());

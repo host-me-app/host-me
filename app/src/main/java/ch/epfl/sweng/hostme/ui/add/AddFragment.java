@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -46,7 +47,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -102,7 +102,7 @@ public class AddFragment extends Fragment {
 
         LinearLayout addButtons = this.root.findViewById(R.id.add_buttons);
         ScrollView addForm = this.root.findViewById(R.id.add_form);
-        FloatingActionButton addNew = this.root.findViewById(R.id.add_new);
+        ImageButton addNew = this.root.findViewById(R.id.add_new);
         this.enterImages = this.root.findViewById(R.id.enter_images);
         this.addSubmit = this.root.findViewById(R.id.add_submit);
 
@@ -116,7 +116,7 @@ public class AddFragment extends Fragment {
         return root;
     }
 
-    private void setButtonListener(ScrollView addForm, FloatingActionButton addNew, LinearLayout addButtons) {
+    private void setButtonListener(ScrollView addForm, ImageButton addNew, LinearLayout addButtons) {
         enterImages.setOnClickListener(v -> {
             ListImage.clear();
             ListImage.acceptImage();

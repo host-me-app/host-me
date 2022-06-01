@@ -71,7 +71,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private final static String YES = "yes";
     private final static String NO = "no";
     private final static String BUTTON = "Button";
-    private final static String PRESSED = "pressed';
+    private final static String PRESSED = "pressed";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_FAV);
     private final List<Apartment> apartments;
     private final HashMap<String, Bitmap> hashMap = new HashMap<>();

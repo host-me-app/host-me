@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -170,7 +171,7 @@ public class AccountFragment extends Fragment {
         FloatingActionButton changePictureButton = view.findViewById(R.id.user_profile_change_photo_button);
         changePictureButton.setOnClickListener(v -> accountUtils.showImagePickDialog());
 
-        Button wallet_button = view.findViewById(R.id.wallet_button);
+        ImageButton wallet_button = view.findViewById(R.id.wallet_button);
         wallet_button.setOnClickListener(v -> this.goToWalletFragment());
 
         this.loadProfileFieldsDB();
@@ -263,7 +264,8 @@ public class AccountFragment extends Fragment {
         this.editLastName.setText(dbLastName);
         this.editEmail.setText(dbEmail);
         RadioButton selectButton = dbGender.equals(MALE) ? buttonM : buttonF;
-        selectButton.setChecked(true);
+        selectButton.setSelected(false);
+        selectButton.setSelected(true);
         this.userManager.putString(KEY_FIRSTNAME, dbProfile.getFirstName());
         this.userManager.putString(KEY_LASTNAME, dbProfile.getLastName());
         this.userManager.putString(KEY_SENDER_NAME, dbProfile.getFirstName() + " " + dbProfile.getLastName());

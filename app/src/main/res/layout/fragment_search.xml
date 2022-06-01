@@ -1,148 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recyclerViewLayout"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/purple_700">
 
-
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search location (street, NPA, city)" />
-
-    <LinearLayout
-        android:id="@+id/all_filters"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Switch
-            android:id="@+id/gps_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GPS" />
-
-        <LinearLayout
-            android:id="@+id/filter_gps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/radius_gps" />
-
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/range_bar_gps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:stepSize="1"
-                android:valueFrom="1"
-                android:valueTo="30" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/filter_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PRICE : " />
-
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/range_bar_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:stepSize="100"
-                android:valueFrom="0"
-                android:valueTo="5000" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/filter_area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AREA : " />
-
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/range_bar_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:stepSize="10"
-                android:valueFrom="0"
-                android:valueTo="3000" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="40dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/clear_filters"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="10dp"
-            android:textSize="14sp"
-            android:enabled="true"
-            android:text="Clear filters" />
-
-        <Button
-            android:id="@+id/filters"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:enabled="true"
-            android:text="Filters" />
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
+    <TextView
+        android:id="@+id/text_search_apartments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="170dp"/>
+        android:gravity="center"
+        android:text="Search apartments"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/search_recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="50dp"
-        android:scrollbars="vertical"
-        tools:context=".ui.search.SearchFragment" />
+        android:layout_marginTop="50dp"
+        android:background="@drawable/content_bottom_icon"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="false"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="10dp"
+                android:queryHint="Search location (street, NPA, city)" />
+
+            <LinearLayout
+                android:id="@+id/all_filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Switch
+                    android:id="@+id/gps_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="GPS" />
+
+                <LinearLayout
+                    android:id="@+id/filter_gps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radius_gps" />
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/range_bar_gps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:stepSize="1"
+                        android:valueFrom="1"
+                        android:valueTo="30" />
+
+                </LinearLayout>
 
 
-</LinearLayout>
+                <LinearLayout
+                    android:id="@+id/filter_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRICE : " />
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/range_bar_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:stepSize="100"
+                        android:valueFrom="0"
+                        android:valueTo="5000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/filter_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AREA : " />
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/range_bar_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:stepSize="10"
+                        android:valueFrom="0"
+                        android:valueTo="3000" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="40dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/clear_filters"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:enabled="true"
+                    android:text="Clear filters" />
+
+                <Button
+                    android:id="@+id/filters"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:enabled="true"
+                    android:text="Filters" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="120dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/search_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="50dp"
+                android:scrollbars="vertical"
+                tools:context=".ui.search.SearchFragment" />
+        </LinearLayout>
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

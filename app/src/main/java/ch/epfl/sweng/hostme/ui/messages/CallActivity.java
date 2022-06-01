@@ -119,10 +119,10 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void sendNotification() {
-        FcmNotificationsSender sender = new FcmNotificationsSender(this.user.token, NOTIFICATION_TITLE,
+        FcmNotificationsSender sender = new FcmNotificationsSender(this.user.getToken(), NOTIFICATION_TITLE,
                 NOTIFICATION_BODY, getApplicationContext(), CallActivity.this);
         sender.sendNotifications();
-        reference.document(this.user.id).update(ROOM_NAME, currUserID);
+        reference.document(this.user.getId()).update(ROOM_NAME, currUserID);
     }
 
     private void joinChannel() {
@@ -222,7 +222,7 @@ public class CallActivity extends AppCompatActivity {
         removeVideo(R.id.floating_video_container);
         removeVideo(R.id.bg_video_container);
         if (!this.isFromNotification) {
-            reference.document(user.id).update(ROOM_NAME, null);
+            reference.document(user.getId()).update(ROOM_NAME, null);
         }
         startActivity(new Intent(this, MenuActivity.class));
         finish();

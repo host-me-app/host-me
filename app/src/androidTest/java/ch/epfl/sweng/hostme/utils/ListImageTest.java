@@ -21,8 +21,7 @@ import ch.epfl.sweng.hostme.ui.add.AddFragment;
 
 public class ListImageTest {
     @Rule
-    public GrantPermissionRule internetAccess = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
-    public GrantPermissionRule readAccess = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+    public GrantPermissionRule internetAccess = GrantPermissionRule.grant(android.Manifest.permission.INTERNET, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @BeforeClass
     public static void setUp() {
@@ -39,7 +38,7 @@ public class ListImageTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             scenario.onActivity(activity -> {
-                ListImage.init(new AddFragment(), ApplicationProvider.getApplicationContext());
+                ListImage.init(new AddFragment());
             });
         } catch (Exception e) {
             e.printStackTrace();

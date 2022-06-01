@@ -53,7 +53,7 @@ public class UsersActivityTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), UsersActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
-            String user = "Select User";
+            String user = "Select Contact";
             onView(withId(R.id.text_user)).check(matches(isDisplayed()));
             onView(withId(R.id.text_user)).check(matches(withText(user)));
             Thread.sleep(1000);

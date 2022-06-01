@@ -4,10 +4,12 @@ import static android.content.Context.MODE_PRIVATE;
 import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.AREA;
+import static ch.epfl.sweng.hostme.utils.Constants.BATH;
 import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP;
 import static ch.epfl.sweng.hostme.utils.Constants.BITMAP_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.CITY;
+import static ch.epfl.sweng.hostme.utils.Constants.DEPOSIT;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITES;
 import static ch.epfl.sweng.hostme.utils.Constants.FAVORITE_FRAGMENT;
 import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
@@ -15,7 +17,9 @@ import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FAVORITE;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_FAV;
+import static ch.epfl.sweng.hostme.utils.Constants.KITCHEN;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
+import static ch.epfl.sweng.hostme.utils.Constants.PETS;
 import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
 import static ch.epfl.sweng.hostme.utils.Constants.RENT;
@@ -83,7 +87,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-
         preferences = view.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE);
         bitmapPreferences = view.getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
         return new ViewHolder(view);
@@ -173,8 +176,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private ScaleAnimation createToggleAnimation() {
         ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
         scaleAnimation.setDuration(500);
-        BounceInterpolator bounceInterpolator = new BounceInterpolator();
-        scaleAnimation.setInterpolator(bounceInterpolator);
+        scaleAnimation.setInterpolator(new BounceInterpolator());
         return scaleAnimation;
     }
 
@@ -186,6 +188,10 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
         Fragment fragment = new DisplayApartment();
         FragmentTransaction fragmentTransaction = ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
+        bundle.putString(BATH, apartment.getBath());
+        bundle.putBoolean(PETS, apartment.isPets());
+        bundle.putString(KITCHEN, apartment.getKitchen());
+        bundle.putInt(DEPOSIT, apartment.getDeposit());
         bundle.putInt(BEDS, apartment.getBeds());
         bundle.putString(APART_ID, apartment.getDocId());
         bundle.putString(UID, apartment.getUid());

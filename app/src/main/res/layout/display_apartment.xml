@@ -25,6 +25,48 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:orientation="vertical"
+        android:layout_marginRight="30dp" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="15dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="60dp"
@@ -94,47 +136,74 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Area : "
-                android:textSize="16sp" />
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="25dp"
+                android:src="@drawable/surface_icon"
+                android:layout_gravity="bottom"/>
 
             <TextView
                 android:id="@+id/area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_gravity="bottom"
+                android:textStyle="bold"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/area_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_gravity="bottom"
                 android:text=" m²"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:text="- CHF "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/deposit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|bottom"
+                android:layout_gravity="bottom"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:text=".— of deposit"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="15dp" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Number of beds : "
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:text="- "/>
 
             <TextView
                 android:id="@+id/beds"
@@ -142,8 +211,45 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/text_beds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=" bed(s)"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="123dp"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:text="- "/>
+
+            <TextView
+                android:id="@+id/bathroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textAllCaps="false"/>
+            <TextView
+                android:id="@+id/text_bath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" bathroom"
+                android:textSize="16sp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="15dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -152,24 +258,55 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_proprietor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Proprietor : "
+                android:textSize="16sp"
+                android:text="- "/>
+
+            <TextView
+                android:id="@+id/kitchen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textAllCaps="false"/>
+            <TextView
+                android:id="@+id/text_kitchen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" kitchen"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/proprietor"
+                android:layout_width="79dp"
+                android:layout_height="0dp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:inputType="textCapWords"
+                android:text="- Pets are "
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/pets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textAllCaps="false"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" allowed"
+                android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="15dp"
+            android:layout_width="0dp"
             android:layout_height="15dp" />
 
         <LinearLayout
@@ -191,15 +328,15 @@
                     android:text="@string/location"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-                
+
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/location_icon"
                     android:layout_marginHorizontal="15dp"/>
-                
+
             </LinearLayout>
-            
+
 
             <TextView
                 android:id="@+id/addr"
@@ -230,6 +367,34 @@
                     android:layout_marginHorizontal="5dp"
                     android:textSize="16sp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="15dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/proprietor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapWords"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/text_proprietor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text=" is the owner"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -247,7 +412,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:scaleType="fitEnd"
-            android:text="Contact user"
+            android:text="Contact owner"
             android:textSize="11sp" />
 
         <LinearLayout

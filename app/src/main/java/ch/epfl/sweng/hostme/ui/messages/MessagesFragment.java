@@ -37,7 +37,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 import ch.epfl.sweng.hostme.R;
@@ -47,7 +46,6 @@ import ch.epfl.sweng.hostme.chat.RecentConversationAdapter;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.users.User;
-import ch.epfl.sweng.hostme.users.UsersAdapter;
 import ch.epfl.sweng.hostme.utils.UserManager;
 
 public class MessagesFragment extends Fragment implements ConversionListener {

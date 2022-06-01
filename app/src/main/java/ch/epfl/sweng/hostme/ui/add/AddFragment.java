@@ -39,8 +39,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -69,8 +67,6 @@ import ch.epfl.sweng.hostme.utils.Connection;
 import ch.epfl.sweng.hostme.utils.ListImage;
 
 public class AddFragment extends Fragment {
-    private static final String ADDED = "Listing created !";
-    private static final String DOC_ID = "docId";
     private static final String YES = "yes";
     private final CollectionReference DB = Database.getCollection(APARTMENTS);
     private final String USR = Auth.getUid();
@@ -84,7 +80,6 @@ public class AddFragment extends Fragment {
     private RadioGroup selectPets;
     private RecyclerView ownerView;
     private List<Apartment> myListings;
-    private TextView notOwner;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,7 +92,6 @@ public class AddFragment extends Fragment {
         this.selectFurnished = this.root.findViewById(R.id.select_furnished);
         this.selectPets = this.root.findViewById(R.id.select_pets);
         this.ownerView = this.root.findViewById(R.id.owner_view);
-        this.notOwner = this.root.findViewById(R.id.add_first);
         this.myListings = new ArrayList<>();
 
         LinearLayout addButtons = this.root.findViewById(R.id.add_buttons);
@@ -123,8 +117,7 @@ public class AddFragment extends Fragment {
         });
 
         addSubmit.setOnClickListener(v -> {
-            this.myListings.add(generateApartment());
-            Objects.requireNonNull(this.ownerView.getAdapter()).notifyItemInserted(this.myListings.size() - 1);
+            generateApartment();
             clearForm();
             ListImage.clear();
             this.enterImages.setEnabled(false);
@@ -220,7 +213,7 @@ public class AddFragment extends Fragment {
         return fields;
     }
 
-    private Apartment generateApartment() {
+    private void generateApartment() {
         String[] privacy = getResources().getStringArray(R.array.privacy_enum);
         Button furn = this.root.findViewById(this.selectFurnished.getCheckedRadioButtonId());
         Button pet = this.root.findViewById(this.selectPets.getCheckedRadioButtonId());
@@ -230,40 +223,29 @@ public class AddFragment extends Fragment {
 
         JSONObject fields = this.fillFields(privacy, furn, pet, path);
 
-        ListImage.pushImages(path);
         Apartment ret = new Apartment(fields);
 
-        DB.add(ret).addOnSuccessListener(doc -> {
-            Map<String, Object> addition = new HashMap<>();
-            addition.put(DOC_ID, doc.getId());
-            doc.update(addition);
-            Toast.makeText(this.getContext(), ADDED, Toast.LENGTH_SHORT).show();
-        });
-        return ret;
+        ListImage.pushImages(path, ret, this.myListings, this.ownerView.getAdapter());
     }
 
     private void checkBin() {
         this.myListings.clear();
+        this.recycle();
         DB.whereEqualTo(UID, USR).get().addOnSuccessListener(q -> {
-            if (q.isEmpty()) {
-                ownerView.setVisibility(View.GONE);
-                notOwner.setVisibility(View.VISIBLE);
-            } else {
-                for (DocumentSnapshot it : q.getDocuments()) {
-                    this.myListings.add(it.toObject(Apartment.class));
-                }
-                this.notOwner.setVisibility(View.GONE);
-                this.ownerView.setVisibility(View.VISIBLE);
-                recycle();
+            for (DocumentSnapshot it : q.getDocuments()) {
+                this.myListings.add(it.toObject(Apartment.class));
             }
         });
     }
 
     private void recycle() {
         ApartmentAdapter recycler = new ApartmentAdapter(myListings);
-        recycler.setFavFragment();
         RecyclerView.LayoutManager lin = new LinearLayoutManager(this.getContext());
         this.ownerView.setLayoutManager(lin);
+        this.ownerView.setHasFixedSize(true);
+        this.ownerView.setItemViewCacheSize(20);
+        this.ownerView.setDrawingCacheEnabled(true);
+        this.ownerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         this.ownerView.setAdapter(recycler);
     }
 
@@ -327,3 +309,4 @@ public class AddFragment extends Fragment {
         super.onDestroyView();
     }
 }
+

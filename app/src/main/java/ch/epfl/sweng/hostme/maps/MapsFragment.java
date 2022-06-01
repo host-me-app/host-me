@@ -69,6 +69,7 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
 
     /**
      * display a progress bar during the call to the DB
+     *
      * @param isLoading if true show the progress bar otherwise hide
      */
     private void loading(Boolean isLoading) {

@@ -51,29 +51,29 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
     private void getUsers() {
         loading(true);
         Database.getCollection(KEY_COLLECTION_USERS).get()
-        .addOnSuccessListener(result -> {
-            loading(false);
-            String currentUserId = Auth.getUid();
-            ArrayList<User> users = new ArrayList<>();
-            for (QueryDocumentSnapshot queryDocumentSnapshot : result) {
-                if (currentUserId.equals(queryDocumentSnapshot.getId())) {
-                    continue;
-                }
-                User user = new User();
-                user.setName(queryDocumentSnapshot.getString(KEY_FIRSTNAME)
-                        + " " + queryDocumentSnapshot.getString(KEY_LASTNAME));
-                user.setEmail(queryDocumentSnapshot.getString(KEY_EMAIL));
-                user.setToken(queryDocumentSnapshot.getString(KEY_FCM_TOKEN));
-                user.setId(queryDocumentSnapshot.getId());
-                user.setImage("profilePicture/" + user.getId() + "/profile.jpg");
-                users.add(user);
-            }
-            if (users.size() > 0) {
-                this.displayRecycler(users);
-            } else {
-                showErrorMessage();
-            }
-        }).addOnFailureListener(error -> showErrorMessage());
+                .addOnSuccessListener(result -> {
+                    loading(false);
+                    String currentUserId = Auth.getUid();
+                    ArrayList<User> users = new ArrayList<>();
+                    for (QueryDocumentSnapshot queryDocumentSnapshot : result) {
+                        if (currentUserId.equals(queryDocumentSnapshot.getId())) {
+                            continue;
+                        }
+                        User user = new User();
+                        user.setName(queryDocumentSnapshot.getString(KEY_FIRSTNAME)
+                                + " " + queryDocumentSnapshot.getString(KEY_LASTNAME));
+                        user.setEmail(queryDocumentSnapshot.getString(KEY_EMAIL));
+                        user.setToken(queryDocumentSnapshot.getString(KEY_FCM_TOKEN));
+                        user.setId(queryDocumentSnapshot.getId());
+                        user.setImage("profilePicture/" + user.getId() + "/profile.jpg");
+                        users.add(user);
+                    }
+                    if (users.size() > 0) {
+                        this.displayRecycler(users);
+                    } else {
+                        showErrorMessage();
+                    }
+                }).addOnFailureListener(error -> showErrorMessage());
     }
 
     private void displayRecycler(ArrayList<User> users) {

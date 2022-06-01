@@ -49,10 +49,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         try {
             final File localFile = File.createTempFile("profile", "jpg");
             fileRef.getFile(localFile)
-            .addOnSuccessListener(result -> {
-                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                holder.imageView.setImageBitmap(bitmap);
-            });
+                    .addOnSuccessListener(result -> {
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        holder.imageView.setImageBitmap(bitmap);
+                    });
         } catch (Exception ignored) {
         }
         holder.itemView.setOnClickListener(v -> userListener.onUserClicked(user));

@@ -76,6 +76,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<Apartment> apartments;
     private String searchText;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -83,7 +84,6 @@ public class SearchFragment extends Fragment {
             filterLocation(mLastLocation);
         }
     };
-    private ProgressBar progressBar;
     private Button clearFilters;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -160,6 +160,7 @@ public class SearchFragment extends Fragment {
 
     /**
      * display a progress bar during the call to the DB
+     *
      * @param isLoading if true show the progress bar otherwise hide
      */
     private void loading(Boolean isLoading) {

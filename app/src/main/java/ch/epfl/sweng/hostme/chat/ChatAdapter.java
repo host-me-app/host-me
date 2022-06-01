@@ -87,10 +87,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     StorageReference fileRef = Storage.getStorageReferenceByChild(chatMessage.image);
                     final File localFile = File.createTempFile("profile", "jpg");
                     fileRef.getFile(localFile)
-                    .addOnSuccessListener(result -> {
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        this.imageView.setImageBitmap(bitmap);
-                    });
+                            .addOnSuccessListener(result -> {
+                                Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                this.imageView.setImageBitmap(bitmap);
+                            });
                 } catch (Exception ignored) {
                 }
             }

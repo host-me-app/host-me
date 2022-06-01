@@ -87,7 +87,6 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-
         preferences = view.getContext().getSharedPreferences(FILTERS, Context.MODE_PRIVATE);
         bitmapPreferences = view.getContext().getSharedPreferences(BITMAP_FAV, Context.MODE_PRIVATE);
         return new ViewHolder(view);
@@ -177,8 +176,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private ScaleAnimation createToggleAnimation() {
         ScaleAnimation scaleAnimation = new ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
         scaleAnimation.setDuration(500);
-        BounceInterpolator bounceInterpolator = new BounceInterpolator();
-        scaleAnimation.setInterpolator(bounceInterpolator);
+        scaleAnimation.setInterpolator(new BounceInterpolator());
         return scaleAnimation;
     }
 

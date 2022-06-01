@@ -48,7 +48,7 @@ public class MapsFragment extends Fragment implements IOnBackPressed, OnMapReady
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.maps, container, false);
-        progressBar = root.findViewById(R.id.progress_map);
+        this.progressBar = root.findViewById(R.id.progress_map);
         this.dailyRoute = root.findViewById(R.id.daily_route_maps);
         loading(true);
 

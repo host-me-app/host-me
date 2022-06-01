@@ -22,6 +22,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.ROOM;
 import static ch.epfl.sweng.hostme.utils.Constants.UID;
 import static ch.epfl.sweng.hostme.utils.Constants.UTILITIES;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -100,7 +101,7 @@ public class AddFragment extends Fragment {
         this.enterImages = this.root.findViewById(R.id.enter_images);
         this.addSubmit = this.root.findViewById(R.id.add_submit);
 
-        ListImage.init(this, this.getContext());
+        ListImage.init(this);
 
         this.setButtonListener(addForm, addNew, addButtons);
         this.textValidation();
@@ -228,12 +229,14 @@ public class AddFragment extends Fragment {
         ListImage.pushImages(path, ret, this.myListings, this.ownerView.getAdapter());
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void checkBin() {
         this.myListings.clear();
         this.recycle();
         DB.whereEqualTo(UID, USR).get().addOnSuccessListener(q -> {
             for (DocumentSnapshot it : q.getDocuments()) {
                 this.myListings.add(it.toObject(Apartment.class));
+                Objects.requireNonNull(this.ownerView.getAdapter()).notifyDataSetChanged();
             }
         });
     }

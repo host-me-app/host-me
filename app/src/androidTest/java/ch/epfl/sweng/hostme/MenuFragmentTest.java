@@ -65,7 +65,6 @@ public class MenuFragmentTest {
             onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_add)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_add)).perform(click());
-            onView(withId(R.id.add_first)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         }
         Intents.release();
     }

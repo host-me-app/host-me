@@ -170,7 +170,7 @@ public class AccountFragment extends Fragment {
         FloatingActionButton changePictureButton = view.findViewById(R.id.user_profile_change_photo_button);
         changePictureButton.setOnClickListener(v -> accountUtils.showImagePickDialog());
 
-        Button wallet_button = view.findViewById(R.id.wallet_button);
+        FloatingActionButton wallet_button = view.findViewById(R.id.wallet_button);
         wallet_button.setOnClickListener(v -> this.goToWalletFragment());
 
         this.loadProfileFieldsDB();

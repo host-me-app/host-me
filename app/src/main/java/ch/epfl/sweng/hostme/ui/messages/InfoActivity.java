@@ -49,7 +49,7 @@ public class InfoActivity extends AppCompatActivity {
     private void loadReceiverDetails() {
         User receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
         this.apartId = getIntent().getStringExtra(FROM);
-        this.chatName.setText(receiverUser.name);
+        this.chatName.setText(receiverUser.getName());
     }
 
     private void displayInfo() {

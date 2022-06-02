@@ -62,12 +62,9 @@ public class StreetViewFragment extends Fragment implements IOnBackPressed, OnSt
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_ORIENTATION) {
-                    float angle = -(sensorEvent.values[1] + 90f);
-                    tilt = Math.abs(angle) > 90f ? tilt : angle;
                     if (streetViewPan != null) {
                         StreetViewPanoramaCamera previous = streetViewPan.getPanoramaCamera();
                         StreetViewPanoramaCamera camera = new StreetViewPanoramaCamera.Builder(previous)
-                                .tilt(tilt)
                                 .bearing(sensorEvent.values[0])
                                 .build();
                         streetViewPan.animateTo(camera, 0);

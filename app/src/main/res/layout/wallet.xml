@@ -5,7 +5,7 @@
     android:id="@+id/wallet_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".wallet.WalletActivity">
+    tools:context=".activities.WalletActivity">
 
     <TextView
         android:id="@+id/textExpirationDate3"

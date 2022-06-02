@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_700"
-    tools:context=".ui.account.AccountFragment">
+    tools:context=".fragments.AccountFragment">
 
     <TextView
         android:id="@+id/text_account"
@@ -48,7 +48,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.account.AccountFragment">
+            tools:context=".fragments.AccountFragment">
 
             <EditText
                 android:id="@+id/user_profile_first_name"

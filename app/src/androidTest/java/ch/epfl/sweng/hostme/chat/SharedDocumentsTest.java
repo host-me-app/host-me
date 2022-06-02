@@ -37,12 +37,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.activities.LogInActivity;
+import ch.epfl.sweng.hostme.activities.UsersActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.ui.messages.UsersActivity;
 
 @RunWith(AndroidJUnit4.class)
 public class SharedDocumentsTest {

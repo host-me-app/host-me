@@ -40,7 +40,7 @@
         android:theme="@style/Theme.HostMe"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.messages.InfoActivity"
+            android:name=".activities.InfoActivity"
             android:exported="false" />
 
         <receiver
@@ -48,27 +48,27 @@
             android:enabled="true" />
 
         <activity
-            android:name=".ui.messages.CallActivity"
+            android:name=".activities.CallActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.messages.ChatActivity"
+            android:name=".activities.ChatActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.messages.UsersActivity"
+            android:name=".activities.UsersActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ui.account.ChangePasswordActivity"
+            android:name=".activities.ChangePwdAccountActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".activities.MenuActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
@@ -79,26 +79,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".userCreation.CreationContainer"
+            android:name=".activities.CreationContainerActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".userCreation.ChangePasswordActivity"
-            android:parentActivityName=".LogInActivity"
+            android:name=".activities.ChangePwdHomeActivity"
+            android:parentActivityName=".activities.LogInActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".LogInActivity"
+            android:name=".activities.LogInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".wallet.WalletActivity"
+            android:name=".activities.WalletActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <service
-            android:name=".ui.messages.MessageService"
+            android:name=".messages.MessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

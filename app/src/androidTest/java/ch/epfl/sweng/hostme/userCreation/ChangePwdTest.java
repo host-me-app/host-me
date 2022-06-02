@@ -23,8 +23,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.activities.ChangePwdHomeActivity;
+import ch.epfl.sweng.hostme.activities.LogInActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
@@ -44,7 +45,7 @@ public class ChangePwdTest {
 
     @Test
     public void enterWrongMail() {
-        Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ChangePwdHomeActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String wrongMail = "host.me@gmail.com";
@@ -60,7 +61,7 @@ public class ChangePwdTest {
 
     @Test
     public void enterValidMail() {
-        Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ChangePwdHomeActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String validMail = "testlogin@gmail.com";

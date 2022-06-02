@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/purple_700"
-    tools:context=".ui.messages.UsersActivity">
+    tools:context=".activities.UsersActivity">
 
     <TextView
         android:id="@+id/text_user"

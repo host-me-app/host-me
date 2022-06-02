@@ -172,7 +172,7 @@
                 android:clipToPadding="false"
                 android:paddingBottom="50dp"
                 android:scrollbars="vertical"
-                tools:context=".ui.search.SearchFragment" />
+                tools:context=".fragments.SearchFragment" />
         </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

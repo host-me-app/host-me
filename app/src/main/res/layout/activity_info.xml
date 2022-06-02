@@ -5,7 +5,7 @@
     android:id="@+id/infoContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.messages.InfoActivity">
+    tools:context=".activities.InfoActivity">
 
     <TextView
         android:id="@+id/chat_name"

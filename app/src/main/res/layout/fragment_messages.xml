@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_700"
-    tools:context=".ui.messages.MessagesFragment">
+    tools:context=".fragments.MessagesFragment">
 
     <TextView
         android:id="@+id/text_home"

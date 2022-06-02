@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_700"
-    tools:context=".ui.add.AddFragment">
+    tools:context=".fragments.AddFragment">
 
     <TextView
         android:id="@+id/text_add_apartments"

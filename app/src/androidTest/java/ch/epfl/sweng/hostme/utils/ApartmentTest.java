@@ -15,6 +15,8 @@ import org.junit.Test;
 
 import java.util.Date;
 
+import ch.epfl.sweng.hostme.apartment.Apartment;
+
 public class ApartmentTest {
 
     @Test

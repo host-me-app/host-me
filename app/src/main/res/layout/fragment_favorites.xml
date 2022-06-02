@@ -39,7 +39,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="50dp"
             android:scrollbars="vertical"
-            tools:context=".ui.search.SearchFragment" />
+            tools:context=".fragments.SearchFragment" />
 
         <TextView
             android:id="@+id/no_fav_message"

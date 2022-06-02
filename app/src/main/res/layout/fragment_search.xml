@@ -5,18 +5,18 @@
     android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/purple_700">
+    android:background="@color/purple_700"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/text_search_apartments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="Search apartments"
         android:textColor="@color/white"
         android:textSize="20dp"
-        android:layout_marginTop="5dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +38,8 @@
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
                 android:layout_marginTop="10dp"
+                android:iconifiedByDefault="false"
                 android:paddingHorizontal="10dp"
                 android:queryHint="Search location (street, NPA, city)" />
 
@@ -140,20 +140,20 @@
                     android:id="@+id/clear_filters"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginHorizontal="10dp"
-                    android:textSize="14sp"
+                    android:layout_weight="1"
                     android:enabled="true"
-                    android:text="Clear filters" />
+                    android:text="Clear filters"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/filters"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="14sp"
                     android:enabled="true"
-                    android:text="Filters" />
+                    android:text="Filters"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -162,7 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingTop="120dp"/>
+                android:paddingTop="120dp" />
 
             <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -172,7 +172,7 @@
                 android:clipToPadding="false"
                 android:paddingBottom="50dp"
                 android:scrollbars="vertical"
-                tools:context=".ui.search.SearchFragment" />
+                tools:context=".fragments.SearchFragment" />
         </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

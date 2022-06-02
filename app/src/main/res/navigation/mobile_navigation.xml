@@ -7,35 +7,35 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="ch.epfl.sweng.hostme.ui.search.SearchFragment"
+        android:name="ch.epfl.sweng.hostme.fragments.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/display_apart"
-        android:name="ch.epfl.sweng.hostme.ui.search.DisplayApartment"
+        android:name="ch.epfl.sweng.hostme.fragments.DisplayApartmentFragment"
         tools:layout="@layout/display_apartment" />
 
     <fragment
         android:id="@+id/navigation_add"
-        android:name="ch.epfl.sweng.hostme.ui.add.AddFragment"
+        android:name="ch.epfl.sweng.hostme.fragments.AddFragment"
         android:label="@string/title_add"
         tools:layout="@layout/fragment_add" />
 
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="ch.epfl.sweng.hostme.ui.favorites.FavoritesFragment"
+        android:name="ch.epfl.sweng.hostme.fragments.FavoritesFragment"
         android:label="@string/title_favorites"
         tools:layout="@layout/fragment_favorites" />
 
     <fragment
         android:id="@+id/navigation_messages"
-        android:name="ch.epfl.sweng.hostme.ui.messages.MessagesFragment"
+        android:name="ch.epfl.sweng.hostme.fragments.MessagesFragment"
         android:label="@string/title_messages"
         tools:layout="@layout/fragment_messages" />
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="ch.epfl.sweng.hostme.ui.account.AccountFragment"
+        android:name="ch.epfl.sweng.hostme.fragments.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
 

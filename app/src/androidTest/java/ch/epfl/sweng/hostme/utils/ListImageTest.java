@@ -13,16 +13,16 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
-import ch.epfl.sweng.hostme.LogInActivity;
+import ch.epfl.sweng.hostme.activities.LogInActivity;
+import ch.epfl.sweng.hostme.apartment.ListImage;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
-import ch.epfl.sweng.hostme.ui.add.AddFragment;
+import ch.epfl.sweng.hostme.fragments.AddFragment;
 
 public class ListImageTest {
     @Rule
-    public GrantPermissionRule internetAccess = GrantPermissionRule.grant(android.Manifest.permission.INTERNET);
-    public GrantPermissionRule readAccess = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+    public GrantPermissionRule internetAccess = GrantPermissionRule.grant(android.Manifest.permission.INTERNET, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
     @BeforeClass
     public static void setUp() {
@@ -39,7 +39,7 @@ public class ListImageTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             scenario.onActivity(activity -> {
-                ListImage.init(new AddFragment(), ApplicationProvider.getApplicationContext());
+                ListImage.init(new AddFragment());
             });
         } catch (Exception e) {
             e.printStackTrace();

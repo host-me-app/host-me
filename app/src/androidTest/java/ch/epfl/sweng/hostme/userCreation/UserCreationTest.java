@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.activities.CreationContainerActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
@@ -46,9 +47,9 @@ public class UserCreationTest {
 
     @Test
     public void checkGenderPageMale() {
-        Intent intent = new Intent(getApplicationContext(), CreationContainer.class);
+        Intent intent = new Intent(getApplicationContext(), CreationContainerActivity.class);
         Intents.init();
-        try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<CreationContainerActivity> scenario = ActivityScenario.launch(intent)) {
             onView(ViewMatchers.withId(R.id.genderNextButton)).check(matches(isDisplayed()));
             onView(withId(R.id.genderNextButton)).perform(click());
             onView(withId(R.id.next_button_first_name)).check(matches(isDisplayed()));
@@ -58,9 +59,9 @@ public class UserCreationTest {
 
     @Test
     public void createGoodUser() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainer.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainerActivity.class);
         Intents.init();
-        try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<CreationContainerActivity> scenario = ActivityScenario.launch(intent)) {
 
             String email = "host.me.test2022@gmail.com";
             String pwd = "fakePassword1!";
@@ -96,9 +97,9 @@ public class UserCreationTest {
 
     @Test
     public void createBadUser() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainer.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainerActivity.class);
         Intents.init();
-        try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<CreationContainerActivity> scenario = ActivityScenario.launch(intent)) {
 
             String email = "host.me.test2022@gmail.com";
             String pwd = "fakePassword1!";
@@ -136,9 +137,9 @@ public class UserCreationTest {
 
     @Test
     public void createAndGobackButton() {
-        Intent intent = new Intent(getApplicationContext(), CreationContainer.class);
+        Intent intent = new Intent(getApplicationContext(), CreationContainerActivity.class);
         Intents.init();
-        try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<CreationContainerActivity> scenario = ActivityScenario.launch(intent)) {
             String email = "host.me.test2022@gmail.com";
             String pwd = "fakePassword1!";
 
@@ -165,9 +166,9 @@ public class UserCreationTest {
 
     @Test
     public void wrongMail() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainer.class);
+        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreationContainerActivity.class);
         Intents.init();
-        try (ActivityScenario<CreationContainer> scenario = ActivityScenario.launch(intent)) {
+        try (ActivityScenario<CreationContainerActivity> scenario = ActivityScenario.launch(intent)) {
             String email = "host";
             onView(withId(R.id.genderNextButton)).perform(click());
             onView(withId(R.id.next_button_first_name)).perform(click());

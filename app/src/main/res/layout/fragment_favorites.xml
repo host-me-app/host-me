@@ -11,11 +11,11 @@
         android:id="@+id/text_favorites_apartments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="Favorites"
         android:textColor="@color/white"
         android:textSize="20dp"
-        android:layout_marginTop="5dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,28 +28,28 @@
         android:background="@drawable/content_bottom_icon"
         app:layout_constraintBottom_toBottomOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favorites_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="50dp"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingTop="20dp"
-        android:layout_marginTop="10dp"
-        android:scrollbars="vertical"
-        tools:context=".ui.search.SearchFragment" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favorites_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:clipToPadding="false"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="50dp"
+            android:scrollbars="vertical"
+            tools:context=".fragments.SearchFragment" />
 
-    <TextView
-        android:id="@+id/no_fav_message"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fontFamily="@font/roboto_family"
-        android:gravity="center"
-        android:text="You have no favorite apartments"
-        android:textSize="20dp"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/no_fav_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/roboto_family"
+            android:gravity="center"
+            android:text="You have no favorite apartments"
+            android:textSize="20dp"
+            android:visibility="gone" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

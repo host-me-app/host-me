@@ -21,8 +21,8 @@ import com.google.firebase.FirebaseApp;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ch.epfl.sweng.hostme.LogInActivity;
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.activities.LogInActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;

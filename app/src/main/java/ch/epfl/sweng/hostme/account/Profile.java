@@ -28,6 +28,10 @@ public class Profile {
         return firstName;
     }
 
+    /**
+     * set the first name of the user
+     * @param firstName to be set
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -40,6 +44,10 @@ public class Profile {
         return lastName;
     }
 
+    /**
+     * set the last name of the user
+     * @param lastName to be set
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -52,6 +60,10 @@ public class Profile {
         return gender;
     }
 
+    /**
+     * set the gender of the user
+     * @param gender to be set
+     */
     public void setGender(String gender) {
         this.gender = gender;
     }
@@ -64,6 +76,10 @@ public class Profile {
         return email;
     }
 
+    /**
+     * set the email of the user
+     * @param email to be set
+     */
     public void setEmail(String email) {
         this.email = email;
     }

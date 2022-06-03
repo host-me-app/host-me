@@ -317,8 +317,8 @@ public class CallActivity extends AppCompatActivity {
      * CHange the button state depending on the previous buttton
      * state
      * @param btn correspond ID of the button
-     * @param active
-     * @param inactive
+     * @param active drawable of the active button
+     * @param inactive drawable of the inactive button
      */
     private void changeButtonState(ImageView btn, int active, int inactive) {
         if (btn.isSelected()) {

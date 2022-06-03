@@ -60,6 +60,10 @@ public class GradeApartment extends Fragment {
         return root;
     }
 
+    /**
+     * save the rates in the database
+     * @param view
+     */
     private void saveRatingInfo(View view) {
         ArrayList<Float> grades = new ArrayList<>();
         for (RatingBar ratingBar : this.ratingBars) {
@@ -78,6 +82,9 @@ public class GradeApartment extends Fragment {
         });
     }
 
+    /**
+     * get the grades from the database
+     */
     private void retrieveGradesFromDB() {
         this.reference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {

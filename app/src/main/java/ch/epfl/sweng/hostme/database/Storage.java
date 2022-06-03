@@ -11,10 +11,19 @@ public final class Storage {
 
     }
 
+    /**
+     * get the stoage reference
+     * @param pathString to get the data
+     * @return instance of storage
+     */
     public static StorageReference getStorageReferenceByChild(String pathString) {
         return getExactInstance().getReference(pathString);
     }
 
+    /**
+     * get the exact instance
+     * @return instance of firebase storage
+     */
     private static FirebaseStorage getExactInstance() {
         if (test) {
             FirebaseStorage fb = FirebaseStorage.getInstance();
@@ -25,6 +34,9 @@ public final class Storage {
         }
     }
 
+    /**
+     * set test mode activated
+     */
     public static void setTest() {
         test = true;
     }

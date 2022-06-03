@@ -13,34 +13,71 @@ public final class Auth {
 
     }
 
+    /**
+     * login the user with his email
+     * @param email of the user
+     * @param password of the user
+     * @return task of user sign in
+     */
     public static Task<AuthResult> loginUserWithEmail(String email, String password) {
         return Auth.getExactInstance().signInWithEmailAndPassword(email, password);
     }
 
+    /**
+     * creat user with his email and password
+     * @param email of the user
+     * @param password of the user
+     * @return task of the creation
+     */
     public static Task<AuthResult> createUser(String email, String password) {
         return Auth.getExactInstance().createUserWithEmailAndPassword(email, password);
     }
 
+    /**
+     * update the email
+     * @param email of the user
+     * @return task of the email update
+     */
     public static Task<Void> updateEmail(String email) {
         return Auth.getCurrentUser().updateEmail(email);
     }
 
+    /**
+     * reset the user email
+     * @param email of the user
+     * @return task of the reset password with an email
+     */
     public static Task<Void> resetEmail(String email) {
         return Auth.getExactInstance().sendPasswordResetEmail(email);
     }
 
+    /**
+     * get the user id
+     * @return the user id
+     */
     public static String getUid() {
         return Auth.getExactInstance().getUid();
     }
 
+    /**
+     * get the current user
+     * @return the current user
+     */
     public static FirebaseUser getCurrentUser() {
         return Auth.getExactInstance().getCurrentUser();
     }
 
+    /**
+     * sign out
+     */
     public static void signOut() {
         Auth.getExactInstance().signOut();
     }
 
+    /**
+     * get the instance of Firebase for testing or not
+     * @return the instance of FirebaseAuth
+     */
     private static FirebaseAuth getExactInstance() {
         if (test) {
             FirebaseAuth fb = FirebaseAuth.getInstance();
@@ -51,6 +88,9 @@ public final class Auth {
         }
     }
 
+    /**
+     * set the test mode activated
+     */
     public static void setTest() {
         test = true;
     }

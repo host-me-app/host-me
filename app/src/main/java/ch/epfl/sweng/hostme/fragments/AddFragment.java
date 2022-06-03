@@ -111,6 +111,12 @@ public class AddFragment extends Fragment {
         return root;
     }
 
+    /**
+     * set the listeners to the buttons
+     * @param addForm scroll view
+     * @param addNew button to add
+     * @param addButtons linear layout of the add buttons
+     */
     private void setButtonListener(ScrollView addForm, ImageButton addNew, LinearLayout addButtons) {
         enterImages.setOnClickListener(v -> {
             ListImage.clear();
@@ -135,6 +141,9 @@ public class AddFragment extends Fragment {
         addNew.setOnClickListener(v -> formTransition(addForm, addButtons));
     }
 
+    /**
+     * put values in the form fields
+     */
     private void textValidation() {
         this.formFields.put(PROPRIETOR, this.root.findViewById(R.id.enter_proprietor));
         this.formFields.put(NAME, this.root.findViewById(R.id.enter_name));
@@ -156,11 +165,17 @@ public class AddFragment extends Fragment {
         }
     }
 
+    /**
+     * clear the form field
+     */
     private void clearForm() {
         for (String it : this.formFields.keySet())
             Objects.requireNonNull(this.formFields.get(it)).setText("");
     }
 
+    /**
+     * create spin up for the multi choice fields
+     */
     private void spinUp() {
         this.dropDowns.put(BATH, this.root.findViewById(R.id.select_bath));
         this.dropDowns.put(KITCHEN, this.root.findViewById(R.id.select_kitchen));
@@ -175,6 +190,11 @@ public class AddFragment extends Fragment {
         }
     }
 
+    /**
+     * create transition
+     * @param form scroll view
+     * @param buttons linear layout buttons
+     */
     private void formTransition(ScrollView form, LinearLayout buttons) {
         if (form.getVisibility() != View.VISIBLE) {
             form.setVisibility(View.VISIBLE);
@@ -185,6 +205,14 @@ public class AddFragment extends Fragment {
         }
     }
 
+    /**
+     * fill all the fields
+     * @param privacy string array
+     * @param furn button
+     * @param pet button
+     * @param path image path
+     * @return the form fields
+     */
     private JSONObject fillFields(String[] privacy, Button furn, Button pet, String path) {
         JSONObject fields = new JSONObject();
 
@@ -214,6 +242,9 @@ public class AddFragment extends Fragment {
         return fields;
     }
 
+    /**
+     * generate the apartment when user finishes the form
+     */
     private void generateApartment() {
         String[] privacy = getResources().getStringArray(R.array.privacy_enum);
         Button furn = this.root.findViewById(this.selectFurnished.getCheckedRadioButtonId());
@@ -229,6 +260,9 @@ public class AddFragment extends Fragment {
         ListImage.pushImages(path, ret, this.myListings, this.ownerView.getAdapter());
     }
 
+    /**
+     * check the bin
+     */
     @SuppressLint("NotifyDataSetChanged")
     private void checkBin() {
         this.myListings.clear();
@@ -241,6 +275,9 @@ public class AddFragment extends Fragment {
         });
     }
 
+    /**
+     * prepare the recycler view
+     */
     private void recycle() {
         ApartmentAdapter recycler = new ApartmentAdapter(myListings);
         RecyclerView.LayoutManager lin = new LinearLayoutManager(this.getContext());
@@ -252,6 +289,9 @@ public class AddFragment extends Fragment {
         this.ownerView.setAdapter(recycler);
     }
 
+    /**
+     * enable the button if enough fields are entered
+     */
     private void turn() {
         if (!enterImages.isEnabled() && lock.size() == 12) {
             this.enterImages.setEnabled(true);
@@ -264,11 +304,22 @@ public class AddFragment extends Fragment {
         }
     }
 
+    /**
+     * get the form path
+     * @param p first name
+     * @param b building name
+     * @param r number
+     * @return the concatenation of these fields to get the path
+     */
     private String formPath(EditText p, EditText b, EditText r) {
         return String.format("%s/%s_%s_%s", APARTMENTS, p.getText().toString().toLowerCase(),
                 b.getText().toString().toLowerCase(), r.getText().toString().toLowerCase());
     }
 
+    /**
+     * validate the form
+     * @param editText edit text
+     */
     private void validate(EditText editText) {
         if (this.lock.size() == 11 || this.lock.size() == 12) {
             editText.addTextChangedListener(new TextWatcher() {

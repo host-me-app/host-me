@@ -17,6 +17,10 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
     }
 
+    /**
+     * add fragment to the view pager
+     * @param fragment to be added
+     */
     public void addFragment(Fragment fragment) {
         fragmentList.add(fragment);
     }

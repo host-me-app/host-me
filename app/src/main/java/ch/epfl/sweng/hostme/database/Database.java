@@ -12,10 +12,19 @@ public final class Database {
 
     }
 
+    /**
+     * get collection in the database
+     * @param collectionPath where we want to get the data
+     * @return collection
+     */
     public static CollectionReference getCollection(String collectionPath) {
         return getExactInstance().collection(collectionPath);
     }
 
+    /**
+     * get the exact instance of FirebaseFirestore
+     * @return firebase firestore instance
+     */
     private static FirebaseFirestore getExactInstance() {
         if (test) {
             FirebaseFirestore fb = FirebaseFirestore.getInstance();
@@ -33,6 +42,9 @@ public final class Database {
         }
     }
 
+    /**
+     * set test mode activated
+     */
     public static void setTest() {
         test = true;
     }

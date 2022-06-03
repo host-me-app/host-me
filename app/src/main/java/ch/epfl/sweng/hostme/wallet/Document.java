@@ -34,46 +34,90 @@ public enum Document {
         this.codePermission = codePermission;
     }
 
+    /**
+     * get the document name
+     * @return the document name
+     */
     public String getDocumentName() {
         return this.documentName;
     }
 
+    /**
+     * get the type
+     * @return type
+     */
     public String getType() {
         return this.type;
     }
 
+    /**
+     * get the path
+     * @return the path
+     */
     public String getPath() {
         return this.path;
     }
 
+    /**
+     * get the file name
+     * @return the file name
+     */
     public String getFileName() {
         return this.fileName;
     }
 
+    /**
+     * get the file extension
+     * @return the file extension
+     */
     public String getFileExtension() {
         return this.fileExtension;
     }
 
+    /**
+     * get the browse button id
+     * @return the browse button id
+     */
     public int getButtonBrowseId() {
         return this.buttonBrowseId;
     }
 
+    /**
+     * get the browse button text id
+     * @return the browse button text id
+     */
     public int getButtonBrowseTextId() {
         return this.buttonBrowseTextId;
     }
 
+    /**
+     * get the browse button download id
+     * @return the browse button download id
+     */
     public int getButtonDownloadId() {
         return this.buttonDownloadId;
     }
 
+    /**
+     * get the browse button download text id
+     * @return the browse button download text id
+     */
     public int getButtonDownloadTextId() {
         return this.buttonDownloadTextId;
     }
 
+    /**
+     * get check image id
+     * @return check image id
+     */
     public int getCheckImageId() {
         return this.checkImageId;
     }
 
+    /**
+     * get the code permission
+     * @return the code permission
+     */
     public int getCodePermission() {
         return codePermission;
     }

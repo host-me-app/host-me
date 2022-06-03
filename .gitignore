@@ -14,4 +14,4 @@ firestore.rules
 firestore.indexes.json
 firebase.json
 storage.rules
-
+upload-keystore.jks

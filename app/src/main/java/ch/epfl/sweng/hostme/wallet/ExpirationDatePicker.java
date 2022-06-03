@@ -55,6 +55,9 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         this.checkExpirationDateAlreadySet();
     }
 
+    /**
+     * check if an expiration date is selected and display it
+     */
     private void checkExpirationDateAlreadySet() {
         String pathString = document.getPath() + uid + document.getFileName() + document.getFileExtension();
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
@@ -70,7 +73,9 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         });
     }
 
-
+    /**
+     * show dialog to the user to select an expiration date
+     */
     public void showDatePickerDialog() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 context,
@@ -81,13 +86,18 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         datePickerDialog.show();
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         updateFileMetadata(dayOfMonth, month, year);
     }
 
+    /**
+     * update file metadata with expiration date
+     * @param dayOfMonth day of the date
+     * @param month month of the date
+     * @param year year of the date
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateFileMetadata(int dayOfMonth, int month, int year) {
         String pathString = document.getPath() + uid + document.getFileName() + document.getFileExtension();
@@ -106,6 +116,12 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
                 .addOnFailureListener(exception -> Toast.makeText(context, EXPIRATION_FAILED, Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * create notification for a specific date
+     * @param year year of the date
+     * @param dayOfMonth day of the date
+     * @param month month of the date
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void notification(int year, int dayOfMonth, int month) {
         clearPreviouslyScheduledNotification();
@@ -115,7 +131,9 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         scheduleNotification(datePicked);
     }
 
-
+    /**
+     * create notification channel
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createNotificationChannel() {
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -125,7 +143,9 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         notificationManager.createNotificationChannel(channel);
     }
 
-
+    /**
+     * clear previously scheduled notifications
+     */
     private void clearPreviouslyScheduledNotification() {
         int allRemindersSize = RemindersDate.values().length;
         Intent intent = new Intent(context, ReminderNotification.class);
@@ -142,6 +162,10 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         }
     }
 
+    /**
+     * schedule new notification for the given date
+     * @param date date selected
+     */
     @SuppressLint("MissingPermission")
     private void scheduleNotification(Calendar date) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -170,6 +194,12 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
         }
     }
 
+    /**
+     * modify scheduled dates
+     * @param targetDate target date
+     * @param scheduledTime scheduled time
+     * @param scheduledMessage scheduled message
+     */
     private void modifyScheduledArray(Calendar targetDate, ArrayList<Long> scheduledTime, ArrayList<String> scheduledMessage) {
         for (RemindersDate period : RemindersDate.values()) {
             Calendar targetDateCopy = (Calendar) targetDate.clone();

@@ -218,7 +218,7 @@ public class CallActivity extends AppCompatActivity {
     /**
      * Set up the video of the remote user and all the layout that
      * follows from that
-     * @param uid of the corresponding
+     * @param uid of the user who joined the call
      */
     private void setupRemoteVideoStream(int uid) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);
@@ -228,12 +228,21 @@ public class CallActivity extends AppCompatActivity {
         this.mRtcEngine.setRemoteSubscribeFallbackOption(io.agora.rtc.Constants.STREAM_FALLBACK_OPTION_AUDIO_ONLY);
     }
 
+    /**
+     * CHange the layout if the remote user change his camera from selfie to field
+     * or from field to selfie
+     * @param state selfie or field mode
+     */
     private void onRemoteUserVideoToggle(int state) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);
         SurfaceView videoSurface = (SurfaceView) videoContainer.getChildAt(0);
         videoSurface.setVisibility(state == 0 ? View.GONE : View.VISIBLE);
     }
 
+    /**
+     * init token, set room name and local video when user joined
+     * channel
+     */
     private void onJoinChannelClicked() {
         String channelName = currUserID;
         initToken(channelName);
@@ -241,6 +250,10 @@ public class CallActivity extends AppCompatActivity {
         setupLocalVideoFeed();
     }
 
+    /**
+     * Init the token for the channel with the corresponding channel name
+     * @param channelName of the caller (his user id)
+     */
     private void initToken(String channelName) {
         RtcTokenBuilder token = new RtcTokenBuilder();
         int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
@@ -248,6 +261,10 @@ public class CallActivity extends AppCompatActivity {
                 channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
     }
 
+    /**
+     * leave the channel with the RTC engine, remove video, update the room name
+     * to null in the database and return to the menu
+     */
     private void onLeaveChannelClicked() {
         this.mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
@@ -259,18 +276,32 @@ public class CallActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Remove the video
+     * @param containerID corresponding id the container
+     */
     private void removeVideo(int containerID) {
         FrameLayout videoContainer = findViewById(containerID);
         videoContainer.setVisibility(View.GONE);
         videoContainer.removeAllViews();
     }
 
+    /**
+     * Mute the local audio stream when the local user clicks on the
+     * microphone button
+     * @param view id of the button element
+     */
     private void onAudioMuteClicked(View view) {
         ImageView btn = (ImageView) view;
         changeButtonState(btn, R.drawable.btn_mute, R.drawable.btn_unmute);
         this.mRtcEngine.muteLocalAudioStream(btn.isSelected());
     }
 
+    /**
+     * Stop the local video stream when the local user clicks on the
+     * microphone button and adapt the corresponding layout
+     * @param view id of the video element
+     */
     private void onVideoMuteClicked(View view) {
         ImageView btn = (ImageView) view;
         changeButtonState(btn, R.drawable.video_toggle_active_btn, R.drawable.video_toggle_btn);
@@ -282,6 +313,13 @@ public class CallActivity extends AppCompatActivity {
         videoSurface.setVisibility(btn.isSelected() ? View.GONE : View.VISIBLE);
     }
 
+    /**
+     * CHange the button state depending on the previous buttton
+     * state
+     * @param btn correspond ID of the button
+     * @param active
+     * @param inactive
+     */
     private void changeButtonState(ImageView btn, int active, int inactive) {
         if (btn.isSelected()) {
             btn.setSelected(false);

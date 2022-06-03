@@ -46,12 +46,19 @@ public class InfoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Load the informations of the receiver
+     */
     private void loadReceiverDetails() {
         User receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
         this.apartId = getIntent().getStringExtra(FROM);
         this.chatName.setText(receiverUser.getName());
     }
 
+    /**
+     * display the relevant informations and the
+     * ones retrieved before
+     */
     private void displayInfo() {
         DocumentReference docRef = Database.getCollection(APARTMENTS).document(this.apartId);
         docRef.get()
@@ -66,6 +73,11 @@ public class InfoActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Change the text in the layout
+     * @param value the text has to be set to this value
+     * @param id of the text layout to be set
+     */
     private void changeText(Object value, int id) {
         TextView key = findViewById(id);
         if (value != null) {
@@ -75,6 +87,9 @@ public class InfoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Change fragment and go to the grade one
+     */
     private void goToGradeFragment() {
         Bundle bundle = new Bundle();
         Fragment fragment = new GradeApartment();

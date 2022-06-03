@@ -7,6 +7,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
+import static ch.epfl.sweng.hostme.utils.Constants.NO_USER;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +34,6 @@ import ch.epfl.sweng.hostme.users.UsersAdapter;
 
 public class UsersActivity extends AppCompatActivity implements UserListener {
 
-    private final static String NO_USER = "No user available";
     private RecyclerView recyclerView;
     private TextView errorMessage;
     private ProgressBar progressBar;
@@ -48,6 +48,9 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
         getUsers();
     }
 
+    /**
+     * get all the users from the database
+     */
     private void getUsers() {
         loading(true);
         Database.getCollection(KEY_COLLECTION_USERS).get()
@@ -76,6 +79,11 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                 }).addOnFailureListener(error -> showErrorMessage());
     }
 
+    /**
+     * Set and display the recycler view with
+     * all the users
+     * @param users list of users
+     */
     private void displayRecycler(ArrayList<User> users) {
         List<User> usersWithoutDuplicate = new ArrayList<>(new HashSet<>(users));
         UsersAdapter usersAdapter = new UsersAdapter(usersWithoutDuplicate, this);
@@ -90,11 +98,18 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
     }
 
 
+    /**
+     * Show error message
+     */
     private void showErrorMessage() {
         this.errorMessage.setText(NO_USER);
         this.errorMessage.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Show a progress bar when call to the DB
+     * @param isLoading display the progress bar or no
+     */
     private void loading(Boolean isLoading) {
         if (isLoading) {
             this.progressBar.setVisibility(View.VISIBLE);

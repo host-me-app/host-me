@@ -1,6 +1,7 @@
 package ch.epfl.sweng.hostme.activities;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
+import static ch.epfl.sweng.hostme.utils.Constants.CANCEL;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CHAT;
@@ -15,6 +16,9 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_NAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_TIMESTAMP;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
+import static ch.epfl.sweng.hostme.utils.Constants.NO_INTERNET_MESSAGE;
+import static ch.epfl.sweng.hostme.utils.Constants.SHARE;
+import static ch.epfl.sweng.hostme.utils.Constants.SHARE_DOCUMENTS_TITLE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -61,10 +65,6 @@ import ch.epfl.sweng.hostme.wallet.Document;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private static final String NO_INTERNET_MESSAGE = "You have no Internet connection";
-    private static final String SHARE_DOCUMENTS_TITLE = "Documents you want to share";
-    private static final String SHARE = "Share";
-    private static final String CANCEL = "Cancel";
     private User receiverUser;
     private String apartId;
     private List<ChatMessage> chatMessages;
@@ -168,6 +168,9 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Set the recycler view to display it
+     */
     private void displayRecycler() {
         this.recyclerView.setItemViewCacheSize(20);
         this.recyclerView.setDrawingCacheEnabled(true);
@@ -176,6 +179,12 @@ public class ChatActivity extends AppCompatActivity {
         this.recyclerView.setAdapter(chatAdapter);
     }
 
+    /**
+     * Send message to the user
+     * @param messageStr content of the message
+     * @param isDocument if a document is sent
+     * @param documentName name of the doc sent
+     */
     private void sendMessage(String messageStr, boolean isDocument, String documentName) {
         if (messageStr.length() != 0 && !messageStr.trim().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
@@ -192,6 +201,10 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Add a conversation in the database
+     * @param messageStr content of the mess
+     */
     private void addConversation(String messageStr) {
         if (conversionId != null) {
             this.updateConversion(messageStr);
@@ -209,6 +222,9 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Listen for incoming messages
+     */
     private void listenMessages() {
         Database.getCollection(KEY_COLLECTION_CHAT)
                 .whereEqualTo(KEY_SENDER_ID, uid)
@@ -222,6 +238,10 @@ public class ChatActivity extends AppCompatActivity {
                 .addSnapshotListener(eventListener);
     }
 
+    /**
+     * Load the details of the receiver to display it on the
+     * screen
+     */
     private void loadReceiverDetails() {
         this.receiverUser = (User) getIntent().getSerializableExtra(KEY_USER);
         this.apartId = getIntent().getStringExtra(FROM);
@@ -231,28 +251,49 @@ public class ChatActivity extends AppCompatActivity {
         this.textName.setText(receiverUser.getName());
     }
 
+    /**
+     * Set listeners on the send buttons and chat info if any
+     * action is requested
+     */
     private void setListeners() {
         this.sendButt.setOnClickListener(v -> sendMessage(this.inputMessage.getText().toString(), false, ""));
         this.chatInfo.setOnClickListener(v -> goInfo());
     }
 
+    /**
+     * Get the current data
+     * @param date current date
+     * @return date string with specified format
+     */
     @NonNull
     private String getReadableDataTime(Date date) {
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
     }
 
+    /**
+     * Add a conversation in the database
+     * @param conversion hasmap with all the relevant informations
+     *                   of the conversation
+     */
     private void addConversion(HashMap<String, Object> conversion) {
         Database.getCollection(KEY_COLLECTION_CONVERSATIONS)
                 .add(conversion)
                 .addOnSuccessListener(documentReference -> conversionId = documentReference.getId());
     }
 
+    /**
+     * update the conversation in the database
+     * @param message content
+     */
     private void updateConversion(String message) {
         DocumentReference documentReference =
                 Database.getCollection(KEY_COLLECTION_CONVERSATIONS).document(conversionId);
         documentReference.update(KEY_LAST_MESSAGE, message, KEY_TIMESTAMP, new Date());
     }
 
+    /**
+     * Listen for the conversation in the db
+     */
     private void checkForConversion() {
         if (chatMessages.size() != 0) {
             this.checkForConversionRemotely(uid, receiverUser.getId());
@@ -260,6 +301,11 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check the databse if a message is received
+     * @param senderId id of the sender
+     * @param receiverId id of the receiver
+     */
     private void checkForConversionRemotely(String senderId, String receiverId) {
         Database.getCollection(KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(KEY_SENDER_ID, senderId)
@@ -269,6 +315,9 @@ public class ChatActivity extends AppCompatActivity {
                 .addOnCompleteListener(conversionOnCompleteListener);
     }
 
+    /**
+     * Send notification to the receiver user
+     */
     private void sendNotification() {
         FcmNotificationsSender sender = new FcmNotificationsSender(receiverUser.getToken(), "New Message",
                 " From : " + userManager.getString(KEY_SENDER_NAME), getApplicationContext(), ChatActivity.this);
@@ -276,10 +325,17 @@ public class ChatActivity extends AppCompatActivity {
         this.inputMessage.setText(null);
     }
 
+    /**
+     * Display message to the user
+     */
     private void showToast() {
         Toast.makeText(getApplicationContext(), NO_INTERNET_MESSAGE, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Get the wallet doc names
+     * @return array of the documents
+     */
     private String[] getDocumentsNames() {
         List<String> list = new ArrayList<>();
         for (Document doc : Document.values()) {
@@ -289,6 +345,9 @@ public class ChatActivity extends AppCompatActivity {
         return list.toArray(new String[Document.values().length]);
     }
 
+    /**
+     * Choose the right wallet document to share
+     */
     private void chooseDocumentsToShare() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(SHARE_DOCUMENTS_TITLE);
@@ -306,6 +365,10 @@ public class ChatActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * Send document wallet to the user
+     * @param documentsToShare array that corresponds to a doc
+     */
     private void sendDocuments(ArrayList<Document> documentsToShare) {
         for (Document doc : documentsToShare) {
             String pathString = doc.getPath() + uid + "/" + doc.getFileName() + doc.getFileExtension();
@@ -314,6 +377,9 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Change activity to info
+     */
     private void goInfo() {
         Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
         intent.putExtra(FROM, this.apartId);

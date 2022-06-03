@@ -1,5 +1,9 @@
 package ch.epfl.sweng.hostme.activities;
 
+import static ch.epfl.sweng.hostme.utils.Constants.AUTH_FAILED;
+import static ch.epfl.sweng.hostme.utils.Constants.MODIFICATION_FAILED;
+import static ch.epfl.sweng.hostme.utils.Constants.MODIFICATION_SUCCEED;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,9 +23,6 @@ import ch.epfl.sweng.hostme.database.Auth;
 
 public class ChangePwdAccountActivity extends AppCompatActivity {
 
-    private static final String MODIFICATION_SUCCEED = "Password successfully modified";
-    private static final String MODIFICATION_FAILED = "Password modification failed";
-    private static final String AUTH_FAILED = "Authentication failed";
     private EditText editOldPassword;
     private EditText editNewPassword;
     private EditText editConfirmNewPassword;
@@ -60,6 +61,7 @@ public class ChangePwdAccountActivity extends AppCompatActivity {
         user.reauthenticate(credential).addOnSuccessListener(result -> user.updatePassword(newPassword).addOnSuccessListener(result2 -> {
             Toast.makeText(this, MODIFICATION_SUCCEED, Toast.LENGTH_SHORT).show();
             this.getFragmentManager().popBackStack();
-        }).addOnFailureListener(error2 -> Toast.makeText(this, MODIFICATION_FAILED, Toast.LENGTH_SHORT).show())).addOnFailureListener(error -> Toast.makeText(this, AUTH_FAILED, Toast.LENGTH_SHORT).show());
+        }).addOnFailureListener(error2 -> Toast.makeText(this, MODIFICATION_FAILED, Toast.LENGTH_SHORT).show()))
+                .addOnFailureListener(error -> Toast.makeText(this, AUTH_FAILED, Toast.LENGTH_SHORT).show());
     }
 }

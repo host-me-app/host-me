@@ -9,7 +9,6 @@ public class Profile {
     private String school;
 
     public Profile() {
-
     }
 
     public Profile(String firstName, String lastName, String email, String gender, String school) {

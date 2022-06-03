@@ -98,10 +98,17 @@ public class CallActivity extends AppCompatActivity {
         checkPermissionsAndInitEngine();
     }
 
+    /**
+     * switch the front or back camera
+     */
     private void onSwitchCamera() {
         this.mRtcEngine.switchCamera();
     }
 
+    /**
+     * Check that the permissions are enabled otherwise ask to the user
+     * Init agora if permissions are enabled
+     */
     private void checkPermissionsAndInitEngine() {
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.RECORD_AUDIO);
@@ -119,6 +126,10 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Send a notification to the called user and update the database such that
+     * the callee has access to the room name
+     */
     private void sendNotification() {
         FcmNotificationsSender sender = new FcmNotificationsSender(this.user.getToken(), NOTIFICATION_TITLE,
                 NOTIFICATION_BODY, getApplicationContext(), CallActivity.this);
@@ -126,6 +137,9 @@ public class CallActivity extends AppCompatActivity {
         reference.document(this.user.getId()).update(ROOM_NAME, currUserID);
     }
 
+    /**
+     * Join the channel corresponding to the room name in the db
+     */
     private void joinChannel() {
         reference.document(Auth.getUid()).get().addOnSuccessListener(res -> {
             if (res.exists()) {
@@ -151,6 +165,10 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create the agora engine and
+     * If the user is the caller join the channel and send notif otherwise just join the channel
+     */
     private void initAgoraEngine() {
         try {
             this.mRtcEngine = RtcEngine.create(getApplicationContext(), getString(R.string.agora_app_id), mRtcEventHandler);
@@ -165,6 +183,9 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialize basics of the RTC engine (video, audio...)
+     */
     private void setupSession() {
         this.mRtcEngine.setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION);
         this.mRtcEngine.enableVideo();
@@ -174,6 +195,10 @@ public class CallActivity extends AppCompatActivity {
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
     }
 
+    /**
+     * Set up the video of the local user and all the layout that
+     * follows from that
+     */
     private void setupLocalVideoFeed() {
         this.mRtcEngine.setChannelProfile(CHANNEL_PROFILE_LIVE_BROADCASTING);
         this.mRtcEngine.enableVideo();
@@ -190,6 +215,11 @@ public class CallActivity extends AppCompatActivity {
         this.mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 0));
     }
 
+    /**
+     * Set up the video of the remote user and all the layout that
+     * follows from that
+     * @param uid of the corresponding
+     */
     private void setupRemoteVideoStream(int uid) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());

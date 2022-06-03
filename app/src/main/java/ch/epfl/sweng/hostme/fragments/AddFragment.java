@@ -60,9 +60,9 @@ import java.util.Objects;
 import java.util.Set;
 
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.apartment.ListImage;
 import ch.epfl.sweng.hostme.apartment.Apartment;
 import ch.epfl.sweng.hostme.apartment.ApartmentAdapter;
+import ch.epfl.sweng.hostme.apartment.ListImage;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.utils.Connection;

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.hostme.apartment.Apartment;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 
@@ -35,12 +34,19 @@ public class ListImage {
     private static int ext;
     private static ArrayList<Uri> imagesUri;
 
+    /**
+     * init the fragment and other variables
+     * @param f fragment to init
+     */
     public static void init(Fragment f) {
         fragment = f;
         ext = 0;
         imagesUri = new ArrayList<>();
     }
 
+    /**
+     * accept the image from a user for the form
+     */
     @SuppressLint("IntentReset")
     public static void acceptImage() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
@@ -49,6 +55,11 @@ public class ListImage {
         fragment.startActivityForResult(galleryIntent, REQ_IMAGE);
     }
 
+    /**
+     * When the image are accepted
+     * @param res code
+     * @param images clipped data
+     */
     public static void onAcceptImage(int res, ClipData images) {
         if (res == Activity.RESULT_OK && images != null) {
             int count = images.getItemCount();
@@ -59,6 +70,10 @@ public class ListImage {
         }
     }
 
+    /**
+     * know if the imaegs are selected
+     * @return
+     */
     public static boolean areImagesSelected() {
         return !imagesUri.isEmpty();
     }

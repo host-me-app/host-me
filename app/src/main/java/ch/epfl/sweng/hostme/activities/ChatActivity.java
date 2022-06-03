@@ -1,7 +1,6 @@
 package ch.epfl.sweng.hostme.activities;
 
 import static ch.epfl.sweng.hostme.utils.Constants.APART_ID;
-import static ch.epfl.sweng.hostme.utils.Constants.CANCEL;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM;
 import static ch.epfl.sweng.hostme.utils.Constants.FROM_CONTACT;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CHAT;
@@ -16,9 +15,6 @@ import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_ID;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_NAME;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_TIMESTAMP;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER;
-import static ch.epfl.sweng.hostme.utils.Constants.NO_INTERNET_MESSAGE;
-import static ch.epfl.sweng.hostme.utils.Constants.SHARE;
-import static ch.epfl.sweng.hostme.utils.Constants.SHARE_DOCUMENTS_TITLE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -65,6 +61,10 @@ import ch.epfl.sweng.hostme.wallet.Document;
 
 public class ChatActivity extends AppCompatActivity {
 
+    private static final String NO_INTERNET_MESSAGE = "You have no Internet connection";
+    private static final String SHARE_DOCUMENTS_TITLE = "Documents you want to share";
+    private static final String SHARE = "Share";
+    private static final String CANCEL = "Cancel";
     private User receiverUser;
     private String apartId;
     private List<ChatMessage> chatMessages;
@@ -181,8 +181,9 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Send message to the user
-     * @param messageStr content of the message
-     * @param isDocument if a document is sent
+     *
+     * @param messageStr   content of the message
+     * @param isDocument   if a document is sent
      * @param documentName name of the doc sent
      */
     private void sendMessage(String messageStr, boolean isDocument, String documentName) {
@@ -203,6 +204,7 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Add a conversation in the database
+     *
      * @param messageStr content of the mess
      */
     private void addConversation(String messageStr) {
@@ -262,6 +264,7 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Get the current data
+     *
      * @param date current date
      * @return date string with specified format
      */
@@ -272,6 +275,7 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Add a conversation in the database
+     *
      * @param conversion hasmap with all the relevant informations
      *                   of the conversation
      */
@@ -283,6 +287,7 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * update the conversation in the database
+     *
      * @param message content
      */
     private void updateConversion(String message) {
@@ -303,7 +308,8 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Check the databse if a message is received
-     * @param senderId id of the sender
+     *
+     * @param senderId   id of the sender
      * @param receiverId id of the receiver
      */
     private void checkForConversionRemotely(String senderId, String receiverId) {
@@ -334,6 +340,7 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Get the wallet doc names
+     *
      * @return array of the documents
      */
     private String[] getDocumentsNames() {
@@ -367,6 +374,7 @@ public class ChatActivity extends AppCompatActivity {
 
     /**
      * Send document wallet to the user
+     *
      * @param documentsToShare array that corresponds to a doc
      */
     private void sendDocuments(ArrayList<Document> documentsToShare) {

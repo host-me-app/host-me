@@ -75,8 +75,9 @@ public class InfoActivity extends AppCompatActivity {
 
     /**
      * Change the text in the layout
+     *
      * @param value the text has to be set to this value
-     * @param id of the text layout to be set
+     * @param id    of the text layout to be set
      */
     private void changeText(Object value, int id) {
         TextView key = findViewById(id);

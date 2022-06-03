@@ -218,6 +218,7 @@ public class CallActivity extends AppCompatActivity {
     /**
      * Set up the video of the remote user and all the layout that
      * follows from that
+     *
      * @param uid of the user who joined the call
      */
     private void setupRemoteVideoStream(int uid) {
@@ -231,6 +232,7 @@ public class CallActivity extends AppCompatActivity {
     /**
      * CHange the layout if the remote user change his camera from selfie to field
      * or from field to selfie
+     *
      * @param state selfie or field mode
      */
     private void onRemoteUserVideoToggle(int state) {
@@ -252,6 +254,7 @@ public class CallActivity extends AppCompatActivity {
 
     /**
      * Init the token for the channel with the corresponding channel name
+     *
      * @param channelName of the caller (his user id)
      */
     private void initToken(String channelName) {
@@ -278,6 +281,7 @@ public class CallActivity extends AppCompatActivity {
 
     /**
      * Remove the video
+     *
      * @param containerID corresponding id the container
      */
     private void removeVideo(int containerID) {
@@ -289,6 +293,7 @@ public class CallActivity extends AppCompatActivity {
     /**
      * Mute the local audio stream when the local user clicks on the
      * microphone button
+     *
      * @param view id of the button element
      */
     private void onAudioMuteClicked(View view) {
@@ -300,6 +305,7 @@ public class CallActivity extends AppCompatActivity {
     /**
      * Stop the local video stream when the local user clicks on the
      * microphone button and adapt the corresponding layout
+     *
      * @param view id of the video element
      */
     private void onVideoMuteClicked(View view) {
@@ -316,8 +322,9 @@ public class CallActivity extends AppCompatActivity {
     /**
      * CHange the button state depending on the previous buttton
      * state
-     * @param btn correspond ID of the button
-     * @param active drawable of the active button
+     *
+     * @param btn      correspond ID of the button
+     * @param active   drawable of the active button
      * @param inactive drawable of the inactive button
      */
     private void changeButtonState(ImageView btn, int active, int inactive) {

@@ -93,178 +93,354 @@ public class Apartment {
         }
     }
 
+    /**
+     * get name
+     * @return name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * set name
+     * @param name new name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * get room
+     * @return room
+     */
     public String getRoom() {
         return this.room;
     }
 
+    /**
+     * set room
+     * @param room new room
+     */
     public void setRoom(String room) {
         this.room = room;
     }
 
+    /**
+     * get address
+     * @return address
+     */
     public String getAddress() {
         return this.address;
     }
 
+    /**
+     * set address
+     * @param address new address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * get npa
+     * @return npa
+     */
     public int getNpa() {
         return this.npa;
     }
 
+    /**
+     * set npa
+     * @param npa new npa
+     */
     public void setNpa(int npa) {
         this.npa = npa;
     }
 
+    /**
+     * get city
+     * @return city
+     */
     public String getCity() {
         return this.city;
     }
 
+    /**
+     * set city
+     * @param city new city
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * get rent
+     * @return rent
+     */
     public int getRent() {
         return this.rent;
     }
 
+    /**
+     * set rent
+     * @param rent new rent
+     */
     public void setRent(int rent) {
         this.rent = rent;
     }
 
+    /**
+     * get beds
+     * @return beds
+     */
     public int getBeds() {
         return this.beds;
     }
 
+    /**
+     * set number of beds
+     * @param beds new number of beds
+     */
     public void setBeds(int beds) {
         this.beds = beds;
     }
 
+    /**
+     * get area
+     * @return area
+     */
     public int getArea() {
         return this.area;
     }
 
+    /**
+     * set area
+     * @param area new area
+     */
     public void setArea(int area) {
         this.area = area;
     }
 
+    /**
+     * get furnished boolean
+     * @return furnished
+     */
     public boolean isFurnished() {
         return this.furnished;
     }
 
+    /**
+     * set the furnished to the contrary
+     * @return contrary of the current furnished boolean value
+     */
     public void toggleFurnished() {
         this.furnished = !this.furnished;
     }
 
+    /**
+     * get bath
+     * @return bath
+     */
     public String getBath() {
         return this.bath;
     }
 
+    /**
+     * set bath
+     * @param bath new bath
+     */
     public void setBath(String bath) {
         this.bath = bath;
     }
 
+    /**
+     * get kitchen
+     * @return kitchen
+     */
     public String getKitchen() {
         return this.kitchen;
     }
 
+    /**
+     * set kitchen
+     * @param kitchen new kitchen
+     */
     public void setKitchen(String kitchen) {
         this.kitchen = kitchen;
     }
 
+    /**
+     * get laundry
+     * @return laundry
+     */
     public String getLaundry() {
         return this.laundry;
     }
 
+    /**
+     * set laundry
+     * @param laundry new laundry
+     */
     public void setLaundry(String laundry) {
         this.laundry = laundry;
     }
 
+    /**
+     * get if pets are allowed
+     * @return pets boolean
+     */
     public boolean isPets() {
         return this.pets;
     }
 
+    /**
+     * change the pets allowed boolean value
+     * @return pets boolean
+     */
     public void togglePets() {
         this.pets = !this.pets;
     }
 
+    /**
+     * get image path
+     * @return imagePath
+     */
     public String getImagePath() {
         return this.imagePath;
     }
 
+    /**
+     * get availability
+     * @return availability
+     */
     public boolean isAvailable() {
         return this.available;
     }
 
+    /**
+     * change the available boolean value
+     * @return opposite value of availability
+     */
     public void toggleAvailable() {
         this.available = !this.available;
     }
 
+    /**
+     * get proprietor
+     * @return proprietor
+     */
     public String getProprietor() {
         return this.proprietor;
     }
 
+    /**
+     * set proprietor
+     * @param proprietor new proprietor
+     */
     public void setProprietor(String proprietor) {
         this.proprietor = proprietor;
     }
 
+    /**
+     * get user id
+     * @return user id
+     */
     public String getUid() {
         return this.uid;
     }
 
+    /**
+     * get utilities
+     * @return utilities
+     */
     public int getUtilities() {
         return this.utilities;
     }
 
+    /**
+     * set utilities
+     * @param utilities new utilities
+     */
     public void setUtilities(int utilities) {
         this.utilities = utilities;
     }
 
+    /**
+     * get deposit
+     * @return deposit
+     */
     public int getDeposit() {
         return this.deposit;
     }
 
+    /**
+     * set deposit
+     * @param deposit new deposit
+     */
     public void setDeposit(int deposit) {
         this.deposit = deposit;
     }
 
+    /**
+     * get duration
+     * @return duration
+     */
     public int getDuration() {
         return this.duration;
     }
 
+    /**
+     * set duration
+     * @param duration new duration
+     */
     public void setDuration(int duration) {
         this.duration = duration;
     }
 
+    /**
+     * get current lease
+     * @return current lease
+     */
     public Timestamp getCurrentLease() {
         return this.currentLease;
     }
 
+    /**
+     * set current lease
+     * @param currentLease new current lease
+     */
     public void setCurrentLease(Timestamp currentLease) {
         this.currentLease = currentLease;
     }
 
+    /**
+     * get document id
+     * @return document id
+     */
     public String getDocId() {
         return this.docId;
     }
 
+    /**
+     * set document id
+     * @param docId new document id
+     */
     public void setDocId(String docId) {
         this.docId = docId;
     }
 
+    /**
+     * get image
+     * @return image
+     */
     public Bitmap getImage() {
         return this.image;
     }
 
+    /**
+     * set image
+     * @param image new image
+     */
     public void setImage(Bitmap image) {
         this.image = image;
     }

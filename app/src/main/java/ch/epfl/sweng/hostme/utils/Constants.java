@@ -2,14 +2,6 @@ package ch.epfl.sweng.hostme.utils;
 
 public final class Constants {
 
-    public final static String NO_USER = "No user available";
-    public static final String NO_INTERNET_MESSAGE = "You have no Internet connection";
-    public static final String SHARE_DOCUMENTS_TITLE = "Documents you want to share";
-    public static final String SHARE = "Share";
-    public static final String CANCEL = "Cancel";
-    public static final String MODIFICATION_SUCCEED = "Password successfully modified";
-    public static final String MODIFICATION_FAILED = "Password modification failed";
-    public static final String AUTH_FAILED = "Authentication failed";
     public static final String KEY_COLLECTION_USERS = "users";
     public static final String KEY_COLLECTION_FAV = "favorite_apart";
     public static final String KEY_COLLECTION_APARTMENTS = "apartments";

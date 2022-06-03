@@ -54,6 +54,9 @@ public class DocumentUploader {
         this.checkFileUploaded();
     }
 
+    /**
+     * launch an Intent to select a file in the documents of the phone
+     */
     private void doBrowseFile() {
         Intent chooseFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFileIntent.setType(this.document.getType());
@@ -62,12 +65,22 @@ public class DocumentUploader {
         this.activity.startActivityForResult(chooseFileIntent, this.document.getCodePermission());
     }
 
+    /**
+     * check if the request and result codes are correct and upload data to the database
+     * @param requestCode request code
+     * @param resultCode result code (OK or not)
+     * @param data data we get back from the Intent
+     */
     public void onBrowseFileResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == this.document.getCodePermission() && resultCode == Activity.RESULT_OK && data != null) {
             this.uploadFile(data.getData());
         }
     }
 
+    /**
+     * upload the given file to the database
+     * @param file local url of the file
+     */
     private void uploadFile(Uri file) {
         String pathString = this.document.getPath() + this.uid + this.document.getFileName() + this.document.getFileExtension();
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
@@ -78,6 +91,9 @@ public class DocumentUploader {
                 }).addOnFailureListener(exception -> Toast.makeText(this.context, UPLOAD_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * check if file is successfully uploaded
+     */
     private void checkFileUploaded() {
         String pathString = this.document.getPath() + this.uid;
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
@@ -90,6 +106,9 @@ public class DocumentUploader {
                 .addOnFailureListener(e -> Toast.makeText(this.context, CHECK_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * change upload button state
+     */
     @SuppressLint("SetTextI18n")
     private void changeButton() {
         this.buttonBrowseText.setText(R.string.change_file);

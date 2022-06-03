@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
 
 public class Connection {
     /**
-     * Check if the user has Internet connection
+     * check if the user has Internet connection
      *
      * @return true if user has connection, false otherwise
      */

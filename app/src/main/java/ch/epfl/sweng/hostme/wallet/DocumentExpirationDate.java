@@ -18,14 +18,26 @@ public enum DocumentExpirationDate {
         this.pickDateButtonId = pickDateButtonId;
     }
 
+    /**
+     * get the pick date button id
+     * @return the pick date button id
+     */
     public int getPickDateButtonId() {
         return pickDateButtonId;
     }
 
+    /**
+     * get the expiration date button text id
+     * @return the expiration date button text id
+     */
     public int getExpirationDateTextId() {
         return expirationDateTextId;
     }
 
+    /**
+     * get the description field text id
+     * @return the description field text id
+     */
     public int getDescriptionFieldTextId() {
         return descriptionFieldTextId;
     }

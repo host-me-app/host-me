@@ -62,6 +62,11 @@ public class MessageService extends FirebaseMessagingService {
 
     }
 
+    /**
+     * create a builder to deal with the notification
+     * @param remoteMessage received by the user
+     * @return the builder
+     */
     @NonNull
     private NotificationCompat.Builder createBuilder(RemoteMessage remoteMessage) {
         int resourceImage = getResources().getIdentifier(remoteMessage.getData().get("image"), "drawable", getPackageName());

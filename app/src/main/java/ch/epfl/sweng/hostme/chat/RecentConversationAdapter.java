@@ -71,6 +71,10 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
             this.imageProfile = itemView.findViewById(R.id.image_profile);
         }
 
+        /**
+         * set the data of the conversation
+         * @param chatMessage message of the user
+         */
         void setData(@NonNull ChatMessage chatMessage) {
             this.textName.setText(chatMessage.conversionName);
             this.textRecentMessage.setText(chatMessage.message);

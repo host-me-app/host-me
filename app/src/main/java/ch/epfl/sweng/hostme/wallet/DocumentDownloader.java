@@ -28,6 +28,9 @@ public class DocumentDownloader {
         buttonDownload.setOnClickListener(view -> this.downloadFile());
     }
 
+    /**
+     * retrieve the download url from the database from the file path and download the file
+     */
     private void downloadFile() {
         String pathString = this.document.getPath() + this.uid + this.document.getFileName() + this.document.getFileExtension();
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
@@ -37,6 +40,10 @@ public class DocumentDownloader {
         }).addOnFailureListener(exception -> Toast.makeText(context, DOWNLOAD_FAILED_MESSAGE, Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * download the file from the given url
+     * @param url download url of the file
+     */
     private void download(String url) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.hostme.apartment.Apartment;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
 
@@ -35,12 +34,19 @@ public class ListImage {
     private static int ext;
     private static ArrayList<Uri> imagesUri;
 
+    /**
+     * init the fragment and other variables
+     * @param f fragment to init
+     */
     public static void init(Fragment f) {
         fragment = f;
         ext = 0;
         imagesUri = new ArrayList<>();
     }
 
+    /**
+     * accept the image from a user for the form
+     */
     @SuppressLint("IntentReset")
     public static void acceptImage() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI);
@@ -49,6 +55,11 @@ public class ListImage {
         fragment.startActivityForResult(galleryIntent, REQ_IMAGE);
     }
 
+    /**
+     * When the image are accepted
+     * @param res code
+     * @param images clipped data
+     */
     public static void onAcceptImage(int res, ClipData images) {
         if (res == Activity.RESULT_OK && images != null) {
             int count = images.getItemCount();
@@ -59,19 +70,37 @@ public class ListImage {
         }
     }
 
+    /**
+     * know if the images are selected
+     * @return true if the images uri is not empty
+     */
     public static boolean areImagesSelected() {
         return !imagesUri.isEmpty();
     }
 
+    /**
+     * Clear the images uri list
+     */
     public static void clear() {
         ext = 0;
         imagesUri.clear();
     }
 
+    /**
+     * Add the uri to the uri list
+     * @param image uri to be added
+     */
     private static void saveImage(Uri image) {
         imagesUri.add(image);
     }
 
+    /**
+     * push images in the firestore storage
+     * @param path where to save
+     * @param apartment to be added in the DB
+     * @param myListings list of apartments where apartment is added
+     * @param adapter recycler view to notify
+     */
     @SuppressLint("NotifyDataSetChanged")
     public static void pushImages(String path, Apartment apartment, List<Apartment> myListings, RecyclerView.Adapter adapter) {
         for (Uri uri : imagesUri) {

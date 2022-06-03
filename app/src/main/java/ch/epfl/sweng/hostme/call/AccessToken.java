@@ -28,10 +28,24 @@ public class AccessToken {
         this.message = new PrivilegeMessage();
     }
 
+    /**
+     * get the version
+     * @return version
+     */
     public static String getVersion() {
         return VER;
     }
 
+    /**
+     * Generate signature
+     * @param appCertificate certificate of the app
+     * @param appID id of the app
+     * @param channelName name of the channel
+     * @param uid user id
+     * @param message content
+     * @return the signature
+     * @throws Exception exception
+     */
     public static byte[] generateSignature(String appCertificate,
                                            String appID, String channelName, String uid, byte[] message) throws Exception {
 
@@ -46,6 +60,11 @@ public class AccessToken {
         return CallUtils.macSign(appCertificate, stream.toByteArray());
     }
 
+    /**
+     * string builder
+     * @return the built string
+     * @throws Exception exception
+     */
     public String build() throws Exception {
         if (CallUtils.isUUID(appId)) {
             return "";
@@ -66,10 +85,18 @@ public class AccessToken {
         return getVersion() + this.appId + CallUtils.base64Encode(content);
     }
 
+    /**
+     * add privilege
+     * @param privilege value to put
+     * @param expireTimestamp date expiration
+     */
     public void addPrivilege(Privileges privilege, int expireTimestamp) {
         message.messages.put(privilege.intValue, expireTimestamp);
     }
 
+    /**
+     * privilege enumeration
+     */
     public enum Privileges {
         kJoinChannel(1),
         kPublishAudioStream(2),
@@ -83,6 +110,9 @@ public class AccessToken {
         }
     }
 
+    /**
+     * Class of privilege message
+     */
     public static class PrivilegeMessage implements Packable {
         public int salt;
         public int ts;
@@ -100,6 +130,9 @@ public class AccessToken {
         }
     }
 
+    /**
+     * Class of pack content
+     */
     public static class PackContent implements Packable {
         public byte[] signature;
         public int crcChannelName;

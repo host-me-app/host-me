@@ -98,10 +98,17 @@ public class CallActivity extends AppCompatActivity {
         checkPermissionsAndInitEngine();
     }
 
+    /**
+     * switch the front or back camera
+     */
     private void onSwitchCamera() {
         this.mRtcEngine.switchCamera();
     }
 
+    /**
+     * Check that the permissions are enabled otherwise ask to the user
+     * Init agora if permissions are enabled
+     */
     private void checkPermissionsAndInitEngine() {
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.RECORD_AUDIO);
@@ -119,6 +126,10 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Send a notification to the called user and update the database such that
+     * the callee has access to the room name
+     */
     private void sendNotification() {
         FcmNotificationsSender sender = new FcmNotificationsSender(this.user.getToken(), NOTIFICATION_TITLE,
                 NOTIFICATION_BODY, getApplicationContext(), CallActivity.this);
@@ -126,6 +137,9 @@ public class CallActivity extends AppCompatActivity {
         reference.document(this.user.getId()).update(ROOM_NAME, currUserID);
     }
 
+    /**
+     * Join the channel corresponding to the room name in the db
+     */
     private void joinChannel() {
         reference.document(Auth.getUid()).get().addOnSuccessListener(res -> {
             if (res.exists()) {
@@ -151,6 +165,10 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create the agora engine and
+     * If the user is the caller join the channel and send notif otherwise just join the channel
+     */
     private void initAgoraEngine() {
         try {
             this.mRtcEngine = RtcEngine.create(getApplicationContext(), getString(R.string.agora_app_id), mRtcEventHandler);
@@ -165,6 +183,9 @@ public class CallActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialize basics of the RTC engine (video, audio...)
+     */
     private void setupSession() {
         this.mRtcEngine.setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION);
         this.mRtcEngine.enableVideo();
@@ -174,6 +195,10 @@ public class CallActivity extends AppCompatActivity {
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
     }
 
+    /**
+     * Set up the video of the local user and all the layout that
+     * follows from that
+     */
     private void setupLocalVideoFeed() {
         this.mRtcEngine.setChannelProfile(CHANNEL_PROFILE_LIVE_BROADCASTING);
         this.mRtcEngine.enableVideo();
@@ -190,6 +215,12 @@ public class CallActivity extends AppCompatActivity {
         this.mRtcEngine.setupLocalVideo(new VideoCanvas(videoSurface, VideoCanvas.RENDER_MODE_FIT, 0));
     }
 
+    /**
+     * Set up the video of the remote user and all the layout that
+     * follows from that
+     *
+     * @param uid of the user who joined the call
+     */
     private void setupRemoteVideoStream(int uid) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);
         SurfaceView videoSurface = RtcEngine.CreateRendererView(getBaseContext());
@@ -198,12 +229,22 @@ public class CallActivity extends AppCompatActivity {
         this.mRtcEngine.setRemoteSubscribeFallbackOption(io.agora.rtc.Constants.STREAM_FALLBACK_OPTION_AUDIO_ONLY);
     }
 
+    /**
+     * CHange the layout if the remote user change his camera from selfie to field
+     * or from field to selfie
+     *
+     * @param state selfie or field mode
+     */
     private void onRemoteUserVideoToggle(int state) {
         FrameLayout videoContainer = findViewById(R.id.bg_video_container);
         SurfaceView videoSurface = (SurfaceView) videoContainer.getChildAt(0);
         videoSurface.setVisibility(state == 0 ? View.GONE : View.VISIBLE);
     }
 
+    /**
+     * init token, set room name and local video when user joined
+     * channel
+     */
     private void onJoinChannelClicked() {
         String channelName = currUserID;
         initToken(channelName);
@@ -211,6 +252,11 @@ public class CallActivity extends AppCompatActivity {
         setupLocalVideoFeed();
     }
 
+    /**
+     * Init the token for the channel with the corresponding channel name
+     *
+     * @param channelName of the caller (his user id)
+     */
     private void initToken(String channelName) {
         RtcTokenBuilder token = new RtcTokenBuilder();
         int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
@@ -218,6 +264,10 @@ public class CallActivity extends AppCompatActivity {
                 channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
     }
 
+    /**
+     * leave the channel with the RTC engine, remove video, update the room name
+     * to null in the database and return to the menu
+     */
     private void onLeaveChannelClicked() {
         this.mRtcEngine.leaveChannel();
         removeVideo(R.id.floating_video_container);
@@ -229,18 +279,35 @@ public class CallActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Remove the video
+     *
+     * @param containerID corresponding id the container
+     */
     private void removeVideo(int containerID) {
         FrameLayout videoContainer = findViewById(containerID);
         videoContainer.setVisibility(View.GONE);
         videoContainer.removeAllViews();
     }
 
+    /**
+     * Mute the local audio stream when the local user clicks on the
+     * microphone button
+     *
+     * @param view id of the button element
+     */
     private void onAudioMuteClicked(View view) {
         ImageView btn = (ImageView) view;
         changeButtonState(btn, R.drawable.btn_mute, R.drawable.btn_unmute);
         this.mRtcEngine.muteLocalAudioStream(btn.isSelected());
     }
 
+    /**
+     * Stop the local video stream when the local user clicks on the
+     * microphone button and adapt the corresponding layout
+     *
+     * @param view id of the video element
+     */
     private void onVideoMuteClicked(View view) {
         ImageView btn = (ImageView) view;
         changeButtonState(btn, R.drawable.video_toggle_active_btn, R.drawable.video_toggle_btn);
@@ -252,6 +319,14 @@ public class CallActivity extends AppCompatActivity {
         videoSurface.setVisibility(btn.isSelected() ? View.GONE : View.VISIBLE);
     }
 
+    /**
+     * CHange the button state depending on the previous buttton
+     * state
+     *
+     * @param btn      correspond ID of the button
+     * @param active   drawable of the active button
+     * @param inactive drawable of the inactive button
+     */
     private void changeButtonState(ImageView btn, int active, int inactive) {
         if (btn.isSelected()) {
             btn.setSelected(false);

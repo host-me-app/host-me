@@ -49,7 +49,7 @@ public class ChangePwdHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Send email to change password
+     * Send email to the user to change password
      */
     private void sendMail(String mailText) {
         Auth.resetEmail(mailText)

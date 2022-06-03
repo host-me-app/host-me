@@ -9,7 +9,6 @@ public class Profile {
     private String school;
 
     public Profile() {
-
     }
 
     public Profile(String firstName, String lastName, String email, String gender, String school) {
@@ -21,38 +20,74 @@ public class Profile {
     }
 
 
+    /**
+     * get the first name of the user
+     * @return first name
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * set the first name of the user
+     * @param firstName to be set
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * get the last name of the user
+     * @return last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * set the last name of the user
+     * @param lastName to be set
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * get the gender of the user
+     * @return gender
+     */
     public String getGender() {
         return gender;
     }
 
+    /**
+     * set the gender of the user
+     * @param gender to be set
+     */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
+    /**
+     * get the email of the user
+     * @return email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * set the email of the user
+     * @param email to be set
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * get the school of the user
+     * @return school
+     */
     public String getSchool() {
         return school;
     }

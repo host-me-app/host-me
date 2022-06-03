@@ -124,6 +124,9 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         return root;
     }
 
+    /**
+     * display the recycler
+     */
     private void displayRecycler() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         this.recyclerView.setHasFixedSize(true);
@@ -135,10 +138,17 @@ public class MessagesFragment extends Fragment implements ConversionListener {
         this.recyclerView.setAdapter(conversationAdapter);
     }
 
+    /**
+     * get the fcm token for the user
+     */
     private void getToken() {
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
 
+    /**
+     * update the token
+     * @param token
+     */
     private void updateToken(String token) {
         userManager.putString(KEY_FCM_TOKEN, token);
         DocumentReference documentReference = Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid());
@@ -146,6 +156,9 @@ public class MessagesFragment extends Fragment implements ConversionListener {
                 .addOnFailureListener(error -> Toast.makeText(getApplicationContext(), TOKEN_FAILED, Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * listen to new conversations
+     */
     private void listenConversations() {
         Database.getCollection(KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(KEY_SENDER_ID, Auth.getUid())

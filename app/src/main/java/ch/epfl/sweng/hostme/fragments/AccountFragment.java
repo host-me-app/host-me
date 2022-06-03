@@ -181,12 +181,18 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
+    /**
+     * init the ui to default
+     */
     private void initUI() {
         this.saveButton.setEnabled(false);
         this.editProfilePicture.setImageBitmap(null);
         this.editProfilePicture.setImageResource(R.drawable.ic_baseline_account_circle_24);
     }
 
+    /**
+     * load the profile picture from the db
+     */
     private void loadProfilePictureDB() {
         String pathString = "profilePicture/" + Auth.getUid() + "/profile.jpg";
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
@@ -206,6 +212,9 @@ public class AccountFragment extends Fragment {
         }
     }
 
+    /**
+     * load the informations to fill the field from the db
+     */
     private void loadProfileFieldsDB() {
         DocumentReference docRef = Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid());
         docRef.get().addOnSuccessListener(result -> {
@@ -286,6 +295,9 @@ public class AccountFragment extends Fragment {
         return new Profile(firstName, lastName, email, gender, this.school);
     }
 
+    /**
+     * check if the profile is modified
+     */
     private void checkIfProfileIsModified() {
         Profile local = getProfileFromUI();
         boolean allTheSame = local.equals(this.dbProfile);
@@ -339,6 +351,12 @@ public class AccountFragment extends Fragment {
                 }).addOnFailureListener(error -> Toast.makeText(requireContext(), PROFILE_FAILED, Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * change the picture
+     * @param displayMessage message to display
+     * @param message content
+     * @param inDB say if picture is in the db
+     */
     private void changePicture(boolean displayMessage, String message, boolean inDB) {
         if (displayMessage) {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();

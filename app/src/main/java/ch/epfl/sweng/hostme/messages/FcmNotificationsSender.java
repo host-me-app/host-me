@@ -32,6 +32,9 @@ public class FcmNotificationsSender {
         this.activity = activity;
     }
 
+    /**
+     * send notifications with title and body
+     */
     public void sendNotifications() {
         RequestQueue requestQueue = Volley.newRequestQueue(this.activity);
         JSONObject mainObj = new JSONObject();

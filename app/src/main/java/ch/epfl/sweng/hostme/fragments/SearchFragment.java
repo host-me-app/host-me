@@ -285,6 +285,10 @@ public class SearchFragment extends Fragment {
     }
 
 
+    /**
+     * check the permissions
+     * @return int corresponding to the permissionq
+     */
     private boolean checkPermissions() {
         return ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
@@ -300,6 +304,9 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    /**
+     * get the last location of the user
+     */
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         if (this.checkPermissions()) {
@@ -323,17 +330,28 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    /**
+     * ask permission to the user for the location
+     */
     private void requestPermissionsForLocation() {
         requestPermissions(new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
     }
 
+    /**
+     * check if the location is enabled on the phone
+     * @return true if enabled
+     */
     private boolean isLocationEnabled() {
         LocationManager locationManager = (LocationManager) this.requireActivity().getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
+    /**
+     * filter the location on the radius
+     * @param location
+     */
     private void filterLocation(Location location) {
         this.updateRecyclerView(location);
     }

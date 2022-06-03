@@ -112,6 +112,9 @@ public class DisplayApartmentFragment extends Fragment implements IOnBackPressed
         return this.root;
     }
 
+    /**
+     * get the fields from the bundle
+     */
     private void unpackBundle() {
         Bundle bundle = this.getArguments();
         if (bundle != null && !bundle.isEmpty()) {
@@ -173,6 +176,13 @@ public class DisplayApartmentFragment extends Fragment implements IOnBackPressed
         });
     }
 
+    /**
+     * create transaction for fragments
+     * @param fragment to change
+     * @param key update the bundle
+     * @param value update the bundle with corresponding key
+     * @return
+     */
     private FragmentTransaction createTransaction(Fragment fragment, String key, String value) {
         Bundle bundle = new Bundle();
         FragmentTransaction fragmentTransaction = this.requireActivity().getSupportFragmentManager().beginTransaction();
@@ -183,16 +193,25 @@ public class DisplayApartmentFragment extends Fragment implements IOnBackPressed
         return fragmentTransaction;
     }
 
+    /**
+     * go to the street view fragment
+     */
     private void goToStreetViewFragment() {
         FragmentTransaction fragmentTransaction = this.createTransaction(new StreetViewFragment(), ADDRESS, this.fullAddress);
         fragmentTransaction.commit();
     }
 
+    /**
+     * go to the maps fragment
+     */
     private void goToMapsFragment() {
         FragmentTransaction fragmentTransaction = this.createTransaction(new MapsFragment(), ADDRESS, this.fullAddress);
         fragmentTransaction.commit();
     }
 
+    /**
+     * go to the grade fragment
+     */
     private void goToGradeFragment() {
         FragmentTransaction fragmentTransaction = this.createTransaction(new GradeApartment(), APART_ID, this.apartID);
         fragmentTransaction.commit();

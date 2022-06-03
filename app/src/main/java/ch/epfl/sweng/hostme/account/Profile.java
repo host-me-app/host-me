@@ -20,6 +20,10 @@ public class Profile {
     }
 
 
+    /**
+     * get the first name of the user
+     * @return first name
+     */
     public String getFirstName() {
         return firstName;
     }
@@ -28,6 +32,10 @@ public class Profile {
         this.firstName = firstName;
     }
 
+    /**
+     * get the last name of the user
+     * @return last name
+     */
     public String getLastName() {
         return lastName;
     }
@@ -36,6 +44,10 @@ public class Profile {
         this.lastName = lastName;
     }
 
+    /**
+     * get the gender of the user
+     * @return gender
+     */
     public String getGender() {
         return gender;
     }
@@ -44,6 +56,10 @@ public class Profile {
         this.gender = gender;
     }
 
+    /**
+     * get the email of the user
+     * @return email
+     */
     public String getEmail() {
         return email;
     }
@@ -52,6 +68,10 @@ public class Profile {
         this.email = email;
     }
 
+    /**
+     * get the school of the user
+     * @return school
+     */
     public String getSchool() {
         return school;
     }

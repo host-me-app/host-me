@@ -44,6 +44,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         setUserData(user, holder);
     }
 
+    /**
+     * Set the user image in the storage
+     * @param user to be set
+     * @param holder view holder of the user
+     */
     void setUserData(@NonNull User user, UserViewHolder holder) {
         StorageReference fileRef = Storage.getStorageReferenceByChild(user.getImage());
         try {

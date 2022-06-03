@@ -14,6 +14,10 @@ public class ByteBuf {
     public ByteBuf() {
     }
 
+    /**
+     * get the buffer as bytes
+     * @return bytes buffer
+     */
     public byte[] asBytes() {
         byte[] out = new byte[buffer.position()];
         buffer.rewind();
@@ -21,22 +25,41 @@ public class ByteBuf {
         return out;
     }
 
+    /**
+     * put short value to the buffer
+     * @param v value to be put
+     * @return the buffer
+     */
     public ByteBuf put(short v) {
         buffer.putShort(v);
         return this;
     }
 
+    /**
+     * put byte array to the buffer
+     * @param v value to be put
+     * @return the buffer with array in put
+     */
     public ByteBuf put(byte[] v) {
         put((short) v.length);
         buffer.put(v);
         return this;
     }
 
+    /**
+     * put int into buffer
+     * @param v int to be put
+     * @return buffer updated
+     */
     public ByteBuf put(int v) {
         buffer.putInt(v);
         return this;
     }
 
+    /**
+     * put map into the buffer
+     * @param extra map to be put
+     */
     public void putIntMap(TreeMap<Short, Integer> extra) {
         put((short) extra.size());
 

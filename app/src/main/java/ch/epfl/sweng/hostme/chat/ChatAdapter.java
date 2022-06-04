@@ -85,6 +85,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         /**
          * set the data of a chat message
+         *
          * @param chatMessage message of the user
          */
         void setData(ChatMessage chatMessage) {

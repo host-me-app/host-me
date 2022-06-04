@@ -287,6 +287,7 @@ public class SearchFragment extends Fragment {
 
     /**
      * check the permissions
+     *
      * @return int corresponding to the permissionq
      */
     private boolean checkPermissions() {
@@ -341,6 +342,7 @@ public class SearchFragment extends Fragment {
 
     /**
      * check if the location is enabled on the phone
+     *
      * @return true if enabled
      */
     private boolean isLocationEnabled() {
@@ -350,6 +352,7 @@ public class SearchFragment extends Fragment {
 
     /**
      * filter the location on the radius
+     *
      * @param location
      */
     private void filterLocation(Location location) {

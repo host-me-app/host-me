@@ -178,9 +178,10 @@ public class DisplayApartmentFragment extends Fragment implements IOnBackPressed
 
     /**
      * create transaction for fragments
+     *
      * @param fragment to change
-     * @param key update the bundle
-     * @param value update the bundle with corresponding key
+     * @param key      update the bundle
+     * @param value    update the bundle with corresponding key
      * @return
      */
     private FragmentTransaction createTransaction(Fragment fragment, String key, String value) {

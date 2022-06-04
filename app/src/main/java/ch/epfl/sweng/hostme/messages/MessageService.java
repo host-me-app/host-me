@@ -64,6 +64,7 @@ public class MessageService extends FirebaseMessagingService {
 
     /**
      * create a builder to deal with the notification
+     *
      * @param remoteMessage received by the user
      * @return the builder
      */

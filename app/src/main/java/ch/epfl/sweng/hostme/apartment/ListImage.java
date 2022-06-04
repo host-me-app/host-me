@@ -36,6 +36,7 @@ public class ListImage {
 
     /**
      * init the fragment and other variables
+     *
      * @param f fragment to init
      */
     public static void init(Fragment f) {
@@ -57,7 +58,8 @@ public class ListImage {
 
     /**
      * When the image are accepted
-     * @param res code
+     *
+     * @param res    code
      * @param images clipped data
      */
     public static void onAcceptImage(int res, ClipData images) {
@@ -72,6 +74,7 @@ public class ListImage {
 
     /**
      * know if the images are selected
+     *
      * @return true if the images uri is not empty
      */
     public static boolean areImagesSelected() {
@@ -88,6 +91,7 @@ public class ListImage {
 
     /**
      * Add the uri to the uri list
+     *
      * @param image uri to be added
      */
     private static void saveImage(Uri image) {
@@ -96,10 +100,11 @@ public class ListImage {
 
     /**
      * push images in the firestore storage
-     * @param path where to save
-     * @param apartment to be added in the DB
+     *
+     * @param path       where to save
+     * @param apartment  to be added in the DB
      * @param myListings list of apartments where apartment is added
-     * @param adapter recycler view to notify
+     * @param adapter    recycler view to notify
      */
     @SuppressLint("NotifyDataSetChanged")
     public static void pushImages(String path, Apartment apartment, List<Apartment> myListings, RecyclerView.Adapter adapter) {

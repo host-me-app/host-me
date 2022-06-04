@@ -30,6 +30,7 @@ public class AccessToken {
 
     /**
      * get the version
+     *
      * @return version
      */
     public static String getVersion() {
@@ -38,11 +39,12 @@ public class AccessToken {
 
     /**
      * Generate signature
+     *
      * @param appCertificate certificate of the app
-     * @param appID id of the app
-     * @param channelName name of the channel
-     * @param uid user id
-     * @param message content
+     * @param appID          id of the app
+     * @param channelName    name of the channel
+     * @param uid            user id
+     * @param message        content
      * @return the signature
      * @throws Exception exception
      */
@@ -62,6 +64,7 @@ public class AccessToken {
 
     /**
      * string builder
+     *
      * @return the built string
      * @throws Exception exception
      */
@@ -87,7 +90,8 @@ public class AccessToken {
 
     /**
      * add privilege
-     * @param privilege value to put
+     *
+     * @param privilege       value to put
      * @param expireTimestamp date expiration
      */
     public void addPrivilege(Privileges privilege, int expireTimestamp) {

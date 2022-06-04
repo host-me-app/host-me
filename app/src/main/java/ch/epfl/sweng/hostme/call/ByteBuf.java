@@ -16,6 +16,7 @@ public class ByteBuf {
 
     /**
      * get the buffer as bytes
+     *
      * @return bytes buffer
      */
     public byte[] asBytes() {
@@ -27,6 +28,7 @@ public class ByteBuf {
 
     /**
      * put short value to the buffer
+     *
      * @param v value to be put
      * @return the buffer
      */
@@ -37,6 +39,7 @@ public class ByteBuf {
 
     /**
      * put byte array to the buffer
+     *
      * @param v value to be put
      * @return the buffer with array in put
      */
@@ -48,6 +51,7 @@ public class ByteBuf {
 
     /**
      * put int into buffer
+     *
      * @param v int to be put
      * @return buffer updated
      */
@@ -58,6 +62,7 @@ public class ByteBuf {
 
     /**
      * put map into the buffer
+     *
      * @param extra map to be put
      */
     public void putIntMap(TreeMap<Short, Integer> extra) {

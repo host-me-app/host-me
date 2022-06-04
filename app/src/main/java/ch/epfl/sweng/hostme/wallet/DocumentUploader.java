@@ -69,9 +69,10 @@ public class DocumentUploader {
 
     /**
      * check if the request and result codes are correct and upload data to the database
+     *
      * @param requestCode request code
-     * @param resultCode result code (OK or not)
-     * @param data data we get back from the Intent
+     * @param resultCode  result code (OK or not)
+     * @param data        data we get back from the Intent
      */
     public void onBrowseFileResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == this.document.getCodePermission() && resultCode == Activity.RESULT_OK && data != null) {
@@ -81,6 +82,7 @@ public class DocumentUploader {
 
     /**
      * upload the given file to the database
+     *
      * @param file local url of the file
      */
     private void uploadFile(Uri file) {

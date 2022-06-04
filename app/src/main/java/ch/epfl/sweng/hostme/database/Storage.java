@@ -13,6 +13,7 @@ public final class Storage {
 
     /**
      * get the stoage reference
+     *
      * @param pathString to get the data
      * @return instance of storage
      */
@@ -22,6 +23,7 @@ public final class Storage {
 
     /**
      * get the exact instance
+     *
      * @return instance of firebase storage
      */
     private static FirebaseStorage getExactInstance() {

@@ -12,11 +12,12 @@ public class Location {
 
     /**
      * check the position around the user location
-     * @param context context
+     *
+     * @param context     context
      * @param fullAddress of the user
-     * @param latitude of the user
-     * @param longitude of the user
-     * @param radius chosen by the user
+     * @param latitude    of the user
+     * @param longitude   of the user
+     * @param radius      chosen by the user
      * @return true if the radius is found
      */
     public static boolean checkPositionAroundLocation(Context context, String fullAddress, double latitude, double longitude, float radius) {

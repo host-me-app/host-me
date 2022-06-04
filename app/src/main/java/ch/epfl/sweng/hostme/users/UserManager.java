@@ -15,7 +15,8 @@ public class UserManager {
 
     /**
      * put string in the shared preferences
-     * @param key of the editor
+     *
+     * @param key   of the editor
      * @param value to be set
      */
     public void putString(String key, String value) {
@@ -27,6 +28,7 @@ public class UserManager {
     /**
      * get valie from the corresponding key in the shared
      * preferences
+     *
      * @param key to retrieve
      * @return the value that corresponds to the key
      */

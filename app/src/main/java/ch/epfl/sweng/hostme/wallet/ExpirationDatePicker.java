@@ -95,9 +95,10 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
     /**
      * update file metadata with expiration date
+     *
      * @param dayOfMonth day of the date
-     * @param month month of the date
-     * @param year year of the date
+     * @param month      month of the date
+     * @param year       year of the date
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateFileMetadata(int dayOfMonth, int month, int year) {
@@ -119,9 +120,10 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
     /**
      * create notification for a specific date
-     * @param year year of the date
+     *
+     * @param year       year of the date
      * @param dayOfMonth day of the date
-     * @param month month of the date
+     * @param month      month of the date
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void notification(int year, int dayOfMonth, int month) {
@@ -165,6 +167,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
     /**
      * schedule new notification for the given date
+     *
      * @param date date selected
      */
     @SuppressLint("MissingPermission")
@@ -197,8 +200,9 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
     /**
      * modify scheduled dates
-     * @param targetDate target date
-     * @param scheduledTime scheduled time
+     *
+     * @param targetDate       target date
+     * @param scheduledTime    scheduled time
      * @param scheduledMessage scheduled message
      */
     private void modifyScheduledArray(Calendar targetDate, ArrayList<Long> scheduledTime, ArrayList<String> scheduledMessage) {

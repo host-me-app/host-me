@@ -15,10 +15,11 @@ public class CallUtils {
 
     /**
      * Create a mac signature for security
+     *
      * @param keyString key for the secret
-     * @param msg content
+     * @param msg       content
      * @return mac signature
-     * @throws InvalidKeyException wrong key
+     * @throws InvalidKeyException      wrong key
      * @throws NoSuchAlgorithmException no existing algo
      */
     public static byte[] macSign(String keyString, byte[] msg) throws InvalidKeyException, NoSuchAlgorithmException {
@@ -30,6 +31,7 @@ public class CallUtils {
 
     /**
      * Pack the buffer
+     *
      * @param packable pack the buffer
      * @return buffer in bytes
      */
@@ -41,6 +43,7 @@ public class CallUtils {
 
     /**
      * encode in base 64
+     *
      * @param data to be encoded
      * @return String value of the encoded data
      */
@@ -51,6 +54,7 @@ public class CallUtils {
 
     /**
      * apply crc32 to the data
+     *
      * @param data to apply crc32 on it
      * @return the crc32 data applied
      */
@@ -61,6 +65,7 @@ public class CallUtils {
 
     /**
      * apply crc32 to the bytes array
+     *
      * @param bytes to apply crc32 on it
      * @return the crc32 data applied
      */
@@ -72,6 +77,7 @@ public class CallUtils {
 
     /**
      * get the current time stamp
+     *
      * @return current time stamp
      */
     public static int getTimestamp() {
@@ -80,6 +86,7 @@ public class CallUtils {
 
     /**
      * get random integer
+     *
      * @return random integer
      */
     public static int randomInt() {
@@ -88,6 +95,7 @@ public class CallUtils {
 
     /**
      * get if uuid is a uuid
+     *
      * @param uuid check if it is a uuid
      * @return true if argument is a uuid
      */

@@ -22,6 +22,7 @@ public class Profile {
 
     /**
      * get the first name of the user
+     *
      * @return first name
      */
     public String getFirstName() {
@@ -30,6 +31,7 @@ public class Profile {
 
     /**
      * set the first name of the user
+     *
      * @param firstName to be set
      */
     public void setFirstName(String firstName) {
@@ -38,6 +40,7 @@ public class Profile {
 
     /**
      * get the last name of the user
+     *
      * @return last name
      */
     public String getLastName() {
@@ -46,6 +49,7 @@ public class Profile {
 
     /**
      * set the last name of the user
+     *
      * @param lastName to be set
      */
     public void setLastName(String lastName) {
@@ -54,6 +58,7 @@ public class Profile {
 
     /**
      * get the gender of the user
+     *
      * @return gender
      */
     public String getGender() {
@@ -62,6 +67,7 @@ public class Profile {
 
     /**
      * set the gender of the user
+     *
      * @param gender to be set
      */
     public void setGender(String gender) {
@@ -70,6 +76,7 @@ public class Profile {
 
     /**
      * get the email of the user
+     *
      * @return email
      */
     public String getEmail() {
@@ -78,6 +85,7 @@ public class Profile {
 
     /**
      * set the email of the user
+     *
      * @param email to be set
      */
     public void setEmail(String email) {
@@ -86,6 +94,7 @@ public class Profile {
 
     /**
      * get the school of the user
+     *
      * @return school
      */
     public String getSchool() {

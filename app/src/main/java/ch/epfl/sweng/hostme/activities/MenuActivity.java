@@ -39,12 +39,7 @@ public class MenuActivity extends AppCompatActivity {
         if (Auth.getCurrentUser() == null) {
             startActivity(new Intent(this, LogInActivity.class));
         } else {
-            indexIDMap = new HashMap<>();
-            indexIDMap.put(0, R.id.navigation_search);
-            indexIDMap.put(1, R.id.navigation_add);
-            indexIDMap.put(2, R.id.navigation_favorites);
-            indexIDMap.put(3, R.id.navigation_messages);
-            indexIDMap.put(4, R.id.navigation_account);
+            initMap();
             BottomNavigationView navView = findViewById(R.id.nav_view);
             viewPager = findViewById(R.id.view_pager);
             viewPager.setOffscreenPageLimit(5);
@@ -67,6 +62,18 @@ public class MenuActivity extends AppCompatActivity {
                 findViewById(R.id.navigation_messages).performClick();
             }
         }
+    }
+
+    /**
+     * Init the index to ID map
+     */
+    private void initMap() {
+        indexIDMap = new HashMap<>();
+        indexIDMap.put(0, R.id.navigation_search);
+        indexIDMap.put(1, R.id.navigation_add);
+        indexIDMap.put(2, R.id.navigation_favorites);
+        indexIDMap.put(3, R.id.navigation_messages);
+        indexIDMap.put(4, R.id.navigation_account);
     }
 
     /**

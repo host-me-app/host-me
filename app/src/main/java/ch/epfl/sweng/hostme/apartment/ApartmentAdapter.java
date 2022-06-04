@@ -161,15 +161,9 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
      */
     private void setPreferences(Context context, boolean isFavFragment) {
         SharedPreferences prefFragment = context.getSharedPreferences(FAVORITE_FRAGMENT, MODE_PRIVATE);
-        if (isFavFragment) {
-            SharedPreferences.Editor editor1 = prefFragment.edit();
-            editor1.putBoolean(IS_FAVORITE, true);
-            editor1.apply();
-        } else {
-            SharedPreferences.Editor editor2 = prefFragment.edit();
-            editor2.putBoolean(IS_FAVORITE, false);
-            editor2.apply();
-        }
+        SharedPreferences.Editor editor = prefFragment.edit();
+        editor.putBoolean(IS_FAVORITE, isFavFragment);
+        editor.apply();
     }
 
     /**

@@ -17,7 +17,7 @@ import ch.epfl.sweng.hostme.creation.EmailValidator;
 import ch.epfl.sweng.hostme.utils.IOnBackPressed;
 
 
-public class CreationPage5Fragment extends Fragment implements IOnBackPressed {
+public class CreationMailFragment extends Fragment implements IOnBackPressed {
 
     public static final String MAIL = "Mail";
     public static final String INVALID_EMAIL = "You should enter a valid mail address";
@@ -55,7 +55,7 @@ public class CreationPage5Fragment extends Fragment implements IOnBackPressed {
         nextMailButt.setEnabled(false);
         nextMailButt.setOnClickListener(v -> {
             String mailText = mail.getText().toString();
-            CreationPage6Fragment.DATA.put(MAIL, mailText);
+            CreationPasswordFragment.DATA.put(MAIL, mailText);
             goToFragment6();
         });
 
@@ -66,7 +66,7 @@ public class CreationPage5Fragment extends Fragment implements IOnBackPressed {
      * Go to password fragment
      */
     private void goToFragment6() {
-        changeFragment(new CreationPage6Fragment());
+        changeFragment(new CreationPasswordFragment());
     }
 
     /**
@@ -81,7 +81,7 @@ public class CreationPage5Fragment extends Fragment implements IOnBackPressed {
 
     @Override
     public boolean onBackPressed() {
-        changeFragment(new CreationPage4Fragment());
+        changeFragment(new CreationSchoolFragment());
         return true;
     }
 

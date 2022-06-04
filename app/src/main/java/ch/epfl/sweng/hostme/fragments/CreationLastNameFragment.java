@@ -14,7 +14,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.utils.IOnBackPressed;
 
 
-public class CreationPage3Fragment extends Fragment implements IOnBackPressed {
+public class CreationLastNameFragment extends Fragment implements IOnBackPressed {
 
     public final static String LAST_NAME = "lastName";
 
@@ -26,7 +26,7 @@ public class CreationPage3Fragment extends Fragment implements IOnBackPressed {
         Button nameButt = view.findViewById(R.id.next_button_last_name);
         nameButt.setOnClickListener(v -> {
             String userLastName = lastName.getText().toString();
-            CreationPage6Fragment.DATA.put(LAST_NAME, userLastName);
+            CreationPasswordFragment.DATA.put(LAST_NAME, userLastName);
             goToFragment4();
         });
 
@@ -37,7 +37,7 @@ public class CreationPage3Fragment extends Fragment implements IOnBackPressed {
      * Go to email fragment
      */
     private void goToFragment4() {
-        changeFragment(new CreationPage4Fragment());
+        changeFragment(new CreationSchoolFragment());
     }
 
     /**
@@ -52,7 +52,7 @@ public class CreationPage3Fragment extends Fragment implements IOnBackPressed {
 
     @Override
     public boolean onBackPressed() {
-        changeFragment(new CreationPage2Fragment());
+        changeFragment(new CreationFirstNameFragment());
         return true;
     }
 }

@@ -28,7 +28,7 @@ import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.utils.IOnBackPressed;
 
 
-public class CreationPage6Fragment extends Fragment implements IOnBackPressed {
+public class CreationPasswordFragment extends Fragment implements IOnBackPressed {
 
     public final static Map<String, String> DATA = new HashMap<>();
     private static final String PREF_USER_NAME = "username";
@@ -49,7 +49,7 @@ public class CreationPage6Fragment extends Fragment implements IOnBackPressed {
             String confirm_pwdText = confirm_pwd.getText().toString();
             if (PasswordValidator.isValid(pwdText)) {
                 if (pwdText.equals(confirm_pwdText)) {
-                    createUser(DATA.get(CreationPage5Fragment.MAIL), pwdText);
+                    createUser(DATA.get(CreationMailFragment.MAIL), pwdText);
                 } else {
                     confirm_pwd.setError(INVALID_CONFIRM_PWD);
                 }
@@ -97,11 +97,11 @@ public class CreationPage6Fragment extends Fragment implements IOnBackPressed {
      */
     private void updateFireStoreDB() {
         Profile user = new Profile(
-                DATA.get(CreationPage2Fragment.FIRST_NAME),
-                DATA.get(CreationPage3Fragment.LAST_NAME),
-                DATA.get(CreationPage5Fragment.MAIL),
-                DATA.get(CreationPage1Fragment.GENDER),
-                DATA.get(CreationPage4Fragment.SCHOOL)
+                DATA.get(CreationFirstNameFragment.FIRST_NAME),
+                DATA.get(CreationLastNameFragment.LAST_NAME),
+                DATA.get(CreationMailFragment.MAIL),
+                DATA.get(CreationGenderFragment.GENDER),
+                DATA.get(CreationSchoolFragment.SCHOOL)
         );
 
         Database.getCollection(KEY_COLLECTION_USERS).document(Auth.getUid()).set(user);
@@ -110,7 +110,7 @@ public class CreationPage6Fragment extends Fragment implements IOnBackPressed {
     @Override
     public boolean onBackPressed() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new CreationPage5Fragment());
+        fragmentTransaction.replace(R.id.fragment_container, new CreationMailFragment());
         fragmentTransaction.commit();
         requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
         return true;

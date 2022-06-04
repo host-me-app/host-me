@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import ch.epfl.sweng.hostme.R;
 
 
-public class CreationPage1Fragment extends Fragment {
+public class CreationGenderFragment extends Fragment {
 
     public final static String GENDER = "Gender";
 
@@ -29,7 +29,7 @@ public class CreationPage1Fragment extends Fragment {
             int selectedGender = radioGroup.getCheckedRadioButtonId();
             RadioButton selectedButton = view.findViewById(selectedGender);
             String gender = selectedButton.getText().toString();
-            CreationPage6Fragment.DATA.put(GENDER, gender);
+            CreationPasswordFragment.DATA.put(GENDER, gender);
             goToFragment2();
         });
 
@@ -41,7 +41,7 @@ public class CreationPage1Fragment extends Fragment {
      */
     private void goToFragment2() {
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new CreationPage2Fragment());
+        fragmentTransaction.replace(R.id.fragment_container, new CreationFirstNameFragment());
         fragmentTransaction.commit();
         requireActivity().overridePendingTransition(R.transition.slide_in_right, R.transition.slide_out_left);
     }

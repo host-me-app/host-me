@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.utils.IOnBackPressed;
 
-public class CreationPage2Fragment extends Fragment implements IOnBackPressed {
+public class CreationFirstNameFragment extends Fragment implements IOnBackPressed {
 
     public final static String FIRST_NAME = "firstName";
 
@@ -24,7 +24,7 @@ public class CreationPage2Fragment extends Fragment implements IOnBackPressed {
         Button nameButt = view.findViewById(R.id.next_button_first_name);
         nameButt.setOnClickListener(v -> {
             String name = userName.getText().toString();
-            CreationPage6Fragment.DATA.put(FIRST_NAME, name);
+            CreationPasswordFragment.DATA.put(FIRST_NAME, name);
             goToFragment3();
         });
         return view;
@@ -34,7 +34,7 @@ public class CreationPage2Fragment extends Fragment implements IOnBackPressed {
      * Go to last name fragment
      */
     private void goToFragment3() {
-        changeFragment(new CreationPage3Fragment());
+        changeFragment(new CreationLastNameFragment());
     }
 
     /**
@@ -49,7 +49,7 @@ public class CreationPage2Fragment extends Fragment implements IOnBackPressed {
 
     @Override
     public boolean onBackPressed() {
-        changeFragment(new CreationPage1Fragment());
+        changeFragment(new CreationGenderFragment());
         return true;
     }
 }

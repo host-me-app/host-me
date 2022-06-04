@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import ch.epfl.sweng.hostme.R;
-import ch.epfl.sweng.hostme.fragments.CreationPage1Fragment;
+import ch.epfl.sweng.hostme.fragments.CreationGenderFragment;
 import ch.epfl.sweng.hostme.utils.IOnBackPressed;
 
 public class CreationContainerActivity extends AppCompatActivity {
@@ -18,7 +18,7 @@ public class CreationContainerActivity extends AppCompatActivity {
         setContentView(R.layout.empty);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, new CreationPage1Fragment());
+        fragmentTransaction.add(R.id.fragment_container, new CreationGenderFragment());
         fragmentTransaction.commit();
     }
 

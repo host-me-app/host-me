@@ -16,6 +16,7 @@ import static ch.epfl.sweng.hostme.utils.Constants.FILTERS;
 import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FAVORITE;
 import static ch.epfl.sweng.hostme.utils.Constants.IS_FROM_FILTERS;
+import static ch.epfl.sweng.hostme.utils.Constants.JPG;
 import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_FAV;
 import static ch.epfl.sweng.hostme.utils.Constants.KITCHEN;
 import static ch.epfl.sweng.hostme.utils.Constants.NPA;
@@ -72,6 +73,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
     private final static String NO = "no";
     private final static String BUTTON = "Button";
     private final static String PRESSED = "pressed";
+    private static final String PREVIEW_1 = "preview1";
     private final CollectionReference reference = Database.getCollection(KEY_COLLECTION_FAV);
     private final List<Apartment> apartments;
     private final HashMap<String, Bitmap> hashMap = new HashMap<>();
@@ -228,7 +230,7 @@ public class ApartmentAdapter extends RecyclerView.Adapter<ApartmentAdapter.View
             hashMap.put(model.getDocId(), bitmapImage);
         } else {
             try {
-                final File localFile = File.createTempFile("preview1", "jpg");
+                final File localFile = File.createTempFile(PREVIEW_1, JPG);
                 storageReference.getFile(localFile)
                         .addOnSuccessListener(result -> {
                             loadingBar.setVisibility(View.GONE);

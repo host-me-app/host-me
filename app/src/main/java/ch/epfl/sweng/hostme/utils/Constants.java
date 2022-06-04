@@ -2,6 +2,8 @@ package ch.epfl.sweng.hostme.utils;
 
 public final class Constants {
 
+    public static final String JPG = "jpg";
+    public static final String SLASH = "/";
     public static final String KEY_COLLECTION_USERS = "users";
     public static final String KEY_COLLECTION_FAV = "favorite_apart";
     public static final String KEY_COLLECTION_APARTMENTS = "apartments";

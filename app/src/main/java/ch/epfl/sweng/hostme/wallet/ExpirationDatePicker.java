@@ -2,6 +2,7 @@ package ch.epfl.sweng.hostme.wallet;
 
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+import static ch.epfl.sweng.hostme.utils.Constants.SLASH;
 import static ch.epfl.sweng.hostme.wallet.ReminderNotification.CHANNEL_ID;
 import static ch.epfl.sweng.hostme.wallet.ReminderNotification.messageExtra;
 import static ch.epfl.sweng.hostme.wallet.ReminderNotification.notification_ID_Extra;
@@ -29,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.database.Storage;
 
 public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener {
@@ -47,7 +49,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
 
     public ExpirationDatePicker(Document document, String uid, Activity activity, Context context, DocumentExpirationDate expireDate) {
         this.document = document;
-        this.uid = uid + "/";
+        this.uid = uid + SLASH;
         this.context = context;
         this.expDateText = activity.findViewById(expireDate.getExpirationDateTextId());
         Button expDatePickButton = activity.findViewById(expireDate.getPickDateButtonId());
@@ -67,8 +69,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
             if (date != null) {
                 expDateText.setText(date);
             } else {
-                String noExpDate = "None";
-                expDateText.setText(noExpDate);
+                expDateText.setText(R.string.none);
             }
         });
     }
@@ -102,7 +103,7 @@ public class ExpirationDatePicker implements DatePickerDialog.OnDateSetListener 
     private void updateFileMetadata(int dayOfMonth, int month, int year) {
         String pathString = document.getPath() + uid + document.getFileName() + document.getFileExtension();
         StorageReference fileRef = Storage.getStorageReferenceByChild(pathString);
-        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
+        String date = dayOfMonth + SLASH + (month + 1) + SLASH + year;
         StorageMetadata metadata = new StorageMetadata.Builder()
                 .setContentType(document.getType())
                 .setCustomMetadata(KEY_CUSTOM_METADATA_EXPIRATION_DATE, date)

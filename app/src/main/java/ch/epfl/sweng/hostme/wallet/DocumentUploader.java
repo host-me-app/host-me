@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.wallet;
 
+import static ch.epfl.sweng.hostme.utils.Constants.SLASH;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -38,7 +40,7 @@ public class DocumentUploader {
 
     public DocumentUploader(Document document, String uid, Activity activity, Context context, DocumentExpirationDate expireDate) {
         this.document = document;
-        this.uid = uid + "/";
+        this.uid = uid + SLASH;
         this.activity = activity;
         this.context = context;
         this.titleChooser = CHOOSE_TEXT + document.getDocumentName();
@@ -117,7 +119,7 @@ public class DocumentUploader {
         this.checkImage.setVisibility(View.VISIBLE);
         this.expDateDescriptionText.setVisibility(View.VISIBLE);
         this.expDateText.setVisibility(View.VISIBLE);
-        this.expDateText.setText("None");
+        this.expDateText.setText(R.string.none);
         this.expDatePickButton.setVisibility(View.VISIBLE);
     }
 }

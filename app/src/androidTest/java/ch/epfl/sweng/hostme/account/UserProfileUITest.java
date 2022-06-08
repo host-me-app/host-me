@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.account;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
@@ -28,6 +28,7 @@ import android.provider.MediaStore;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -42,6 +43,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.activities.LogInActivity;
 import ch.epfl.sweng.hostme.activities.MenuActivity;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -88,7 +90,7 @@ public class UserProfileUITest {
             String lastName = "account";
             String gender = "Male";
 
-            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
+            onView(ViewMatchers.withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.utils;
+package ch.epfl.sweng.hostme.apartment;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,6 +16,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import ch.epfl.sweng.hostme.apartment.Apartment;
+import ch.epfl.sweng.hostme.utils.Constants;
 
 public class ApartmentTest {
 

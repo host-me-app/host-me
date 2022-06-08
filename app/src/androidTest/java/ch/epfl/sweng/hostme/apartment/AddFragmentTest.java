@@ -1,8 +1,10 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.apartment;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.pressKey;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -22,15 +24,22 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
+import org.hamcrest.Matcher;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,6 +49,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.activities.LogInActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -65,11 +75,12 @@ public class AddFragmentTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-
+            savePickedImage();
+            intending(hasAction(Intent.ACTION_PICK)).respondWith(getClipData());
             String usr = "testlogin@gmail.com";
             String pwd = "fakePassword1!";
 
-            onView(withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
+            onView(ViewMatchers.withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
 
@@ -77,8 +88,35 @@ public class AddFragmentTest {
 
             onView(withId(R.id.add_new)).perform((click()));
 
-            onView(withId(R.id.enter_proprietor)).perform(typeText("a"), closeSoftKeyboard());
+            onView(withId(R.id.enter_proprietor)).perform(typeText("proprietor"), closeSoftKeyboard());
+            onView(withId(R.id.enter_name)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_name)).perform(typeText("name"), closeSoftKeyboard());
+            onView(withId(R.id.enter_room)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_room)).perform(typeText("room"), closeSoftKeyboard());
+            onView(withId(R.id.enter_address)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_address)).perform(typeText("address"), closeSoftKeyboard());
+            onView(withId(R.id.enter_npa)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_npa)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
+            onView(withId(R.id.enter_city)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_city)).perform(typeText("city"), closeSoftKeyboard());
+            onView(withId(R.id.enter_rent)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_rent)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
+            onView(withId(R.id.enter_utilities)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_utilities)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
+            onView(withId(R.id.enter_deposit)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_deposit)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
+            onView(withId(R.id.enter_beds)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_beds)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
+            onView(withId(R.id.enter_area)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_area)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
+            onView(withId(R.id.enter_duration)).perform(scrollTo(), click());
+            onView(withId(R.id.enter_duration)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
             Thread.sleep(1000);
+
+            onView(withId(R.id.enter_images)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.add_submit)).perform(click());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,7 +137,7 @@ public class AddFragmentTest {
         return bitmap;
     }
 
-    private Instrumentation.ActivityResult getImageUriResult() {
+    private Instrumentation.ActivityResult getClipData() {
         Intent resultData = new Intent();
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult2.jpeg");

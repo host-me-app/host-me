@@ -339,14 +339,22 @@ public class AddFragment extends Fragment {
                 }
             });
         } else {
-            String input = editText.getText().toString();
-            if (!input.isEmpty()) {
+            if (!isEmpty(editText)) {
                 this.lock.add(editText.getId());
             } else {
                 this.lock.remove(editText.getId());
             }
         }
         turn();
+    }
+
+    /**
+     * check if editText is empty
+     * @param editText editText
+     * @return true if etText is empty and false otherwise
+     */
+    private boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
     }
 
     @Override

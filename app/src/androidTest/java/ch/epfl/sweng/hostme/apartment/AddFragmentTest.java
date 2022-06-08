@@ -9,7 +9,9 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertNotNull;
 
@@ -25,13 +27,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -39,7 +37,6 @@ import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.FirebaseApp;
 
-import org.hamcrest.Matcher;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -112,11 +109,9 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_duration)).perform(scrollTo(), click());
             onView(withId(R.id.enter_duration)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
             Thread.sleep(1000);
-
-            onView(withId(R.id.enter_images)).perform(click());
+            onView(withId(R.id.enter_images)).perform(scrollTo(), click());
             Thread.sleep(1000);
-            onView(withId(R.id.add_submit)).perform(click());
-
+            onView(withId(R.id.add_submit)).perform(scrollTo(), click());
         } catch (Exception e) {
             e.printStackTrace();
         }

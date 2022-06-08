@@ -118,12 +118,12 @@ public class AddFragment extends Fragment {
      * @param addButtons linear layout of the add buttons
      */
     private void setButtonListener(ScrollView addForm, ImageButton addNew, LinearLayout addButtons) {
-        enterImages.setOnClickListener(v -> {
+        this.enterImages.setOnClickListener(v -> {
             ListImage.clear();
             ListImage.acceptImage();
         });
 
-        addSubmit.setOnClickListener(v -> {
+        this.addSubmit.setOnClickListener(v -> {
             generateApartment();
             clearForm();
             ListImage.clear();
@@ -345,7 +345,7 @@ public class AddFragment extends Fragment {
                 this.lock.remove(editText.getId());
             }
         }
-        turn();
+        this.turn();
     }
 
     /**

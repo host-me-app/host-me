@@ -6,6 +6,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -235,6 +236,7 @@ public class UserProfileUITest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            savePickedImage();
             intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(getImageResult());
 
             String mail = "testlogin@gmail.com";
@@ -248,9 +250,7 @@ public class UserProfileUITest {
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             onView(withText("Pick from Camera")).perform(click());
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            intended(hasAction(MediaStore.ACTION_IMAGE_CAPTURE));
         }
         Intents.release();
     }
@@ -274,10 +274,8 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             onView(withText("Pick from Gallery")).perform(click());
-            Thread.sleep(1000);
+            intended(hasAction(Intent.ACTION_PICK));
             onView(withId(R.id.user_profile_save_button)).perform(click());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }
@@ -301,15 +299,12 @@ public class UserProfileUITest {
 
 
             onView(withText("Pick from Gallery")).perform(click());
-            Thread.sleep(1000);
+            intended(hasAction(Intent.ACTION_PICK));
             onView(withId(R.id.user_profile_save_button)).perform(click());
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             onView(withText("Pick from Gallery")).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }
@@ -332,15 +327,12 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             onView(withText("Pick from Gallery")).perform(click());
-            Thread.sleep(1000);
+            intended(hasAction(Intent.ACTION_PICK));
             onView(withId(R.id.user_profile_save_button)).perform(click());
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             onView(withText("Delete")).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }

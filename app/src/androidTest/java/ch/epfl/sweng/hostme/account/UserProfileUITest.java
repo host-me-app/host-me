@@ -272,6 +272,7 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             onView(withText("Pick from Camera")).perform(click());
             intended(hasAction(MediaStore.ACTION_IMAGE_CAPTURE));
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -299,6 +300,7 @@ public class UserProfileUITest {
 
             onView(withText("Pick from Gallery")).perform(click());
             intended(hasAction(Intent.ACTION_PICK));
+            Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -328,6 +330,7 @@ public class UserProfileUITest {
 
             onView(withText("Pick from Gallery")).perform(click());
             intended(hasAction(Intent.ACTION_PICK));
+            Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
@@ -360,6 +363,7 @@ public class UserProfileUITest {
 
             onView(withText("Pick from Gallery")).perform(click());
             intended(hasAction(Intent.ACTION_PICK));
+            Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());

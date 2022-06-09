@@ -70,12 +70,15 @@ public class DisplayApartmentTest {
             onView(ViewMatchers.withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.search_recycler_view)).check(new RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(isRoot()).perform(ViewActions.pressBack());
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.contact_user_button)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -92,9 +95,12 @@ public class DisplayApartmentTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.search_view)).check(matches(isDisplayed()));
             onView(withId(R.id.search_view)).perform(typeText(location), closeSoftKeyboard());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -110,6 +116,7 @@ public class DisplayApartmentTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.filters)).check(matches(isDisplayed()));
             onView(withId(R.id.filters)).check(matches(isEnabled()));
@@ -117,6 +124,8 @@ public class DisplayApartmentTest {
             onView(withId(R.id.all_filters)).check(matches(isDisplayed()));
             onView(withId(R.id.filters)).perform(click());
             onView(withId(R.id.filters)).check(matches(isNotChecked()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -132,12 +141,15 @@ public class DisplayApartmentTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.filters)).perform(click());
             onView(withId(R.id.gps_switch)).check(matches(isDisplayed()));
             onView(withId(R.id.gps_switch)).check(matches(isEnabled()));
             onView(withId(R.id.gps_switch)).perform(click());
             onView(withId(R.id.filters)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

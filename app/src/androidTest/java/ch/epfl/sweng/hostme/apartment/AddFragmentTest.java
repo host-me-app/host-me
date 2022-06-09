@@ -94,6 +94,7 @@ public class AddFragmentTest {
             onView(ViewMatchers.withId(R.id.user_name)).perform(typeText(usr), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_add)).perform(click());
 
@@ -130,6 +131,8 @@ public class AddFragmentTest {
             intended(hasAction(Intent.ACTION_PICK));
             onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(scrollTo(), click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

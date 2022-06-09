@@ -77,6 +77,7 @@ public class UsersActivityTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_messages)).perform(click());
 
@@ -87,6 +88,8 @@ public class UsersActivityTest {
             onView(withId(R.id.users_recycler_view)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.users_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

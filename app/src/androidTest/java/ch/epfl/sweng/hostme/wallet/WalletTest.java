@@ -93,6 +93,7 @@ public class WalletTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
 
@@ -103,6 +104,8 @@ public class WalletTest {
             onView(withId(R.id.rp_download_button)).check(matches(isDisplayed()));
             onView(withId(R.id.rp_download_button)).check(matches(isEnabled()));
             onView(withId(R.id.rp_download_button)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -121,6 +124,8 @@ public class WalletTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.wallet_button)).perform(click());
 
@@ -142,6 +147,8 @@ public class WalletTest {
 
             onView(withId(android.R.id.button1)).perform(click());
             onView(withId(R.id.sp_date_text)).check(matches(withText("22/3/2025")));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

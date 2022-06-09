@@ -95,11 +95,15 @@ public class UserProfileUITest {
             onView(ViewMatchers.withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.user_profile_first_name)).check(matches(withText(firstName)));
             onView(withId(R.id.user_profile_last_name)).check(matches(withText(lastName)));
             onView(withId(R.id.user_profile_email)).check(matches(withText(Auth.getCurrentUser().getEmail())));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -115,12 +119,16 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Intent intent2 = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
             ActivityScenario<MenuActivity> scenario2 = ActivityScenario.launch(intent2);
 
             onView(withId(R.id.log_in_button)).check(matches(isDisplayed()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -136,7 +144,7 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
-
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_account)).perform(click());
 
             String firstname = "test modified";
@@ -152,6 +160,8 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_save_button)).perform(click());
             onView(withId(R.id.user_profile_save_button)).check(matches(isNotEnabled()));
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -167,6 +177,7 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
             String firstname = "test modified";
@@ -175,6 +186,8 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_save_button)).check(matches(isDisplayed()));
             onView(withId(R.id.user_profile_gender_f)).perform(click());
             onView(withId(R.id.user_profile_gender_m)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -190,10 +203,14 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.wallet_button)).check(matches(isDisplayed()));
             onView(withId(R.id.wallet_button)).perform(click());
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -210,6 +227,7 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
@@ -227,6 +245,8 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_new_password)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.user_profile_confirm_new_password)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.user_profile_change_pwd_terminate)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -245,12 +265,15 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             onView(withText("Pick from Camera")).perform(click());
             intended(hasAction(MediaStore.ACTION_IMAGE_CAPTURE));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -268,6 +291,7 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
 
@@ -276,6 +300,8 @@ public class UserProfileUITest {
             onView(withText("Pick from Gallery")).perform(click());
             intended(hasAction(Intent.ACTION_PICK));
             onView(withId(R.id.user_profile_save_button)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -293,6 +319,8 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_account)).perform(click());
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
@@ -305,6 +333,8 @@ public class UserProfileUITest {
 
             onView(withText("Pick from Gallery")).perform(click());
             onView(withId(R.id.user_profile_save_button)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -322,6 +352,8 @@ public class UserProfileUITest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
+
             onView(withId(R.id.navigation_account)).perform(click());
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
@@ -333,6 +365,8 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             onView(withText("Delete")).perform(click());
             onView(withId(R.id.user_profile_save_button)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

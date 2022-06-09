@@ -63,6 +63,8 @@ public class CallTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
+
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.contact_user_button)).check(matches(isDisplayed()));
             onView(withId(R.id.contact_user_button)).check(matches(isEnabled()));
@@ -96,6 +98,8 @@ public class CallTest {
             onView(withId(R.id.switch_camera)).perform(click());
             onView(withId(R.id.switch_camera)).check(matches(isNotChecked()));
             onView(withId(R.id.leave_button)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

@@ -69,6 +69,7 @@ public class ChatActivityTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contact_button)).check(matches(isDisplayed()));
@@ -83,6 +84,8 @@ public class ChatActivityTest {
             onView(withId(R.id.send_button)).check(matches(isDisplayed()));
             onView(withId(R.id.send_button)).check(matches(isEnabled()));
             onView(withId(R.id.input_message)).check(matches(isDisplayed()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -98,6 +101,7 @@ public class ChatActivityTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contact_button)).perform(click());
@@ -106,6 +110,8 @@ public class ChatActivityTest {
             onView(withId(R.id.input_message)).perform(typeText(message), closeSoftKeyboard());
             onView(withId(R.id.send_button)).perform(click());
             onView(withId(R.id.input_message)).check(matches(withText("")));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -121,11 +127,14 @@ public class ChatActivityTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contact_button)).perform(click());
             onView(withId(R.id.users_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
             onView(isRoot()).perform(ViewActions.pressBack());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

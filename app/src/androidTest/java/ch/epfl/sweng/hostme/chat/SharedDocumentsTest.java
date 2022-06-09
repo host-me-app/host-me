@@ -85,6 +85,7 @@ public class SharedDocumentsTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contact_button)).perform(click());
@@ -115,6 +116,7 @@ public class SharedDocumentsTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
 
@@ -134,6 +136,8 @@ public class SharedDocumentsTest {
             onView(withText("Extract from the Execution Office")).perform(click());
             onView(withText("SHARE")).check(matches(isDisplayed()));
             onView(withText("SHARE")).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

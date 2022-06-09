@@ -75,6 +75,7 @@ public class FavoritesTest {
             onView(withId(R.id.favorites_recyclerView)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
+            Thread.sleep(1000);
 
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
@@ -82,8 +83,11 @@ public class FavoritesTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_favorites)).perform(click());
             onView(withId(R.id.favorites_recyclerView)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -100,6 +104,7 @@ public class FavoritesTest {
             onView(withId(R.id.navigation_favorites)).perform(click());
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
+            Thread.sleep(1000);
 
             String mail = "testlogin@gmail.com";
             String password = "fakePassword1!";
@@ -107,7 +112,10 @@ public class FavoritesTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_account)).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }

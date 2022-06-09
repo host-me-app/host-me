@@ -7,6 +7,7 @@ import static androidx.test.espresso.action.ViewActions.pressKey;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -83,6 +84,8 @@ public class AddFragmentTest {
 
             onView(withId(R.id.navigation_add)).perform(click());
 
+            onView(withId(R.id.add_new)).check(matches(isDisplayed()));
+            onView(withId(R.id.add_new)).check(matches(isEnabled()));
             onView(withId(R.id.add_new)).perform((click()));
 
             onView(withId(R.id.enter_proprietor)).perform(typeText("proprietor"), closeSoftKeyboard());
@@ -108,12 +111,14 @@ public class AddFragmentTest {
             onView(withId(R.id.enter_area)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
             onView(withId(R.id.enter_duration)).perform(scrollTo(), click());
             onView(withId(R.id.enter_duration)).perform(pressKey(KeyEvent.KEYCODE_9), closeSoftKeyboard());
-            Thread.sleep(1000);
+
+            onView(withId(R.id.enter_images)).check(matches(isEnabled()));
             onView(withId(R.id.enter_images)).perform(scrollTo(), click());
-            Thread.sleep(1000);
+
+            intended(hasAction(Intent.ACTION_PICK));
+
+            onView(withId(R.id.add_submit)).check(matches(isEnabled()));
             onView(withId(R.id.add_submit)).perform(scrollTo(), click());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         Intents.release();
     }
@@ -148,7 +153,7 @@ public class AddFragmentTest {
         assertNotNull(bm);
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "pickImageResult2.jpeg");
-        FileOutputStream outStream = null;
+        FileOutputStream outStream;
         try {
             outStream = new FileOutputStream(file);
             bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);

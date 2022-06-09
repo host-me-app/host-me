@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.userCreation;
+package ch.epfl.sweng.hostme.creation;
 
 import static androidx.test.core.app.ActivityScenario.launch;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
@@ -8,6 +8,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
@@ -49,12 +50,11 @@ public class ChangePwdTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = launch(intent)) {
             String wrongMail = "host.me@gmail.com";
+            onView(withId(R.id.mail_forgot_pwd)).check(matches(isDisplayed()));
             onView(withId(R.id.mail_forgot_pwd)).perform(typeText(wrongMail), closeSoftKeyboard());
             onView(withId(R.id.next_button_mail)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_mail)).check(matches(isEnabled()));
             onView(withId(R.id.next_button_mail)).perform(click());
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }
@@ -67,10 +67,9 @@ public class ChangePwdTest {
             String validMail = "testlogin@gmail.com";
             onView(withId(R.id.mail_forgot_pwd)).perform(typeText(validMail), closeSoftKeyboard());
             onView(withId(R.id.next_button_mail)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_mail)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_mail)).check(matches(isEnabled()));
             onView(withId(R.id.next_button_mail)).perform(click());
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }

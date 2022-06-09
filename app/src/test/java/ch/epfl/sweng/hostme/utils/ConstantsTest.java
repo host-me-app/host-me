@@ -1,46 +1,10 @@
 package ch.epfl.sweng.hostme.utils;
 
 import static org.junit.Assert.assertEquals;
-import static ch.epfl.sweng.hostme.utils.Constants.ADDRESS;
-import static ch.epfl.sweng.hostme.utils.Constants.APARTMENTS;
-import static ch.epfl.sweng.hostme.utils.Constants.AREA;
-import static ch.epfl.sweng.hostme.utils.Constants.BATH;
-import static ch.epfl.sweng.hostme.utils.Constants.BEDS;
-import static ch.epfl.sweng.hostme.utils.Constants.CITY;
-import static ch.epfl.sweng.hostme.utils.Constants.DEPOSIT;
-import static ch.epfl.sweng.hostme.utils.Constants.DURATION;
-import static ch.epfl.sweng.hostme.utils.Constants.FURNISHED;
-import static ch.epfl.sweng.hostme.utils.Constants.IMAGE_PATH;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CHAT;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_CONVERSATIONS;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_COLLECTION_USERS;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_EMAIL;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_FCM_TOKEN;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_FIRSTNAME;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_IMAGE;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_LASTNAME;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_LAST_MESSAGE;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_MESSAGE;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_RECEIVER_ID;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_RECEIVER_NAME;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_ID;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_SENDER_NAME;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_TIMESTAMP;
-import static ch.epfl.sweng.hostme.utils.Constants.KEY_USER_ID;
-import static ch.epfl.sweng.hostme.utils.Constants.KITCHEN;
-import static ch.epfl.sweng.hostme.utils.Constants.LAUNDRY;
-import static ch.epfl.sweng.hostme.utils.Constants.LEASE;
-import static ch.epfl.sweng.hostme.utils.Constants.NAME;
-import static ch.epfl.sweng.hostme.utils.Constants.NPA;
-import static ch.epfl.sweng.hostme.utils.Constants.PETS;
-import static ch.epfl.sweng.hostme.utils.Constants.PREVIEW_1_JPG;
-import static ch.epfl.sweng.hostme.utils.Constants.PROPRIETOR;
-import static ch.epfl.sweng.hostme.utils.Constants.RENT;
-import static ch.epfl.sweng.hostme.utils.Constants.ROOM;
-import static ch.epfl.sweng.hostme.utils.Constants.UID;
-import static ch.epfl.sweng.hostme.utils.Constants.UTILITIES;
 
 import org.junit.Test;
+
+import ch.epfl.sweng.hostme.utils.Constants;
 
 
 public class ConstantsTest {

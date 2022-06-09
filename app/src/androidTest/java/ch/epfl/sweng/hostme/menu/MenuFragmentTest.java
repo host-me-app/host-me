@@ -47,7 +47,7 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void SearchFragOpen_whenIconClicked() {
+    public void SearchFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
@@ -59,7 +59,7 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void AddFragOpen_whenIconClicked() {
+    public void AddFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
@@ -71,7 +71,7 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void FavoritesFragOpen_whenIconClicked() {
+    public void FavoritesFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
@@ -83,7 +83,7 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void MessagesFragOpen_whenIconClicked() {
+    public void MessagesFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {

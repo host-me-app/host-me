@@ -1,4 +1,4 @@
-package account;
+package ch.epfl.sweng.hostme.account;
 
 import static org.junit.Assert.assertEquals;
 

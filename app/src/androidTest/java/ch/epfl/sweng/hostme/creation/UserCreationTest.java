@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.userCreation;
+package ch.epfl.sweng.hostme.creation;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
@@ -8,6 +8,8 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -51,6 +53,7 @@ public class UserCreationTest {
         Intents.init();
         try (ActivityScenario<CreationContainerActivity> scenario = ActivityScenario.launch(intent)) {
             onView(ViewMatchers.withId(R.id.genderNextButton)).check(matches(isDisplayed()));
+            onView(ViewMatchers.withId(R.id.genderNextButton)).check(matches(isEnabled()));
             onView(withId(R.id.genderNextButton)).perform(click());
             onView(withId(R.id.next_button_first_name)).check(matches(isDisplayed()));
         }
@@ -81,12 +84,14 @@ public class UserCreationTest {
 
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
             onView(withId(R.id.next_button_mail_account)).check(matches(isDisplayed()));
+            onView(withId(R.id.next_button_mail_account)).check(matches(isEnabled()));
             onView(withId(R.id.next_button_mail_account)).perform(click());
 
             onView(withId(R.id.password)).perform(typeText(pwd), closeSoftKeyboard());
             onView(withId(R.id.confirm_pwd)).perform(typeText(pwd), closeSoftKeyboard());
 
             onView(withId(R.id.terminate_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.terminate_button)).check(matches(isEnabled()));
             onView(withId(R.id.terminate_button)).perform(click());
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -136,7 +141,7 @@ public class UserCreationTest {
     }
 
     @Test
-    public void createAndGobackButton() {
+    public void createAndGoBackButton() {
         Intent intent = new Intent(getApplicationContext(), CreationContainerActivity.class);
         Intents.init();
         try (ActivityScenario<CreationContainerActivity> scenario = ActivityScenario.launch(intent)) {
@@ -177,7 +182,7 @@ public class UserCreationTest {
 
             onView(withId(R.id.mail)).perform(typeText(email), closeSoftKeyboard());
             onView(withId(R.id.mail)).check(matches(hasErrorText("You should enter a valid mail address")));
-
+            onView(withId(R.id.next_button_mail_account)).check(matches(isNotEnabled()));
         }
         Intents.release();
     }

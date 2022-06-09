@@ -6,7 +6,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
@@ -115,7 +114,6 @@ public class DisplayApartmentTest {
             onView(withId(R.id.filters)).check(matches(isDisplayed()));
             onView(withId(R.id.filters)).check(matches(isEnabled()));
             onView(withId(R.id.filters)).perform(click());
-            onView(withId(R.id.filters)).check(matches(isChecked()));
             onView(withId(R.id.all_filters)).check(matches(isDisplayed()));
             onView(withId(R.id.filters)).perform(click());
             onView(withId(R.id.filters)).check(matches(isNotChecked()));
@@ -139,7 +137,6 @@ public class DisplayApartmentTest {
             onView(withId(R.id.gps_switch)).check(matches(isDisplayed()));
             onView(withId(R.id.gps_switch)).check(matches(isEnabled()));
             onView(withId(R.id.gps_switch)).perform(click());
-            onView(withId(R.id.gps_switch)).check(matches(isChecked()));
             onView(withId(R.id.filters)).perform(click());
         }
         Intents.release();

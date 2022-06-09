@@ -120,17 +120,6 @@ public class FavoritesTest {
         Intents.release();
     }
 
-    @Test
-    public void createFavDocRefInDB() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
-        Intents.init();
-        try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
-            onView(withId(R.id.search_recycler_view)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
-        }
-        Intents.release();
-    }
-
     public static class MyViewAction {
 
         public static ViewAction clickChildViewWithId(final int id) {

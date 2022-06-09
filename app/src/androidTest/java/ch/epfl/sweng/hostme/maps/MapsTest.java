@@ -83,6 +83,7 @@ public class MapsTest {
 
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.maps_button)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.daily_route_maps)).check(matches(isDisplayed()));
             onView(withId(R.id.daily_route_maps)).check(matches(isEnabled()));
             onView(withId(R.id.daily_route_maps)).perform(click());

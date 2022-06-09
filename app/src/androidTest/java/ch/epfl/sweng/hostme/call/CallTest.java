@@ -6,10 +6,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.Manifest;
@@ -76,27 +74,18 @@ public class CallTest {
 
             onView(withId(R.id.audio_button)).check(matches(isDisplayed()));
             onView(withId(R.id.audio_button)).check(matches(isEnabled()));
-            onView(withId(R.id.audio_button)).check(matches(isNotChecked()));
             onView(withId(R.id.audio_button)).perform(click());
-            onView(withId(R.id.audio_button)).check(matches(isChecked()));
             onView(withId(R.id.audio_button)).perform(click());
-            onView(withId(R.id.audio_button)).check(matches(isNotChecked()));
 
             onView(withId(R.id.video_button)).check(matches(isDisplayed()));
             onView(withId(R.id.video_button)).check(matches(isEnabled()));
-            onView(withId(R.id.video_button)).check(matches(isNotChecked()));
             onView(withId(R.id.video_button)).perform(click());
-            onView(withId(R.id.video_button)).check(matches(isChecked()));
             onView(withId(R.id.video_button)).perform(click());
-            onView(withId(R.id.video_button)).check(matches(isNotChecked()));
 
             onView(withId(R.id.switch_camera)).check(matches(isDisplayed()));
             onView(withId(R.id.switch_camera)).check(matches(isEnabled()));
-            onView(withId(R.id.switch_camera)).check(matches(isNotChecked()));
             onView(withId(R.id.switch_camera)).perform(click());
-            onView(withId(R.id.switch_camera)).check(matches(isChecked()));
             onView(withId(R.id.switch_camera)).perform(click());
-            onView(withId(R.id.switch_camera)).check(matches(isNotChecked()));
             onView(withId(R.id.leave_button)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();

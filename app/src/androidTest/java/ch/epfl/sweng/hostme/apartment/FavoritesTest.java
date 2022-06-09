@@ -55,9 +55,14 @@ public class FavoritesTest {
 
             onView(withId(R.id.search_recycler_view)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(ViewMatchers.withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_favorites)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.favorites_recyclerView)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.favorites_recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
     }
@@ -68,8 +73,12 @@ public class FavoritesTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
+            onView(withId(R.id.search_recycler_view)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_favorites)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.favorites_recyclerView)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Thread.sleep(1000);
@@ -80,8 +89,6 @@ public class FavoritesTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.navigation_favorites)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -94,9 +101,11 @@ public class FavoritesTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
+            onView(withId(R.id.search_recycler_view)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
             onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
             onView(withId(R.id.navigation_favorites)).perform(click());
+            Thread.sleep(1000);
             onView(withId(R.id.navigation_account)).perform(click());
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Thread.sleep(1000);
@@ -108,7 +117,6 @@ public class FavoritesTest {
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.navigation_account)).perform(click());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

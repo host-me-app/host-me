@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.wallet;
+package wallet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.wallet.Document;
 
 public class DocumentTest {
 

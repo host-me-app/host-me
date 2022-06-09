@@ -1,8 +1,10 @@
-package ch.epfl.sweng.hostme.utils;
+package utils;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import ch.epfl.sweng.hostme.utils.Constants;
 
 
 public class ConstantsTest {

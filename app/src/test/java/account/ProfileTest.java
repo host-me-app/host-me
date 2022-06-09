@@ -1,8 +1,10 @@
-package ch.epfl.sweng.hostme.account;
+package account;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import ch.epfl.sweng.hostme.account.Profile;
 
 public class ProfileTest {
 

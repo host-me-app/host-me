@@ -1,16 +1,18 @@
-package ch.epfl.sweng.hostme.wallet;
+package wallet;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.wallet.DocumentExpirationDate;
 
 public class DocumentExpirationDateTest {
 
     @Test
     public void ResidenceDescriptionFieldTextIdIsSame() {
-        assertEquals(R.id.rp_date_desc_text, DocumentExpirationDate.RESIDENCE_PERMIT.getDescriptionFieldTextId());
+        Assert.assertEquals(R.id.rp_date_desc_text, DocumentExpirationDate.RESIDENCE_PERMIT.getDescriptionFieldTextId());
     }
 
     @Test

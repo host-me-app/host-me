@@ -5,7 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -68,6 +67,20 @@ public class WalletTest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
+    private static Bitmap drawableToBitmap(Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     @Test
     public void downloadResidencePermitFailedTest() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
@@ -114,7 +127,7 @@ public class WalletTest {
             onView(withId(R.id.sp_import_button)).check(matches(isEnabled()));
             onView(withId(R.id.sp_import_button)).perform(click());
 
-            intended(hasAction(Intent.ACTION_CHOOSER));
+            Thread.sleep(1000);
 
             onView(withId(R.id.sp_download_button)).check(matches(isDisplayed()));
             onView(withId(R.id.sp_download_button)).check(matches(isEnabled()));
@@ -128,22 +141,10 @@ public class WalletTest {
 
             onView(withId(android.R.id.button1)).perform(click());
             onView(withId(R.id.sp_date_text)).check(matches(withText("22/3/2025")));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
-    }
-
-    private static Bitmap drawableToBitmap(Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
     }
 
     private Instrumentation.ActivityResult getPDFResult() {

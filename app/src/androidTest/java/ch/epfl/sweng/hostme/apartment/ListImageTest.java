@@ -14,7 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.activities.LogInActivity;
-import ch.epfl.sweng.hostme.apartment.ListImage;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;

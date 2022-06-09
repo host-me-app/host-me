@@ -1,6 +1,5 @@
 package ch.epfl.sweng.hostme.utils;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;

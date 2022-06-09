@@ -5,7 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -60,6 +59,20 @@ public class SharedDocumentsTest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
+    private static Bitmap drawableToBitmap(Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     @Test
     public void ShareDocumentsCancel() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
@@ -106,8 +119,7 @@ public class SharedDocumentsTest {
 
             onView(withId(R.id.wallet_button)).perform(click());
             onView(withId(R.id.sp_import_button)).perform(click());
-            intended(hasAction(Intent.ACTION_CHOOSER));
-
+            Thread.sleep(1000);
             onView(isRoot()).perform(ViewActions.pressBack());
 
             onView(withId(R.id.navigation_messages)).perform(click());
@@ -121,22 +133,10 @@ public class SharedDocumentsTest {
             onView(withText("Extract from the Execution Office")).perform(click());
             onView(withText("SHARE")).check(matches(isDisplayed()));
             onView(withText("SHARE")).perform(click());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         Intents.release();
-    }
-
-    private static Bitmap drawableToBitmap(Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
     }
 
     private Instrumentation.ActivityResult getPDFResult() {

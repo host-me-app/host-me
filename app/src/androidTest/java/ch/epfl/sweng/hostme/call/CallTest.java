@@ -1,10 +1,13 @@
-package ch.epfl.sweng.hostme.chat;
+package ch.epfl.sweng.hostme.call;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.Manifest;
@@ -59,25 +62,31 @@ public class CallTest {
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
-            onView(withId(R.id.search_recycler_view)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            Thread.sleep(500);
+
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.contact_user_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.contact_user_button)).check(matches(isEnabled()));
             onView(withId(R.id.contact_user_button)).perform(click());
+
+            onView(withId(R.id.launch_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.launch_button)).check(matches(isEnabled()));
             onView(withId(R.id.launch_button)).perform(click());
-            Thread.sleep(1000);
+
+            onView(withId(R.id.audio_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.audio_button)).check(matches(isEnabled()));
             onView(withId(R.id.audio_button)).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.audio_button)).perform(click());
-            onView(withId(R.id.audio_button)).perform(click());
+
+            onView(withId(R.id.video_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.video_button)).check(matches(isEnabled()));
             onView(withId(R.id.video_button)).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.video_button)).perform(click());
+
+            onView(withId(R.id.switch_camera)).check(matches(isDisplayed()));
+            onView(withId(R.id.switch_camera)).check(matches(isEnabled()));
             onView(withId(R.id.switch_camera)).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.switch_camera)).perform(click());
-            Thread.sleep(500);
             onView(withId(R.id.leave_button)).perform(click());
-            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

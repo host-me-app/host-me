@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.utils;
+package ch.epfl.sweng.hostme.apartment;
 
 import android.content.Intent;
 
@@ -14,7 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.activities.LogInActivity;
-import ch.epfl.sweng.hostme.apartment.ListImage;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
@@ -38,9 +37,7 @@ public class ListImageTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
-            scenario.onActivity(activity -> {
-                ListImage.init(new AddFragment());
-            });
+            scenario.onActivity(activity -> ListImage.init(new AddFragment()));
         } catch (Exception e) {
             e.printStackTrace();
         }

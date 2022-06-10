@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.apartment;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -15,6 +15,7 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.FirebaseApp;
@@ -24,6 +25,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.activities.MenuActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -46,19 +48,11 @@ public class FavoritesTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
-
-            onView(withId(R.id.search_recycler_view)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
-
+            onView(ViewMatchers.withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
             Thread.sleep(1000);
-
-            onView(withId(R.id.navigation_favorites))
-                    .perform(click());
-
+            onView(withId(R.id.navigation_favorites)).perform(click());
             Thread.sleep(1000);
-
-            onView(withId(R.id.favorites_recyclerView)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
+            onView(withId(R.id.favorites_recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -72,18 +66,13 @@ public class FavoritesTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
-            onView(withId(R.id.search_recycler_view)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
-
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
             Thread.sleep(1000);
-
-            onView(withId(R.id.navigation_favorites))
-                    .perform(click());
-
+            onView(withId(R.id.navigation_favorites)).perform(click());
+            Thread.sleep(1000);
+            onView(withId(R.id.favorites_recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
             Thread.sleep(1000);
             onView(withId(R.id.navigation_account)).perform(click());
-
-            Thread.sleep(1000);
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Thread.sleep(1000);
 
@@ -93,7 +82,6 @@ public class FavoritesTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
-            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -106,18 +94,11 @@ public class FavoritesTest {
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
-            onView(withId(R.id.search_recycler_view)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
-            onView(withId(R.id.search_recycler_view)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
-
-            onView(withId(R.id.navigation_favorites))
-                    .perform(click());
-
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
+            onView(withId(R.id.navigation_favorites)).perform(click());
             Thread.sleep(1000);
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
             Thread.sleep(1000);
 
@@ -128,20 +109,8 @@ public class FavoritesTest {
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
-
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        Intents.release();
-    }
-
-    @Test
-    public void createFavDocRefInDB() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
-        Intents.init();
-        try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
-            onView(withId(R.id.search_recycler_view)).perform(
-                    RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_favourite)));
         }
         Intents.release();
     }
@@ -167,6 +136,5 @@ public class FavoritesTest {
                 }
             };
         }
-
     }
 }

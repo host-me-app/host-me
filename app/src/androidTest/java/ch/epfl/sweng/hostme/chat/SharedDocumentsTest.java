@@ -4,8 +4,12 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -56,7 +60,7 @@ public class SharedDocumentsTest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
+    private static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
@@ -81,14 +85,16 @@ public class SharedDocumentsTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
+            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contact_button)).perform(click());
-            onView(withId(R.id.users_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            Thread.sleep(1000);
+            onView(withId(R.id.users_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
+            onView(withId(R.id.share_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.share_button)).check(matches(isEnabled()));
             onView(withId(R.id.share_button)).perform(click());
+            onView(withText("CANCEL")).check(matches(isDisplayed()));
             onView(withText("CANCEL")).perform(click());
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,24 +119,23 @@ public class SharedDocumentsTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.wallet_button)).perform(click());
             onView(withId(R.id.sp_import_button)).perform(click());
-            Thread.sleep(1000);
-
+            intended(hasAction(Intent.ACTION_CHOOSER));
             onView(isRoot()).perform(ViewActions.pressBack());
 
             onView(withId(R.id.navigation_messages)).perform(click());
             onView(withId(R.id.contact_button)).perform(click());
-            onView(withId(R.id.users_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.users_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
             onView(withId(R.id.share_button)).perform(click());
+            onView(withText("Salary Slips")).check(matches(isDisplayed()));
             onView(withText("Salary Slips")).perform(click());
+            onView(withText("Extract from the Execution Office")).check(matches(isDisplayed()));
             onView(withText("Extract from the Execution Office")).perform(click());
+            onView(withText("SHARE")).check(matches(isDisplayed()));
             onView(withText("SHARE")).perform(click());
-            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -156,7 +161,7 @@ public class SharedDocumentsTest {
         pdfDocument.finishPage(page);
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "file.pdf");
-        FileOutputStream outStream = null;
+        FileOutputStream outStream;
         try {
             outStream = new FileOutputStream(file);
             pdfDocument.writeTo(outStream);

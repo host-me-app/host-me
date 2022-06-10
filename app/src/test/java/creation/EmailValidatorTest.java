@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.utils;
+package creation;
 
 import static org.junit.Assert.assertEquals;
 

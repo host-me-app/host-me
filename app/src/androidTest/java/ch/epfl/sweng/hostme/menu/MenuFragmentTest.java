@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.menu;
 
 import static androidx.test.core.app.ActivityScenario.launch;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
@@ -13,6 +13,7 @@ import android.content.Intent;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.FirebaseApp;
@@ -21,6 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.activities.MenuActivity;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
@@ -45,11 +47,11 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void SearchFragOpen_whenIconClicked() {
+    public void SearchFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
-            onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
+            onView(ViewMatchers.withId(R.id.nav_view)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_search)).perform(click());
         }
@@ -57,7 +59,7 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void AddFragOpen_whenIconClicked() {
+    public void AddFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
@@ -69,7 +71,7 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void FavoritesFragOpen_whenIconClicked() {
+    public void FavoritesFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {
@@ -81,7 +83,7 @@ public class MenuFragmentTest {
     }
 
     @Test
-    public void MessagesFragOpen_whenIconClicked() {
+    public void MessagesFragOpenWhenIconClicked() {
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         Intents.init();
         try (ActivityScenario<MenuActivity> scenario = launch(intent)) {

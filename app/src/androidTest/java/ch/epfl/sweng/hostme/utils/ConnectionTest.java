@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.utils;
 
+import static org.junit.Assert.assertTrue;
+
 import android.content.Intent;
 
 import androidx.test.core.app.ActivityScenario;
@@ -38,7 +40,7 @@ public class ConnectionTest {
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
             scenario.onActivity(activity -> {
-                org.junit.Assert.assertEquals(true, Connection.online(activity));
+                assertTrue(Connection.online(activity));
             });
         } catch (Exception e) {
             e.printStackTrace();

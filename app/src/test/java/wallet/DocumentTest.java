@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme.wallet;
+package wallet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,12 +6,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import ch.epfl.sweng.hostme.R;
+import ch.epfl.sweng.hostme.wallet.Document;
 
 public class DocumentTest {
 
     @Test
     public void DocumentNameIsSame() {
-        assertEquals("Residence permit", Document.RESIDENCE_PERMIT.getDocumentName());
+        Assert.assertEquals("Residence permit", Document.RESIDENCE_PERMIT.getDocumentName());
     }
 
     @Test
@@ -36,12 +37,12 @@ public class DocumentTest {
 
     @Test
     public void DocumentButtonBrowseIdIsSame() {
-        Assert.assertEquals(R.id.rp_import_button, Document.RESIDENCE_PERMIT.getButtonBrowseId());
+        assertEquals(R.id.rp_import_button, Document.RESIDENCE_PERMIT.getButtonBrowseId());
     }
 
     @Test
     public void DocumentButtonBrowseTextIdIsSame() {
-        Assert.assertEquals(R.id.rp_import_text, Document.RESIDENCE_PERMIT.getButtonBrowseTextId());
+        assertEquals(R.id.rp_import_text, Document.RESIDENCE_PERMIT.getButtonBrowseTextId());
     }
 
     @Test

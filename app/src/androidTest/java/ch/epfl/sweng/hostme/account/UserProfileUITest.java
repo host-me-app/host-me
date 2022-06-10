@@ -1,4 +1,4 @@
-package ch.epfl.sweng.hostme;
+package ch.epfl.sweng.hostme.account;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
@@ -6,10 +6,12 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertNotNull;
@@ -28,6 +30,7 @@ import android.provider.MediaStore;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -42,6 +45,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.activities.LogInActivity;
 import ch.epfl.sweng.hostme.activities.MenuActivity;
 import ch.epfl.sweng.hostme.database.Auth;
@@ -63,7 +67,7 @@ public class UserProfileUITest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
+    private static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
@@ -88,15 +92,13 @@ public class UserProfileUITest {
             String lastName = "account";
             String gender = "Male";
 
-            onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
+            onView(ViewMatchers.withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
             onView(withId(R.id.user_profile_first_name)).check(matches(withText(firstName)));
             onView(withId(R.id.user_profile_last_name)).check(matches(withText(lastName)));
             onView(withId(R.id.user_profile_email)).check(matches(withText(Auth.getCurrentUser().getEmail())));
@@ -120,13 +122,11 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
             onView(withId(R.id.user_profile_log_out_button)).perform(click());
-            Thread.sleep(1000);
-
             Intent intent2 = new Intent(ApplicationProvider.getApplicationContext(), MenuActivity.class);
             ActivityScenario<MenuActivity> scenario2 = ActivityScenario.launch(intent2);
+
+            onView(withId(R.id.log_in_button)).check(matches(isDisplayed()));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -145,25 +145,20 @@ public class UserProfileUITest {
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
-
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
 
             String firstname = "test modified";
-            onView(withId(R.id.user_profile_first_name)).perform(clearText())
-                    .perform(typeText(firstname), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_first_name)).perform(clearText()).perform(typeText(firstname), closeSoftKeyboard());
             onView(withId(R.id.user_profile_save_button)).check(matches(isEnabled()));
             onView(withId(R.id.user_profile_save_button)).check(matches(isDisplayed()));
             onView(withId(R.id.user_profile_gender_f)).perform(click());
             onView(withId(R.id.user_profile_save_button)).perform(click());
-            Thread.sleep(1000);
 
             String firstnameOriginal = "test";
-            onView(withId(R.id.user_profile_first_name)).perform(clearText())
-                    .perform(typeText(firstnameOriginal), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_first_name)).perform(clearText()).perform(typeText(firstnameOriginal), closeSoftKeyboard());
             onView(withId(R.id.user_profile_gender_m)).perform(click());
             onView(withId(R.id.user_profile_save_button)).perform(click());
-            Thread.sleep(1000);
+            onView(withId(R.id.user_profile_save_button)).check(matches(isNotEnabled()));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -185,11 +180,8 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
             String firstname = "test modified";
-            onView(withId(R.id.user_profile_first_name)).perform(clearText())
-                    .perform(typeText(firstname), closeSoftKeyboard());
+            onView(withId(R.id.user_profile_first_name)).perform(clearText()).perform(typeText(firstname), closeSoftKeyboard());
             onView(withId(R.id.user_profile_save_button)).check(matches(isEnabled()));
             onView(withId(R.id.user_profile_save_button)).check(matches(isDisplayed()));
             onView(withId(R.id.user_profile_gender_f)).perform(click());
@@ -214,8 +206,6 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
             onView(withId(R.id.wallet_button)).check(matches(isDisplayed()));
             onView(withId(R.id.wallet_button)).perform(click());
 
@@ -241,11 +231,8 @@ public class UserProfileUITest {
 
             onView(withId(R.id.navigation_account)).check(matches(isDisplayed()));
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
             onView(withId(R.id.user_profile_change_password_button)).perform(click());
             onView(withId(R.id.user_profile_change_pwd_terminate)).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.user_profile_old_password)).check(matches(isDisplayed()));
             onView(withId(R.id.user_profile_new_password)).check(matches(isDisplayed()));
             onView(withId(R.id.user_profile_confirm_new_password)).check(matches(isDisplayed()));
@@ -253,13 +240,11 @@ public class UserProfileUITest {
             onView(withId(R.id.user_profile_new_password)).perform(typeText(newPassword), closeSoftKeyboard());
             onView(withId(R.id.user_profile_confirm_new_password)).perform(typeText(newPassword), closeSoftKeyboard());
             onView(withId(R.id.user_profile_change_pwd_terminate)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_old_password)).perform(clearText()).perform(typeText(newPassword), closeSoftKeyboard());
             onView(withId(R.id.user_profile_new_password)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.user_profile_confirm_new_password)).perform(clearText()).perform(typeText(originalPassword), closeSoftKeyboard());
             onView(withId(R.id.user_profile_change_pwd_terminate)).perform(click());
-            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -271,6 +256,7 @@ public class UserProfileUITest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<LogInActivity> scenario = ActivityScenario.launch(intent)) {
+            savePickedImage();
             intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(getImageResult());
 
             String mail = "testlogin@gmail.com";
@@ -282,10 +268,10 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             onView(withText("Pick from Camera")).perform(click());
+            intended(hasAction(MediaStore.ACTION_IMAGE_CAPTURE));
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -309,11 +295,11 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             onView(withText("Pick from Gallery")).perform(click());
+            intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
         } catch (InterruptedException e) {
@@ -338,21 +324,18 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
 
             onView(withText("Pick from Gallery")).perform(click());
+            intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             onView(withText("Pick from Gallery")).perform(click());
-            Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -375,14 +358,13 @@ public class UserProfileUITest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
 
             onView(withText("Pick from Gallery")).perform(click());
+            intended(hasAction(Intent.ACTION_PICK));
             Thread.sleep(1000);
             onView(withId(R.id.user_profile_save_button)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.user_profile_change_photo_button)).perform(click());
             onView(withText("Delete")).perform(click());

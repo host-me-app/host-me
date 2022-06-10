@@ -111,29 +111,8 @@ public class MessagesFragmentTest {
             onView(withId(R.id.log_in_button)).perform(click());
 
             onView(withId(R.id.navigation_messages)).perform(click());
-            onView(withId(R.id.conversation_recycler)).check(new DisplayApartmentTest.RecyclerViewMinItemCountAssertion(1));
             onView(withId(R.id.conversation_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         }
         Intents.release();
-    }
-
-    public static class RecyclerViewMinItemCountAssertion implements ViewAssertion {
-        private final int expectedCount;
-
-        public RecyclerViewMinItemCountAssertion(int expectedCount) {
-            this.expectedCount = expectedCount;
-        }
-
-        @Override
-        public void check(View view, NoMatchingViewException noViewFoundException) {
-            if (noViewFoundException != null) {
-                throw noViewFoundException;
-            }
-
-            RecyclerView recyclerView = (RecyclerView) view;
-            RecyclerView.Adapter adapter = recyclerView.getAdapter();
-            assert adapter != null;
-            assertTrue(expectedCount < adapter.getItemCount());
-        }
     }
 }

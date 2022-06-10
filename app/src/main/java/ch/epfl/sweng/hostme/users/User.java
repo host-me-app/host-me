@@ -18,6 +18,7 @@ public class User implements Serializable {
 
     /**
      * get the name of the user
+     *
      * @return name
      */
     public String getName() {
@@ -26,6 +27,7 @@ public class User implements Serializable {
 
     /**
      * set the name of the user
+     *
      * @param name to set
      */
     public void setName(String name) {
@@ -34,6 +36,7 @@ public class User implements Serializable {
 
     /**
      * get the image of the user
+     *
      * @return image
      */
     public String getImage() {
@@ -42,6 +45,7 @@ public class User implements Serializable {
 
     /**
      * set the image of the user
+     *
      * @param image to set
      */
     public void setImage(String image) {
@@ -50,6 +54,7 @@ public class User implements Serializable {
 
     /**
      * get the email of the user
+     *
      * @return email
      */
     public String getEmail() {
@@ -58,6 +63,7 @@ public class User implements Serializable {
 
     /**
      * set the email of the user
+     *
      * @param email to set
      */
     public void setEmail(String email) {
@@ -66,6 +72,7 @@ public class User implements Serializable {
 
     /**
      * get the token of the user
+     *
      * @return token
      */
     public String getToken() {
@@ -74,6 +81,7 @@ public class User implements Serializable {
 
     /**
      * set the token of the user
+     *
      * @param token to set
      */
     public void setToken(String token) {
@@ -82,6 +90,7 @@ public class User implements Serializable {
 
     /**
      * get the id of the user
+     *
      * @return id
      */
     public String getId() {
@@ -90,6 +99,7 @@ public class User implements Serializable {
 
     /**
      * set the id of the user
+     *
      * @param id to set
      */
     public void setId(String id) {

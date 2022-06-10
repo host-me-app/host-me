@@ -8,11 +8,16 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
+import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -28,6 +33,7 @@ import ch.epfl.sweng.hostme.R;
 import ch.epfl.sweng.hostme.activities.LogInActivity;
 import ch.epfl.sweng.hostme.activities.MenuActivity;
 import ch.epfl.sweng.hostme.activities.UsersActivity;
+import ch.epfl.sweng.hostme.apartment.DisplayApartmentTest;
 import ch.epfl.sweng.hostme.database.Auth;
 import ch.epfl.sweng.hostme.database.Database;
 import ch.epfl.sweng.hostme.database.Storage;
@@ -56,14 +62,9 @@ public class MessagesFragmentTest {
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
             onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.contact_button)).check(matches(isDisplayed()));
             onView(withId(R.id.contact_button)).perform(click());
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }
@@ -76,14 +77,9 @@ public class MessagesFragmentTest {
 
             String m = "Messages";
             onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.text_home)).check(matches(isDisplayed()));
             onView(withId(R.id.text_home)).check(matches(withText(m)));
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }
@@ -95,20 +91,15 @@ public class MessagesFragmentTest {
         try (ActivityScenario<MenuActivity> scenario = ActivityScenario.launch(intent)) {
 
             onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.frame_conv)).check(matches(isDisplayed()));
             onView(withId(R.id.conversation_recycler)).check(matches(isDisplayed()));
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         Intents.release();
     }
 
     @Test
-    public void canClickOnRecentConvo() {
+    public void canClickOnRecentConv() {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), LogInActivity.class);
         Intents.init();
         try (ActivityScenario<UsersActivity> scenario = ActivityScenario.launch(intent)) {
@@ -118,16 +109,9 @@ public class MessagesFragmentTest {
             onView(withId(R.id.user_name)).perform(typeText(mail), closeSoftKeyboard());
             onView(withId(R.id.pwd)).perform(typeText(password), closeSoftKeyboard());
             onView(withId(R.id.log_in_button)).perform(click());
-            Thread.sleep(1000);
 
             onView(withId(R.id.navigation_messages)).perform(click());
-            Thread.sleep(1000);
-            onView(withId(R.id.conversation_recycler))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            Thread.sleep(1000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            onView(withId(R.id.conversation_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         }
         Intents.release();
     }

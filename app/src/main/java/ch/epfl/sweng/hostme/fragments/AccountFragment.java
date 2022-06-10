@@ -353,9 +353,10 @@ public class AccountFragment extends Fragment {
 
     /**
      * change the picture
+     *
      * @param displayMessage message to display
-     * @param message content
-     * @param inDB say if picture is in the db
+     * @param message        content
+     * @param inDB           say if picture is in the db
      */
     private void changePicture(boolean displayMessage, String message, boolean inDB) {
         if (displayMessage) {

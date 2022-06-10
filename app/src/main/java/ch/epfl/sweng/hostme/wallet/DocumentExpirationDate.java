@@ -20,6 +20,7 @@ public enum DocumentExpirationDate {
 
     /**
      * get the pick date button id
+     *
      * @return the pick date button id
      */
     public int getPickDateButtonId() {
@@ -28,6 +29,7 @@ public enum DocumentExpirationDate {
 
     /**
      * get the expiration date button text id
+     *
      * @return the expiration date button text id
      */
     public int getExpirationDateTextId() {
@@ -36,6 +38,7 @@ public enum DocumentExpirationDate {
 
     /**
      * get the description field text id
+     *
      * @return the description field text id
      */
     public int getDescriptionFieldTextId() {

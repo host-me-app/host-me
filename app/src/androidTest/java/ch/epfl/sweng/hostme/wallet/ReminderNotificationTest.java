@@ -37,31 +37,15 @@ public class ReminderNotificationTest {
 
     @Test
     public void notificationIsDisplayed() {
-
         Context context = ApplicationProvider.getApplicationContext();
         Intent intent = new Intent(context, ReminderNotification.class);
         String title = "Wallet document expiration reminder";
         String message = "One of your document will soon expire soon";
         intent.putExtra(titleExtra, title);
         intent.putExtra(messageExtra, message);
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        PendingIntent pend = PendingIntent.getBroadcast(
-                context.getApplicationContext(),
-                500,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-
-        alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                Calendar.getInstance().getTimeInMillis(),
-                pend
-        );
-
-
+        PendingIntent pend = PendingIntent.getBroadcast(context.getApplicationContext(), 500, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), pend);
     }
 
 }

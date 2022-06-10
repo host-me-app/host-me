@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.wallet;
 
+import static ch.epfl.sweng.hostme.utils.Constants.SLASH;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -38,7 +40,7 @@ public class DocumentUploader {
 
     public DocumentUploader(Document document, String uid, Activity activity, Context context, DocumentExpirationDate expireDate) {
         this.document = document;
-        this.uid = uid + "/";
+        this.uid = uid + SLASH;
         this.activity = activity;
         this.context = context;
         this.titleChooser = CHOOSE_TEXT + document.getDocumentName();
@@ -67,9 +69,10 @@ public class DocumentUploader {
 
     /**
      * check if the request and result codes are correct and upload data to the database
+     *
      * @param requestCode request code
-     * @param resultCode result code (OK or not)
-     * @param data data we get back from the Intent
+     * @param resultCode  result code (OK or not)
+     * @param data        data we get back from the Intent
      */
     public void onBrowseFileResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == this.document.getCodePermission() && resultCode == Activity.RESULT_OK && data != null) {
@@ -79,6 +82,7 @@ public class DocumentUploader {
 
     /**
      * upload the given file to the database
+     *
      * @param file local url of the file
      */
     private void uploadFile(Uri file) {
@@ -117,7 +121,7 @@ public class DocumentUploader {
         this.checkImage.setVisibility(View.VISIBLE);
         this.expDateDescriptionText.setVisibility(View.VISIBLE);
         this.expDateText.setVisibility(View.VISIBLE);
-        this.expDateText.setText("None");
+        this.expDateText.setText(R.string.none);
         this.expDatePickButton.setVisibility(View.VISIBLE);
     }
 }

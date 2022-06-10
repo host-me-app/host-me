@@ -15,7 +15,8 @@ public final class Auth {
 
     /**
      * login the user with his email
-     * @param email of the user
+     *
+     * @param email    of the user
      * @param password of the user
      * @return task of user sign in
      */
@@ -25,7 +26,8 @@ public final class Auth {
 
     /**
      * creat user with his email and password
-     * @param email of the user
+     *
+     * @param email    of the user
      * @param password of the user
      * @return task of the creation
      */
@@ -35,6 +37,7 @@ public final class Auth {
 
     /**
      * update the email
+     *
      * @param email of the user
      * @return task of the email update
      */
@@ -44,6 +47,7 @@ public final class Auth {
 
     /**
      * reset the user email
+     *
      * @param email of the user
      * @return task of the reset password with an email
      */
@@ -53,6 +57,7 @@ public final class Auth {
 
     /**
      * get the user id
+     *
      * @return the user id
      */
     public static String getUid() {
@@ -61,6 +66,7 @@ public final class Auth {
 
     /**
      * get the current user
+     *
      * @return the current user
      */
     public static FirebaseUser getCurrentUser() {
@@ -76,6 +82,7 @@ public final class Auth {
 
     /**
      * get the instance of Firebase for testing or not
+     *
      * @return the instance of FirebaseAuth
      */
     private static FirebaseAuth getExactInstance() {

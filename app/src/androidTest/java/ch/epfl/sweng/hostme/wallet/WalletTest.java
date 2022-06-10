@@ -4,10 +4,15 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -63,7 +68,7 @@ public class WalletTest {
         FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
+    private static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
@@ -91,12 +96,14 @@ public class WalletTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
 
+            onView(withId(R.id.wallet_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.wallet_button)).check(matches(isEnabled()));
             onView(withId(R.id.wallet_button)).perform(click());
-            Thread.sleep(1000);
+
+            onView(withId(R.id.rp_download_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.rp_download_button)).check(matches(isEnabled()));
             onView(withId(R.id.rp_download_button)).perform(click());
-            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -120,20 +127,26 @@ public class WalletTest {
             Thread.sleep(1000);
 
             onView(withId(R.id.navigation_account)).perform(click());
-            Thread.sleep(1000);
-
             onView(withId(R.id.wallet_button)).perform(click());
+
+            onView(withId(R.id.sp_import_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.sp_import_button)).check(matches(isEnabled()));
             onView(withId(R.id.sp_import_button)).perform(click());
-            Thread.sleep(1000);
+
+            intended(hasAction(Intent.ACTION_CHOOSER));
+
+            onView(withId(R.id.sp_download_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.sp_download_button)).check(matches(isEnabled()));
             onView(withId(R.id.sp_download_button)).perform(click());
-            Thread.sleep(1000);
+
+            onView(withId(R.id.sp_pick_date_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.sp_pick_date_button)).check(matches(isEnabled()));
             onView(withId(R.id.sp_pick_date_button)).perform(click());
-            Thread.sleep(1000);
-            onView(withClassName(Matchers.equalTo(DatePicker.class.getName())))
-                    .perform(PickerActions.setDate(2025, 3, 22));
-            Thread.sleep(1000);
+
+            onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2025, 3, 22));
+
             onView(withId(android.R.id.button1)).perform(click());
-            Thread.sleep(1000);
+            onView(withId(R.id.sp_date_text)).check(matches(withText("22/3/2025")));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -159,7 +172,7 @@ public class WalletTest {
         pdfDocument.finishPage(page);
         File dir = ApplicationProvider.getApplicationContext().getExternalCacheDir();
         File file = new File(dir.getPath(), "file.pdf");
-        FileOutputStream outStream = null;
+        FileOutputStream outStream;
         try {
             outStream = new FileOutputStream(file);
             pdfDocument.writeTo(outStream);

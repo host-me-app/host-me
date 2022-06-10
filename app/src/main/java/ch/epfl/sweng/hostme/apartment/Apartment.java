@@ -95,6 +95,7 @@ public class Apartment {
 
     /**
      * get name
+     *
      * @return name
      */
     public String getName() {
@@ -103,6 +104,7 @@ public class Apartment {
 
     /**
      * set name
+     *
      * @param name new name
      */
     public void setName(String name) {
@@ -111,6 +113,7 @@ public class Apartment {
 
     /**
      * get room
+     *
      * @return room
      */
     public String getRoom() {
@@ -119,6 +122,7 @@ public class Apartment {
 
     /**
      * set room
+     *
      * @param room new room
      */
     public void setRoom(String room) {
@@ -127,6 +131,7 @@ public class Apartment {
 
     /**
      * get address
+     *
      * @return address
      */
     public String getAddress() {
@@ -135,6 +140,7 @@ public class Apartment {
 
     /**
      * set address
+     *
      * @param address new address
      */
     public void setAddress(String address) {
@@ -143,6 +149,7 @@ public class Apartment {
 
     /**
      * get npa
+     *
      * @return npa
      */
     public int getNpa() {
@@ -151,6 +158,7 @@ public class Apartment {
 
     /**
      * set npa
+     *
      * @param npa new npa
      */
     public void setNpa(int npa) {
@@ -159,6 +167,7 @@ public class Apartment {
 
     /**
      * get city
+     *
      * @return city
      */
     public String getCity() {
@@ -167,6 +176,7 @@ public class Apartment {
 
     /**
      * set city
+     *
      * @param city new city
      */
     public void setCity(String city) {
@@ -175,6 +185,7 @@ public class Apartment {
 
     /**
      * get rent
+     *
      * @return rent
      */
     public int getRent() {
@@ -183,6 +194,7 @@ public class Apartment {
 
     /**
      * set rent
+     *
      * @param rent new rent
      */
     public void setRent(int rent) {
@@ -191,6 +203,7 @@ public class Apartment {
 
     /**
      * get beds
+     *
      * @return beds
      */
     public int getBeds() {
@@ -199,6 +212,7 @@ public class Apartment {
 
     /**
      * set number of beds
+     *
      * @param beds new number of beds
      */
     public void setBeds(int beds) {
@@ -207,6 +221,7 @@ public class Apartment {
 
     /**
      * get area
+     *
      * @return area
      */
     public int getArea() {
@@ -215,6 +230,7 @@ public class Apartment {
 
     /**
      * set area
+     *
      * @param area new area
      */
     public void setArea(int area) {
@@ -223,6 +239,7 @@ public class Apartment {
 
     /**
      * get furnished boolean
+     *
      * @return furnished
      */
     public boolean isFurnished() {
@@ -231,6 +248,7 @@ public class Apartment {
 
     /**
      * set the furnished to the contrary
+     *
      * @return contrary of the current furnished boolean value
      */
     public void toggleFurnished() {
@@ -239,6 +257,7 @@ public class Apartment {
 
     /**
      * get bath
+     *
      * @return bath
      */
     public String getBath() {
@@ -247,6 +266,7 @@ public class Apartment {
 
     /**
      * set bath
+     *
      * @param bath new bath
      */
     public void setBath(String bath) {
@@ -255,6 +275,7 @@ public class Apartment {
 
     /**
      * get kitchen
+     *
      * @return kitchen
      */
     public String getKitchen() {
@@ -263,6 +284,7 @@ public class Apartment {
 
     /**
      * set kitchen
+     *
      * @param kitchen new kitchen
      */
     public void setKitchen(String kitchen) {
@@ -271,6 +293,7 @@ public class Apartment {
 
     /**
      * get laundry
+     *
      * @return laundry
      */
     public String getLaundry() {
@@ -279,6 +302,7 @@ public class Apartment {
 
     /**
      * set laundry
+     *
      * @param laundry new laundry
      */
     public void setLaundry(String laundry) {
@@ -287,6 +311,7 @@ public class Apartment {
 
     /**
      * get if pets are allowed
+     *
      * @return pets boolean
      */
     public boolean isPets() {
@@ -295,6 +320,7 @@ public class Apartment {
 
     /**
      * change the pets allowed boolean value
+     *
      * @return pets boolean
      */
     public void togglePets() {
@@ -303,6 +329,7 @@ public class Apartment {
 
     /**
      * get image path
+     *
      * @return imagePath
      */
     public String getImagePath() {
@@ -311,6 +338,7 @@ public class Apartment {
 
     /**
      * get availability
+     *
      * @return availability
      */
     public boolean isAvailable() {
@@ -319,6 +347,7 @@ public class Apartment {
 
     /**
      * change the available boolean value
+     *
      * @return opposite value of availability
      */
     public void toggleAvailable() {
@@ -327,6 +356,7 @@ public class Apartment {
 
     /**
      * get proprietor
+     *
      * @return proprietor
      */
     public String getProprietor() {
@@ -335,6 +365,7 @@ public class Apartment {
 
     /**
      * set proprietor
+     *
      * @param proprietor new proprietor
      */
     public void setProprietor(String proprietor) {
@@ -343,6 +374,7 @@ public class Apartment {
 
     /**
      * get user id
+     *
      * @return user id
      */
     public String getUid() {
@@ -351,6 +383,7 @@ public class Apartment {
 
     /**
      * get utilities
+     *
      * @return utilities
      */
     public int getUtilities() {
@@ -359,6 +392,7 @@ public class Apartment {
 
     /**
      * set utilities
+     *
      * @param utilities new utilities
      */
     public void setUtilities(int utilities) {
@@ -367,6 +401,7 @@ public class Apartment {
 
     /**
      * get deposit
+     *
      * @return deposit
      */
     public int getDeposit() {
@@ -375,6 +410,7 @@ public class Apartment {
 
     /**
      * set deposit
+     *
      * @param deposit new deposit
      */
     public void setDeposit(int deposit) {
@@ -383,6 +419,7 @@ public class Apartment {
 
     /**
      * get duration
+     *
      * @return duration
      */
     public int getDuration() {
@@ -391,6 +428,7 @@ public class Apartment {
 
     /**
      * set duration
+     *
      * @param duration new duration
      */
     public void setDuration(int duration) {
@@ -399,6 +437,7 @@ public class Apartment {
 
     /**
      * get current lease
+     *
      * @return current lease
      */
     public Timestamp getCurrentLease() {
@@ -407,6 +446,7 @@ public class Apartment {
 
     /**
      * set current lease
+     *
      * @param currentLease new current lease
      */
     public void setCurrentLease(Timestamp currentLease) {
@@ -415,6 +455,7 @@ public class Apartment {
 
     /**
      * get document id
+     *
      * @return document id
      */
     public String getDocId() {
@@ -423,6 +464,7 @@ public class Apartment {
 
     /**
      * set document id
+     *
      * @param docId new document id
      */
     public void setDocId(String docId) {
@@ -431,6 +473,7 @@ public class Apartment {
 
     /**
      * get image
+     *
      * @return image
      */
     public Bitmap getImage() {
@@ -439,6 +482,7 @@ public class Apartment {
 
     /**
      * set image
+     *
      * @param image new image
      */
     public void setImage(Bitmap image) {

@@ -62,6 +62,7 @@ public class GradeApartment extends Fragment {
 
     /**
      * save the rates in the database
+     *
      * @param view
      */
     private void saveRatingInfo(View view) {

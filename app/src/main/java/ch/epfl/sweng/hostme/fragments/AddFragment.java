@@ -113,17 +113,18 @@ public class AddFragment extends Fragment {
 
     /**
      * set the listeners to the buttons
-     * @param addForm scroll view
-     * @param addNew button to add
+     *
+     * @param addForm    scroll view
+     * @param addNew     button to add
      * @param addButtons linear layout of the add buttons
      */
     private void setButtonListener(ScrollView addForm, ImageButton addNew, LinearLayout addButtons) {
-        enterImages.setOnClickListener(v -> {
+        this.enterImages.setOnClickListener(v -> {
             ListImage.clear();
             ListImage.acceptImage();
         });
 
-        addSubmit.setOnClickListener(v -> {
+        this.addSubmit.setOnClickListener(v -> {
             generateApartment();
             clearForm();
             ListImage.clear();
@@ -192,7 +193,8 @@ public class AddFragment extends Fragment {
 
     /**
      * create transition
-     * @param form scroll view
+     *
+     * @param form    scroll view
      * @param buttons linear layout buttons
      */
     private void formTransition(ScrollView form, LinearLayout buttons) {
@@ -207,10 +209,11 @@ public class AddFragment extends Fragment {
 
     /**
      * fill all the fields
+     *
      * @param privacy string array
-     * @param furn button
-     * @param pet button
-     * @param path image path
+     * @param furn    button
+     * @param pet     button
+     * @param path    image path
      * @return the form fields
      */
     private JSONObject fillFields(String[] privacy, Button furn, Button pet, String path) {
@@ -306,6 +309,7 @@ public class AddFragment extends Fragment {
 
     /**
      * get the form path
+     *
      * @param p first name
      * @param b building name
      * @param r number
@@ -318,6 +322,7 @@ public class AddFragment extends Fragment {
 
     /**
      * validate the form
+     *
      * @param editText edit text
      */
     private void validate(EditText editText) {
@@ -339,14 +344,22 @@ public class AddFragment extends Fragment {
                 }
             });
         } else {
-            String input = editText.getText().toString();
-            if (!input.isEmpty()) {
+            if (!isEmpty(editText)) {
                 this.lock.add(editText.getId());
             } else {
                 this.lock.remove(editText.getId());
             }
         }
-        turn();
+        this.turn();
+    }
+
+    /**
+     * check if editText is empty
+     * @param editText editText
+     * @return true if etText is empty and false otherwise
+     */
+    private boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
     }
 
     @Override

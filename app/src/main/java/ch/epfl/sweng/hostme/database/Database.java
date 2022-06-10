@@ -14,6 +14,7 @@ public final class Database {
 
     /**
      * get collection in the database
+     *
      * @param collectionPath where we want to get the data
      * @return collection
      */
@@ -23,6 +24,7 @@ public final class Database {
 
     /**
      * get the exact instance of FirebaseFirestore
+     *
      * @return firebase firestore instance
      */
     private static FirebaseFirestore getExactInstance() {

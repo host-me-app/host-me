@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.chat;
 
+import static ch.epfl.sweng.hostme.utils.Constants.JPG;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -83,13 +85,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         /**
          * set the data of a chat message
+         *
          * @param chatMessage message of the user
          */
         void setData(ChatMessage chatMessage) {
             if (this.imageView != null) {
                 try {
                     StorageReference fileRef = Storage.getStorageReferenceByChild(chatMessage.image);
-                    final File localFile = File.createTempFile("profile", "jpg");
+                    final File localFile = File.createTempFile("profile", JPG);
                     fileRef.getFile(localFile)
                             .addOnSuccessListener(result -> {
                                 Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());

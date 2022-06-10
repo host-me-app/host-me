@@ -147,6 +147,7 @@ public class MessagesFragment extends Fragment implements ConversionListener {
 
     /**
      * update the token
+     *
      * @param token
      */
     private void updateToken(String token) {

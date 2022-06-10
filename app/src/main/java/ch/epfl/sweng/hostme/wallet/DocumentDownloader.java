@@ -1,5 +1,7 @@
 package ch.epfl.sweng.hostme.wallet;
 
+import static ch.epfl.sweng.hostme.utils.Constants.SLASH;
+
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -22,7 +24,7 @@ public class DocumentDownloader {
 
     public DocumentDownloader(Document document, String uid, Activity activity, Context context) {
         this.document = document;
-        this.uid = uid + "/";
+        this.uid = uid + SLASH;
         this.context = context;
         ImageButton buttonDownload = activity.findViewById(document.getButtonDownloadId());
         buttonDownload.setOnClickListener(view -> this.downloadFile());
@@ -42,6 +44,7 @@ public class DocumentDownloader {
 
     /**
      * download the file from the given url
+     *
      * @param url download url of the file
      */
     private void download(String url) {

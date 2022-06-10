@@ -73,6 +73,7 @@ public class RecentConversationAdapter extends RecyclerView.Adapter<RecentConver
 
         /**
          * set the data of the conversation
+         *
          * @param chatMessage message of the user
          */
         void setData(@NonNull ChatMessage chatMessage) {

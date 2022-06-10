@@ -5,6 +5,9 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -51,13 +54,14 @@ public class MapsTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.search_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            Thread.sleep(1000);
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.maps_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.maps_button)).check(matches(isEnabled()));
             onView(withId(R.id.maps_button)).perform(click());
+            Thread.sleep(1000);
             onView(isRoot()).perform(ViewActions.pressBack());
-            Thread.sleep(1000);
             onView(withId(R.id.maps_button)).perform(click());
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -77,12 +81,13 @@ public class MapsTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.search_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            Thread.sleep(1000);
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             onView(withId(R.id.maps_button)).perform(click());
             Thread.sleep(1000);
+            onView(withId(R.id.daily_route_maps)).check(matches(isDisplayed()));
+            onView(withId(R.id.daily_route_maps)).check(matches(isEnabled()));
             onView(withId(R.id.daily_route_maps)).perform(click());
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -102,13 +107,14 @@ public class MapsTest {
             onView(withId(R.id.log_in_button)).perform(click());
             Thread.sleep(1000);
 
-            onView(withId(R.id.search_recycler_view))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            Thread.sleep(1000);
+            onView(withId(R.id.search_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withId(R.id.street_view_button)).check(matches(isDisplayed()));
+            onView(withId(R.id.street_view_button)).check(matches(isEnabled()));
             onView(withId(R.id.street_view_button)).perform(click());
+            Thread.sleep(1000);
             onView(isRoot()).perform(ViewActions.pressBack());
-            Thread.sleep(1000);
             onView(withId(R.id.street_view_button)).perform(click());
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
